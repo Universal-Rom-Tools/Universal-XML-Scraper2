@@ -1,0 +1,11 @@
+[18:17:44] - C:\Developpement\Github\Universal-XML-ScraperV2\Universal XML Scraper V2.au3 (In Progress)
+[18:17:44] - WIN_10(X64) - 040C
+[18:17:44] - Start
+[18:17:44] - Dev version
+[18:17:44] - Starting files installation
+[18:17:44] - Ending files installation
+[18:17:44] - Verbose LVL : 2
+[18:17:44] - Path to ini : C:\Developpement\Github\Universal-XML-ScraperV2\UXS-config.ini
+[18:17:44] - Path to log : C:\Developpement\Github\Universal-XML-ScraperV2\log.txt
+[18:17:44] - Path to language : C:\Developpement\Github\Universal-XML-ScraperV2\LanguageFiles
+[18:17:44] - Language Selected : 040c

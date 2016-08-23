@@ -1,0 +1,56 @@
+amiga|Amiga
+apple2|Apple II
+atari2600|Atari 2600
+atari5200|Atari 5200
+atari7800|Atari 7800
+atari800|Atari 800
+atarist|Atari ST
+c64|Commodore 64
+cps1|Mame
+cps2|Mame
+cps3|Mame
+amstradcpc|CPC
+daphne|Daphne
+dragon32|Dragon 32/64
+dreamcast|Dreamcast
+fds|Family Computer Disk System
+gw|Game & Watch
+gb|Game Boy
+gba|Game Boy Advance
+gbc|Game Boy Color
+gamegear|Game Gear
+atarilynx|Lynx
+lynx|Lynx
+arcade|Mame
+fba|Mame
+fba_libretro|Mame
+lutro|Mame
+mame|Mame
+mame-advmame|Mame
+mame-libretro|Mame
+mame-mame4all|Mame
+msx|MSX
+mastersystem|Master System
+segacd|Mega-CD
+genesis|Megadrive
+megadrive|Megadrive
+sega32x|Megadrive 32X
+neogeo|Mame
+ngp|Neo-Geo Pocket
+ngpc|Neo-Geo Pocket Color
+nes|NES
+n64|Nintendo 64
+pcengine|PC Engine
+psx|Playstation
+psp|PSP
+sg-1000|SG-1000
+sg1000|SG-1000
+snes|Super Nintendo
+vectrex|Vectrex
+videopac|Videopac G7000
+virtualboy|Virtual Boy
+wonderswan|WonderSwan
+wswan|WonderSwan
+wonderswancolor|WonderSwan Color
+zxspectrum|ZX Spectrum
+zx81|ZX81

@@ -1,0 +1,215 @@
+1.5.0.11
+Minor bug correction On Profil
+Minor bug correction On exclusion list
+Minor bug correction On FileName (Character "&")
+Adding a "Quick Mode" for big file (Only CRC32 hash, no MD5 or SHA1)
+
+1.5.0.10
+Minor bug correction On language preference
+
+1.5.0.9
+Minor bug correction On Picture preference
+
+1.5.0.8
+Adding a value in Ini :
+$Picture_Region = 2 -> Picture preference by Rom Region only
+
+1.5.0.7
+Adding a value in Ini :
+$Picture_Region = 0 -> Picture preference by User Language
+$Picture_Region = 1 -> Picture preference by Rom Region + preference by User Language
+
+1.5.0.6
+Adding a Tidy function to clean up the XML
+
+1.5.0.5
+Minor bug correction On filename function
+
+1.5.0.4
+UXS Update Verfication at start
+
+1.5.0.3
+Adding 2 New function to Profil :
+'name|value|noms/nom_%%|form:region' -> Scraped name + scraped region
+'name|value|noms/nom_%%|form:%FileNameBracket%' -> Scraped name + bracket info from filename
+
+1.5.0.2
+Adding 2 New function to Profil :
+'name|value|%RomName%|variable' -> Full filename of the rom
+'name|value|%RomNameShort%|variable' -> Filename of the rom without extension.
+
+1.5.0.1
+Minor bug correction
+Adding a Rotation function to Mix Image
+
+1.5.0.0
+All New Mix Image engine
+Adding a transparancy function to Mix Image
+Adding a Merge function to Mix Image
+Adding a Cut function to Mix Image
+Adding Relativ position to Mix Image
+
+1.4.0.5
+Correction to the autodetect system
+Adding New Mix image (Beta)
+
+1.4.0.4
+Addeing MD5 to missing.txt file
+Update Timeout function to not stop the scrape
+
+1.4.0.3
+Adding Start emulationstation in SSH menu
+Correction for the multilang datas
+
+1.4.0.2
+Minor bug correction
+
+1.4.0.1
+Date, Synopsys and Genre now adapte in your own language
+
+1.4.0.0
+Screenscraper change to a full multilang Data
+Modification UXS accordingly
+
+1.3.0.16
+Added Spanish language (Thanks to Paradadf)
+
+1.3.0.15
+Adding an advanced configuration menu
+
+1.3.0.14
+Added multilang message for SSH
+
+1.3.0.13
+Adding German language (Thanks to Nachtgarm)
+
+1.3.0.12
+Adding Portuguese language (Thanks to PumpKHeaD)
+
+1.3.0.11
+Timeout function correction
+
+1.3.0.10
+Release date correction
+
+1.3.0.9
+Modification of the filename scrape
+
+1.3.0.8
+Adding Timeout function
+
+1.3.0.7
+Minor bug correction
+
+1.3.0.6
+Minor bug correction
+
+1.3.0.5
+Profil modification, %% replace fr/eu/us/jp automatically corresponding to the language selected
+
+1.3.0.4
+Adding a value in Ini :
+$RechSYS = 0 -> Always ask for system
+$RechSYS = 1 -> Try to auto detect system with the directory name
+$RechAPI = 1|2|3
+Searching order where :
+1 = CRC + System
+2 = CRC
+3 = FileName + System
+
+1.3.0.3
+Adding scraping by filename function (not only ZIP)
+Adding exlusion to the config ini
+Minor bug correction
+
+1.3.0.2Beta
+Testing Full scrape by name (not only ZIP)
+
+1.3.0.1
+Starting questions added
+
+1.3.0.0
+Adding Mix Image configuration menu
+Adding Mix Image template function
+Adding FIXE Image in Mix image template
+Adding deformation Image in mix image template
+Minor bug correction
+
+1.2.0.0
+Introducing MIX Image function
+
+1.1.1.6
+Correction in configuration windows
+adding "HINTS" in configuration windows
+
+1.1.1.5
+Adding an autoconfig Menu
+Adding a full scrape option
+Minor bug correction
+
+1.1.1.4
+Adding a value in Ini :
+$ExtImage = -> Like the original picture
+$ExtImage = jpg -> Picture in JPG
+$ExtImage = png -> Picture in PNG
+
+1.1.1.3
+Minor bug correction
+
+1.1.1.2
+Scrape in 2 times : 
+- CRC + System
+- only CRC
+
+1.1.1.1Beta
+Testing Double scrape
+
+1.1.1.0
+New Profil in Beta : ScreenScraper-Attract-Mode
+Adding automatic configuration with profil
+Adding automatic detection of system
+
+1.1.0.1
+Adding "missing.txt" files
+Minor bug correction
+
+1.1.0.0
+Scraping optimisation
+Adding an Append function
+Adding a "not found" function
+Minor bug correction
+
+1.0.0.8
+Minor bug correction
+
+1.0.0.7
+Adding a value in Ini :
+$Verbose = 0 -> no log
+$Verbose = 1 -> simple log
+$Verbose = 2 -> full log
+Wheel instead of system picture while scraping
+Minor bug correction
+
+1.0.0.6
+When launching a new UXS release check for modified files
+Picture of system while scraping
+Modification of the rating value ( 0 to 1 instead of 0 to 20)
+Correction of image substitution path
+
+1.0.0.5
+New Profil in Beta : ScreenScraper-Hyperspin
+Making header
+
+1.0.0.4
+Adding a value in Ini :
+$OPTION_MAJ = 0 -> Normal
+$OPTION_MAJ = 1 -> Uppercase data
+
+1.0.0.3
+Picture download correction (Waiting for full download)
+
+1.0.0.2
+Xml creation correction
+
+1.0.0.0
+First Release

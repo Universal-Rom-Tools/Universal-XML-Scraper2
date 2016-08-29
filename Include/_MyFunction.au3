@@ -159,9 +159,309 @@ Func _DownloadWRetry($iURL, $iPath, $iRetry = 3)
 	Return $iResult
 EndFunc   ;==>_DownloadWRetry
 
+; #FUNCTION# ===================================================================================================
+; Name...........: _MultiLang_LoadLangDef
+; Description ...: Return a file size and convert to a readable form
+; Syntax.........: _MultiLang_LoadLangDef($iLangPath, $vUserLang)
+; Parameters ....: $iLangPath	- Path to the language
+;                  $vUserLang	- User language code
+; Return values .: Success      - Return the language files array
+;                  Failure      - -1
+; Author ........: Autoit Help
+; Modified.......:
+; Remarks .......: Brett Francis (BrettF)
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _MultiLang_LoadLangDef($iLangPath, $vUserLang)
+	;Create an array of available language files
+	; ** n=0 is the default language file
+	; [n][0] = Display Name in Local Language (Used for Select Function)
+	; [n][1] = Language File (Full path.  In this case we used a $iLangPath
+	; [n][2] = [Space delimited] Character codes as used by @OS_LANG (used to select correct lang file)
+	Local $aLangFiles[5][3]
+
+	$aLangFiles[0][0] = "English (US)" ;
+	$aLangFiles[0][1] = $iLangPath & "\UXS-ENGLISH.XML"
+	$aLangFiles[0][2] = "0409 " & _ ;English_United_States
+			"0809 " & _ ;English_United_Kingdom
+			"0c09 " & _ ;English_Australia
+			"1009 " & _ ;English_Canadian
+			"1409 " & _ ;English_New_Zealand
+			"1809 " & _ ;English_Irish
+			"1c09 " & _ ;English_South_Africa
+			"2009 " & _ ;English_Jamaica
+			"2409 " & _ ;English_Caribbean
+			"2809 " & _ ;English_Belize
+			"2c09 " & _ ;English_Trinidad
+			"3009 " & _ ;English_Zimbabwe
+			"3409" ;English_Philippines
+
+	$aLangFiles[1][0] = "Français" ; French
+	$aLangFiles[1][1] = $iLangPath & "\UXS-FRENCH.XML"
+	$aLangFiles[1][2] = "040c " & _ ;French_Standard
+			"080c " & _ ;French_Belgian
+			"0c0c " & _ ;French_Canadian
+			"100c " & _ ;French_Swiss
+			"140c " & _ ;French_Luxembourg
+			"180c" ;French_Monaco
+
+	$aLangFiles[2][0] = "Portugues" ; Portuguese
+	$aLangFiles[2][1] = $iLangPath & "\UXS-PORTUGUESE.XML"
+	$aLangFiles[2][2] = "0816 " & _ ;Portuguese - Portugal
+			"0416 " ;Portuguese - Brazil
+
+	$aLangFiles[3][0] = "Deutsch" ; German
+	$aLangFiles[3][1] = $iLangPath & "\UXS-GERMAN.XML"
+	$aLangFiles[3][2] = "0407 " & _ ;German - Germany
+			"0807 " & _ ;German - Switzerland
+			"0C07 " & _ ;German - Austria
+			"1007 " & _ ;German - Luxembourg
+			"1407 " ;German - Liechtenstein
+
+	$aLangFiles[4][0] = "Espanol" ; Spanish
+	$aLangFiles[4][1] = $iLangPath & "\UXS-SPANISH.XML"
+	$aLangFiles[4][2] = "040A " & _ ;Spanish - Spain
+			"080A " & _ ;Spanish - Mexico
+			"0C0A " & _ ;Spanish - Spain
+			"100A " & _ ;Spanish - Guatemala
+			"140A " & _ ;Spanish - Costa Rica
+			"180A " & _ ;Spanish - Panama
+			"1C0A " & _ ;Spanish - Dominican Republic
+			"200A " & _ ;Spanish - Venezuela
+			"240A " & _ ;Spanish - Colombia
+			"280A " & _ ;Spanish - Peru
+			"2C0A " & _ ;Spanish - Argentina
+			"300A " & _ ;Spanish - Ecuador
+			"340A " & _ ;Spanish - Chile
+			"380A " & _ ;Spanish - Uruguay
+			"3C0A " & _ ;Spanish - Paraguay
+			"400A " & _ ;Spanish - Bolivia
+			"440A " & _ ;Spanish - El Salvador
+			"480A " & _ ;Spanish - Honduras
+			"4C0A " & _ ;Spanish - Nicaragua
+			"500A " & _ ;Spanish - Puerto Rico
+			"540A " ;Spanish - United State
+
+	;Set the available language files, names, and codes.
+	_MultiLang_SetFileInfo($aLangFiles)
+	If @error Then
+		MsgBox(48, "Error", "Could not set file info.  Error Code " & @error)
+		_LOG("Could not set file info.  Error Code " & @error, 2)
+		Exit
+	EndIf
+
+	;Check if the loaded settings file exists.  If not ask user to select language.
+	If $vUserLang = -1 Then
+		;Create Selection GUI
+		_LOG("Loading language :" & StringLower(@OSLang), 1)
+		_MultiLang_LoadLangFile(StringLower(@OSLang))
+		$vUserLang = _SelectGUI($aLangFiles, StringLower(@OSLang), "langue", 1)
+		If @error Then
+			MsgBox(48, "Error", "Could not create selection GUI.  Error Code " & @error)
+			_LOG("Could not create selection GUI.  Error Code " & @error, 2)
+			Exit
+		EndIf
+		IniWrite($iINIPath, "LAST_USE", "$vUserLang", $vUserLang)
+	EndIf
+
+	_LOG("Language Selected : " & $vUserLang, 0)
+
+	;If you supplied an invalid $vUserLang, we will load the default language file
+	If _MultiLang_LoadLangFile($vUserLang) = 2 Then MsgBox(64, "Information", "Just letting you know that we loaded the default language file")
+	If @error Then
+		MsgBox(48, "Error", "Could not load lang file.  Error Code " & @error)
+		_LOG("Could not load lang file.  Error Code " & @error, 2)
+		Exit
+	EndIf
+
+	Switch StringRight($vUserLang, 2)
+		Case '09'
+			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|origine|eu|es|fr|de|pt|jp|xx')
+		Case '0c'
+			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|origine|de|es|pt|jp|xx')
+		Case '16'
+			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|origine|fr|de|es|jp|xx')
+		Case '07'
+			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|origine|fr|es|pt|jp|xx')
+		Case '0A'
+			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|origine|fr|de|pt|jp|xx')
+	EndSwitch
+	Return $aLangFiles
+EndFunc   ;==>_MultiLang_LoadLangDef
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _SelectGUI
+; Description ...: GUI to select from an array
+; Syntax.........: _SelectGUI($aSelectionItem , [$default = -1] , [$vText = "standard"], [$vLanguageSelector = 0])
+; Parameters ....: $aSelectionItem	- Array with info (see Remarks)
+;                  $vLanguageSelector- If used as language selector
+;                  $default			- Default value if nothing selected
+; Return values .: Success      - Return the selected item
+;                  Failure      - -1
+; Author ........: Brett Francis (BrettF)
+; Modified.......:
+; Remarks .......: $aSelectionItem is a 2D Array
+;~ 					[Name viewed][Note Used][Returned value]
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageSelector = 0)
+;~ 	_CREATION_LOGMESS(2, "Selection de la langue")
+;~ 	If $demarrage = 0 Then GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	If $aSelectionItem = -1 Or IsArray($aSelectionItem) = 0 Then
+		_LOG("Selection Array Invalid", 2)
+		Return -1
+	EndIf
+	If $vLanguageSelector = 1 Then
+		$_gh_aLangFileArray = $aSelectionItem
+		If $default = -1 Then $default = @OSLang
+	EndIf
+
+
+	Local $_Selector_gui_GUI = GUICreate(_MultiLang_GetText("win_sel_" & $vText & "_Title"), 230, 100)
+	Local $_Selector_gui_Combo = GUICtrlCreateCombo("(" & _MultiLang_GetText("win_sel_" & $vText & "_Title") & ")", 8, 48, 209, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	Local $_Selector_gui_Button = GUICtrlCreateButton(_MultiLang_GetText("win_sel_" & $vText & "_button"), 144, 72, 75, 25)
+	Local $_Selector_gui_Label = GUICtrlCreateLabel(_MultiLang_GetText("win_sel_" & $vText & "_text"), 8, 8, 212, 33)
+
+	;Create List of available Items
+	For $i = 0 To UBound($aSelectionItem) - 1
+		GUICtrlSetData($_Selector_gui_Combo, $aSelectionItem[$i][0], "(" & _MultiLang_GetText("win_sel_" & $vText & "_Title") & ")")
+	Next
+
+	GUISetState(@SW_SHOW)
+	While 1
+		$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case -3, $_Selector_gui_Button
+				ExitLoop
+		EndSwitch
+	WEnd
+	Local $_selected = GUICtrlRead($_Selector_gui_Combo)
+	GUIDelete($_Selector_gui_GUI)
+	For $i = 0 To UBound($aSelectionItem) - 1
+		If StringInStr($aSelectionItem[$i][0], $_selected) Then
+;~ 			If $demarrage = 0 Then
+;~ 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+;~ 				WinActivate($F_UniversalScraper)
+;~ 			EndIf
+;~ 			Switch StringRight(StringLeft($aSelectionItem[$i][2], 4), 2)
+;~ 				Case '09'
+;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|en|origine|eu|es|fr|de|pt|jp|xx')
+;~ 				Case '0c'
+;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|en|origine|de|es|pt|jp|xx')
+;~ 				Case '16'
+;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|en|origine|fr|de|es|jp|xx')
+;~ 				Case '07'
+;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|en|origine|fr|es|pt|jp|xx')
+;~ 				Case '0A'
+;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|en|origine|fr|de|pt|jp|xx')
+;~ 			EndSwitch
+			If $vLanguageSelector = 1 Then
+				_LOG("Value selected : " & StringLeft($aSelectionItem[$i][2], 4), 1)
+				Return StringLeft($aSelectionItem[$i][2], 4)
+			Else
+				_LOG("Value selected : " & $aSelectionItem[$i][2], 1)
+				Return $aSelectionItem[$i][2]
+			EndIf
+		EndIf
+	Next
+;~ 	If $demarrage = 0 Then
+;~ 		GUISetState(@SW_ENABLE, $F_UniversalScraper)
+;~ 		WinActivate($F_UniversalScraper)
+;~ 	EndIf
+	_LOG("No Value selected (Default = " & $default & ")", 1)
+	Return $default
+EndFunc   ;==>_SelectGUI
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _ByteSuffix($iBytes)
+; Description ...: Return a file size and convert to a readable form
+; Syntax.........: _ByteSuffix($iBytes)
+; Parameters ....: $iBytes		- Size from a FileGetSize() function
+; Return values .: Success      - Return a string with Size and suffixe
+; Author ........: Autoit Help
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; yes in FileGetSize autoit Help
+Func _ByteSuffix($iBytes)
+	Local $iIndex = 0, $aArray = [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB']
+	While $iBytes > 1023
+		$iIndex += 1
+		$iBytes /= 1024
+	WEnd
+	Return Round($iBytes) & $aArray[$iIndex]
+EndFunc   ;==>_ByteSuffix
+
+
 #EndRegion MISC Function
 
 #Region GDI Function
+; #FUNCTION# ===================================================================================================
+; Name...........: _OptiPNG
+; Description ...: Optimize PNG
+; Syntax.........: _OptiPNG($iPath)
+; Parameters ....: $iPath		- Path to the picture
+; Return values .: Success      - Return the Path of the Picture
+;                  Failure      - -1
+; Author ........: wakillon
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; https://www.autoitscript.com/forum/topic/122168-tinypicsharer-v-1034-new-version-08-june-2013/
+Func _OptiPNG($iPath)
+	Local $sRun, $iPid, $_StderrRead
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-OPTI_Temp.PNG"
+
+	If StringLower($iExtension) <> "png" Then
+		_LOG("Not a PNG file : " & $iPath, 2)
+		Return -1
+	EndIf
+
+	$vPathSize = _ByteSuffix(FileGetSize($iPath))
+
+	;Working on temporary picture
+	FileDelete($iPath_Temp)
+	If Not FileCopy($iPath, $iPath_Temp, 9) Then
+		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath) Then
+		_LOG("Error deleting " & $iPath, 2)
+		Return -1
+	EndIf
+
+	$sRun = $iScriptPath & '\Ressources\optipng.exe -o1 "' & $iPath_Temp & '" -clobber -out "' & $iPath & '"'
+	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
+	While ProcessExists($iPid)
+		$_StderrRead = StderrRead($iPid)
+		If Not @error And $_StderrRead <> '' Then
+			If StringInStr($_StderrRead, 'error') Then
+				_LOG("Error while optimizing " & $iPath, 2)
+				Return -1
+			EndIf
+		EndIf
+	WEnd
+
+	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
+
+	_LOG("PNG Optimization : " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
+
+	If Not FileDelete($iPath_Temp) Then
+		_LOG("Error deleting " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+
+	Return $iPath
+EndFunc   ;==>_OptiPNG
+
+
+
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_RelativePos
 ; Description ...: Calculate relative position
@@ -196,9 +496,10 @@ EndFunc   ;==>_GDIPlus_RelativePos
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
-	Local $iExtension = StringRight($iPath, 3)
-	Local $iPath_Temp = StringTrimRight($iPath, 4) & "-RESIZE_Temp." & $iExtension
 	Local $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New, $iRatio, $hImageResized
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-RESIZE_Temp." & $iExtension
 
 	;Working on temporary picture
 	FileDelete($iPath_Temp)
@@ -289,10 +590,12 @@ EndFunc   ;==>_GDIPlus_ResizeMax
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Rotation($iPath, $iRotation = 0)
-	Local $iExtension = StringRight($iPath, 3)
-	Local $iPath_Temp = StringTrimRight($iPath, 4) & "-RESIZE_Temp." & $iExtension
 	Local $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New
 	#forceref $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-ROTATE_Temp." & $iExtension
+
 
 	;Working on temporary picture
 	FileDelete($iPath_Temp)
@@ -353,9 +656,11 @@ EndFunc   ;==>_GDIPlus_Rotation
 ; Example .......; No
 Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0)
 	#forceref $iX,$iY,$iWidth,$iHeight
-	Local $iPath_Temp = StringTrimRight($iPath, 4) & "-TRANS_Temp.PNG"
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANS_Temp.PNG"
 
 	;Working on temporary picture
 	FileDelete($iPath_Temp)
@@ -367,6 +672,8 @@ Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $i
 		_LOG("Error deleting " & $iPath, 2)
 		Return -1
 	EndIf
+
+	$iPath = $sDrive & $sDir & $sFileName & ".png"
 
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
@@ -467,8 +774,11 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
-	Local $iExtension = StringRight($iPath, 3)
-	Local $iPath_Temp = StringTrimRight($iPath, 4) & "-IMAGING_Temp." & $iExtension
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp." & $iExtension
+
+
 	Local $hImage, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 
@@ -666,6 +976,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
+		$oXMLDoc = _XML_CreateDOMDocument()
 		_XML_Load($oXMLDoc, $iXMLPath)
 		If @error Then
 			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
@@ -901,177 +1212,4 @@ Func XML_My_ErrorParser($iXMLWrapper_Error, $iXMLWrapper_Extended = 0)
 
 EndFunc   ;==>XML_My_ErrorParser
 #EndRegion XML DOM Error/Event Handling
-
-Func _MultiLang_LoadLangDef($iLangPath, $vUserLang)
-
-	;Create an array of available language files
-	; ** n=0 is the default language file
-	; [n][0] = Display Name in Local Language (Used for Select Function)
-	; [n][1] = Language File (Full path.  In this case we used a $iLangPath
-	; [n][2] = [Space delimited] Character codes as used by @OS_LANG (used to select correct lang file)
-	Local $aLangFiles[5][3]
-
-	$aLangFiles[0][0] = "English (US)" ;
-	$aLangFiles[0][1] = $iLangPath & "\UXS-ENGLISH.XML"
-	$aLangFiles[0][2] = "0409 " & _ ;English_United_States
-			"0809 " & _ ;English_United_Kingdom
-			"0c09 " & _ ;English_Australia
-			"1009 " & _ ;English_Canadian
-			"1409 " & _ ;English_New_Zealand
-			"1809 " & _ ;English_Irish
-			"1c09 " & _ ;English_South_Africa
-			"2009 " & _ ;English_Jamaica
-			"2409 " & _ ;English_Caribbean
-			"2809 " & _ ;English_Belize
-			"2c09 " & _ ;English_Trinidad
-			"3009 " & _ ;English_Zimbabwe
-			"3409" ;English_Philippines
-
-	$aLangFiles[1][0] = "Français" ; French
-	$aLangFiles[1][1] = $iLangPath & "\UXS-FRENCH.XML"
-	$aLangFiles[1][2] = "040c " & _ ;French_Standard
-			"080c " & _ ;French_Belgian
-			"0c0c " & _ ;French_Canadian
-			"100c " & _ ;French_Swiss
-			"140c " & _ ;French_Luxembourg
-			"180c" ;French_Monaco
-
-	$aLangFiles[2][0] = "Portugues" ; Portuguese
-	$aLangFiles[2][1] = $iLangPath & "\UXS-PORTUGUESE.XML"
-	$aLangFiles[2][2] = "0816 " & _ ;Portuguese - Portugal
-			"0416 " ;Portuguese - Brazil
-
-	$aLangFiles[3][0] = "Deutsch" ; German
-	$aLangFiles[3][1] = $iLangPath & "\UXS-GERMAN.XML"
-	$aLangFiles[3][2] = "0407 " & _ ;German - Germany
-			"0807 " & _ ;German - Switzerland
-			"0C07 " & _ ;German - Austria
-			"1007 " & _ ;German - Luxembourg
-			"1407 " ;German - Liechtenstein
-
-	$aLangFiles[4][0] = "Espanol" ; Spanish
-	$aLangFiles[4][1] = $iLangPath & "\UXS-SPANISH.XML"
-	$aLangFiles[4][2] = "040A " & _ ;Spanish - Spain
-			"080A " & _ ;Spanish - Mexico
-			"0C0A " & _ ;Spanish - Spain
-			"100A " & _ ;Spanish - Guatemala
-			"140A " & _ ;Spanish - Costa Rica
-			"180A " & _ ;Spanish - Panama
-			"1C0A " & _ ;Spanish - Dominican Republic
-			"200A " & _ ;Spanish - Venezuela
-			"240A " & _ ;Spanish - Colombia
-			"280A " & _ ;Spanish - Peru
-			"2C0A " & _ ;Spanish - Argentina
-			"300A " & _ ;Spanish - Ecuador
-			"340A " & _ ;Spanish - Chile
-			"380A " & _ ;Spanish - Uruguay
-			"3C0A " & _ ;Spanish - Paraguay
-			"400A " & _ ;Spanish - Bolivia
-			"440A " & _ ;Spanish - El Salvador
-			"480A " & _ ;Spanish - Honduras
-			"4C0A " & _ ;Spanish - Nicaragua
-			"500A " & _ ;Spanish - Puerto Rico
-			"540A " ;Spanish - United State
-
-	;Set the available language files, names, and codes.
-	_MultiLang_SetFileInfo($aLangFiles)
-	If @error Then
-		MsgBox(48, "Error", "Could not set file info.  Error Code " & @error)
-		_LOG("Could not set file info.  Error Code " & @error, 2)
-		Exit
-	EndIf
-
-	;Check if the loaded settings file exists.  If not ask user to select language.
-	If $vUserLang = -1 Then
-		;Create Selection GUI
-		_LOG("Loading language :" & StringLower(@OSLang), 1)
-		_MultiLang_LoadLangFile(StringLower(@OSLang))
-		$vUserLang = _LANGUE_SelectGUI($aLangFiles, StringLower(@OSLang), -1)
-		If @error Then
-			MsgBox(48, "Error", "Could not create selection GUI.  Error Code " & @error)
-			_LOG("Could not create selection GUI.  Error Code " & @error, 2)
-			Exit
-		EndIf
-		IniWrite($iINIPath, "LAST_USE", "$vUserLang", $vUserLang)
-	EndIf
-
-	_LOG("Language Selected : " & $vUserLang, 0)
-
-	;If you supplied an invalid $vUserLang, we will load the default language file
-	If _MultiLang_LoadLangFile($vUserLang) = 2 Then MsgBox(64, "Information", "Just letting you know that we loaded the default language file")
-	If @error Then
-		MsgBox(48, "Error", "Could not load lang file.  Error Code " & @error)
-		_LOG("Could not load lang file.  Error Code " & @error, 2)
-		Exit
-	EndIf
-
-	Switch StringRight($vUserLang, 2)
-		Case '09'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|origine|eu|es|fr|de|pt|jp|xx')
-		Case '0c'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|origine|de|es|pt|jp|xx')
-		Case '16'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|origine|fr|de|es|jp|xx')
-		Case '07'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|origine|fr|es|pt|jp|xx')
-		Case '0A'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|origine|fr|de|pt|jp|xx')
-	EndSwitch
-	Return $aLangFiles
-EndFunc   ;==>_MultiLang_LoadLangDef
-
-
-Func _LANGUE_SelectGUI($_gh_aLangFileArray, $default = @OSLang, $demarrage = 0)
-;~ 	_CREATION_LOGMESS(2, "Selection de la langue")
-;~ 	If $demarrage = 0 Then GUISetState(@SW_DISABLE, $F_UniversalScraper)
-	If $_gh_aLangFileArray = -1 Then Return SetError(1, 0, 0)
-	If IsArray($_gh_aLangFileArray) = 0 Then Return SetError(1, 0, 0)
-	Local $_multilang_gui_GUI = GUICreate(_MultiLang_GetText("win_sel_langue_Title"), 230, 100)
-	Local $_multilang_gui_Combo = GUICtrlCreateCombo("(" & _MultiLang_GetText("win_sel_langue_Title") & ")", 8, 48, 209, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	Local $_multilang_gui_Button = GUICtrlCreateButton(_MultiLang_GetText("win_sel_langue_button"), 144, 72, 75, 25)
-	Local $_multilang_gui_Label = GUICtrlCreateLabel(_MultiLang_GetText("win_sel_langue_text"), 8, 8, 212, 33)
-
-	;Create List of available languages
-	For $i = 0 To UBound($_gh_aLangFileArray) - 1
-		GUICtrlSetData($_multilang_gui_Combo, $_gh_aLangFileArray[$i][0], "(" & _MultiLang_GetText("win_sel_langue_Title") & ")")
-	Next
-
-	GUISetState(@SW_SHOW)
-	While 1
-		$nMsg = GUIGetMsg()
-		Switch $nMsg
-			Case -3, $_multilang_gui_Button
-				ExitLoop
-		EndSwitch
-	WEnd
-	Local $_selected = GUICtrlRead($_multilang_gui_Combo)
-	GUIDelete($_multilang_gui_GUI)
-	For $i = 0 To UBound($_gh_aLangFileArray) - 1
-		If StringInStr($_gh_aLangFileArray[$i][0], $_selected) Then
-;~ 			If $demarrage = 0 Then
-;~ 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
-;~ 				WinActivate($F_UniversalScraper)
-;~ 			EndIf
-			Switch StringRight(StringLeft($_gh_aLangFileArray[$i][2], 4), 2)
-				Case '09'
-					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|en|origine|eu|es|fr|de|pt|jp|xx')
-				Case '0c'
-					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|en|origine|de|es|pt|jp|xx')
-				Case '16'
-					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|en|origine|fr|de|es|jp|xx')
-				Case '07'
-					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|en|origine|fr|es|pt|jp|xx')
-				Case '0A'
-					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|en|origine|fr|de|pt|jp|xx')
-			EndSwitch
-			Return StringLeft($_gh_aLangFileArray[$i][2], 4)
-		EndIf
-	Next
-;~ 	If $demarrage = 0 Then
-;~ 		GUISetState(@SW_ENABLE, $F_UniversalScraper)
-;~ 		WinActivate($F_UniversalScraper)
-;~ 	EndIf
-
-	Return $default
-EndFunc   ;==>_LANGUE_SelectGUI
 

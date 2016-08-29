@@ -74,18 +74,19 @@ _LOG_Ceation() ; Starting Log
 If @Compiled Then
 	Local $iScriptVer = FileGetVersion(@ScriptFullPath)
 	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
-	$iSoftname = "UniversalXMLScraperV" & $iScriptVer
+	Local $iSoftname = "UniversalXMLScraperV" & $iScriptVer
 	If $iINIVer <> $iScriptVer Then
 		FileDelete($iScriptPath & "\UXS-config.ini")
 		FileDelete($iScriptPath & "\LanguageFiles")
 		FileDelete($iScriptPath & "\Ressources")
-		_LOG("Update file version from " & $iINIVer & " to " & $iScriptVer, 1)
+		_LOG("Update file needed from version " & $iINIVer & " to " & $iScriptVer, 1)
 	Else
-		_LOG("No updated files", 1)
+		_LOG("No updated files needed (Version : " & $iScriptVer & ")", 1)
 	EndIf
 Else
-	$iINIVer = 'In Progress'
-	$iSoftname = "UniversalXMLScraper(TestDev)"
+	Local $iScriptVer = 'In Progress'
+	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
+	Local $iSoftname = "UniversalXMLScraper(TestDev)"
 	_LOG("Dev version", 1)
 EndIf
 
@@ -96,6 +97,7 @@ DirCreate($iScriptPath & "\LanguageFiles")
 DirCreate($iScriptPath & "\Ressources")
 DirCreate($iScriptPath & "\Mix")
 DirCreate($iScriptPath & "\Mix\TEMP")
+DirCreate($iScriptPath & "\ProfilsFiles")
 FileInstall(".\UXS-config.ini", $iScriptPath & "\UXS-config.ini")
 FileInstall(".\LanguageFiles\UXS-ENGLISH.XML", $iScriptPath & "\LanguageFiles\UXS-ENGLISH.XML")
 FileInstall(".\LanguageFiles\UXS-FRENCH.XML", $iScriptPath & "\LanguageFiles\UXS-FRENCH.XML")
@@ -119,6 +121,9 @@ FileInstall(".\Ressources\Fleche_ENABLE.bmp", $iScriptPath & "\Ressources\Fleche
 FileInstall(".\Ressources\Fleche_IP1.bmp", $iScriptPath & "\Ressources\Fleche_IP1.bmp")
 FileInstall(".\Ressources\Fleche_IP2.bmp", $iScriptPath & "\Ressources\Fleche_IP2.bmp")
 FileInstall(".\Ressources\plink.exe", $iScriptPath & "\Ressources\plink.exe")
+FileInstall(".\Ressources\optipng.exe", $iScriptPath & "\Ressources\optipng.exe")
+FileInstall(".\Ressources\LICENSE optipng.txt", $iScriptPath & "\Ressources\LICENSE optipng.txt")
+FileInstall(".\Ressources\LICENSE plink.txt", $iScriptPath & "\Ressources\LICENSE plink.txt")
 FileInstall(".\Ressources\systemlist.txt", $iScriptPath & "\Ressources\systemlist.txt")
 FileInstall(".\Ressources\regionlist.txt", $iScriptPath & "\Ressources\regionlist.txt")
 FileInstall(".\Mix\Arcade (moon) By Supernature2k.zip", $iScriptPath & "\Mix\")
@@ -127,6 +132,7 @@ FileInstall(".\Mix\Background (Modified DarKade-Theme by Nachtgarm).zip", $iScri
 FileInstall(".\Mix\Oldtv (Multi Sys).zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\")
+FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV4.xml", $iScriptPath & "\ProfilsFiles\")
 _LOG("Ending files installation", 1)
 
 ;Const def
@@ -134,6 +140,8 @@ _LOG("Ending files installation", 1)
 Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
 Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
+Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
+Global $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
 
 _LOG("Verbose LVL : " & $iVerboseLVL, 1)
 _LOG("Path to ini : " & $iINIPath, 1)
@@ -143,5 +151,259 @@ _LOG("Path to language : " & $iLangPath, 1)
 ;Variable def
 ;------------
 Global $vUserLang = IniRead($iINIPath, "LAST_USE", "$vUserLang", -1)
+Local $vSelectedProfil = -1
+Local $L_SCRAPE_Parts[2] = [275, -1]
+Local $oXMLProfil
 
-_MultiLang_LoadLangDef($iLangPath, $vUserLang)
+;---------;
+;Principal;
+;---------;
+
+; Loading language
+Local $aLangList = _MultiLang_LoadLangDef($iLangPath, $vUserLang)
+If Not IsArray($aLangList) Or $aLangList < 0 Then
+	_LOG("Impossible to load language", 2)
+	Exit
+EndIf
+;~ _ArrayDisplay($aLangList, "$aLangList") ;Debug
+
+; Update Checking
+_LOG("Update Checking", 1)
+Local $iChangelogPath = $iScriptPath & "\changelog.txt"
+FileDelete($iChangelogPath)
+Local $Result = _DownloadWRetry("https://raw.githubusercontent.com/Universal-Rom-Tools/Universal-XML-Scraper/master/changelog.txt", $iChangelogPath)
+Switch $Result
+	Case -1
+		_LOG("Error downloading Changelog", 2)
+	Case -2
+		_LOG("Time Out downloading Changelog", 2)
+	Case Else
+		Local $iChangelogVer = FileReadLine($iChangelogPath)
+		_LOG("Local : " & $iScriptVer & " - Github : " & $iChangelogVer)
+		If $iChangelogVer <> $iScriptVer And @Compiled = 1 Then
+			_LOG("Asking to Update")
+			If MsgBox($MB_YESNO, _MultiLang_GetText("mess_update_Title") & " ( Local : " & $iScriptVer & " - Github : " & $iChangelogVer & " )", _MultiLang_GetText("mess_update_Question")) = $IDYES Then
+				_LOG("Open GitHub Release Webpage and quit")
+				ShellExecute("https://github.com/Universal-Rom-Tools/Universal-XML-Scraper/releases")
+				Exit
+			Else
+				_LOG("NOT UPDATED")
+			EndIf
+		EndIf
+EndSwitch
+
+;Profil Selection
+$vProfilsPath = _ProfilSelection($iProfilsPath, $vProfilsPath)
+IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
+
+;Opening XML Profil file
+$oXMLProfil = _XML_CreateDOMDocument()
+_XML_Load($oXMLProfil, $vProfilsPath)
+If @error Then
+	_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+	Exit
+EndIf
+_XML_TIDY($oXMLProfil)
+If @error Then
+	_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+	Exit
+EndIf
+
+; Main GUI
+#Region ### START Koda GUI section ### Form=
+Local $F_UniversalScraper = GUICreate(_MultiLang_GetText("main_gui"), 350, 181, 215, 143)
+GUISetBkColor(0x34495c, $F_UniversalScraper)
+Local $MF = GUICtrlCreateMenu(_MultiLang_GetText("mnu_file"))
+Local $MF_Profil = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_profil"), $MF)
+Local $MF_Separation = GUICtrlCreateMenuItem("", $MF)
+Local $MF_Exit = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_exit"), $MF)
+Local $ME = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit"))
+Local $ME_AutoConfig = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit_autoconf"), $ME, 1)
+Local $ME_FullScrape = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_fullscrape"), $ME)
+Local $ME_Separation = GUICtrlCreateMenuItem("", $ME)
+Local $ME_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_miximage"), $ME)
+Local $ME_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_langue"), $ME)
+Local $ME_Config = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config"), $ME)
+Local $MP = GUICtrlCreateMenu(_MultiLang_GetText("mnu_ssh"))
+Local $MP_KILLALL = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_killall"), $MP)
+Local $MP_START = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_start"), $MP)
+Local $MP_REBOOT = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_reboot"), $MP)
+Local $MP_POWEROFF = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_halt"), $MP)
+GUICtrlSetState($MP, $GUI_DISABLE)
+Local $MH = GUICtrlCreateMenu(_MultiLang_GetText("mnu_help"))
+Local $MH_Help = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_help_about"), $MH)
+Local $P_SOURCE = GUICtrlCreatePic("", 0, 0, 150, 100)
+Local $P_CIBLE = GUICtrlCreatePic("", 200, 0, 150, 100)
+Local $PB_SCRAPE = GUICtrlCreateProgress(0, 110, 350, 25)
+Local $B_SCRAPE = GUICtrlCreateButton(_MultiLang_GetText("scrap_button"), 150, 2, 50, 60, BitOR($BS_BITMAP, $BS_FLAT))
+GUICtrlSetImage($B_SCRAPE, $iScriptPath & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
+Local $L_SCRAPE = _GUICtrlStatusBar_Create($F_UniversalScraper)
+_GUICtrlStatusBar_SetParts($L_SCRAPE, $L_SCRAPE_Parts)
+GUISetState(@SW_SHOW)
+#EndRegion ### END Koda GUI section ###
+_LOG("GUI Constructed", 1)
+_Refresh_GUI($oXMLProfil)
+
+While 1
+	Local $nMsg = GUIGetMsg()
+	Switch $nMsg
+		Case $GUI_EVENT_CLOSE, $MF_Exit ; Exit
+			_LOG("Universal XML Scraper Closed")
+			Exit
+		Case $MF_Profil ;Profil Selection
+			$vProfilsPath = _ProfilSelection($iProfilsPath)
+			IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
+			;Opening XML Profil file
+			$oXMLProfil = _XML_CreateDOMDocument()
+			_XML_Load($oXMLProfil, $vProfilsPath)
+			If @error Then
+				_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				Exit
+			EndIf
+			_XML_TIDY($oXMLProfil)
+			If @error Then
+				_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				Exit
+			EndIf
+			_Refresh_GUI($oXMLProfil)
+		Case $ME_Langue
+			$aLangList = _MultiLang_LoadLangDef($iLangPath, -1)
+			If Not IsArray($aLangList) Or $aLangList < 0 Then
+				_LOG("Impossible to load language", 2)
+				Exit
+			EndIf
+			_Refresh_GUI()
+	EndSwitch
+WEnd
+
+;---------;
+;Fonctions;
+;---------;
+
+#Region Function
+Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
+	; Loading profils list
+	$aProfilList = _FileListToArrayRec($iProfilsPath, "*.xml", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_FULLPATH)
+	If Not IsArray($aProfilList) Then
+		_LOG("No Profils found", 2)
+		Exit
+	EndIf
+	_ArrayColInsert($aProfilList, 0)
+	_ArrayColInsert($aProfilList, 0)
+	_ArrayDelete($aProfilList, 0)
+
+	For $vBoucle = 0 To UBound($aProfilList) - 1
+		$aProfilList[$vBoucle][0] = _XML_Read("Profil/Name", 1, $aProfilList[$vBoucle][2])
+		If StringInStr($aProfilList[$vBoucle][0], $vProfilsPath) Then $vProfilsPath = $aProfilList[$vBoucle][2]
+	Next
+;~ _ArrayDisplay($aProfilList, "$aProfilList") ;Debug
+
+	If $vProfilsPath = -1 Then $vProfilsPath = _SelectGUI($aProfilList, $aProfilList[0][2], "Profil")
+	_LOG("Profil selected : " & $vProfilsPath)
+	Return $vProfilsPath
+EndFunc   ;==>_ProfilSelection
+
+Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0)
+	If $oXMLProfil <> -1 Then
+		; GUI Picture
+		Local $vSourcePicturePath = _XML_Read("Profil/General/Source_Image", 0, "", $oXMLProfil)
+		If $vSourcePicturePath < 0 Then
+			$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
+		Else
+			$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vSourcePicturePath
+		EndIf
+
+		Local $vTargetPicturePath = _XML_Read("Profil/General/Target_Image", 0, "", $oXMLProfil)
+		If $vTargetPicturePath < 0 Then
+			$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
+		Else
+			$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vTargetPicturePath
+		EndIf
+		_GDIPlus_Startup()
+		$hGraphic = _GDIPlus_GraphicsCreateFromHWND($F_UniversalScraper)
+		$hImage = _GDIPlus_ImageLoadFromFile($iScriptPath & "\Ressources\empty.jpg")
+		$hImage = _GDIPlus_ImageResize($hImage, 100, 40)
+		$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
+		$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
+		_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_UPDATENOW)
+		_GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 175 - ($ImageWidth / 2), 82 - ($ImageHeight / 2))
+		_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_VALIDATE)
+		_GDIPlus_ImageDispose($hImage)
+		_GDIPlus_GraphicsDispose($hGraphic)
+		_GDIPlus_Shutdown()
+		GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
+		GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
+	EndIf
+
+	Local $SCRAP_ENABLE
+	Local $ERROR_MESSAGE = ""
+	_LOG("GUI Refresh", 1)
+	If $ScrapIP = 0 Then
+
+;~ 		$user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", -1)
+
+;~ 		If $No_Profil < 1 Then
+;~ 			$ERROR_MESSAGE &= _MultiLang_GetText("err_No_Profil") & @CRLF
+;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_No_Profil") & " : " & $No_Profil)
+;~ 			$SCRAP_OK = $SCRAP_OK + 1
+;~ 		EndIf
+;~ 		If $SCRAP_OK = 0 Then
+;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_ENABLE.bmp", -1, 0)
+;~ 			_CREATION_LOGMESS(2, "SCRAPE Enable")
+;~ 			$SCRAP_ENABLE = 1
+;~ 		Else
+;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
+;~ 			_CREATION_LOGMESS(2, "SCRAPE Disable")
+;~ 			$SCRAP_ENABLE = 0
+;~ 		EndIf
+
+;~ 		Select
+;~ 			Case $Menu_SSH = 1
+;~ 				$Menu_SSH = 2
+;~ 				_CREATION_LOGMESS(2, "Menu SSH Enable")
+;~ 				GUICtrlSetState($MP, $GUI_ENABLE)
+;~ 			Case $Menu_SSH = 2
+;~ 				_CREATION_LOGMESS(2, "Menu SSH Enable")
+;~ 				GUICtrlSetState($MP, $GUI_ENABLE)
+;~ 		EndSelect
+
+		GUICtrlSetState($MF, $GUI_ENABLE)
+		GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))
+		GUICtrlSetData($MF_Profil, _MultiLang_GetText("mnu_file_profil"))
+		GUICtrlSetData($MF_Exit, _MultiLang_GetText("mnu_file_exit"))
+
+		GUICtrlSetState($ME, $GUI_ENABLE)
+		GUICtrlSetData($ME, _MultiLang_GetText("mnu_edit"))
+		GUICtrlSetData($ME_AutoConfig, _MultiLang_GetText("mnu_edit_autoconf"))
+		GUICtrlSetData($ME_FullScrape, _MultiLang_GetText("mnu_edit_fullscrape"))
+		GUICtrlSetData($ME_Miximage, _MultiLang_GetText("mnu_edit_miximage"))
+		GUICtrlSetData($ME_Langue, _MultiLang_GetText("mnu_edit_langue"))
+		GUICtrlSetData($ME_Config, _MultiLang_GetText("mnu_edit_config"))
+
+		GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
+		GUICtrlSetData($MP_KILLALL, _MultiLang_GetText("mnu_ssh_killall"))
+		GUICtrlSetData($MP_REBOOT, _MultiLang_GetText("mnu_ssh_reboot"))
+		GUICtrlSetData($MP_POWEROFF, _MultiLang_GetText("mnu_ssh_halt"))
+
+		GUICtrlSetState($MH, $GUI_ENABLE)
+		GUICtrlSetData($MH, _MultiLang_GetText("mnu_help"))
+		GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
+
+		GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
+		GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
+		_GUICtrlStatusBar_SetText($L_SCRAPE, "")
+
+;~ 		$A_DIRList = _AUTOCONF($PATHAUTOCONF_PathRom, $PATHAUTOCONF_PathRomSub, $PATHAUTOCONF_PathNew, $PATHAUTOCONF_PathImage, $PATHAUTOCONF_PathImageSub)
+;~ 	Else
+;~ 		If $Menu_SSH = 2 Then GUICtrlSetState($MP, $GUI_DISABLE)
+;~ 		_CREATION_LOGMESS(2, "Menu SSH Disable")
+;~ 		GUICtrlSetState($MF, $GUI_DISABLE)
+;~ 		GUICtrlSetState($ME, $GUI_DISABLE)
+;~ 		GUICtrlSetState($MH, $GUI_DISABLE)
+;~ 		GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_IP1.bmp", -1, 0)
+;~ 		$SCRAP_ENABLE = 1
+;~ 		GUICtrlSetState($PB_SCRAPE, $GUI_SHOW)
+	EndIf
+	Return $SCRAP_ENABLE
+EndFunc   ;==>_Refresh_GUI
+#EndRegion Function

@@ -1,11 +1,38 @@
-[18:17:44] - C:\Developpement\Github\Universal-XML-ScraperV2\Universal XML Scraper V2.au3 (In Progress)
-[18:17:44] - WIN_10(X64) - 040C
-[18:17:44] - Start
-[18:17:44] - Dev version
-[18:17:44] - Starting files installation
-[18:17:44] - Ending files installation
-[18:17:44] - Verbose LVL : 2
-[18:17:44] - Path to ini : C:\Developpement\Github\Universal-XML-ScraperV2\UXS-config.ini
-[18:17:44] - Path to log : C:\Developpement\Github\Universal-XML-ScraperV2\log.txt
-[18:17:44] - Path to language : C:\Developpement\Github\Universal-XML-ScraperV2\LanguageFiles
-[18:17:44] - Language Selected : 040c
+[17:48:19] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[17:48:19] - WIN_10(X64) - 040C
+[17:48:19] - Dev version
+[17:48:19] - Starting files installation
+[17:48:19] - Ending files installation
+[17:48:19] - Verbose LVL : 2
+[17:48:19] - Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[17:48:19] - Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[17:48:19] - Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[17:48:19] - Language Selected : 040c
+[17:48:19] - Update Checking
+[17:48:19] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[17:48:19] - -In 1 try
+[17:48:19] - Local : In Progress - Github : 1.5.0.11
+[17:48:19] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV3.xml
+[17:48:19] - GUI Constructed
+[17:48:19] - _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[17:48:19] - _XML_GetValue (Profil/General/Target_Image) = RecalboxV3.jpg
+[17:48:19] - GUI Refresh
+[17:48:25] - Value selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[17:48:25] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[17:48:25] - _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[17:48:25] - _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[17:48:25] - GUI Refresh
+[17:48:30] - Value selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV3.xml
+[17:48:30] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV3.xml
+[17:48:30] - _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[17:48:30] - _XML_GetValue (Profil/General/Target_Image) = RecalboxV3.jpg
+[17:48:30] - GUI Refresh
+[17:48:34] - Loading language :040c
+[17:48:37] - Value selected : 0409
+[17:48:37] - Language Selected : 0409
+[17:48:37] - GUI Refresh
+[17:48:45] - Loading language :040c
+[17:48:47] - Value selected : 040c
+[17:48:47] - Language Selected : 040c
+[17:48:47] - GUI Refresh
+[17:49:01] - Universal XML Scraper Closed

@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?><Profil Name = "ScreenScraper-Recalbox v4">
-	<Element1>
+	<General>
+		<Source_Image>Screenscraper.jpg</Source_Image>
+		<Target_Image>RecalboxV4.jpg</Target_Image>
+		<UpperCase>True</UpperCase>
+		<Image_Extension>.jpg</Image_Extension>
+	</General>
+	<AutoConf>
+		<Target_XMLName>gamelist.xml</Target_XMLName>
+		<Source_RomPath>\\RECALBOX\share\roms</Source_RomPath>
+		<Target_RomPath>./</Target_RomPath>
+		<Source_ImagePath>downloaded_images</Source_ImagePath>
+		<Target_ImagePath>./downloaded_images/</Target_ImagePath>
+	</AutoConf>
+	<Element>
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/id</Source_Value>
 		<Target_Type>XML_Attribute</Target_Type>
 		<Target_Attribute_Name>id</Target_Attribute_Name>
 		<Target_Value>gameList/game</Target_Value>
-	</Element1>
+	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
 		<Source_Value>ScreenScraper</Source_Value>
@@ -21,13 +34,13 @@
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/emulator</Target_Value>
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/core</Target_Value>
 	</Element>
@@ -69,7 +82,7 @@
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/thumbnail</Target_Value>
 	</Element>
@@ -113,25 +126,25 @@
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/favorite</Target_Value>
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/region</Target_Value>
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/romtype</Target_Value>
 	</Element>
 	<Element>
 		<Source_Type>Fixe_Value</Source_Type>
-		</Source_Value>
+		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/hidden</Target_Value>
 	</Element>

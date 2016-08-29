@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name = "ScreenScraper-Recalbox v4">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name = "ScreenScraper-Recalbox v3">
+	<General>
+		<Source_Image>Screenscraper.jpg</Source_Image>
+		<Target_Image>RecalboxV3.jpg</Target_Image>
+		<UpperCase>True</UpperCase>
+		<Image_Extension>.jpg</Image_Extension>
+	</General>
+	<AutoConf>
+		<Target_XMLName>gamelist.xml</Target_XMLName>
+		<Source_RomPath>\\RECALBOX\share\roms</Source_RomPath>
+		<Target_RomPath>./</Target_RomPath>
+		<Source_ImagePath>downloaded_images</Source_ImagePath>
+		<Target_ImagePath>./downloaded_images/</Target_ImagePath>
+	</AutoConf>
 	<Element>
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/id</Source_Value>

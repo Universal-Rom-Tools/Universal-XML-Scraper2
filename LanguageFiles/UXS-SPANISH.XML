@@ -46,7 +46,7 @@
 		<mnu_ssh_killall>Detener EmulationStation</mnu_ssh_killall>
 		<mnu_ssh_start>Iniciar Emulationstation</mnu_ssh_start>
 		<mnu_ssh_reboot>Reiniciar</mnu_ssh_reboot>
-		<mnu_ssh_halt>Apagar</mnu_ssh_halt>
+		<mnu_ssh_poweroff>Apagar</mnu_ssh_poweroff>
 		<mnu_mode>Modo de obtención de datos</mnu_mode>
 		<mnu_mode_new>Nuevo archivo</mnu_mode_new>
 		<mnu_mode_append>Adjuntar ROMs faltantes</mnu_mode_append>

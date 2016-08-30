@@ -46,7 +46,7 @@
 		<mnu_ssh_killall>Stop Emulationstation</mnu_ssh_killall>
 		<mnu_ssh_start>Start Emulationstation</mnu_ssh_start>
 		<mnu_ssh_reboot>Reboot</mnu_ssh_reboot>
-		<mnu_ssh_halt>Power off</mnu_ssh_halt>
+		<mnu_ssh_poweroff>Power off</mnu_ssh_poweroff>
 		<mnu_mode>Scrape Mode</mnu_mode>
 		<mnu_mode_new>New file</mnu_mode_new>
 		<mnu_mode_append>Append missing roms</mnu_mode_append>

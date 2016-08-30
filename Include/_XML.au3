@@ -2843,8 +2843,8 @@ Func _XML_Array_GetNodesProperties(ByRef $oNodesColl)
 	Local $oXML_COM_ErrorHandler = ObjEvent("AutoIt.Error", __XML_ComErrorHandler_InternalFunction)
 	#forceref $oXML_COM_ErrorHandler
 
-	__XML_IsValidObject_NodesColl($oNodesColl)
-	If @error Then Return SetError(@error, @extended, $XML_RET_FAILURE)
+;~ 	__XML_IsValidObject_NodesColl($oNodesColl)
+;~ 	If @error Then Return SetError(@error, @extended, $XML_RET_FAILURE)
 
 	Local $avArray[1][$__g_eARRAY_NODE_ARRAYCOLCOUNT]
 	$avArray[0][$__g_eARRAY_NODE_NAME] = 'nodeName'

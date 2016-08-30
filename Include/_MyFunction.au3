@@ -69,12 +69,17 @@ Func _LOG($iMessage = "", $iLOGType = 0, $iLOGPath = @ScriptDir & "\Log.txt")
 			FileWrite($iLOGPath, $iTimestamp & $iMessage & @CRLF)
 			ConsoleWrite($iMessage & @CRLF)
 		Case 1
-			If $iLOGType <= $iVerboseLVL Then FileWrite($iLOGPath, $iTimestamp & $iMessage & @CRLF)
+			If $iLOGType <= $iVerboseLVL Then FileWrite($iLOGPath, $iTimestamp & "> " & $iMessage & @CRLF)
 			ConsoleWrite("+" & $iMessage & @CRLF)
 		Case 2
 			If $iLOGType <= $iVerboseLVL Then FileWrite($iLOGPath, $iTimestamp & "/!\ " & $iMessage & @CRLF)
 			ConsoleWrite("!" & $iMessage & @CRLF)
-		Case Else
+		Case 3
+			If $iLOGType <= $iVerboseLVL Then
+				FileWrite($iLOGPath, $iTimestamp & "--------------------------------------------------------------------------------" & @CRLF)
+				FileWrite($iLOGPath, $iTimestamp & $iMessage & @CRLF)
+				FileWrite($iLOGPath, $iTimestamp & "--------------------------------------------------------------------------------" & @CRLF)
+			EndIf
 			ConsoleWrite(">----" & $iMessage & @CRLF)
 	EndSwitch
 EndFunc   ;==>_LOG
@@ -979,12 +984,14 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 		$oXMLDoc = _XML_CreateDOMDocument()
 		_XML_Load($oXMLDoc, $iXMLPath)
 		If @error Then
-			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 			Return -1
 		EndIf
 		_XML_TIDY($oXMLDoc)
 		If @error Then
-			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 			Return -1
 		EndIf
 	EndIf
@@ -993,7 +1000,8 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 		Case 0
 			$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
 			If @error Then
-				_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
+				_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
 			If IsArray($iXMLValue) Then
@@ -1009,12 +1017,14 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 			$iXpath = StringTrimRight($iXpath, StringLen($iXMLAttributeName) + 1)
 			$oNode = _XML_SelectSingleNode($oXMLDoc, $iXpath)
 			If @error Then
-				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				_LOG('_XML_SelectSingleNode ERROR (' & $iXpath & ')', 2)
+				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
 			$iXMLValue = _XML_GetNodeAttributeValue($oNode, $iXMLAttributeName)
 			If @error Then
-				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				_LOG('_XML_GetNodeAttributeValue ERROR (' & $iXpath & ')', 2)
+				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
 			Return $iXMLValue
@@ -1024,6 +1034,108 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 
 	Return -1
 EndFunc   ;==>_XML_Read
+
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_ListValue
+; Description ...: List Data in XML File or XML Object
+; Syntax.........: _XML_ListValue($iXpath, [$iXMLPath=""], [$oXMLDoc=""])
+; Parameters ....: $iXpath		- Xpath to the values to read
+;                  $iXMLPath	- Path to the XML File
+;                  $oXMLDoc		- Object contening the XML File
+; Return values .: Success      - Array with all the data ([0] = Nb of Values)
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......: No attribute
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_ListValue($iXpath, $iXMLPath = "", $oXMLDoc = "")
+	Local $iXMLValue = -1
+	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
+	If $iXMLPath <> "" Then
+		$oXMLDoc = _XML_CreateDOMDocument()
+		_XML_Load($oXMLDoc, $iXMLPath)
+		If @error Then
+			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+			Return -1
+		EndIf
+		_XML_TIDY($oXMLDoc)
+		If @error Then
+			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+			Return -1
+		EndIf
+	EndIf
+
+	$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
+	If @error Then
+		_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
+		_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		Return -1
+	EndIf
+	If IsArray($iXMLValue) Then
+		_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[0] & " Elements", 1)
+		Return $iXMLValue
+	Else
+		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
+		Return -1
+	EndIf
+
+	Return -1
+EndFunc   ;==>_XML_ListValue
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_ListNode
+; Description ...: List Nodes in XML File or XML Object
+; Syntax.........: _XML_ListNode($iXpath, [$iXMLPath=""], [$oXMLDoc=""])
+; Parameters ....: $iXpath		- Xpath to the Node to read
+;                  $iXMLPath	- Path to the XML File
+;                  $oXMLDoc		- Object contening the XML File
+; Return values .: Success      - Array with all the data ([0][0] = Nb of Values ; [x][0] = Node Name ; [x][1] = Node Value)
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......: No attribute
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
+	Local $iXMLValue = -1
+	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
+	If $iXMLPath <> "" Then
+		$oXMLDoc = _XML_CreateDOMDocument()
+		_XML_Load($oXMLDoc, $iXMLPath)
+		If @error Then
+			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+			Return -1
+		EndIf
+		_XML_TIDY($oXMLDoc)
+		If @error Then
+			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
+			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+			Return -1
+		EndIf
+	EndIf
+
+	$iXMLValue = _XML_GetChildren($oXMLDoc, $iXpath)
+	If @error Then
+		_LOG('_XML_GetChildNodes ERROR (' & $iXpath & ')', 2)
+		_LOG('_XML_GetChildNodes @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		Return -1
+	EndIf
+	If IsArray($iXMLValue) Then
+		_LOG('_XML_GetValue (' & $iXpath & ') = ' & UBound($iXMLValue) - 1 & " Elements", 1)
+		Return $iXMLValue
+	Else
+		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
+		Return -1
+	EndIf
+	Return -1
+EndFunc   ;==>_XML_ListNode
 #EndRegion XML Function
 
 #Region XML DOM Error/Event Handling

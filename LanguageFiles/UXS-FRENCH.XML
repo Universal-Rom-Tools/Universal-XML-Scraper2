@@ -46,7 +46,7 @@
 		<mnu_ssh_killall>Arrêter Emulationstation</mnu_ssh_killall>
 		<mnu_ssh_start>Démarrer Emulationstation</mnu_ssh_start>
 		<mnu_ssh_reboot>Redémarrer Distant</mnu_ssh_reboot>
-		<mnu_ssh_halt>Eteindre Distant</mnu_ssh_halt>
+		<mnu_ssh_poweroff>Eteindre Distant</mnu_ssh_poweroff>
 		<mnu_mode>Scrape Mode</mnu_mode>
 		<mnu_mode_new>Création d'un nouveau Fichier</mnu_mode_new>
 		<mnu_mode_append>Ajout des roms manquantes</mnu_mode_append>

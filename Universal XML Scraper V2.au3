@@ -225,10 +225,6 @@ Local $ME_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_miximage
 Local $ME_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_langue"), $ME)
 Local $ME_Config = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config"), $ME)
 Local $MP = GUICtrlCreateMenu(_MultiLang_GetText("mnu_ssh"))
-Local $MP_KILLALL = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_killall"), $MP)
-Local $MP_START = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_start"), $MP)
-Local $MP_REBOOT = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_reboot"), $MP)
-Local $MP_POWEROFF = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_halt"), $MP)
 GUICtrlSetState($MP, $GUI_DISABLE)
 Local $MH = GUICtrlCreateMenu(_MultiLang_GetText("mnu_help"))
 Local $MH_Help = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_help_about"), $MH)
@@ -239,6 +235,15 @@ Local $B_SCRAPE = GUICtrlCreateButton(_MultiLang_GetText("scrap_button"), 150, 2
 GUICtrlSetImage($B_SCRAPE, $iScriptPath & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
 Local $L_SCRAPE = _GUICtrlStatusBar_Create($F_UniversalScraper)
 _GUICtrlStatusBar_SetParts($L_SCRAPE, $L_SCRAPE_Parts)
+
+Local $vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
+If IsArray($vPlink_Command) Then
+	Local $MP_[UBound($vPlink_Command)]
+	For $vBoucle = 1 To UBound($vPlink_Command) - 1
+		$MP_[$vBoucle] = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]), $MP)
+	Next
+EndIf
+
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 _LOG("GUI Constructed", 1)
@@ -272,8 +277,14 @@ While 1
 				_LOG("Impossible to load language", 2)
 				Exit
 			EndIf
-			_Refresh_GUI()
+			_Refresh_GUI($oXMLProfil)
 	EndSwitch
+	;SSH Menu
+	If IsArray($vPlink_Command) Then
+		For $vBoucle = 1 To UBound($vPlink_Command) - 1
+			If $nMsg = $MP_[$vBoucle] Then _Plink($oXMLProfil, $vPlink_Command[$vBoucle][0])
+		Next
+	EndIf
 WEnd
 
 ;---------;
@@ -303,7 +314,8 @@ Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 	Return $vProfilsPath
 EndFunc   ;==>_ProfilSelection
 
-Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0)
+Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0) ;Refresh GUI
+	Local $vPlink_Command
 	If $oXMLProfil <> -1 Then
 		; GUI Picture
 		Local $vSourcePicturePath = _XML_Read("Profil/General/Source_Image", 0, "", $oXMLProfil)
@@ -333,11 +345,50 @@ Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0)
 		_GDIPlus_Shutdown()
 		GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
 		GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
+
+		If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
+			_LOG("SSH Disable", 1)
+			GUICtrlSetState($MP, $GUI_DISABLE)
+		Else
+			_LOG("SSH Enable", 1)
+			GUICtrlSetState($MP, $GUI_ENABLE)
+		EndIf
+
+		GUICtrlSetState($MF, $GUI_ENABLE)
+		GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))
+		GUICtrlSetData($MF_Profil, _MultiLang_GetText("mnu_file_profil"))
+		GUICtrlSetData($MF_Exit, _MultiLang_GetText("mnu_file_exit"))
+
+		GUICtrlSetState($ME, $GUI_ENABLE)
+		GUICtrlSetData($ME, _MultiLang_GetText("mnu_edit"))
+		GUICtrlSetData($ME_AutoConfig, _MultiLang_GetText("mnu_edit_autoconf"))
+		GUICtrlSetData($ME_FullScrape, _MultiLang_GetText("mnu_edit_fullscrape"))
+		GUICtrlSetData($ME_Miximage, _MultiLang_GetText("mnu_edit_miximage"))
+		GUICtrlSetData($ME_Langue, _MultiLang_GetText("mnu_edit_langue"))
+		GUICtrlSetData($ME_Config, _MultiLang_GetText("mnu_edit_config"))
+
+		GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
+
+		$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
+		If IsArray($vPlink_Command) Then
+			For $vBoucle = 1 To UBound($vPlink_Command) - 1
+				GUICtrlSetData($MP_[$vBoucle], _MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]))
+			Next
+		EndIf
+
+		GUICtrlSetState($MH, $GUI_ENABLE)
+		GUICtrlSetData($MH, _MultiLang_GetText("mnu_help"))
+		GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
+
+		GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
+		GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
+		_GUICtrlStatusBar_SetText($L_SCRAPE, "")
+
+		_LOG("GUI Refresh", 1)
 	EndIf
 
 	Local $SCRAP_ENABLE
 	Local $ERROR_MESSAGE = ""
-	_LOG("GUI Refresh", 1)
 	If $ScrapIP = 0 Then
 
 ;~ 		$user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", -1)
@@ -357,42 +408,6 @@ Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0)
 ;~ 			$SCRAP_ENABLE = 0
 ;~ 		EndIf
 
-;~ 		Select
-;~ 			Case $Menu_SSH = 1
-;~ 				$Menu_SSH = 2
-;~ 				_CREATION_LOGMESS(2, "Menu SSH Enable")
-;~ 				GUICtrlSetState($MP, $GUI_ENABLE)
-;~ 			Case $Menu_SSH = 2
-;~ 				_CREATION_LOGMESS(2, "Menu SSH Enable")
-;~ 				GUICtrlSetState($MP, $GUI_ENABLE)
-;~ 		EndSelect
-
-		GUICtrlSetState($MF, $GUI_ENABLE)
-		GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))
-		GUICtrlSetData($MF_Profil, _MultiLang_GetText("mnu_file_profil"))
-		GUICtrlSetData($MF_Exit, _MultiLang_GetText("mnu_file_exit"))
-
-		GUICtrlSetState($ME, $GUI_ENABLE)
-		GUICtrlSetData($ME, _MultiLang_GetText("mnu_edit"))
-		GUICtrlSetData($ME_AutoConfig, _MultiLang_GetText("mnu_edit_autoconf"))
-		GUICtrlSetData($ME_FullScrape, _MultiLang_GetText("mnu_edit_fullscrape"))
-		GUICtrlSetData($ME_Miximage, _MultiLang_GetText("mnu_edit_miximage"))
-		GUICtrlSetData($ME_Langue, _MultiLang_GetText("mnu_edit_langue"))
-		GUICtrlSetData($ME_Config, _MultiLang_GetText("mnu_edit_config"))
-
-		GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
-		GUICtrlSetData($MP_KILLALL, _MultiLang_GetText("mnu_ssh_killall"))
-		GUICtrlSetData($MP_REBOOT, _MultiLang_GetText("mnu_ssh_reboot"))
-		GUICtrlSetData($MP_POWEROFF, _MultiLang_GetText("mnu_ssh_halt"))
-
-		GUICtrlSetState($MH, $GUI_ENABLE)
-		GUICtrlSetData($MH, _MultiLang_GetText("mnu_help"))
-		GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
-
-		GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
-		GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
-		_GUICtrlStatusBar_SetText($L_SCRAPE, "")
-
 ;~ 		$A_DIRList = _AUTOCONF($PATHAUTOCONF_PathRom, $PATHAUTOCONF_PathRomSub, $PATHAUTOCONF_PathNew, $PATHAUTOCONF_PathImage, $PATHAUTOCONF_PathImageSub)
 ;~ 	Else
 ;~ 		If $Menu_SSH = 2 Then GUICtrlSetState($MP, $GUI_DISABLE)
@@ -406,4 +421,28 @@ Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $SCRAP_OK = 0)
 	EndIf
 	Return $SCRAP_ENABLE
 EndFunc   ;==>_Refresh_GUI
+
+Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
+	Local $vPlink_Ip = _XML_Read("Profil/Plink/Ip", 0, "", $oXMLProfil)
+	Local $vPlink_Root = _XML_Read("Profil/Plink/Root", 0, "", $oXMLProfil)
+	Local $vPlink_Pswd = _XML_Read("Profil/Plink/Pswd", 0, "", $oXMLProfil)
+	Local $vPlink_Command = _XML_Read("Profil/Plink/Command/" & $vPlinkCommand, 0, "", $oXMLProfil)
+
+	If MsgBox($MB_OKCANCEL, $vPlinkCommand, _MultiLang_GetText("mess_ssh_" & $vPlinkCommand)) = $IDOK Then
+		$sRun = $iScriptPath & "\Ressources\plink.exe " & $vPlink_Ip & " -l " & $vPlink_Root & " -pw " & $vPlink_Pswd & " " & $vPlink_Command
+		$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
+		While ProcessExists($iPid)
+			$_StderrRead = StderrRead($iPid)
+			If Not @error And $_StderrRead <> '' Then
+				If StringInStr($_StderrRead, 'Unable to open connection') Then
+					_LOG("Unable to open connection with Plink (" & $vPlink_Root & ":" & $vPlink_Pswd & "@" & $vPlink_Ip & ")", 2)
+					Return -1
+				EndIf
+			EndIf
+		WEnd
+		_LOG("SSH : " & $vPlink_Command)
+	Else
+		_LOG("SSH canceled : " & $vPlink_Command, 1)
+	EndIf
+EndFunc   ;==>_Plink
 #EndRegion Function

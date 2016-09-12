@@ -7,8 +7,8 @@
 		<Image_Extension>.jpg</Image_Extension>
 	</General>
 	<AutoConf>
+		<Source_RootPath>\\RECALBOX\share\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
-		<Source_RomPath>\\RECALBOX\share\roms</Source_RomPath>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>
 		<Target_ImagePath>./downloaded_images/</Target_ImagePath>

@@ -219,12 +219,13 @@ Local $MF_Profil = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_profil"), 
 Local $MF_Separation = GUICtrlCreateMenuItem("", $MF)
 Local $MF_Exit = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_exit"), $MF)
 Local $ME = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit"))
+Local $ME_Config_LU = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config_LU"), $ME)
+Local $ME_config_autoconf = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config_autoconf"), $ME)
+Local $ME_Separation = GUICtrlCreateMenuItem("", $ME)
 Local $ME_AutoConfig = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit_autoconf"), $ME, 1)
 Local $ME_FullScrape = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_fullscrape"), $ME)
-Local $ME_Separation = GUICtrlCreateMenuItem("", $ME)
 Local $ME_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_miximage"), $ME)
 Local $ME_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_langue"), $ME)
-Local $ME_Config = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config"), $ME)
 Local $MP = GUICtrlCreateMenu(_MultiLang_GetText("mnu_ssh"))
 GUICtrlSetState($MP, $GUI_DISABLE)
 Local $MH = GUICtrlCreateMenu(_MultiLang_GetText("mnu_help"))
@@ -289,10 +290,12 @@ While 1
 			$sMsg &= "http://www.emulationstation.org/" & @CRLF
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
-		Case $ME_Config
-			_GUI_Config($oXMLProfil)
-			_Refresh_GUI($oXMLProfil)
-;~ 		Case $B_SCRAPE
+		Case $ME_Config_LU
+			_GUI_Config_LU()
+		Case $ME_config_autoconf
+			_GUI_Config_autoconf($oXMLProfil)
+		Case $B_SCRAPE
+			$aConfig = _LoadConfig($oXMLProfil)
 ;~ 			If _SCRAPING_VERIF() = 0 Then
 ;~ 				If _GUI_REFRESH($INI_P_SOURCE, $INI_P_CIBLE, 1) = 1 Then
 ;~ 					$FullTimer = TimerInit()
@@ -324,6 +327,17 @@ WEnd
 ;---------;
 
 #Region Function
+Func _LoadConfig($oXMLProfil)
+	Local $aConfig[6]
+	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "Target_RootPath", "")
+	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "Target_XMLName", "")
+	$aConfig[2] = IniRead($iINIPath, "LAST_USE", "Source_RomPath", "")
+	$aConfig[3] = IniRead($iINIPath, "LAST_USE", "Target_RomPath", "")
+	$aConfig[4] = IniRead($iINIPath, "LAST_USE", "Source_ImagePath", "")
+	$aConfig[5] = IniRead($iINIPath, "LAST_USE", "Target_ImagePath", "")
+
+EndFunc   ;==>_LoadConfig
+
 Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 	; Loading profils list
 	$aProfilList = _FileListToArrayRec($iProfilsPath, "*.xml", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_FULLPATH)
@@ -397,7 +411,8 @@ Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 		GUICtrlSetData($ME_FullScrape, _MultiLang_GetText("mnu_edit_fullscrape"))
 		GUICtrlSetData($ME_Miximage, _MultiLang_GetText("mnu_edit_miximage"))
 		GUICtrlSetData($ME_Langue, _MultiLang_GetText("mnu_edit_langue"))
-		GUICtrlSetData($ME_Config, _MultiLang_GetText("mnu_edit_config"))
+		GUICtrlSetData($ME_Config_LU, _MultiLang_GetText("mnu_edit_config_LU"))
+		GUICtrlSetData($ME_config_autoconf, _MultiLang_GetText("mnu_edit_config_autoconf"))
 
 		GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
 
@@ -512,59 +527,172 @@ EndFunc   ;==>_Plink
 ;~ 	Return $vScrapeOK
 ;~ EndFunc   ;==>_SCRAPING_VERIF
 
-Func _GUI_Config($oXMLProfil)
+Func _GUI_Config_LU()
 	Local $vImage_Extension, $vAutoconf, $vScrapeMode, $vEmptyRom
 	#Region ### START Koda GUI section ### Form=
-	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_Title"), 475, 210, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
-	$G_Scrape = GUICtrlCreateGroup(_MultiLang_GetText("win_config_GroupScrap"), 8, 0, 225, 161)
-	$L_Target_XMLName = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupScrap_PathXML"), 16, 15)
+	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_LU_Title"), 477, 209, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$G_Scrape = GUICtrlCreateGroup(_MultiLang_GetText("win_config_LU_GroupScrap"), 8, 0, 225, 201)
+	$L_Source_RootPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), 16, 16)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
-	$I_Target_XMLName = GUICtrlCreateInput("", 16, 35, 177, 21)
-	$B_Target_XMLName = GUICtrlCreateButton("...", 198, 35, 27, 21)
-	$L_Source_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupScrap_PathRom"), 16, 60)
+	$I_Source_RootPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_RootPath", ""), 16, 35, 177, 21)
+	$B_Source_RootPath = GUICtrlCreateButton("...", 198, 35, 27, 21)
+	$L_Target_XMLName = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Target_XMLName"), 16, 63)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
+	$I_Target_XMLName = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_XMLName", ""), 16, 83, 177, 21)
+	$B_Target_XMLName = GUICtrlCreateButton("...", 198, 83, 27, 21)
+	$L_Source_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), 16, 108)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRom"))
-	$I_Source_RomPath = GUICtrlCreateInput("", 16, 80, 177, 21)
-	$B_Source_RomPath = GUICtrlCreateButton("...", 198, 80, 27, 21)
-	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupScrap_PathRomSub"), 16, 105)
+	$I_Source_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_RomPath", ""), 16, 128, 177, 21)
+	$B_Source_RomPath = GUICtrlCreateButton("...", 198, 128, 27, 21)
+	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Target_RomPath"), 16, 153)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRomSub"))
-	$I_Target_RomPath = GUICtrlCreateInput("", 16, 125, 177, 21)
-	$B_Target_RomPath = GUICtrlCreateButton("...", 198, 125, 27, 21)
+	$I_Target_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_RomPath", ""), 16, 173, 177, 21)
+;~ 	$B_Target_RomPath = GUICtrlCreateButton("...", 198, 173, 27, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$G_Image = GUICtrlCreateGroup(_MultiLang_GetText("win_config_GroupImage"), 240, 0, 225, 201)
-	$L_Source_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupImage_PathImage"), 248, 15)
+	$G_Image = GUICtrlCreateGroup(_MultiLang_GetText("win_config_LU_GroupImage"), 240, 0, 225, 113)
+	$L_Source_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupImage_Source_ImagePath"), 248, 15)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImage"))
-	$I_Source_ImagePath = GUICtrlCreateInput("", 248, 34, 177, 21)
+	$I_Source_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_ImagePath", ""), 248, 34, 177, 21)
 	$B_Source_ImagePath = GUICtrlCreateButton("...", 430, 34, 27, 21)
-	$L_Target_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupImage_PathImageSub"), 248, 60)
+	$L_Target_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupImage_Target_ImagePath"), 248, 60)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImageSub"))
-	$I_Target_ImagePath = GUICtrlCreateInput("", 248, 80, 177, 21)
-	$B_Target_ImagePath = GUICtrlCreateButton("...", 430, 80, 27, 21)
-	$L_Width_Image = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupImage_LongImage"), 248, 150, 50, 17, $SS_CENTER)
-	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_LongImage"))
-	$I_Width_Image = GUICtrlCreateInput("", 248, 170, 50, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-	$L_Height_Image = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupImage_hautImage"), 312, 150, 50, 17, $SS_CENTER)
-	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_hautImage"))
-	$I_Height_Image = GUICtrlCreateInput("", 312, 170, 50, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-	$L_Extension_Image = GUICtrlCreateLabel(_MultiLang_GetText("win_config_GroupImage_Extension"), 376, 150, 81, 17, $SS_CENTER)
-	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_Extension"))
-	$C_Extension_Image = GUICtrlCreateCombo("", 376, 170, 81, 25)
-	GUICtrlSetData(-1, "defaut|jpg|png")
-	$L_Tag_Image = GUICtrlCreateLabel("Tag", 248, 105, 23, 17)
-	$I_Tag_Image = GUICtrlCreateInput("", 248, 125, 209, 21)
+	$I_Target_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_ImagePath", ""), 248, 80, 177, 21)
+;~ 	$B_Target_ImagePath = GUICtrlCreateButton("...", 430, 80, 27, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 8, 176, 105, 25)
-	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 126, 176, 105, 25)
+	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 128, 105, 73)
+	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 128, 105, 73)
 	GUISetState(@SW_SHOW)
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
 	#EndRegion ### END Koda GUI section ###
 
 	While 1
 		$nMsg = GUIGetMsg()
 		Switch $nMsg
-			Case $GUI_EVENT_CLOSE
-				Exit
-
+			Case $GUI_EVENT_CLOSE, $B_CONFANNUL
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				_LOG("Path Configuration Canceled", 0)
+				Return
+			Case $B_Source_RootPath
+				$Source_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
+				GUICtrlSetData($I_Source_RootPath, $Source_RootPath)
+			Case $B_Target_XMLName
+				$Target_XMLName = FileSaveDialog(_MultiLang_GetText("win_config_GroupScrap_PathXML"), GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath), "xml (*.xml)", 18, "gamelist.xml", $F_CONFIG)
+				If @error Then $Target_XMLName = GUICtrlRead($I_Target_XMLName)
+				GUICtrlSetData($I_Target_XMLName, $Target_XMLName)
+			Case $B_Source_RomPath
+				$Source_RomPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
+				$Source_RomPath = StringSplit($Source_RomPath, "\")
+				GUICtrlSetData($I_Source_RomPath, $Source_RomPath[UBound($Source_RomPath) - 1])
+			Case $B_Source_ImagePath
+				$Source_ImagePath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath) & "\" & GUICtrlRead($I_Source_ImagePath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath) & "\" & GUICtrlRead($I_Source_ImagePath), $F_CONFIG)
+				$Source_ImagePath = StringSplit($Source_ImagePath, "\")
+				GUICtrlSetData($I_Source_ImagePath, $Source_ImagePath[UBound($Source_ImagePath) - 1])
+			Case $B_CONFENREG
+				$Source_RootPath = GUICtrlRead($I_Source_RootPath) ;$Source_RootPath
+				If (StringRight($Source_RootPath, 1) = '\') Then StringTrimRight($Source_RootPath, 1)
+				IniWrite($iINIPath, "LAST_USE", "$Source_RootPath", $Source_RootPath)
+				$Target_XMLName = GUICtrlRead($I_Target_XMLName) ;$Target_XMLName
+				IniWrite($iINIPath, "LAST_USE", "$Target_XMLName", $Target_XMLName)
+				$Source_RomPath = GUICtrlRead($I_Source_RomPath) ;$Source_RomPath
+				IniWrite($iINIPath, "LAST_USE", "$Source_RomPath", $Source_RomPath)
+				$Target_RomPath = GUICtrlRead($I_Target_RomPath) ;$Target_RomPath
+				IniWrite($iINIPath, "LAST_USE", "$Target_RomPath", $Target_RomPath)
+				$Source_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$Source_ImagePath
+				IniWrite($iINIPath, "LAST_USE", "$Source_ImagePath", $Source_ImagePath)
+				$Target_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$Target_ImagePath
+				IniWrite($iINIPath, "LAST_USE", "$Target_ImagePath", $Target_ImagePath)
+				_LOG("Path Configuration Saved", 0)
+				_LOG("------------------------", 1)
+				_LOG("$Source_RootPath = " & $Source_RootPath, 1)
+				_LOG("$Target_XMLName = " & $Target_XMLName, 1)
+				_LOG("$Source_RomPath = " & $Source_RomPath, 1)
+				_LOG("$Target_RomPath = " & $Target_RomPath, 1)
+				_LOG("$Source_ImagePath = " & $Source_ImagePath, 1)
+				_LOG("$Target_ImagePath = " & $Target_ImagePath, 1)
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return
 		EndSwitch
 	WEnd
+EndFunc   ;==>_GUI_Config_LU
 
-EndFunc   ;==>_GUI_Config
+Func _GUI_Config_autoconf($oXMLProfil)
+	Local $vImage_Extension, $vAutoconf, $vScrapeMode, $vEmptyRom
+	#Region ### START Koda GUI section ### Form=
+	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_autoconf_Title"), 477, 209, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$CB_Autoconf = GUICtrlCreateCheckbox(_MultiLang_GetText("win_config_autoconf_Use"), 8, 8, 225, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_CENTER, $BS_VCENTER))
+	$G_Scrape = GUICtrlCreateGroup(_MultiLang_GetText("win_config_autoconf_GroupScrap"), 8, 40, 225, 161)
+	$L_Source_RootPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupScrap_Source_RootPath"), 16, 56)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
+	$I_Source_RootPath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Source_RootPath", 0, "", $oXMLProfil), 16, 75, 177, 21)
+	$B_Source_RootPath = GUICtrlCreateButton("...", 198, 75, 27, 21)
+	$L_Target_XMLName = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupScrap_Target_XMLName"), 16, 103)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
+	$I_Target_XMLName = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_XMLName", 0, "", $oXMLProfil), 16, 123, 177, 21)
+;~ 	$B_Target_XMLName = GUICtrlCreateButton("...", 198, 123, 27, 21)
+	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupScrap_Target_RomPath"), 16, 153)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRomSub"))
+	$I_Target_RomPath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_RomPath", 0, "", $oXMLProfil), 16, 173, 177, 21)
+;~ 	$B_Target_RomPath = GUICtrlCreateButton("...", 198, 173, 27, 21)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$G_Image = GUICtrlCreateGroup(_MultiLang_GetText("win_config_autoconf_GroupImage"), 240, 0, 225, 113)
+	$L_Source_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupImage_Source_ImagePath"), 248, 15)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImage"))
+	$I_Source_ImagePath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Source_ImagePath", 0, "", $oXMLProfil), 248, 34, 177, 21)
+;~ 	$B_Source_ImagePath = GUICtrlCreateButton("...", 430, 34, 27, 21)
+	$L_Target_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupImage_Target_ImagePath"), 248, 60)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImageSub"))
+	$I_Target_ImagePath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_ImagePath", 0, "", $oXMLProfil), 248, 80, 177, 21)
+;~ 	$B_Target_ImagePath = GUICtrlCreateButton("...", 430, 80, 27, 21)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 128, 105, 73)
+	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 128, 105, 73)
+	GUISetState(@SW_SHOW)
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	#EndRegion ### END Koda GUI section ###
+
+	While 1
+		$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case $GUI_EVENT_CLOSE, $B_CONFANNUL
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				_LOG("Path Configuration Canceled", 0)
+				Return
+			Case $B_Source_RootPath
+				$Source_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
+				GUICtrlSetData($I_Source_RootPath, $Source_RootPath)
+			Case $B_CONFENREG
+				$Source_RootPath = GUICtrlRead($I_Source_RootPath) ;$Source_RootPath
+				If (StringRight($Source_RootPath, 1) = '\') Then StringTrimRight($Source_RootPath, 1)
+				_XML_Replace("Profil/AutoConf/Source_RootPath", $Source_RootPath, 0, "", $oXMLProfil)
+;~ 				IniWrite($iINIPath, "LAST_USE", "$Source_RootPath", $Source_RootPath)
+;~ 				$Target_XMLName = GUICtrlRead($I_Target_XMLName) ;$Target_XMLName
+;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_XMLName", $Target_XMLName)
+;~ 				$Target_RomPath = GUICtrlRead($I_Target_RomPath) ;$Target_RomPath
+;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_RomPath", $Target_RomPath)
+;~ 				$Source_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$Source_ImagePath
+;~ 				IniWrite($iINIPath, "LAST_USE", "$Source_ImagePath", $Source_ImagePath)
+;~ 				$Target_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$Target_ImagePath
+;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_ImagePath", $Target_ImagePath)
+				_LOG("AutoConf Path Configuration Saved", 0)
+;~ 				_LOG("------------------------", 1)
+;~ 				_LOG("$Source_RootPath = " & $Source_RootPath, 1)
+;~ 				_LOG("$Target_XMLName = " & $Target_XMLName, 1)
+;~ 				_LOG("$Target_RomPath = " & $Target_RomPath, 1)
+;~ 				_LOG("$Source_ImagePath = " & $Source_ImagePath, 1)
+;~ 				_LOG("$Target_ImagePath = " & $Target_ImagePath, 1)
+				_XML_Misc_Viewer($oXMLProfil)
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return
+		EndSwitch
+	WEnd
+EndFunc   ;==>_GUI_Config_autoconf
+
 #EndRegion Function

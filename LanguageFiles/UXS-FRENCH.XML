@@ -41,7 +41,8 @@
 		<mnu_edit_fullscrape>Scraper tous les systèmes</mnu_edit_fullscrape>
 		<mnu_edit_miximage>Changer le profil Mix Images</mnu_edit_miximage>
 		<mnu_edit_langue>Changer de langue</mnu_edit_langue>
-		<mnu_edit_config>Configuration</mnu_edit_config>
+		<mnu_edit_config_LU>Configuration des chemins</mnu_edit_config_LU>
+		<mnu_edit_config_autoconf>Configuration des chemins de la configuration automatique</mnu_edit_config_autoconf>
 		<mnu_ssh>Commande SSH</mnu_ssh>
 		<mnu_ssh_killall>Arrêter Emulationstation</mnu_ssh_killall>
 		<mnu_ssh_start>Démarrer Emulationstation</mnu_ssh_start>
@@ -74,16 +75,28 @@
 			<win_sel_system_button>Sélectionner</win_sel_system_button>
 		</win_sel_system>
 		<win_config>
-			<win_config_Title>Configuration</win_config_Title>
-			<win_config_GroupScrap>Scraper</win_config_GroupScrap>
-			<win_config_GroupScrap_PathRom>Chemin des roms a scrapper</win_config_GroupScrap_PathRom>
-			<win_config_GroupScrap_PathXML>Chemin du fichier XML</win_config_GroupScrap_PathXML>
-			<win_config_GroupScrap_PathRomSub>Chemin des roms dans le fichier XML</win_config_GroupScrap_PathRomSub>
-			<win_config_GroupImage>Images</win_config_GroupImage>
-			<win_config_GroupImage_PathImage>Chemin des images à télécharger</win_config_GroupImage_PathImage>
-			<win_config_GroupImage_hautImage>Hauteur</win_config_GroupImage_hautImage>
-			<win_config_GroupImage_LongImage>Largeur</win_config_GroupImage_LongImage>
-			<win_config_GroupImage_PathImageSub>Chemin des images dans le fichier XML</win_config_GroupImage_PathImageSub>
+			<win_config_LU_Title>Configuration des Chemins</win_config_LU_Title>
+			<win_config_LU_GroupScrap>Scraper</win_config_LU_GroupScrap>
+			<win_config_LU_GroupScrap_Source_RootPath>Chemin d'origine des roms</win_config_LU_GroupScrap_Source_RootPath>
+			<win_config_LU_GroupScrap_Source_RomPath>Répertoire des roms a scrapper</win_config_LU_GroupScrap_Source_RomPath>
+			<win_config_LU_GroupScrap_Target_XMLName>Chemin du fichier XML</win_config_LU_GroupScrap_Target_XMLName>
+			<win_config_LU_GroupScrap_Target_RomPath>Chemin des roms dans le fichier XML</win_config_LU_GroupScrap_Target_RomPath>
+			<win_config_LU_GroupImage>Images</win_config_LU_GroupImage>
+			<win_config_LU_GroupImage_Source_ImagePath>Répertoire des images à télécharger</win_config_LU_GroupImage_Source_ImagePath>
+			<win_config_LU_GroupImage_Target_ImagePath>Chemin des images dans le fichier XML</win_config_LU_GroupImage_Target_ImagePath>
+			
+			<win_config_autoconf_Title>Configuration des Chemins de l'autoconfiguration</win_config_autoconf_Title>
+			<win_config_autoconf_Use>Activer l'autoconfiguration</win_config_autoconf_Use>
+			<win_config_autoconf_GroupScrap>Scraper</win_config_autoconf_GroupScrap>
+			<win_config_autoconf_GroupScrap_Source_RootPath>Chemin d'origine des roms</win_config_autoconf_GroupScrap_Source_RootPath>
+			<win_config_autoconf_GroupScrap_Target_XMLName>Nom du fichier XML</win_config_autoconf_GroupScrap_Target_XMLName>
+			<win_config_autoconf_GroupScrap_Target_RomPath>Chemin des roms dans le fichier XML</win_config_autoconf_GroupScrap_Target_RomPath>
+			<win_config_autoconf_GroupImage>Images</win_config_autoconf_GroupImage>
+			<win_config_autoconf_GroupImage_Source_ImagePath>Nom du répertoire des images à télécharger</win_config_autoconf_GroupImage_Source_ImagePath>
+			<win_config_autoconf_GroupImage_Target_ImagePath>Chemin des images dans le fichier XML</win_config_autoconf_GroupImage_Target_ImagePath>
+			
+			<win_config_GroupImage_hautImage>Hauteur</win_config_LU_GroupImage_hautImage>
+			<win_config_GroupImage_LongImage>Largeur</win_config_LU_GroupImage_LongImage>
 			<win_config_GroupImage_Extension>Extension</win_config_GroupImage_Extension>
 			<win_config_GroupAutoconf>Conf. Auto.</win_config_GroupAutoconf>
 			<win_config_GroupAutoconf_PathRom>Chemin des systèmes</win_config_GroupAutoconf_PathRom>

@@ -1,30 +1,32 @@
-[17:23:47] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
-[17:23:47] - WIN_10(X64) - 040C
-[17:23:47] - > Dev version
-[17:23:47] - Starting files installation
-[17:23:47] - > Ending files installation
-[17:23:47] - > Verbose LVL : 3
-[17:23:47] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
-[17:23:47] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
-[17:23:47] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
-[17:23:47] - Language Selected : 0407
-[17:23:47] - > Update Checking
-[17:23:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
-[17:23:47] - > -In 1 try
-[17:23:47] - Local : In Progress - Github : 1.5.0.11
-[17:23:47] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
-[17:23:47] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:23:47] - > GUI Constructed
-[17:23:47] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:23:47] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:23:47] - > SSH Enable
-[17:23:47] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:23:47] - > GUI Refresh
-[17:23:49] - > Loading language :040c
-[17:23:52] - > Value selected : 040A
-[17:23:52] - Language Selected : 040A
-[17:23:52] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:23:52] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:23:52] - > SSH Enable
-[17:23:52] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:23:52] - > GUI Refresh
+[19:25:58] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[19:25:58] - WIN_10(X64) - 040C
+[19:25:58] - > Dev version
+[19:25:58] - Starting files installation
+[19:25:58] - > Ending files installation
+[19:25:58] - > Verbose LVL : 3
+[19:25:58] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[19:25:58] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[19:25:58] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[19:25:58] - Language Selected : 040c
+[19:25:58] - > Update Checking
+[19:25:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[19:25:59] - > -In 1 try
+[19:25:59] - Local : In Progress - Github : 1.5.0.11
+[19:26:00] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
+[19:26:00] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
+[19:26:00] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[19:26:00] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[19:26:00] - > GUI Constructed
+[19:26:00] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[19:26:00] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[19:26:00] - > SSH Enable
+[19:26:00] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[19:26:00] - > GUI Refresh
+[19:26:02] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\RECALBOX\share\roms
+[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
+[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
+[19:26:02] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
+[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
+[19:26:08] - > _XML_UpdateField (Profil/AutoConf/Source_RootPath) = \\RECALBOX\share\roms2
+[19:26:08] - AutoConf Path Configuration Saved
+[19:26:27] - Universal XML Scraper Closed

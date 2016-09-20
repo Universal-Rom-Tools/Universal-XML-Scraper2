@@ -1,28 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper-Recalbox v4">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper-Recalbox v0">
 	<General>
 		<Source_Image>Screenscraper.jpg</Source_Image>
-		<Target_Image>RecalboxV4.jpg</Target_Image>
+		<Target_Image>Hyperspin.jpg</Target_Image>
 		<UpperCase>True</UpperCase>
 		<Image_Extension>.jpg</Image_Extension>
 	</General>
 	<AutoConf>
-		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
-		<Target_XMLName>gamelist.xml</Target_XMLName>
-		<Target_RomPath>./</Target_RomPath>
-		<Source_ImagePath>downloaded_images</Source_ImagePath>
-		<Target_ImagePath>./downloaded_images/</Target_ImagePath>
+		<Source_RootPath></Source_RootPath>
+		<Target_XMLName></Target_XMLName>
+		<Target_RomPath></Target_RomPath>
+		<Source_ImagePath></Source_ImagePath>
+		<Target_ImagePath></Target_ImagePath>
 	</AutoConf>
-	<Plink>
-		<Ip>RECALBOX</Ip>
-		<Root>root</Root>
-		<Pswd>recalboxroot</Pswd>
-		<Command>
-			<killall>killall emulationstation</killall>
-			<start>/etc/init.d/S31emulationstation start</start>
-			<reboot>/sbin/reboot</reboot>
-			<poweroff>/sbin/poweroff</poweroff>
-		</Command>
-	</Plink>
 	<Element>
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/id</Source_Value>

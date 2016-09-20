@@ -33,21 +33,27 @@
 	<main_gui>Universal XML Scraper</main_gui>
 	<menu>
 		<mnu_file>Fichier</mnu_file>
-		<mnu_file_profil>Charger un profil</mnu_file_profil>
 		<mnu_file_exit>Quitter</mnu_file_exit>
-		<mnu_edit>Edition</mnu_edit>
-		<mnu_edit_autoconfpath>Chemin de la configuration automatique</mnu_edit_autoconfpath>
-		<mnu_edit_autoconf>Configuration automatique</mnu_edit_autoconf>
-		<mnu_edit_fullscrape>Scraper tous les systèmes</mnu_edit_fullscrape>
-		<mnu_edit_miximage>Changer le profil Mix Images</mnu_edit_miximage>
-		<mnu_edit_langue>Changer de langue</mnu_edit_langue>
-		<mnu_edit_config_LU>Configuration des chemins</mnu_edit_config_LU>
-		<mnu_edit_config_autoconf>Configuration des chemins de la configuration automatique</mnu_edit_config_autoconf>
+		
+		<mnu_cfg>Configuration</mnu_cfg>
+		<mnu_cfg_config_LU>Configuration des chemins</mnu_cfg_config_LU>
+		<mnu_cfg_config_autoconf>Configuration des chemins de la configuration automatique</mnu_cfg_config_autoconf>
+		<mnu_cfg_profil>Charger un profil</mnu_cfg_profil>
+		<mnu_cfg_miximage>Changer le profil Mix Images</mnu_cfg_miximage>
+		<mnu_cfg_langue>Changer de langue</mnu_cfg_langue>
+		<mnu_cfg_autoconfpath>Chemin de la configuration automatique</mnu_cfg_autoconfpath>
+		
+		<mnu_scrape>Scraper</mnu_scrape>
+		<mnu_scrape_autoconf>Configuration automatique</mnu_scrape_autoconf>
+		<mnu_scrape_solo>Scraper </mnu_scrape_solo>
+		<mnu_scrape_fullscrape>Scraper tous les systèmes</mnu_scrape_fullscrape>
+		
 		<mnu_ssh>Commande SSH</mnu_ssh>
 		<mnu_ssh_killall>Arrêter Emulationstation</mnu_ssh_killall>
 		<mnu_ssh_start>Démarrer Emulationstation</mnu_ssh_start>
 		<mnu_ssh_reboot>Redémarrer Distant</mnu_ssh_reboot>
 		<mnu_ssh_poweroff>Eteindre Distant</mnu_ssh_poweroff>
+		
 		<mnu_mode>Scrape Mode</mnu_mode>
 		<mnu_mode_new>Création d'un nouveau Fichier</mnu_mode_new>
 		<mnu_mode_append>Ajout des roms manquantes</mnu_mode_append>

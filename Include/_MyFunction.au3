@@ -400,6 +400,10 @@ Func _ByteSuffix($iBytes)
 	Return Round($iBytes) & $aArray[$iIndex]
 EndFunc   ;==>_ByteSuffix
 
+Func _IsChecked($idControlID)
+	Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
+EndFunc   ;==>_IsChecked
+
 
 #EndRegion MISC Function
 
@@ -1076,7 +1080,8 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				_LOG('_XML_UpdateField @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 				Return -1
 			EndIf
-			$oXMLDoc.loadXML(_XML_TIDY($oXMLDoc))
+			_XML_TIDY($oXMLDoc)
+;~ 			_XML_SaveToFile($oXMLDoc, "TIDY_Example.xml")
 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
 		Case 1
@@ -1088,6 +1093,8 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 				Return -1
 			EndIf
+			_XML_TIDY($oXMLDoc)
+			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
 			Return 1
 		Case Else
 			Return -1

@@ -1,32 +1,63 @@
-[19:25:58] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
-[19:25:58] - WIN_10(X64) - 040C
-[19:25:58] - > Dev version
-[19:25:58] - Starting files installation
-[19:25:58] - > Ending files installation
-[19:25:58] - > Verbose LVL : 3
-[19:25:58] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
-[19:25:58] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
-[19:25:58] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
-[19:25:58] - Language Selected : 040c
-[19:25:58] - > Update Checking
-[19:25:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
-[19:25:59] - > -In 1 try
-[19:25:59] - Local : In Progress - Github : 1.5.0.11
-[19:26:00] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
-[19:26:00] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
-[19:26:00] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
-[19:26:00] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[19:26:00] - > GUI Constructed
-[19:26:00] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[19:26:00] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[19:26:00] - > SSH Enable
-[19:26:00] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[19:26:00] - > GUI Refresh
-[19:26:02] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\RECALBOX\share\roms
-[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
-[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
-[19:26:02] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
-[19:26:02] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
-[19:26:08] - > _XML_UpdateField (Profil/AutoConf/Source_RootPath) = \\RECALBOX\share\roms2
-[19:26:08] - AutoConf Path Configuration Saved
-[19:26:27] - Universal XML Scraper Closed
+[20:24:24] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[20:24:24] - WIN_10(X64) - 040C
+[20:24:24] - > Dev version
+[20:24:24] - Starting files installation
+[20:24:24] - > Ending files installation
+[20:24:24] - > Verbose LVL : 3
+[20:24:24] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[20:24:24] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[20:24:24] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[20:24:24] - Language Selected : 040c
+[20:24:24] - > Update Checking
+[20:24:24] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[20:24:24] - > -In 1 try
+[20:24:24] - Local : In Progress - Github : 1.5.0.11
+[20:24:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
+[20:24:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
+[20:24:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
+[20:24:24] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[20:24:24] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:24:24] - > GUI Constructed
+[20:24:24] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\SYNO-SCREECH\Emulation\roms
+[20:24:24] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
+[20:24:24] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
+[20:24:24] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
+[20:24:24] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
+[20:24:25] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[20:24:25] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[20:24:25] - > SSH Enable
+[20:24:25] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:24:25] - > GUI Refresh
+[20:24:27] - > GUI Desactivated (Scrape in progress)
+[20:24:27] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
+[20:24:27] - 8 Rom(s) found
+[20:24:38] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[20:24:38] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[20:24:38] - > SSH Enable
+[20:24:38] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:24:38] - > GUI Refresh
+[20:24:55] - > GUI Desactivated (Scrape in progress)
+[20:24:55] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
+[20:24:55] - 8 Rom(s) found
+[20:24:58] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[20:24:58] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[20:24:58] - > SSH Enable
+[20:24:58] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:24:58] - > GUI Refresh
+[20:25:07] - > GUI Desactivated (Scrape in progress)
+[20:25:07] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|TEST;downloaded_images)
+[20:25:07] - 8 Rom(s) found
+[20:25:23] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[20:25:23] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[20:25:23] - > SSH Enable
+[20:25:23] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:25:23] - > GUI Refresh
+[20:25:32] - > GUI Desactivated (Scrape in progress)
+[20:25:32] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|Test Rep;downloaded_images)
+[20:25:32] - 4 Rom(s) found
+[20:25:35] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[20:25:35] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[20:25:35] - > SSH Enable
+[20:25:35] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[20:25:35] - > GUI Refresh
+[20:32:52] - Universal XML Scraper Closed

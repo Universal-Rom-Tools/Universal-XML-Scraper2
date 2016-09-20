@@ -56,6 +56,7 @@ EndIf
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
 Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\log.txt")
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
+Global $MS_AutoConfigItem[1]
 
 ;Personnal Librairy definitions
 ;---------------------------
@@ -91,8 +92,7 @@ Else
 	_LOG("Dev version", 1)
 EndIf
 
-;FileInstall
-;-----------
+#Region FileInstall
 _LOG("Starting files installation", 0)
 DirCreate($iScriptPath & "\LanguageFiles")
 DirCreate($iScriptPath & "\Ressources")
@@ -135,6 +135,7 @@ FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\")
 FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV4.xml", $iScriptPath & "\ProfilsFiles\")
 _LOG("Ending files installation", 1)
+#EndRegion FileInstall
 
 ;Const def
 ;---------
@@ -215,17 +216,23 @@ EndIf
 Local $F_UniversalScraper = GUICreate(_MultiLang_GetText("main_gui"), 350, 181, 215, 143)
 GUISetBkColor(0x34495c, $F_UniversalScraper)
 Local $MF = GUICtrlCreateMenu(_MultiLang_GetText("mnu_file"))
-Local $MF_Profil = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_profil"), $MF)
 Local $MF_Separation = GUICtrlCreateMenuItem("", $MF)
 Local $MF_Exit = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_exit"), $MF)
-Local $ME = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit"))
-Local $ME_Config_LU = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config_LU"), $ME)
-Local $ME_config_autoconf = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_config_autoconf"), $ME)
-Local $ME_Separation = GUICtrlCreateMenuItem("", $ME)
-Local $ME_AutoConfig = GUICtrlCreateMenu(_MultiLang_GetText("mnu_edit_autoconf"), $ME, 1)
-Local $ME_FullScrape = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_fullscrape"), $ME)
-Local $ME_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_miximage"), $ME)
-Local $ME_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_edit_langue"), $ME)
+
+Local $MC = GUICtrlCreateMenu(_MultiLang_GetText("mnu_cfg"))
+Local $MC_Config_LU = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_LU"), $MC)
+Local $MC_config_autoconf = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_autoconf"), $MC)
+Local $MC_Separation = GUICtrlCreateMenuItem("", $MC)
+Local $MC_Profil = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_profil"), $MC)
+Local $MC_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_miximage"), $MC)
+Local $MC_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_langue"), $MC)
+
+Local $MS = GUICtrlCreateMenu(_MultiLang_GetText("mnu_scrape"))
+Local $MS_AutoConfig = GUICtrlCreateMenu(_MultiLang_GetText("mnu_scrape_autoconf"), $MS, 1)
+Local $MS_Scrape = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_scrape_solo"), $MS)
+Local $MS_Separation = GUICtrlCreateMenuItem("", $MS)
+Local $MS_FullScrape = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_scrape_fullscrape"), $MS)
+
 Local $MP = GUICtrlCreateMenu(_MultiLang_GetText("mnu_ssh"))
 GUICtrlSetState($MP, $GUI_DISABLE)
 Local $MH = GUICtrlCreateMenu(_MultiLang_GetText("mnu_help"))
@@ -249,7 +256,8 @@ EndIf
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 _LOG("GUI Constructed", 1)
-_Refresh_GUI($oXMLProfil)
+$aDIRList = _Check_autoconf($oXMLProfil)
+_GUI_Refresh($oXMLProfil)
 
 While 1
 	Local $nMsg = GUIGetMsg()
@@ -257,7 +265,7 @@ While 1
 		Case $GUI_EVENT_CLOSE, $MF_Exit ; Exit
 			_LOG("Universal XML Scraper Closed")
 			Exit
-		Case $MF_Profil ;Profil Selection
+		Case $MC_Profil ;Profil Selection
 			$vProfilsPath = _ProfilSelection($iProfilsPath)
 			IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
 			;Opening XML Profil file
@@ -272,14 +280,34 @@ While 1
 				_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 				Exit
 			EndIf
-			_Refresh_GUI($oXMLProfil)
-		Case $ME_Langue
+			$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
+			If IsArray($vPlink_Command) Then
+				Local $MP_[UBound($vPlink_Command)]
+				For $vBoucle = 1 To UBound($vPlink_Command) - 1
+					$MP_[$vBoucle] = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]), $MP)
+				Next
+			EndIf
+			$aDIRList = _Check_autoconf($oXMLProfil)
+			_GUI_Refresh($oXMLProfil)
+			$nMsg = ""
+		Case $MC_Langue
 			$aLangList = _MultiLang_LoadLangDef($iLangPath, -1)
 			If Not IsArray($aLangList) Or $aLangList < 0 Then
 				_LOG("Impossible to load language", 2)
 				Exit
 			EndIf
-			_Refresh_GUI($oXMLProfil)
+			_GUI_Refresh($oXMLProfil)
+		Case $MC_Config_LU
+			_GUI_Config_LU()
+			_GUI_Refresh($oXMLProfil)
+		Case $MC_config_autoconf
+			$GUI_Config_autoconf = _GUI_Config_autoconf($oXMLProfil)
+			If $GUI_Config_autoconf = 1 Then
+				FileDelete($vProfilsPath)
+				_XML_SaveToFile($oXMLProfil, $vProfilsPath)
+			EndIf
+			$aDIRList = _Check_autoconf($oXMLProfil)
+			_GUI_Refresh($oXMLProfil)
 		Case $MH_Help
 			$sMsg = "UNIVERSAL XML SCRAPER - " & $iScriptVer & @CRLF
 			$sMsg &= _MultiLang_GetText("win_About_By") & @CRLF & @CRLF
@@ -290,22 +318,25 @@ While 1
 			$sMsg &= "http://www.emulationstation.org/" & @CRLF
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
-		Case $ME_Config_LU
-			_GUI_Config_LU()
-		Case $ME_config_autoconf
-			_GUI_Config_autoconf($oXMLProfil)
 		Case $B_SCRAPE
 			$aConfig = _LoadConfig($oXMLProfil)
+			If $aConfig <> 0 Then
+				$FullTimer = TimerInit()
+				_GUI_Refresh($oXMLProfil, 1)
+				$aRomList = _RomList_Create($aConfig)
+;~ 				_ArrayDisplay($aConfig, "$aConfig"); Debug
+			EndIf
+			_GUI_Refresh($oXMLProfil)
 ;~ 			If _SCRAPING_VERIF() = 0 Then
 ;~ 				If _GUI_REFRESH($INI_P_SOURCE, $INI_P_CIBLE, 1) = 1 Then
 ;~ 					$FullTimer = TimerInit()
 ;~ 					$V_Header = IniRead($PathConfigINI, $A_Profil[$No_Profil], "$HEADER_1", "0")
 ;~ 					$A_System = _SYSTEM_CREATEARRAY_SCREENSCRAPER()
 ;~ 					$No_system = _SYSTEM_SelectGUI($A_System)
-;~ 					$A_ROMList = _SCRAPING($No_Profil, $A_Profil, $vSource_RomPath, $No_system, $vUpperCase, $V_Header)
-;~ 					If IsArray($A_ROMList) Then
-;~ 						_FUSIONXML($V_Header, $A_ROMList)
-;~ 						_SCRAPING_BILAN(TimerDiff($FullTimer), $A_ROMList)
+;~ 					$aRomList = _SCRAPING($No_Profil, $A_Profil, $vSource_RomPath, $No_system, $vUpperCase, $V_Header)
+;~ 					If IsArray($aRomList) Then
+;~ 						_FUSIONXML($V_Header, $aRomList)
+;~ 						_SCRAPING_BILAN(TimerDiff($FullTimer), $aRomList)
 ;~ 					EndIf
 ;~ 					FileDelete($PathDIRTmp)
 ;~ 					FileDelete($PathTmp_GAME)
@@ -320,6 +351,26 @@ While 1
 			If $nMsg = $MP_[$vBoucle] Then _Plink($oXMLProfil, $vPlink_Command[$vBoucle][0])
 		Next
 	EndIf
+
+	If $aDIRList <> -1 Then
+		For $vBoucle = 1 To UBound($MS_AutoConfigItem) - 1
+			If $nMsg = $MS_AutoConfigItem[$vBoucle] Then
+				ConsoleWrite($aDIRList[$vBoucle][0] & @CRLF)
+				For $vBoucle2 = 1 To UBound($MS_AutoConfigItem) - 1
+					GUICtrlSetState($MS_AutoConfigItem[$vBoucle2], $GUI_UNCHECKED)
+				Next
+				GUICtrlSetState($MS_AutoConfigItem[$vBoucle], $GUI_CHECKED)
+				IniWrite($iINIPath, "LAST_USE", "$vSource_RomPath", $aDIRList[$vBoucle][1])
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_RomPath", $aDIRList[$vBoucle][2])
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_XMLName", $aDIRList[$vBoucle][3])
+				IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $aDIRList[$vBoucle][4])
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $aDIRList[$vBoucle][5])
+				$nMsg = ""
+				_GUI_Refresh($oXMLProfil)
+			EndIf
+		Next
+	EndIf
+
 WEnd
 
 ;---------;
@@ -328,19 +379,41 @@ WEnd
 
 #Region Function
 Func _LoadConfig($oXMLProfil)
-	Local $aConfig[6]
-	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "Target_RootPath", "")
-	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "Target_XMLName", "")
-	$aConfig[2] = IniRead($iINIPath, "LAST_USE", "Source_RomPath", "")
-	$aConfig[3] = IniRead($iINIPath, "LAST_USE", "Target_RomPath", "")
-	$aConfig[4] = IniRead($iINIPath, "LAST_USE", "Source_ImagePath", "")
-	$aConfig[5] = IniRead($iINIPath, "LAST_USE", "Target_ImagePath", "")
+;~ 	$aConfig[0]=$vTarget_XMLName
+;~ 	$aConfig[1]=$vSource_RomPath
+;~ 	$aConfig[2]=$vTarget_RomPath
+;~ 	$aConfig[3]=$vSource_ImagePath
+;~ 	$aConfig[4]=$vTarget_ImagePath
+;~ 	$aConfig[5]=$vScrape_Mode (0 = NEW, 1 = Update XML, 2 = Update Picture)
+;~ 	$aConfig[6]=$MissingRom_Mode (0 = No missing Rom, 1 = Adding missing Rom)
+;~ 	$aConfig[7]=$CountryPic_Mode (0 = Language Pic, 1 = Rom Pic, 2 = Rom Pic + Language Pic)
 
+	Dim $aConfig[8]
+	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "$vTarget_XMLName", " ")
+	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", "")
+	$aConfig[2] = IniRead($iINIPath, "LAST_USE", "$vTarget_RomPath", "./")
+	$aConfig[3] = IniRead($iINIPath, "LAST_USE", "$vSource_ImagePath", "")
+	$aConfig[4] = IniRead($iINIPath, "LAST_USE", "$vTarget_ImagePath", "./downloaded_images/")
+	$aConfig[5] = IniRead($iINIPath, "LAST_USE", "$vScrape_Mode", 0)
+	$aConfig[6] = IniRead($iINIPath, "LAST_USE", "$MissingRom_Mode", 0)
+	$aConfig[7] = IniRead($iINIPath, "LAST_USE", "$CountryPic_Mode", 0)
+
+	If Not FileExists($aConfig[1]) Then
+		_ExtMsgBox($EMB_ICONEXCLAM, "OK", _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"), 15)
+		_LOG("Error Access to : " & $aConfig[1], 2)
+		Return 0
+	EndIf
+
+	If Not FileExists($aConfig[3]) Then DirCreate($aConfig[3] & "\")
+	If Not FileExists($aConfig[0]) Then _FileCreate($aConfig[0])
+
+	Return $aConfig
 EndFunc   ;==>_LoadConfig
 
 Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 	; Loading profils list
 	$aProfilList = _FileListToArrayRec($iProfilsPath, "*.xml", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_FULLPATH)
+;~ 	_ArrayDisplay($aProfilList, "$aProfilList") ;Debug
 	If Not IsArray($aProfilList) Then
 		_LOG("No Profils found", 2)
 		Exit
@@ -359,115 +432,6 @@ Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 	_LOG("Profil selected : " & $vProfilsPath)
 	Return $vProfilsPath
 EndFunc   ;==>_ProfilSelection
-
-Func _Refresh_GUI($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
-	Local $vPlink_Command
-	If $oXMLProfil <> -1 Then
-		; GUI Picture
-		Local $vSourcePicturePath = _XML_Read("Profil/General/Source_Image", 0, "", $oXMLProfil)
-		If $vSourcePicturePath < 0 Then
-			$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
-		Else
-			$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vSourcePicturePath
-		EndIf
-
-		Local $vTargetPicturePath = _XML_Read("Profil/General/Target_Image", 0, "", $oXMLProfil)
-		If $vTargetPicturePath < 0 Then
-			$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
-		Else
-			$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vTargetPicturePath
-		EndIf
-		_GDIPlus_Startup()
-		$hGraphic = _GDIPlus_GraphicsCreateFromHWND($F_UniversalScraper)
-		$hImage = _GDIPlus_ImageLoadFromFile($iScriptPath & "\Ressources\empty.jpg")
-		$hImage = _GDIPlus_ImageResize($hImage, 100, 40)
-		$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
-		$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
-		_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_UPDATENOW)
-		_GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 175 - ($ImageWidth / 2), 82 - ($ImageHeight / 2))
-		_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_VALIDATE)
-		_GDIPlus_ImageDispose($hImage)
-		_GDIPlus_GraphicsDispose($hGraphic)
-		_GDIPlus_Shutdown()
-		GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
-		GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
-
-		If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
-			_LOG("SSH Disable", 1)
-			GUICtrlSetState($MP, $GUI_DISABLE)
-		Else
-			_LOG("SSH Enable", 1)
-			GUICtrlSetState($MP, $GUI_ENABLE)
-		EndIf
-
-		GUICtrlSetState($MF, $GUI_ENABLE)
-		GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))
-		GUICtrlSetData($MF_Profil, _MultiLang_GetText("mnu_file_profil"))
-		GUICtrlSetData($MF_Exit, _MultiLang_GetText("mnu_file_exit"))
-
-		GUICtrlSetState($ME, $GUI_ENABLE)
-		GUICtrlSetData($ME, _MultiLang_GetText("mnu_edit"))
-		GUICtrlSetData($ME_AutoConfig, _MultiLang_GetText("mnu_edit_autoconf"))
-		GUICtrlSetData($ME_FullScrape, _MultiLang_GetText("mnu_edit_fullscrape"))
-		GUICtrlSetData($ME_Miximage, _MultiLang_GetText("mnu_edit_miximage"))
-		GUICtrlSetData($ME_Langue, _MultiLang_GetText("mnu_edit_langue"))
-		GUICtrlSetData($ME_Config_LU, _MultiLang_GetText("mnu_edit_config_LU"))
-		GUICtrlSetData($ME_config_autoconf, _MultiLang_GetText("mnu_edit_config_autoconf"))
-
-		GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
-
-		$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
-		If IsArray($vPlink_Command) Then
-			For $vBoucle = 1 To UBound($vPlink_Command) - 1
-				GUICtrlSetData($MP_[$vBoucle], _MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]))
-			Next
-		EndIf
-
-		GUICtrlSetState($MH, $GUI_ENABLE)
-		GUICtrlSetData($MH, _MultiLang_GetText("mnu_help"))
-		GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
-
-		GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
-		GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
-		_GUICtrlStatusBar_SetText($L_SCRAPE, "")
-
-		_LOG("GUI Refresh", 1)
-	EndIf
-
-	Local $SCRAP_ENABLE
-	Local $vErrorMess = ""
-	If $ScrapIP = 0 Then
-
-;~ 		$user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", -1)
-
-;~ 		If $No_Profil < 1 Then
-;~ 			$vErrorMess &= _MultiLang_GetText("err_No_Profil") & @CRLF
-;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_No_Profil") & " : " & $No_Profil)
-;~ 			$vScrapeOK = $vScrapeOK + 1
-;~ 		EndIf
-;~ 		If $vScrapeOK = 0 Then
-;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_ENABLE.bmp", -1, 0)
-;~ 			_CREATION_LOGMESS(2, "SCRAPE Enable")
-;~ 			$SCRAP_ENABLE = 1
-;~ 		Else
-;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
-;~ 			_CREATION_LOGMESS(2, "SCRAPE Disable")
-;~ 			$SCRAP_ENABLE = 0
-;~ 		EndIf
-
-;~ 		$A_DIRList = _AUTOCONF($PATHAUTOCONF_PathRom, $PATHAUTOCONF_Target_RomPath, $PATHAUTOCONF_PathNew, $PATHAUTOCONF_PathImage, $PATHAUTOCONF_PathImageSub)
-;~ 	Else
-;~ 		If $Menu_SSH = 2 Then GUICtrlSetState($MP, $GUI_DISABLE)
-;~ 		_CREATION_LOGMESS(2, "Menu SSH Disable")
-;~ 		GUICtrlSetState($MF, $GUI_DISABLE)
-;~ 		GUICtrlSetState($ME, $GUI_DISABLE)
-;~ 		GUICtrlSetState($MH, $GUI_DISABLE)
-;~ 		GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_IP1.bmp", -1, 0)
-;~ 		$SCRAP_ENABLE = 1
-;~ 		GUICtrlSetState($PB_SCRAPE, $GUI_SHOW)
-	EndIf
-	Return $SCRAP_ENABLE
-EndFunc   ;==>_Refresh_GUI
 
 Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 	Local $vPlink_Ip = _XML_Read("Profil/Plink/Ip", 0, "", $oXMLProfil)
@@ -493,71 +457,31 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 	EndIf
 EndFunc   ;==>_Plink
 
-;~ Func _SCRAPING_VERIF()
-;~ 	Local $vErrorMess = "", $vScrapeOK = 0
-;~ 	If (StringRight($vSource_RomPath, 1) = '\') Then $vSource_RomPath = StringTrimRight($vSource_RomPath, 1)
-;~ 	If FileExists($vSource_RomPath) Then
-;~ 		If (StringRight($vSource_RomPath, 1) <> '\') Then $vSource_RomPath &= '\'
-;~ 		_CREATION_LOGMESS(2, "Chemin des Roms : " & $vSource_RomPath)
-;~ 	Else
-;~ 		$vErrorMess = _MultiLang_GetText("err_PathRom") & @CRLF
-;~ 		_CREATION_LOGMESS(2, _MultiLang_GetText("err_PathRom") & " : " & $vSource_RomPath)
-;~ 		$vScrapeOK = $vScrapeOK + 1
-;~ 	EndIf
-;~ 	If Not FileExists($vTarget_XMLName) Then
-;~ 		If Not _FileCreate($vTarget_XMLName) Then
-;~ 			$vErrorMess &= _MultiLang_GetText("err_PathNew") & @CRLF
-;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_PathNew") & " : " & $vTarget_XMLName)
-;~ 			$vScrapeOK = $vScrapeOK + 1
-;~ 		EndIf
-;~ 	EndIf
-;~ 	If Not FileExists($vSource_ImagePath) Then
-;~ 		If Not DirCreate($vSource_ImagePath) Then
-;~ 			$vErrorMess &= _MultiLang_GetText("err_PathImage") & @CRLF
-;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_PathImage") & " : " & $vSource_ImagePath)
-;~ 			$vScrapeOK = $vScrapeOK + 1
-;~ 		EndIf
-;~ 	EndIf
-;~ 	If StringLower(StringRight($vTarget_XMLName, 4)) <> ".xml" Then
-;~ 		$vErrorMess &= _MultiLang_GetText("err_PathNew_ext") & @CRLF
-;~ 		_CREATION_LOGMESS(2, _MultiLang_GetText("err_PathNew_ext") & " : " & StringLower(StringRight($vTarget_XMLName, 4)))
-;~ 		$vScrapeOK = $vScrapeOK + 1
-;~ 	EndIf
-;~ 	If $vScrapeOK > 0 Then _ExtMsgBox($EMB_ICONEXCLAM, "OK", _MultiLang_GetText("err_title"), $vErrorMess, 15)
-;~ 	Return $vScrapeOK
-;~ EndFunc   ;==>_SCRAPING_VERIF
-
 Func _GUI_Config_LU()
 	Local $vImage_Extension, $vAutoconf, $vScrapeMode, $vEmptyRom
 	#Region ### START Koda GUI section ### Form=
 	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_LU_Title"), 477, 209, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$G_Scrape = GUICtrlCreateGroup(_MultiLang_GetText("win_config_LU_GroupScrap"), 8, 0, 225, 201)
-	$L_Source_RootPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), 16, 16)
-	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
-	$I_Source_RootPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_RootPath", ""), 16, 35, 177, 21)
-	$B_Source_RootPath = GUICtrlCreateButton("...", 198, 35, 27, 21)
+	$L_Source_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), 16, 16)
+	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRom"))
+	$I_Source_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), 16, 35, 177, 21)
+	$B_Source_RomPath = GUICtrlCreateButton("...", 198, 35, 27, 21)
 	$L_Target_XMLName = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Target_XMLName"), 16, 63)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
-	$I_Target_XMLName = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_XMLName", ""), 16, 83, 177, 21)
+	$I_Target_XMLName = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$vTarget_XMLName", ""), 16, 83, 177, 21)
 	$B_Target_XMLName = GUICtrlCreateButton("...", 198, 83, 27, 21)
-	$L_Source_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), 16, 108)
-	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRom"))
-	$I_Source_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_RomPath", ""), 16, 128, 177, 21)
-	$B_Source_RomPath = GUICtrlCreateButton("...", 198, 128, 27, 21)
-	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Target_RomPath"), 16, 153)
+	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupScrap_Target_RomPath"), 16, 108)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRomSub"))
-	$I_Target_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_RomPath", ""), 16, 173, 177, 21)
-;~ 	$B_Target_RomPath = GUICtrlCreateButton("...", 198, 173, 27, 21)
+	$I_Target_RomPath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$vTarget_RomPath", ""), 16, 128, 177, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$G_Image = GUICtrlCreateGroup(_MultiLang_GetText("win_config_LU_GroupImage"), 240, 0, 225, 113)
 	$L_Source_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupImage_Source_ImagePath"), 248, 15)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImage"))
-	$I_Source_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Source_ImagePath", ""), 248, 34, 177, 21)
+	$I_Source_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$vSource_ImagePath", ""), 248, 34, 177, 21)
 	$B_Source_ImagePath = GUICtrlCreateButton("...", 430, 34, 27, 21)
 	$L_Target_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_LU_GroupImage_Target_ImagePath"), 248, 60)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImageSub"))
-	$I_Target_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$Target_ImagePath", ""), 248, 80, 177, 21)
-;~ 	$B_Target_ImagePath = GUICtrlCreateButton("...", 430, 80, 27, 21)
+	$I_Target_ImagePath = GUICtrlCreateInput(IniRead($iINIPath, "LAST_USE", "$vTarget_ImagePath", ""), 248, 80, 177, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 128, 105, 73)
 	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 128, 105, 73)
@@ -574,43 +498,35 @@ Func _GUI_Config_LU()
 				WinActivate($F_UniversalScraper)
 				_LOG("Path Configuration Canceled", 0)
 				Return
-			Case $B_Source_RootPath
-				$Source_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
-				GUICtrlSetData($I_Source_RootPath, $Source_RootPath)
 			Case $B_Target_XMLName
-				$Target_XMLName = FileSaveDialog(_MultiLang_GetText("win_config_GroupScrap_PathXML"), GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath), "xml (*.xml)", 18, "gamelist.xml", $F_CONFIG)
-				If @error Then $Target_XMLName = GUICtrlRead($I_Target_XMLName)
-				GUICtrlSetData($I_Target_XMLName, $Target_XMLName)
+				$vTarget_XMLName = FileSaveDialog(_MultiLang_GetText("win_config_GroupScrap_PathXML"), GUICtrlRead($I_Source_RomPath), "xml (*.xml)", 18, "gamelist.xml", $F_CONFIG)
+				If @error Then $vTarget_XMLName = GUICtrlRead($I_Target_XMLName)
+				GUICtrlSetData($I_Target_XMLName, $vTarget_XMLName)
 			Case $B_Source_RomPath
-				$Source_RomPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
-				$Source_RomPath = StringSplit($Source_RomPath, "\")
-				GUICtrlSetData($I_Source_RomPath, $Source_RomPath[UBound($Source_RomPath) - 1])
+				$vSource_RomPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RomPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RomPath), $F_CONFIG)
+				GUICtrlSetData($I_Source_RomPath, $vSource_RomPath)
 			Case $B_Source_ImagePath
-				$Source_ImagePath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath) & "\" & GUICtrlRead($I_Source_ImagePath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath) & "\" & GUICtrlRead($I_Source_RomPath) & "\" & GUICtrlRead($I_Source_ImagePath), $F_CONFIG)
-				$Source_ImagePath = StringSplit($Source_ImagePath, "\")
-				GUICtrlSetData($I_Source_ImagePath, $Source_ImagePath[UBound($Source_ImagePath) - 1])
+				$vSource_ImagePath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RomPath"), GUICtrlRead($I_Source_RomPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_ImagePath), $F_CONFIG)
+				GUICtrlSetData($I_Source_ImagePath, $vSource_ImagePath)
 			Case $B_CONFENREG
-				$Source_RootPath = GUICtrlRead($I_Source_RootPath) ;$Source_RootPath
-				If (StringRight($Source_RootPath, 1) = '\') Then StringTrimRight($Source_RootPath, 1)
-				IniWrite($iINIPath, "LAST_USE", "$Source_RootPath", $Source_RootPath)
-				$Target_XMLName = GUICtrlRead($I_Target_XMLName) ;$Target_XMLName
-				IniWrite($iINIPath, "LAST_USE", "$Target_XMLName", $Target_XMLName)
-				$Source_RomPath = GUICtrlRead($I_Source_RomPath) ;$Source_RomPath
-				IniWrite($iINIPath, "LAST_USE", "$Source_RomPath", $Source_RomPath)
-				$Target_RomPath = GUICtrlRead($I_Target_RomPath) ;$Target_RomPath
-				IniWrite($iINIPath, "LAST_USE", "$Target_RomPath", $Target_RomPath)
-				$Source_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$Source_ImagePath
-				IniWrite($iINIPath, "LAST_USE", "$Source_ImagePath", $Source_ImagePath)
-				$Target_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$Target_ImagePath
-				IniWrite($iINIPath, "LAST_USE", "$Target_ImagePath", $Target_ImagePath)
+				$vSource_RomPath = GUICtrlRead($I_Source_RomPath) ;$vSource_RomPath
+				If (StringRight($vSource_RomPath, 1) = '\') Then StringTrimRight($vSource_RomPath, 1)
+				IniWrite($iINIPath, "LAST_USE", "$vSource_RomPath", $vSource_RomPath)
+				$vTarget_XMLName = GUICtrlRead($I_Target_XMLName) ;$vTarget_XMLName
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_XMLName", $vTarget_XMLName)
+				$vTarget_RomPath = GUICtrlRead($I_Target_RomPath) ;$vTarget_RomPath
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_RomPath", $vTarget_RomPath)
+				$vSource_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$vSource_ImagePath
+				IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $vSource_ImagePath)
+				$vTarget_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$vTarget_ImagePath
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $vTarget_ImagePath)
 				_LOG("Path Configuration Saved", 0)
 				_LOG("------------------------", 1)
-				_LOG("$Source_RootPath = " & $Source_RootPath, 1)
-				_LOG("$Target_XMLName = " & $Target_XMLName, 1)
-				_LOG("$Source_RomPath = " & $Source_RomPath, 1)
-				_LOG("$Target_RomPath = " & $Target_RomPath, 1)
-				_LOG("$Source_ImagePath = " & $Source_ImagePath, 1)
-				_LOG("$Target_ImagePath = " & $Target_ImagePath, 1)
+				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1)
+				_LOG("$vSource_RomPath = " & $vSource_RomPath, 1)
+				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
+				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
+				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -632,27 +548,26 @@ Func _GUI_Config_autoconf($oXMLProfil)
 	$L_Target_XMLName = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupScrap_Target_XMLName"), 16, 103)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathXML"))
 	$I_Target_XMLName = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_XMLName", 0, "", $oXMLProfil), 16, 123, 177, 21)
-;~ 	$B_Target_XMLName = GUICtrlCreateButton("...", 198, 123, 27, 21)
 	$L_Target_RomPath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupScrap_Target_RomPath"), 16, 153)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupScrap_PathRomSub"))
 	$I_Target_RomPath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_RomPath", 0, "", $oXMLProfil), 16, 173, 177, 21)
-;~ 	$B_Target_RomPath = GUICtrlCreateButton("...", 198, 173, 27, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$G_Image = GUICtrlCreateGroup(_MultiLang_GetText("win_config_autoconf_GroupImage"), 240, 0, 225, 113)
 	$L_Source_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupImage_Source_ImagePath"), 248, 15)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImage"))
 	$I_Source_ImagePath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Source_ImagePath", 0, "", $oXMLProfil), 248, 34, 177, 21)
-;~ 	$B_Source_ImagePath = GUICtrlCreateButton("...", 430, 34, 27, 21)
 	$L_Target_ImagePath = GUICtrlCreateLabel(_MultiLang_GetText("win_config_autoconf_GroupImage_Target_ImagePath"), 248, 60)
 	GUICtrlSetTip(-1, _MultiLang_GetText("tips_config_GroupImage_PathImageSub"))
 	$I_Target_ImagePath = GUICtrlCreateInput(_XML_Read("Profil/AutoConf/Target_ImagePath", 0, "", $oXMLProfil), 248, 80, 177, 21)
-;~ 	$B_Target_ImagePath = GUICtrlCreateButton("...", 430, 80, 27, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 128, 105, 73)
 	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 128, 105, 73)
 	GUISetState(@SW_SHOW)
 	GUISetState(@SW_DISABLE, $F_UniversalScraper)
 	#EndRegion ### END Koda GUI section ###
+
+	GUICtrlSetState($CB_Autoconf, $GUI_UNCHECKED)
+	If IniRead($iINIPath, "LAST_USE", "$vAutoconf_Use", 0) = 1 Then GUICtrlSetState($CB_Autoconf, $GUI_CHECKED)
 
 	While 1
 		$nMsg = GUIGetMsg()
@@ -664,35 +579,276 @@ Func _GUI_Config_autoconf($oXMLProfil)
 				_LOG("Path Configuration Canceled", 0)
 				Return
 			Case $B_Source_RootPath
-				$Source_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
-				GUICtrlSetData($I_Source_RootPath, $Source_RootPath)
+				$vSource_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
+				GUICtrlSetData($I_Source_RootPath, $vSource_RootPath)
 			Case $B_CONFENREG
-				$Source_RootPath = GUICtrlRead($I_Source_RootPath) ;$Source_RootPath
-				If (StringRight($Source_RootPath, 1) = '\') Then StringTrimRight($Source_RootPath, 1)
-				_XML_Replace("Profil/AutoConf/Source_RootPath", $Source_RootPath, 0, "", $oXMLProfil)
-;~ 				IniWrite($iINIPath, "LAST_USE", "$Source_RootPath", $Source_RootPath)
-;~ 				$Target_XMLName = GUICtrlRead($I_Target_XMLName) ;$Target_XMLName
-;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_XMLName", $Target_XMLName)
-;~ 				$Target_RomPath = GUICtrlRead($I_Target_RomPath) ;$Target_RomPath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_RomPath", $Target_RomPath)
-;~ 				$Source_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$Source_ImagePath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$Source_ImagePath", $Source_ImagePath)
-;~ 				$Target_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$Target_ImagePath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$Target_ImagePath", $Target_ImagePath)
+				$vSource_RootPath = GUICtrlRead($I_Source_RootPath) ;$vSource_RootPath
+				If (StringRight($vSource_RootPath, 1) = '\') Then StringTrimRight($vSource_RootPath, 1)
+				_XML_Replace("Profil/AutoConf/Source_RootPath", $vSource_RootPath, 0, "", $oXMLProfil)
+				$vTarget_XMLName = GUICtrlRead($I_Target_XMLName) ;$vTarget_XMLName
+				_XML_Replace("Profil/AutoConf/Target_XMLName", $vTarget_XMLName, 0, "", $oXMLProfil)
+				$vTarget_RomPath = GUICtrlRead($I_Target_RomPath) ;$vTarget_RomPath
+				_XML_Replace("Profil/AutoConf/Target_RomPath", $vTarget_RomPath, 0, "", $oXMLProfil)
+				$vSource_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$vSource_ImagePath
+				_XML_Replace("Profil/AutoConf/Source_ImagePath", $vSource_ImagePath, 0, "", $oXMLProfil)
+				$vTarget_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$vTarget_ImagePath
+				_XML_Replace("Profil/AutoConf/Target_ImagePath", $vTarget_ImagePath, 0, "", $oXMLProfil)
+				If _IsChecked($CB_Autoconf) Then
+					$vAutoconf_Use = 1
+				Else
+					$vAutoconf_Use = 0
+				EndIf
+				IniWrite($iINIPath, "LAST_USE", "$vAutoconf_Use", $vAutoconf_Use)
 				_LOG("AutoConf Path Configuration Saved", 0)
-;~ 				_LOG("------------------------", 1)
-;~ 				_LOG("$Source_RootPath = " & $Source_RootPath, 1)
-;~ 				_LOG("$Target_XMLName = " & $Target_XMLName, 1)
-;~ 				_LOG("$Target_RomPath = " & $Target_RomPath, 1)
-;~ 				_LOG("$Source_ImagePath = " & $Source_ImagePath, 1)
-;~ 				_LOG("$Target_ImagePath = " & $Target_ImagePath, 1)
-				_XML_Misc_Viewer($oXMLProfil)
+				_LOG("------------------------", 1)
+				_LOG("$vSource_RootPath = " & $vSource_RootPath, 1)
+				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1)
+				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
+				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
+				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				Return
+				Return 1
 		EndSwitch
 	WEnd
 EndFunc   ;==>_GUI_Config_autoconf
+
+Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
+	Local $vPlink_Command
+
+	If $oXMLProfil <> -1 Then
+		If $ScrapIP = 0 Then
+			; GUI Picture
+			Local $vSourcePicturePath = _XML_Read("Profil/General/Source_Image", 0, "", $oXMLProfil)
+			If $vSourcePicturePath < 0 Then
+				$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
+			Else
+				$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vSourcePicturePath
+			EndIf
+
+			Local $vTargetPicturePath = _XML_Read("Profil/General/Target_Image", 0, "", $oXMLProfil)
+			If $vTargetPicturePath < 0 Then
+				$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
+			Else
+				$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vTargetPicturePath
+			EndIf
+			_GDIPlus_Startup()
+			$hGraphic = _GDIPlus_GraphicsCreateFromHWND($F_UniversalScraper)
+			$hImage = _GDIPlus_ImageLoadFromFile($iScriptPath & "\Ressources\empty.jpg")
+			$hImage = _GDIPlus_ImageResize($hImage, 100, 40)
+			$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
+			$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
+			_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_UPDATENOW)
+			_GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 175 - ($ImageWidth / 2), 82 - ($ImageHeight / 2))
+			_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_VALIDATE)
+			_GDIPlus_ImageDispose($hImage)
+			_GDIPlus_GraphicsDispose($hGraphic)
+			_GDIPlus_Shutdown()
+			GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
+			GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
+
+			;SSH Menu
+			If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
+				_LOG("SSH Disable", 1)
+				GUICtrlSetState($MP, $GUI_DISABLE)
+			Else
+				_LOG("SSH Enable", 1)
+				GUICtrlSetState($MP, $GUI_ENABLE)
+			EndIf
+
+			;Overall Menu
+			Local $vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
+			$vSystem = $vSystem[UBound($vSystem) - 1]
+
+			GUICtrlSetState($MF, $GUI_ENABLE)
+			GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))
+			GUICtrlSetData($MF_Exit, _MultiLang_GetText("mnu_file_exit"))
+
+			GUICtrlSetState($MC, $GUI_ENABLE)
+			GUICtrlSetData($MC, _MultiLang_GetText("mnu_cfg"))
+			GUICtrlSetData($MC_Config_LU, _MultiLang_GetText("mnu_cfg_config_LU"))
+			GUICtrlSetData($MC_config_autoconf, _MultiLang_GetText("mnu_cfg_config_autoconf"))
+			GUICtrlSetData($MC_Profil, _MultiLang_GetText("mnu_cfg_profil"))
+			GUICtrlSetData($MC_Miximage, _MultiLang_GetText("mnu_cfg_miximage"))
+			GUICtrlSetData($MC_Langue, _MultiLang_GetText("mnu_cfg_langue"))
+
+			GUICtrlSetState($MS, $GUI_ENABLE)
+			GUICtrlSetData($MS, _MultiLang_GetText("mnu_scrape"))
+			GUICtrlSetData($MS_AutoConfig, _MultiLang_GetText("mnu_scrape_autoconf"))
+			GUICtrlSetData($MS_Scrape, _MultiLang_GetText("mnu_scrape_solo") & " - " & $vSystem)
+			GUICtrlSetData($MS_FullScrape, _MultiLang_GetText("mnu_scrape_fullscrape"))
+
+			GUICtrlSetState($MP, $GUI_ENABLE)
+			GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
+
+			$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
+			If IsArray($vPlink_Command) Then
+				For $vBoucle = 1 To UBound($vPlink_Command) - 1
+					GUICtrlSetData($MP_[$vBoucle], _MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]))
+				Next
+			EndIf
+
+			GUICtrlSetState($MH, $GUI_ENABLE)
+			GUICtrlSetData($MH, _MultiLang_GetText("mnu_help"))
+			GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
+
+			GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
+			GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
+			_GUICtrlStatusBar_SetText($L_SCRAPE, "")
+
+			_LOG("GUI Refresh", 1)
+
+		Else
+			_LOG("GUI Desactivated (Scrape in progress)", 1)
+			GUICtrlSetState($MF, $GUI_DISABLE)
+			GUICtrlSetState($MC, $GUI_DISABLE)
+			GUICtrlSetState($MS, $GUI_DISABLE)
+			GUICtrlSetState($MP, $GUI_DISABLE)
+			GUICtrlSetState($MH, $GUI_DISABLE)
+
+;~ 		Local $SCRAP_ENABLE
+;~ 		Local $vErrorMess = ""
+;~ 		$user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", -1)
+
+;~ 		If $No_Profil < 1 Then
+;~ 			$vErrorMess &= _MultiLang_GetText("err_No_Profil") & @CRLF
+;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_No_Profil") & " : " & $No_Profil)
+;~ 			$vScrapeOK = $vScrapeOK + 1
+;~ 		EndIf
+;~ 		If $vScrapeOK = 0 Then
+;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_ENABLE.bmp", -1, 0)
+;~ 			_CREATION_LOGMESS(2, "SCRAPE Enable")
+;~ 			$SCRAP_ENABLE = 1
+;~ 		Else
+;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
+;~ 			_CREATION_LOGMESS(2, "SCRAPE Disable")
+;~ 			$SCRAP_ENABLE = 0
+;~ 		EndIf
+
+;~ 		$aDIRList = _Check_autoconf($vSource_RootPath, $PATHAUTOCONF_Target_RomPath, $vTarget_XMLName, $vSource_ImagePath, $vTarget_ImagePath)
+;~ 	Else
+;~ 		If $MCnu_SSH = 2 Then GUICtrlSetState($MP, $GUI_DISABLE)
+;~ 		_CREATION_LOGMESS(2, "Menu SSH Disable")
+;~ 		GUICtrlSetState($MF, $GUI_DISABLE)
+;~ 		GUICtrlSetState($MC, $GUI_DISABLE)
+;~ 		GUICtrlSetState($MH, $GUI_DISABLE)
+;~ 		GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_IP1.bmp", -1, 0)
+;~ 		$SCRAP_ENABLE = 1
+;~ 		GUICtrlSetState($PB_SCRAPE, $GUI_SHOW)
+		EndIf
+	EndIf
+	Return
+EndFunc   ;==>_GUI_Refresh
+
+Func _Check_autoconf($oXMLProfil)
+	$vAutoconf_Use = IniRead($iINIPath, "LAST_USE", "$vAutoconf_Use", "-1")
+	If $vAutoconf_Use = "-1" Then
+		If MsgBox(BitOR($MB_ICONQUESTION, $MB_YESNO), _MultiLang_GetText("mess_autoconf_ask_Title"), _MultiLang_GetText("mess_autoconf_ask_Question")) = $IDYES Then
+			$vAutoconf_Use = 1
+		Else
+			$vAutoconf_Use = 0
+		EndIf
+	EndIf
+	IniWrite($iINIPath, "LAST_USE", "$vAutoconf_Use", $vAutoconf_Use)
+
+	Local $vSource_RootPath = _XML_Read("Profil/AutoConf/Source_RootPath", 0, "", $oXMLProfil)
+	Local $vTarget_XMLName = _XML_Read("Profil/AutoConf/Target_XMLName", 0, "", $oXMLProfil)
+	Local $vTarget_RomPath = _XML_Read("Profil/AutoConf/Target_RomPath", 0, "", $oXMLProfil)
+	Local $vSource_ImagePath = _XML_Read("Profil/AutoConf/Source_ImagePath", 0, "", $oXMLProfil)
+	Local $vTarget_ImagePath = _XML_Read("Profil/AutoConf/Target_ImagePath", 0, "", $oXMLProfil)
+
+	If $vSource_RootPath = "" Or $vAutoconf_Use = 0 Then
+		GUICtrlSetState($MS_AutoConfig, $GUI_DISABLE)
+		GUICtrlSetState($MS_FullScrape, $GUI_DISABLE)
+		Return -1
+	EndIf
+
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	SplashTextOn(_MultiLang_GetText("mnu_edit_autoconf"), _MultiLang_GetText("mess_autoconf"), 400, 50)
+	If StringRight($vSource_RootPath, 1) = '\' Then $vSource_RootPath = StringTrimRight($vSource_RootPath, 1)
+	$aDIRList = _FileListToArrayRec($vSource_RootPath, "*", $FLTAR_FOLDERS, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_RELPATH)
+	If IsArray($aDIRList) Then
+;~ 		_ArrayDisplay($aDIRList, '$aDIRList') ; Debug
+		If IsArray($MS_AutoConfigItem) Then
+			For $B_ArrayDelete = 1 To UBound($MS_AutoConfigItem) - 1
+				GUICtrlSetState($MS_AutoConfigItem[$B_ArrayDelete], $GUI_UNCHECKED)
+				GUICtrlDelete($MS_AutoConfigItem[$B_ArrayDelete])
+			Next
+		EndIf
+
+		GUICtrlSetState($MS_AutoConfig, $GUI_ENABLE)
+		GUICtrlSetState($MS_FullScrape, $GUI_ENABLE)
+		Dim $MS_AutoConfigItem[UBound($aDIRList)]
+		For $vBoucle = 1 To 5
+			_ArrayColInsert($aDIRList, $vBoucle)
+		Next
+		For $vBoucle = 1 To UBound($aDIRList) - 1
+			$aDIRList[$vBoucle][1] = $vSource_RootPath & "\" & $aDIRList[$vBoucle][0]
+			$aDIRList[$vBoucle][2] = $vTarget_RomPath
+			$aDIRList[$vBoucle][3] = $aDIRList[$vBoucle][1] & "\" & $vTarget_XMLName
+			$aDIRList[$vBoucle][4] = $aDIRList[$vBoucle][1] & "\" & $vSource_ImagePath
+			$aDIRList[$vBoucle][5] = $vTarget_ImagePath
+			DirCreate($aDIRList[$vBoucle][4])
+			$MS_AutoConfigItem[$vBoucle] = GUICtrlCreateMenuItem($aDIRList[$vBoucle][0], $MS_AutoConfig)
+		Next
+;~ 		_ArrayDisplay($aDIRList, '$aDIRList') ; Debug
+		GUISetState(@SW_ENABLE, $F_UniversalScraper)
+		SplashOff()
+		Return $aDIRList
+	Else
+		GUICtrlSetState($MS_AutoConfig, $GUI_DISABLE)
+		GUICtrlSetState($MS_FullScrape, $GUI_DISABLE)
+		GUISetState(@SW_ENABLE, $F_UniversalScraper)
+		SplashOff()
+		MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_autoconfPathRom"))
+		IniWrite($iINIPath, "LAST_USE", "$vAutoconf_Use", 0)
+		Return -1
+	EndIf
+EndFunc   ;==>_Check_autoconf
+
+Func _RomList_Create($aConfig)
+	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
+	$vRechFiles = IniRead($iINIPath, "GENERAL", "$vRechFiles ", "*.*z*")
+	Local $vPicDir = StringSplit($aConfig[3], "\")
+	$vPipeCount = StringSplit($vRechFiles, "|")
+	If $vPipeCount[0] = 2 Then $vRechFiles = $vRechFiles & "|"
+	If StringRight($vRechFiles, 1) = "|" Then
+		$vRechFiles = $vRechFiles & $vPicDir[UBound($vPicDir) - 1]
+	Else
+		$vRechFiles = $vRechFiles & ";" & $vPicDir[UBound($vPicDir) - 1]
+	EndIf
+	_LOG("Listing ROM (" & $vRechFiles & ")", 1)
+	$aRomList = _FileListToArrayRec($aConfig[1], $vRechFiles, $FLTAR_FILES, $FLTAR_RECUR, $FLTAR_SORT)
+
+	If @error = 1 Then
+		_LOG("Invalid Rom Path : " & $aConfig[1], 2)
+;~ 		If $FullScrapeIP = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"))
+		Return -1
+	EndIf
+	If @error = 4 Then
+		_LOG("No rom in " & $aConfig[1], 2)
+;~ 		If $FullScrapeIP = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_FillRomList"))
+		Return -1
+	EndIf
+
+	For $vBoucle = 1 To 9
+		_ArrayColInsert($aRomList, $vBoucle)
+	Next
+
+	_LOG(UBound($aRomList) - 1 & " Rom(s) found")
+
+	For $vBoucle = 1 To UBound($aRomList) - 1
+		$aRomList[$vBoucle][1] = $aConfig[1] & "\" & $aRomList[$vBoucle][0]
+		$aPathSplit = _PathSplit($aRomList[$vBoucle][0], $sDrive, $sDir, $sFileName, $sExtension)
+		$aRomList[$vBoucle][2] = $aPathSplit[3]
+		$aRomList[$vBoucle][9] = -1
+	Next
+
+	_ArrayDisplay($aRomList, '$aRomList') ; Debug
+	_ArraySort($aRomList)
+
+	Return $aRomList
+EndFunc   ;==>_RomList_Create
 
 #EndRegion Function

@@ -319,12 +319,21 @@ While 1
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
 		Case $B_SCRAPE
-			$aConfig = _LoadConfig($oXMLProfil)
+			Local $aConfig = _LoadConfig($oXMLProfil)
 			If $aConfig <> 0 Then
-				$FullTimer = TimerInit()
+				Local $FullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-				$aRomList = _RomList_Create($aConfig)
-;~ 				_ArrayDisplay($aConfig, "$aConfig"); Debug
+				Local $aRomList = _RomList_Create($aConfig)
+				If IsArray($aRomList) Then
+					Local $vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
+					Local $aXMLRomList
+					If FileGetSize($aConfig[0]) <> 0 Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
+					For $vBoucle = 1 To UBound($aRomList) - 1
+						$aRomList = _CheckRom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
+;~ 						$aRomList = _CalcHash($aRomList, $vBoucle)
+					Next
+					_ArrayDisplay($aRomList, '$aRomList') ; Debug
+				EndIf
 			EndIf
 			_GUI_Refresh($oXMLProfil)
 ;~ 			If _SCRAPING_VERIF() = 0 Then
@@ -379,15 +388,6 @@ WEnd
 
 #Region Function
 Func _LoadConfig($oXMLProfil)
-;~ 	$aConfig[0]=$vTarget_XMLName
-;~ 	$aConfig[1]=$vSource_RomPath
-;~ 	$aConfig[2]=$vTarget_RomPath
-;~ 	$aConfig[3]=$vSource_ImagePath
-;~ 	$aConfig[4]=$vTarget_ImagePath
-;~ 	$aConfig[5]=$vScrape_Mode (0 = NEW, 1 = Update XML, 2 = Update Picture)
-;~ 	$aConfig[6]=$MissingRom_Mode (0 = No missing Rom, 1 = Adding missing Rom)
-;~ 	$aConfig[7]=$CountryPic_Mode (0 = Language Pic, 1 = Rom Pic, 2 = Rom Pic + Language Pic)
-
 	Dim $aConfig[8]
 	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "$vTarget_XMLName", " ")
 	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", "")
@@ -807,7 +807,7 @@ Func _Check_autoconf($oXMLProfil)
 	EndIf
 EndFunc   ;==>_Check_autoconf
 
-Func _RomList_Create($aConfig)
+Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
 	$vRechFiles = IniRead($iINIPath, "GENERAL", "$vRechFiles ", "*.*z*")
 	Local $vPicDir = StringSplit($aConfig[3], "\")
@@ -823,12 +823,12 @@ Func _RomList_Create($aConfig)
 
 	If @error = 1 Then
 		_LOG("Invalid Rom Path : " & $aConfig[1], 2)
-;~ 		If $FullScrapeIP = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"))
+		If $vFullScrape = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"))
 		Return -1
 	EndIf
 	If @error = 4 Then
 		_LOG("No rom in " & $aConfig[1], 2)
-;~ 		If $FullScrapeIP = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_FillRomList"))
+		If $vFullScrape = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_FillRomList"))
 		Return -1
 	EndIf
 
@@ -846,9 +846,49 @@ Func _RomList_Create($aConfig)
 	Next
 
 	_ArrayDisplay($aRomList, '$aRomList') ; Debug
-	_ArraySort($aRomList)
+;~ 	_ArraySort($aRomList)
 
 	Return $aRomList
 EndFunc   ;==>_RomList_Create
 
+Func _CheckRom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode)
+	Switch $vScrape_Mode
+		Case 0
+			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1)
+			$aRomList[$vNoRom][3] = "1"
+			Return $aRomList
+		Case Else
+			If IsArray($aXMLRomList) Then
+				If _ArraySearch($aXMLRomList, $vTarget_RomPath & $aRomList[$vNoRom][0], 0, 0, 0, 0, 1, 2) <> -1 Then
+					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1)
+					$aRomList[$vNoRom][3] = "0"
+					Return $aRomList
+				EndIf
+			EndIf
+			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=1)", 1)
+			$aRomList[$vNoRom][3] = "1"
+			Return $aRomList
+	EndSwitch
+	Return $aRomList
+EndFunc   ;==>_CheckRom2Scrape
+
+Func _CalcHash($aRomList, $vNoRom)
+	Return $aRomList
+EndFunc   ;==>_CalcHash
+
 #EndRegion Function
+
+;~ 	$aConfig[0]=$vTarget_XMLName
+;~ 	$aConfig[1]=$vSource_RomPath
+;~ 	$aConfig[2]=$vTarget_RomPath
+;~ 	$aConfig[3]=$vSource_ImagePath
+;~ 	$aConfig[4]=$vTarget_ImagePath
+;~ 	$aConfig[5]=$vScrape_Mode (0 = NEW, 1 = Update XML & Picture, [2 = Update Picture only To ADD])
+;~ 	$aConfig[6]=$MissingRom_Mode (0 = No missing Rom, 1 = Adding missing Rom)
+;~ 	$aConfig[7]=$CountryPic_Mode (0 = Language Pic, 1 = Rom Pic, 2 = Rom Pic + Language Pic)
+
+;~ 	$aRomList[][0]=Relative Path
+;~ 	$aRomList[][1]=Full Path
+;~ 	$aRomList[][2]=Filename (without extension)
+;~ 	$aRomList[][3]=XML to Scrape (0 = No, 1 = Yes)
+;~ 	$aRomList[][4]=

@@ -11,7 +11,7 @@
 	<err_PathImage>Le chemin des images n'est pas accessible</err_PathImage>
 	<err_PathNew>Le chemin du fichier XML n'est pas accessible</err_PathNew>
 	<err_PathNew_ext>L'extension du fichier XML n'est pas valide</err_PathNew_ext>
-	<err_FillRomList>Aucun fichier Zip trouvé</err_FillRomList>
+	<err_FillRomList>Aucun fichier trouvé</err_FillRomList>
 	<err_No_Profil>Pas de profil choisi</err_No_Profil>
 	<err_autoconfPathRom>Le chemin des ROMs pour la configuration automatique n'est pas accessible</err_autoconfPathRom>
 	<err_TimeOut>Universal XML Scraper a rencontré un problème pour récupérer les informations de la base de données. Merci de réessayer ultérieurement.</err_TimeOut>

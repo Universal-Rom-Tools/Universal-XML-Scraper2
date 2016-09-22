@@ -330,7 +330,7 @@ While 1
 					If FileGetSize($aConfig[0]) <> 0 Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
 					For $vBoucle = 1 To UBound($aRomList) - 1
 						$aRomList = _CheckRom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
-;~ 						$aRomList = _CalcHash($aRomList, $vBoucle)
+						$aRomList = _CalcHash($aRomList, $vBoucle)
 					Next
 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
 				EndIf
@@ -855,24 +855,40 @@ Func _CheckRom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScra
 	Switch $vScrape_Mode
 		Case 0
 			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1)
-			$aRomList[$vNoRom][3] = "1"
+			$aRomList[$vNoRom][3] = 1
 			Return $aRomList
 		Case Else
 			If IsArray($aXMLRomList) Then
 				If _ArraySearch($aXMLRomList, $vTarget_RomPath & $aRomList[$vNoRom][0], 0, 0, 0, 0, 1, 2) <> -1 Then
 					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1)
-					$aRomList[$vNoRom][3] = "0"
+					$aRomList[$vNoRom][3] = 0
 					Return $aRomList
 				EndIf
 			EndIf
 			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=1)", 1)
-			$aRomList[$vNoRom][3] = "1"
+			$aRomList[$vNoRom][3] = 1
 			Return $aRomList
 	EndSwitch
 	Return $aRomList
 EndFunc   ;==>_CheckRom2Scrape
 
 Func _CalcHash($aRomList, $vNoRom)
+	If $aRomList[$vNoRom][3] = 1 Then
+		$TimerHash = TimerInit()
+		$aRomList[$vNoRom][4] = FileGetSize($aRomList[$vNoRom][1])
+		$aRomList[$vNoRom][5] = StringRight(_CRC32ForFile($aRomList[$vNoRom][1]), 8)
+		If Int(($aRomList[$vNoRom][4] / 1048576)) < 50 And IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 0 Then
+			_LOG("QUICK Mode ", 1)
+		Else
+			$aRomList[$vNoRom][6] = _MD5ForFile($aRomList[$vNoRom][1])
+			$aRomList[$vNoRom][7] = _SHA1ForFile($aRomList[$vNoRom][1])
+		EndIf
+		_LOG("Rom Info : " & $aRomList[$vNoRom][0] & " in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
+		_LOG("Size : " & $aRomList[$vNoRom][4], 1)
+		_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1)
+		_LOG("MD5 : " & $aRomList[$vNoRom][6], 1)
+		_LOG("SHA1 : " & $aRomList[$vNoRom][7], 1)
+	EndIf
 	Return $aRomList
 EndFunc   ;==>_CalcHash
 
@@ -891,4 +907,5 @@ EndFunc   ;==>_CalcHash
 ;~ 	$aRomList[][1]=Full Path
 ;~ 	$aRomList[][2]=Filename (without extension)
 ;~ 	$aRomList[][3]=XML to Scrape (0 = No, 1 = Yes)
-;~ 	$aRomList[][4]=
+;~ 	$aRomList[][4]=File Size
+;~ 	$aRomList[][5]=File CRC32

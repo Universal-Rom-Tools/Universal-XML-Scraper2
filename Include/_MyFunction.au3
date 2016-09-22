@@ -155,12 +155,12 @@ EndFunc   ;==>_Download
 ; Link ..........;
 ; Example .......; No
 Func _DownloadWRetry($iURL, $iPath, $iRetry = 3)
-	Local $iCount = 0, $iResult = -1
+	Local $iCount = 0, $iResult = -1, $vTimer = TimerInit()
 	While $iResult < 0 And $iCount < $iRetry
 		$iCount = $iCount + 1
 		$iResult = _Download($iURL, $iPath)
 	WEnd
-	_LOG("-In " & $iCount & " try", 1)
+	_LOG("-In " & $iCount & " try and " & Round((TimerDiff($vTimer) / 1000), 2) & "s", 1)
 	Return $iResult
 EndFunc   ;==>_DownloadWRetry
 
@@ -664,7 +664,7 @@ EndFunc   ;==>_GDIPlus_Rotation
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0)
-	#forceref $iX,$iY,$iWidth,$iHeight
+	#forceref $iX, $iY, $iWidth, $iHeight
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
@@ -931,7 +931,7 @@ Func _GDIPlus_ImageColorToTransparent($hImage, $iStartPosX = 0, $iStartPosY = 0,
 	If $GuiSizeX = Default Or $GuiSizeX > $iIW - $iStartPosX Then $GuiSizeX = $iIW - $iStartPosX
 	If $GuiSizeY = Default Or $GuiSizeY > $iIH - $iStartPosY Then $GuiSizeY = $iIH - $iStartPosY
 	$hBitmap = _GDIPlus_BitmapCloneArea($hImage, $iStartPosX, $iStartPosY, $GuiSizeX, $GuiSizeY, $GDIP_PXF32ARGB)
-	If $iColor = Default Then $iColor = GDIPlus_BitmapGetPixel($hBitmap, 1, 1); Transparent color
+	If $iColor = Default Then $iColor = GDIPlus_BitmapGetPixel($hBitmap, 1, 1) ; Transparent color
 	$Reslt = _GDIPlus_BitmapLockBits($hBitmap, 0, 0, $GuiSizeX, $GuiSizeY, BitOR($GDIP_ILMREAD, $GDIP_ILMWRITE), $GDIP_PXF32ARGB)
 	;Get the returned values of _GDIPlus_BitmapLockBits ()
 	$width = DllStructGetData($Reslt, "width")
@@ -944,7 +944,7 @@ Func _GDIPlus_ImageColorToTransparent($hImage, $iStartPosX = 0, $iStartPosY = 0,
 			$v_Buffer = DllStructCreate("dword", $Scan0 + ($j * $stride) + ($i * 4))
 			$v_Value = DllStructGetData($v_Buffer, 1)
 			If Hex($v_Value, 6) = Hex($iColor, 6) Then
-				DllStructSetData($v_Buffer, 1, Hex($iColor, 6)); Sets Transparency here. Alpha Channel = 00, not written to.
+				DllStructSetData($v_Buffer, 1, Hex($iColor, 6)) ; Sets Transparency here. Alpha Channel = 00, not written to.
 			EndIf
 		Next
 	Next
@@ -965,6 +965,35 @@ EndFunc   ;==>GDIPlus_BitmapGetPixel
 #EndRegion GDI Function
 
 #Region XML Function
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_Open
+; Description ...: Open an XML Object
+; Syntax.........: _XML_Open($iXMLPath)
+; Parameters ....: $iXMLPath	- Path to the XML File
+; Return values .: Success      - Object contening the XML File
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_Open($iXMLPath)
+	Local $oXMLDoc = _XML_CreateDOMDocument()
+	_XML_Load($oXMLDoc, $iXMLPath)
+	If @error Then
+		_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		Return -1
+	EndIf
+	_XML_TIDY($oXMLDoc)
+	If @error Then
+		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		Return -1
+	EndIf
+	Return $oXMLDoc
+EndFunc   ;==>_XML_Open
+
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _XML_Read
 ; Description ...: Read Data in XML File or XML Object
@@ -985,19 +1014,8 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
-		$oXMLDoc = _XML_CreateDOMDocument()
-		_XML_Load($oXMLDoc, $iXMLPath)
-		If @error Then
-			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
-		_XML_TIDY($oXMLDoc)
-		If @error Then
-			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
 	EndIf
 
 	Switch $iXMLType
@@ -1061,16 +1079,8 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
-		_XML_Load($oXMLDoc, $iXMLPath)
-		If @error Then
-			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-			Return -1
-		EndIf
-		_XML_TIDY($oXMLDoc)
-		If @error Then
-			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-			Return -1
-		EndIf
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
 	EndIf
 
 	Switch $iXMLType
@@ -1088,7 +1098,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 			$iXpathSplit = StringSplit($iXpath, "/")
 			$iXMLAttributeName = $iXpathSplit[UBound($iXpathSplit) - 1]
 			$iXpath = StringTrimRight($iXpath, StringLen($iXMLAttributeName) + 1)
-			_XML_SetAttrib($oXmlDoc, $iXpath, $iXMLAttributeName, $iValue)
+			_XML_SetAttrib($oXMLDoc, $iXpath, $iXMLAttributeName, $iValue)
 			If @error Then
 				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 				Return -1
@@ -1101,7 +1111,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 	EndSwitch
 
 	Return -1
-EndFunc   ;==>_XML_Read
+EndFunc   ;==>_XML_Replace
 
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _XML_ListValue
@@ -1122,19 +1132,8 @@ Func _XML_ListValue($iXpath, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
-		$oXMLDoc = _XML_CreateDOMDocument()
-		_XML_Load($oXMLDoc, $iXMLPath)
-		If @error Then
-			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
-		_XML_TIDY($oXMLDoc)
-		If @error Then
-			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
 	EndIf
 
 	$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
@@ -1173,19 +1172,8 @@ Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
-		$oXMLDoc = _XML_CreateDOMDocument()
-		_XML_Load($oXMLDoc, $iXMLPath)
-		If @error Then
-			_LOG('_XML_Load ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
-		_XML_TIDY($oXMLDoc)
-		If @error Then
-			_LOG('_XML_TIDY ERROR (' & $iXMLPath & ')', 2)
-			_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
-			Return -1
-		EndIf
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
 	EndIf
 
 	$iXMLValue = _XML_GetChildren($oXMLDoc, $iXpath)

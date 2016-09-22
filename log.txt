@@ -1,64 +1,1220 @@
-[17:49:29] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
-[17:49:29] - WIN_10(X64) - 040C
-[17:49:29] - > Dev version
-[17:49:29] - Starting files installation
-[17:49:29] - > Ending files installation
-[17:49:29] - > Verbose LVL : 3
-[17:49:29] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
-[17:49:29] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
-[17:49:29] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
-[17:49:29] - Language Selected : 040c
-[17:49:29] - > Update Checking
-[17:49:29] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
-[17:49:29] - > -In 1 try
-[17:49:29] - Local : In Progress - Github : 1.5.0.11
-[17:49:29] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
-[17:49:29] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
-[17:49:29] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
-[17:49:29] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
-[17:49:29] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:49:29] - > GUI Constructed
-[17:49:29] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = C:\Developpement\Romset\RomSetLight
-[17:49:29] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
-[17:49:29] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
-[17:49:29] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
-[17:49:29] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
-[17:49:29] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:49:29] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:49:29] - > SSH Enable
-[17:49:29] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:49:29] - > GUI Refresh
-[17:49:31] - > GUI Desactivated (Scrape in progress)
-[17:49:31] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
-[17:49:31] - 13 Rom(s) found
-[17:49:32] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
-[17:49:32] - > _XML_GetValue (gameList/game/path) = 11 Elements
-[17:49:32] - > Arcade Classics (USA) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Arch Rivals (USA) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Arena (USA, Europe) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Ariel the Little Mermaid (USA, Europe) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Asterix and the Secret Mission (Europe) (En,Fr,De) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Ax Battler - A Legend of Golden Axe (USA, Europe) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Ayrton Senna's Super Monaco GP II (USA, Europe) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Bare Knuckle ~ Streets of Rage (World) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Bare Knuckle II ~ Streets of Rage 2 ~ Streets of Rage II (World) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Bartman Meets Radioactive Man (USA) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Batman Forever (World) NOT Scraped ($vScrape_Mode=1)
-[17:49:32] - > Mega Man X [Traduction FR] To Scrape ($vScrape_Mode=1)
-[17:49:32] - Rom Info : Mega Man X [Traduction FR].zip in 0s
-[17:49:32] - > Size : 940786
-[17:49:32] - > CRC32 : CD530E6C
-[17:49:32] - > MD5 : 
-[17:49:32] - > SHA1 : 
-[17:49:32] - > Street Fighter II Turbo (USA) To Scrape ($vScrape_Mode=1)
-[17:49:32] - Rom Info : Street Fighter II Turbo (USA).zip in 0s
-[17:49:32] - > Size : 1669514
-[17:49:32] - > CRC32 : 8DC4525F
-[17:49:32] - > MD5 : 
-[17:49:32] - > SHA1 : 
-[17:49:38] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:49:38] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:49:38] - > SSH Enable
-[17:49:38] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:49:38] - > GUI Refresh
-[17:50:56] - Universal XML Scraper Closed
+[00:18:32] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[00:18:32] - WIN_10(X64) - 040C
+[00:18:32] - > Dev version
+[00:18:32] - Starting files installation
+[00:18:32] - > Ending files installation
+[00:18:32] - > Verbose LVL : 3
+[00:18:32] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[00:18:32] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[00:18:32] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[00:18:32] - Language Selected : 040c
+[00:18:32] - > Update Checking
+[00:18:33] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[00:18:33] - > -In 1 try and 0.77s
+[00:18:33] - Local : In Progress - Github : 1.5.0.11
+[00:18:33] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
+[00:18:33] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
+[00:18:33] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
+[00:18:33] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[00:18:38] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
+[00:18:38] - > -In 1 try and 4.87s
+[00:18:38] - > GUI Constructed
+[00:18:38] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = Z:\roms
+[00:18:38] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
+[00:18:38] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
+[00:18:38] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
+[00:18:38] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
+[00:18:38] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:18:38] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:18:38] - > SSH Enable
+[00:18:38] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:18:38] - > GUI Refresh
+[00:18:43] - > GUI Desactivated (Scrape in progress)
+[00:18:43] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
+[00:18:43] - 8 Rom(s) found
+[00:18:45] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
+[00:18:45] - > Zombies Ate My Neighbors (USA) To Scrape ($vScrape_Mode=1)
+[00:18:45] - Rom Info (Zombies Ate My Neighbors (USA).zip) Hash in 0.02s
+[00:18:45] - > Size : 536797
+[00:18:45] - > CRC32 : FE272E3D
+[00:18:45] - > MD5 : 32CD513313294A04E4747992E6C0047B
+[00:18:45] - > SHA1 : B9FA3732C13F484BFB7D1E948994A71E3465099D
+[00:18:45] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zombies Ate My Neighbors (USA).xml
+[00:18:45] - > -In 1 try and 0.26s
+[00:18:45] - Zombies Ate My Neighbors (USA) scraped in 0.28s
+[00:18:45] - > Zool - Ninja of the 'Nth' Dimension (Europe) To Scrape ($vScrape_Mode=1)
+[00:18:45] - Rom Info (Zool - Ninja of the 'Nth' Dimension (Europe).zip) Hash in 0.05s
+[00:18:45] - > Size : 555337
+[00:18:45] - > CRC32 : D775F952
+[00:18:45] - > MD5 : 736D5E752A188E796BD11A5F0A37C5E4
+[00:18:45] - > SHA1 : 046815252F592517C911AAF19F56C99BB274D880
+[00:18:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zool - Ninja of the 'Nth' Dimension (Europe).xml
+[00:18:46] - > -In 1 try and 0.26s
+[00:18:46] - Zool - Ninja of the 'Nth' Dimension (Europe) scraped in 0.31s
+[00:18:46] - > Zoom! (World) To Scrape ($vScrape_Mode=1)
+[00:18:46] - Rom Info (Zoom! (World).zip) Hash in 0.05s
+[00:18:46] - > Size : 157776
+[00:18:46] - > CRC32 : B3F827F8
+[00:18:46] - > MD5 : BA9C3CD15DA463EDB28C7C636E4CFA60
+[00:18:46] - > SHA1 : 5F766A0F1285CDF4539AF5735095C750EAC97438
+[00:18:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoom! (World).xml
+[00:18:46] - > -In 1 try and 0.25s
+[00:18:46] - Zoom! (World) scraped in 0.31s
+[00:18:46] - > Zoop (Europe) To Scrape ($vScrape_Mode=1)
+[00:18:46] - Rom Info (Zoop (Europe).zip) Hash in 0.03s
+[00:18:46] - > Size : 104556
+[00:18:46] - > CRC32 : D1CE94F7
+[00:18:46] - > MD5 : 734D9E0C68641071725FA37E11043866
+[00:18:46] - > SHA1 : D23A382F4A0068DB84F1A075740951250305A913
+[00:18:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (Europe).xml
+[00:18:46] - > -In 1 try and 0.26s
+[00:18:46] - Zoop (Europe) scraped in 0.3s
+[00:18:46] - > Zero the Kamikaze Squirrel (Europe) To Scrape ($vScrape_Mode=1)
+[00:18:46] - Rom Info (Test Rep\Zero the Kamikaze Squirrel (Europe).zip) Hash in 0.06s
+[00:18:46] - > Size : 1158373
+[00:18:46] - > CRC32 : 88014668
+[00:18:46] - > MD5 : 56B224EE9352AA9E312FD18D3769407D
+[00:18:46] - > SHA1 : D2361652C9330A17A5B7F9ECA74208EA6AB43230
+[00:18:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero the Kamikaze Squirrel (Europe).xml
+[00:18:47] - > -In 1 try and 0.26s
+[00:18:47] - Zero the Kamikaze Squirrel (Europe) scraped in 0.32s
+[00:18:47] - > Zero Tolerance (USA, Europe) To Scrape ($vScrape_Mode=1)
+[00:18:47] - Rom Info (Test Rep\Zero Tolerance (USA, Europe).zip) Hash in 0.04s
+[00:18:47] - > Size : 738636
+[00:18:47] - > CRC32 : AF9092F0
+[00:18:47] - > MD5 : 22AA9FCCCDB2657E2B910768F17683F8
+[00:18:47] - > SHA1 : E1C85B5D62A1A8AFE81D80F159042AF3B641B641
+[00:18:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero Tolerance (USA, Europe).xml
+[00:18:47] - > -In 1 try and 0.26s
+[00:18:47] - Zero Tolerance (USA, Europe) scraped in 0.31s
+[00:18:47] - > Zero Wing (Europe) To Scrape ($vScrape_Mode=1)
+[00:18:47] - Rom Info (Test Rep\Zero Wing (Europe).zip) Hash in 0.02s
+[00:18:47] - > Size : 366692
+[00:18:47] - > CRC32 : 461F24A2
+[00:18:47] - > MD5 : 021E8DA44DFD6FEE93EE9605C8DA8412
+[00:18:47] - > SHA1 : 5D2AE03CBFBB711C6D1D56AF30356AAF3978E2BA
+[00:18:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero Wing (Europe).xml
+[00:18:47] - > -In 1 try and 0.26s
+[00:18:47] - Zero Wing (Europe) scraped in 0.28s
+[00:18:47] - > Zombies (Europe) To Scrape ($vScrape_Mode=1)
+[00:18:47] - Rom Info (Test Rep\Zombies (Europe).zip) Hash in 0.03s
+[00:18:47] - > Size : 536169
+[00:18:47] - > CRC32 : E73624E7
+[00:18:47] - > MD5 : DDC693A1726E293544B2746BB12C6C18
+[00:18:47] - > SHA1 : 60025DFE3F464370E79A723A37F281539F9A1B78
+[00:18:48] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zombies (Europe).xml
+[00:18:48] - > -In 1 try and 0.26s
+[00:18:48] - Zombies (Europe) scraped in 0.29s
+[00:18:48] - -- Full Scrape in 4.46s
+[00:18:55] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:18:55] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:18:55] - > SSH Enable
+[00:18:55] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:18:55] - > GUI Refresh
+[00:19:00] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:19:00] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:19:00] - > SSH Enable
+[00:19:00] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:19:00] - > GUI Refresh
+[00:19:01] - > GUI Desactivated (Scrape in progress)
+[00:19:02] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
+[00:19:02] - 270 Rom(s) found
+[00:19:04] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
+[00:19:04] - > _XML_GetValue (gameList/game/path) = 268 Elements
+[00:19:04] - > 5 in 1 Funpak (USA) To Scrape ($vScrape_Mode=1)
+[00:19:04] - Rom Info (5 in 1 Funpak (USA).zip) Hash in 0.05s
+[00:19:04] - > Size : 84081
+[00:19:04] - > CRC32 : CC1C81A8
+[00:19:04] - > MD5 : C98F9EF0690E4F7AF14ED88BD41EBD5B
+[00:19:04] - > SHA1 : FF5E71CD3CA679687AB2BDA9D07B56EA4AFEB634
+[00:19:04] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\5 in 1 Funpak (USA).xml
+[00:19:04] - > -In 1 try and 0.51s
+[00:19:04] - 5 in 1 Funpak (USA) scraped in 0.56s
+[00:19:04] - > Addams Family, The (World) To Scrape ($vScrape_Mode=1)
+[00:19:04] - Rom Info (Addams Family, The (World).zip) Hash in 0.02s
+[00:19:04] - > Size : 181751
+[00:19:04] - > CRC32 : EBA43914
+[00:19:04] - > MD5 : 428A6B875CFFCE83932C0E590F8A6A51
+[00:19:04] - > SHA1 : 0C765829A8B2F3DB2A8148CEFB40607591D54D27
+[00:19:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Addams Family, The (World).xml
+[00:19:05] - > -In 1 try and 0.51s
+[00:19:05] - Addams Family, The (World) scraped in 0.54s
+[00:19:05] - > Adventures of Batman & Robin, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Adventures of Batman & Robin, The (USA, Europe).xml
+[00:19:05] - > -In 1 try and 0.26s
+[00:19:05] - Adventures of Batman & Robin, The (USA, Europe) scraped in 0.26s
+[00:19:05] - > Aerial Assault (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Aerial Assault (World).xml
+[00:19:05] - > -In 1 try and 0.25s
+[00:19:05] - Aerial Assault (World) scraped in 0.26s
+[00:19:05] - > Aladdin (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Aladdin (USA, Europe).xml
+[00:19:06] - > -In 1 try and 0.25s
+[00:19:06] - Aladdin (USA, Europe) scraped in 0.25s
+[00:19:06] - > Alien 3 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Alien 3 (USA, Europe).xml
+[00:19:06] - > -In 1 try and 0.26s
+[00:19:06] - Alien 3 (USA, Europe) scraped in 0.26s
+[00:19:06] - > Alien Syndrome (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Alien Syndrome (USA, Europe).xml
+[00:19:06] - > -In 1 try and 0.26s
+[00:19:06] - Alien Syndrome (USA, Europe) scraped in 0.26s
+[00:19:06] - > Andre Agassi Tennis (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Andre Agassi Tennis (USA).xml
+[00:19:06] - > -In 1 try and 0.26s
+[00:19:06] - Andre Agassi Tennis (USA) scraped in 0.26s
+[00:19:06] - > Arcade Classics (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Arcade Classics (USA).xml
+[00:19:07] - > -In 1 try and 0.26s
+[00:19:07] - Arcade Classics (USA) scraped in 0.26s
+[00:19:07] - > Arch Rivals (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Arch Rivals (USA).xml
+[00:19:07] - > -In 1 try and 0.26s
+[00:19:07] - Arch Rivals (USA) scraped in 0.26s
+[00:19:07] - > Arena (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Arena (USA, Europe).xml
+[00:19:07] - > -In 1 try and 0.25s
+[00:19:07] - Arena (USA, Europe) scraped in 0.25s
+[00:19:07] - > Ariel the Little Mermaid (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ariel the Little Mermaid (USA, Europe).xml
+[00:19:07] - > -In 1 try and 0.26s
+[00:19:07] - Ariel the Little Mermaid (USA, Europe) scraped in 0.26s
+[00:19:07] - > Asterix and the Great Rescue (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Asterix and the Great Rescue (Europe) (En,Fr,De,Es,It).xml
+[00:19:08] - > -In 1 try and 0.26s
+[00:19:08] - Asterix and the Great Rescue (Europe) (En,Fr,De,Es,It) scraped in 0.26s
+[00:19:08] - > Asterix and the Secret Mission (Europe) (En,Fr,De) NOT Scraped ($vScrape_Mode=1)
+[00:19:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Asterix and the Secret Mission (Europe) (En,Fr,De).xml
+[00:19:08] - > -In 1 try and 0.26s
+[00:19:08] - Asterix and the Secret Mission (Europe) (En,Fr,De) scraped in 0.26s
+[00:19:08] - > Ax Battler - A Legend of Golden Axe (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ax Battler - A Legend of Golden Axe (USA, Europe).xml
+[00:19:08] - > -In 1 try and 0.26s
+[00:19:08] - Ax Battler - A Legend of Golden Axe (USA, Europe) scraped in 0.26s
+[00:19:08] - > Ayrton Senna's Super Monaco GP II (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ayrton Senna's Super Monaco GP II (USA, Europe).xml
+[00:19:08] - > -In 1 try and 0.26s
+[00:19:08] - Ayrton Senna's Super Monaco GP II (USA, Europe) scraped in 0.26s
+[00:19:08] - > Baku Baku Animal (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Baku Baku Animal (Europe).xml
+[00:19:09] - > -In 1 try and 0.26s
+[00:19:09] - Baku Baku Animal (Europe) scraped in 0.26s
+[00:19:09] - > Bare Knuckle ~ Streets of Rage (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bare Knuckle ~ Streets of Rage (World).xml
+[00:19:09] - > -In 1 try and 0.26s
+[00:19:09] - Bare Knuckle ~ Streets of Rage (World) scraped in 0.26s
+[00:19:09] - > Bare Knuckle II ~ Streets of Rage 2 ~ Streets of Rage II (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bare Knuckle II ~ Streets of Rage 2 ~ Streets of Rage II (World).xml
+[00:19:09] - > -In 1 try and 0.25s
+[00:19:09] - Bare Knuckle II ~ Streets of Rage 2 ~ Streets of Rage II (World) scraped in 0.25s
+[00:19:09] - > Bartman Meets Radioactive Man (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bartman Meets Radioactive Man (USA).xml
+[00:19:09] - > -In 1 try and 0.25s
+[00:19:09] - Bartman Meets Radioactive Man (USA) scraped in 0.25s
+[00:19:09] - > Batman Forever (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Batman Forever (World).xml
+[00:19:10] - > -In 1 try and 0.26s
+[00:19:10] - Batman Forever (World) scraped in 0.26s
+[00:19:10] - > Batman Returns (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Batman Returns (World).xml
+[00:19:10] - > -In 1 try and 0.25s
+[00:19:10] - Batman Returns (World) scraped in 0.25s
+[00:19:10] - > Batter Up (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Batter Up (USA, Europe).xml
+[00:19:10] - > -In 1 try and 0.26s
+[00:19:10] - Batter Up (USA, Europe) scraped in 0.26s
+[00:19:10] - > Battleship (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Battleship (USA, Europe).xml
+[00:19:11] - > -In 1 try and 0.25s
+[00:19:11] - Battleship (USA, Europe) scraped in 0.25s
+[00:19:11] - > Battletoads (Japan, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Battletoads (Japan, Europe).xml
+[00:19:11] - > -In 1 try and 0.25s
+[00:19:11] - Battletoads (Japan, Europe) scraped in 0.25s
+[00:19:11] - > Beavis and Butt-Head (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Beavis and Butt-Head (USA, Europe).xml
+[00:19:11] - > -In 1 try and 0.26s
+[00:19:11] - Beavis and Butt-Head (USA, Europe) scraped in 0.26s
+[00:19:11] - > Berenstain Bears' Camping Adventure, The (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Berenstain Bears' Camping Adventure, The (USA).xml
+[00:19:11] - > -In 1 try and 0.26s
+[00:19:11] - Berenstain Bears' Camping Adventure, The (USA) scraped in 0.26s
+[00:19:11] - > Bonkers Wax Up! (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bonkers Wax Up! (USA, Europe).xml
+[00:19:12] - > -In 1 try and 0.25s
+[00:19:12] - Bonkers Wax Up! (USA, Europe) scraped in 0.25s
+[00:19:12] - > Bram Stoker's Dracula (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bram Stoker's Dracula (Europe).xml
+[00:19:12] - > -In 1 try and 0.26s
+[00:19:12] - Bram Stoker's Dracula (Europe) scraped in 0.26s
+[00:19:12] - > Bubble Bobble (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bubble Bobble (USA, Europe).xml
+[00:19:12] - > -In 1 try and 0.26s
+[00:19:12] - Bubble Bobble (USA, Europe) scraped in 0.26s
+[00:19:12] - > Bugs Bunny in Double Trouble (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bugs Bunny in Double Trouble (USA, Europe).xml
+[00:19:12] - > -In 1 try and 0.26s
+[00:19:12] - Bugs Bunny in Double Trouble (USA, Europe) scraped in 0.26s
+[00:19:12] - > Bust-A-Move (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Bust-A-Move (USA, Europe).xml
+[00:19:13] - > -In 1 try and 0.25s
+[00:19:13] - Bust-A-Move (USA, Europe) scraped in 0.25s
+[00:19:13] - > Caesars Palace (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Caesars Palace (USA).xml
+[00:19:13] - > -In 1 try and 0.25s
+[00:19:13] - Caesars Palace (USA) scraped in 0.25s
+[00:19:13] - > Captain America and the Avengers (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Captain America and the Avengers (USA, Europe).xml
+[00:19:13] - > -In 1 try and 0.26s
+[00:19:13] - Captain America and the Avengers (USA, Europe) scraped in 0.26s
+[00:19:13] - > Casino Funpak (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Casino Funpak (USA).xml
+[00:19:13] - > -In 1 try and 0.25s
+[00:19:13] - Casino Funpak (USA) scraped in 0.25s
+[00:19:13] - > Castle of Illusion Starring Mickey Mouse (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Castle of Illusion Starring Mickey Mouse (USA, Europe).xml
+[00:19:14] - > -In 1 try and 0.25s
+[00:19:14] - Castle of Illusion Starring Mickey Mouse (USA, Europe) scraped in 0.25s
+[00:19:14] - > Chakan (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Chakan (USA, Europe).xml
+[00:19:14] - > -In 1 try and 0.26s
+[00:19:14] - Chakan (USA, Europe) scraped in 0.26s
+[00:19:14] - > Championship Hockey (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Championship Hockey (Europe).xml
+[00:19:14] - > -In 1 try and 0.25s
+[00:19:14] - Championship Hockey (Europe) scraped in 0.25s
+[00:19:14] - > Cheese Cat-Astrophe Starring Speedy Gonzales (Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Cheese Cat-Astrophe Starring Speedy Gonzales (Europe) (En,Fr,De,Es).xml
+[00:19:14] - > -In 1 try and 0.25s
+[00:19:14] - Cheese Cat-Astrophe Starring Speedy Gonzales (Europe) (En,Fr,De,Es) scraped in 0.25s
+[00:19:14] - > Chessmaster, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:15] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Chessmaster, The (USA, Europe).xml
+[00:19:15] - > -In 1 try and 0.25s
+[00:19:15] - Chessmaster, The (USA, Europe) scraped in 0.25s
+[00:19:15] - > Chicago Syndicate (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:15] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Chicago Syndicate (USA, Europe).xml
+[00:19:15] - > -In 1 try and 0.25s
+[00:19:15] - Chicago Syndicate (USA, Europe) scraped in 0.25s
+[00:19:15] - > Choplifter III (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:15] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Choplifter III (USA).xml
+[00:19:15] - > -In 1 try and 0.25s
+[00:19:15] - Choplifter III (USA) scraped in 0.25s
+[00:19:15] - > Chuck Rock (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:15] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Chuck Rock (World).xml
+[00:19:15] - > -In 1 try and 0.25s
+[00:19:15] - Chuck Rock (World) scraped in 0.25s
+[00:19:15] - > Chuck Rock II - Son of Chuck (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:16] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Chuck Rock II - Son of Chuck (Europe).xml
+[00:19:16] - > -In 1 try and 0.25s
+[00:19:16] - Chuck Rock II - Son of Chuck (Europe) scraped in 0.25s
+[00:19:16] - > CJ Elephant Fugitive (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:16] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\CJ Elephant Fugitive (Europe).xml
+[00:19:16] - > -In 1 try and 0.25s
+[00:19:16] - CJ Elephant Fugitive (Europe) scraped in 0.25s
+[00:19:16] - > Cliffhanger (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:16] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Cliffhanger (USA).xml
+[00:19:16] - > -In 1 try and 0.25s
+[00:19:16] - Cliffhanger (USA) scraped in 0.25s
+[00:19:16] - > Clutch Hitter (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:16] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Clutch Hitter (USA).xml
+[00:19:16] - > -In 1 try and 0.25s
+[00:19:16] - Clutch Hitter (USA) scraped in 0.25s
+[00:19:16] - > Columns (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:17] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Columns (USA, Europe).xml
+[00:19:17] - > -In 1 try and 0.26s
+[00:19:17] - Columns (USA, Europe) scraped in 0.26s
+[00:19:17] - > Cool Spot (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:17] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Cool Spot (Europe).xml
+[00:19:17] - > -In 1 try and 0.26s
+[00:19:17] - Cool Spot (Europe) scraped in 0.26s
+[00:19:17] - > Cosmic Spacehead (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:17] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Cosmic Spacehead (Europe).xml
+[00:19:17] - > -In 1 try and 0.25s
+[00:19:17] - Cosmic Spacehead (Europe) scraped in 0.25s
+[00:19:17] - > Crystal Warriors (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:17] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Crystal Warriors (USA, Europe).xml
+[00:19:17] - > -In 1 try and 0.26s
+[00:19:17] - Crystal Warriors (USA, Europe) scraped in 0.26s
+[00:19:17] - > Cutthroat Island (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:18] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Cutthroat Island (USA, Europe).xml
+[00:19:18] - > -In 1 try and 0.26s
+[00:19:18] - Cutthroat Island (USA, Europe) scraped in 0.26s
+[00:19:18] - > Daffy Duck in Hollywood (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:18] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Daffy Duck in Hollywood (Europe) (En,Fr,De,Es,It).xml
+[00:19:18] - > -In 1 try and 0.25s
+[00:19:18] - Daffy Duck in Hollywood (Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:19:18] - > Deep Duck Trouble Starring Donald Duck (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:18] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Deep Duck Trouble Starring Donald Duck (USA, Europe).xml
+[00:19:18] - > -In 1 try and 0.25s
+[00:19:18] - Deep Duck Trouble Starring Donald Duck (USA, Europe) scraped in 0.25s
+[00:19:18] - > Defenders of Oasis (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:18] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Defenders of Oasis (USA, Europe).xml
+[00:19:18] - > -In 1 try and 0.25s
+[00:19:18] - Defenders of Oasis (USA, Europe) scraped in 0.25s
+[00:19:18] - > Desert Speedtrap Starring Road Runner and Wile E. Coyote (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:19] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Desert Speedtrap Starring Road Runner and Wile E. Coyote (Europe) (En,Fr,De,Es,It).xml
+[00:19:19] - > -In 1 try and 0.26s
+[00:19:19] - Desert Speedtrap Starring Road Runner and Wile E. Coyote (Europe) (En,Fr,De,Es,It) scraped in 0.26s
+[00:19:19] - > Desert Strike (Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:19] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Desert Strike (Europe) (En,Fr,De,Es).xml
+[00:19:19] - > -In 1 try and 0.25s
+[00:19:19] - Desert Strike (Europe) (En,Fr,De,Es) scraped in 0.25s
+[00:19:19] - > Devilish (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:19] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Devilish (Europe).xml
+[00:19:19] - > -In 1 try and 0.25s
+[00:19:19] - Devilish (Europe) scraped in 0.26s
+[00:19:19] - > Double Dragon (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:19] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Double Dragon (USA, Europe).xml
+[00:19:19] - > -In 1 try and 0.25s
+[00:19:19] - Double Dragon (USA, Europe) scraped in 0.25s
+[00:19:19] - > Dr. Robotnik's Mean Bean Machine (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:20] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dr. Robotnik's Mean Bean Machine (USA, Europe).xml
+[00:19:20] - > -In 1 try and 0.25s
+[00:19:20] - Dr. Robotnik's Mean Bean Machine (USA, Europe) scraped in 0.25s
+[00:19:20] - > Dragon - The Bruce Lee Story (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:20] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon - The Bruce Lee Story (Europe).xml
+[00:19:20] - > -In 1 try and 0.25s
+[00:19:20] - Dragon - The Bruce Lee Story (Europe) scraped in 0.25s
+[00:19:20] - > Dragon Crystal (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:20] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon Crystal (USA, Europe).xml
+[00:19:20] - > -In 1 try and 0.26s
+[00:19:20] - Dragon Crystal (USA, Europe) scraped in 0.26s
+[00:19:20] - > Dropzone (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:20] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dropzone (Europe).xml
+[00:19:20] - > -In 1 try and 0.26s
+[00:19:20] - Dropzone (Europe) scraped in 0.26s
+[00:19:20] - > Dynamite Headdy (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:21] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dynamite Headdy (USA, Europe).xml
+[00:19:21] - > -In 1 try and 0.25s
+[00:19:21] - Dynamite Headdy (USA, Europe) scraped in 0.25s
+[00:19:21] - > Earthworm Jim (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:21] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Earthworm Jim (Europe).xml
+[00:19:21] - > -In 1 try and 0.25s
+[00:19:21] - Earthworm Jim (Europe) scraped in 0.26s
+[00:19:21] - > Ecco - The Tides of Time (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:21] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ecco - The Tides of Time (USA, Europe).xml
+[00:19:21] - > -In 1 try and 0.25s
+[00:19:21] - Ecco - The Tides of Time (USA, Europe) scraped in 0.25s
+[00:19:21] - > Ecco the Dolphin (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:22] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ecco the Dolphin (USA, Europe).xml
+[00:19:22] - > -In 1 try and 0.26s
+[00:19:22] - Ecco the Dolphin (USA, Europe) scraped in 0.26s
+[00:19:22] - > Ernie Els Golf (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:22] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ernie Els Golf (Europe) (En,Fr,De,Es,It).xml
+[00:19:22] - > -In 1 try and 0.25s
+[00:19:22] - Ernie Els Golf (Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:19:22] - > Evander Holyfield's 'Real Deal' Boxing (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:22] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Evander Holyfield's 'Real Deal' Boxing (USA, Europe).xml
+[00:19:22] - > -In 1 try and 0.25s
+[00:19:22] - Evander Holyfield's 'Real Deal' Boxing (USA, Europe) scraped in 0.25s
+[00:19:22] - > Excellent Dizzy Collection, The (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:22] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Excellent Dizzy Collection, The (Europe).xml
+[00:19:22] - > -In 1 try and 0.25s
+[00:19:22] - Excellent Dizzy Collection, The (Europe) scraped in 0.25s
+[00:19:22] - > F1 - World Championship Edition (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:23] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\F1 - World Championship Edition (Europe).xml
+[00:19:23] - > -In 1 try and 0.25s
+[00:19:23] - F1 - World Championship Edition (Europe) scraped in 0.25s
+[00:19:23] - > F1 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:23] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\F1 (USA, Europe).xml
+[00:19:23] - > -In 1 try and 0.26s
+[00:19:23] - F1 (USA, Europe) scraped in 0.26s
+[00:19:23] - > F-15 Strike Eagle (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:23] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\F-15 Strike Eagle (USA, Europe).xml
+[00:19:23] - > -In 1 try and 0.25s
+[00:19:23] - F-15 Strike Eagle (USA, Europe) scraped in 0.25s
+[00:19:23] - > Factory Panic (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:23] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Factory Panic (Europe).xml
+[00:19:23] - > -In 1 try and 0.25s
+[00:19:23] - Factory Panic (Europe) scraped in 0.25s
+[00:19:23] - > Fantastic Dizzy (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:24] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Fantastic Dizzy (Europe) (En,Fr,De,Es,It).xml
+[00:19:24] - > -In 1 try and 0.25s
+[00:19:24] - Fantastic Dizzy (Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:19:24] - > Fantasy Zone (Japan, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:24] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Fantasy Zone (Japan, Europe).xml
+[00:19:24] - > -In 1 try and 0.26s
+[00:19:24] - Fantasy Zone (Japan, Europe) scraped in 0.26s
+[00:19:24] - > Fatal Fury Special (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:24] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Fatal Fury Special (Europe).xml
+[00:19:24] - > -In 1 try and 0.26s
+[00:19:24] - Fatal Fury Special (Europe) scraped in 0.26s
+[00:19:24] - > FIFA International Soccer (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:24] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\FIFA International Soccer (USA, Europe).xml
+[00:19:24] - > -In 1 try and 0.26s
+[00:19:24] - FIFA International Soccer (USA, Europe) scraped in 0.26s
+[00:19:24] - > FIFA Soccer 96 (USA, Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:25] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\FIFA Soccer 96 (USA, Europe) (En,Fr,De,Es).xml
+[00:19:25] - > -In 1 try and 0.25s
+[00:19:25] - FIFA Soccer 96 (USA, Europe) (En,Fr,De,Es) scraped in 0.25s
+[00:19:25] - > Foreman for Real (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:25] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Foreman for Real (World).xml
+[00:19:25] - > -In 1 try and 0.25s
+[00:19:25] - Foreman for Real (World) scraped in 0.25s
+[00:19:25] - > Frank Thomas Big Hurt Baseball (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:25] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Frank Thomas Big Hurt Baseball (USA).xml
+[00:19:25] - > -In 1 try and 0.26s
+[00:19:25] - Frank Thomas Big Hurt Baseball (USA) scraped in 0.26s
+[00:19:25] - > Fred Couples' Golf (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:25] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Fred Couples' Golf (USA).xml
+[00:19:25] - > -In 1 try and 0.26s
+[00:19:25] - Fred Couples' Golf (USA) scraped in 0.26s
+[00:19:25] - > Galaga 2 (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:26] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Galaga 2 (Europe).xml
+[00:19:26] - > -In 1 try and 0.26s
+[00:19:26] - Galaga 2 (Europe) scraped in 0.26s
+[00:19:26] - > Garfield - Caught in the Act (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:26] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Garfield - Caught in the Act (USA, Europe).xml
+[00:19:26] - > -In 1 try and 0.26s
+[00:19:26] - Garfield - Caught in the Act (USA, Europe) scraped in 0.26s
+[00:19:26] - > Gear Works (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:26] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Gear Works (USA).xml
+[00:19:26] - > -In 1 try and 0.26s
+[00:19:26] - Gear Works (USA) scraped in 0.26s
+[00:19:26] - > George Foreman's KO Boxing (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:26] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\George Foreman's KO Boxing (USA, Europe).xml
+[00:19:26] - > -In 1 try and 0.26s
+[00:19:26] - George Foreman's KO Boxing (USA, Europe) scraped in 0.26s
+[00:19:26] - > GG Aleste II ~ Power Strike II (Japan, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:27] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\GG Aleste II ~ Power Strike II (Japan, Europe).xml
+[00:19:27] - > -In 1 try and 0.25s
+[00:19:27] - GG Aleste II ~ Power Strike II (Japan, Europe) scraped in 0.25s
+[00:19:27] - > G-LOC - Air Battle (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:27] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\G-LOC - Air Battle (USA, Europe).xml
+[00:19:27] - > -In 1 try and 0.26s
+[00:19:27] - G-LOC - Air Battle (USA, Europe) scraped in 0.26s
+[00:19:27] - > GP Rider (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:27] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\GP Rider (USA, Europe).xml
+[00:19:27] - > -In 1 try and 0.26s
+[00:19:27] - GP Rider (USA, Europe) scraped in 0.27s
+[00:19:27] - > Greendog - The Beached Surfer Dude! (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:27] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Greendog - The Beached Surfer Dude! (USA, Europe).xml
+[00:19:27] - > -In 1 try and 0.25s
+[00:19:27] - Greendog - The Beached Surfer Dude! (USA, Europe) scraped in 0.26s
+[00:19:27] - > Halley Wars (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:28] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Halley Wars (USA, Europe).xml
+[00:19:28] - > -In 1 try and 0.25s
+[00:19:28] - Halley Wars (USA, Europe) scraped in 0.26s
+[00:19:28] - > Home Alone (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:28] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Home Alone (USA, Europe).xml
+[00:19:28] - > -In 1 try and 0.26s
+[00:19:28] - Home Alone (USA, Europe) scraped in 0.26s
+[00:19:28] - > Hook (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:28] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Hook (Europe).xml
+[00:19:28] - > -In 1 try and 0.26s
+[00:19:28] - Hook (Europe) scraped in 0.26s
+[00:19:28] - > Hurricanes (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:28] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Hurricanes (Europe).xml
+[00:19:28] - > -In 1 try and 0.25s
+[00:19:28] - Hurricanes (Europe) scraped in 0.25s
+[00:19:28] - > Incredible Crash Dummies, The (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:29] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Incredible Crash Dummies, The (World).xml
+[00:19:29] - > -In 1 try and 0.25s
+[00:19:29] - Incredible Crash Dummies, The (World) scraped in 0.25s
+[00:19:29] - > Incredible Hulk, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:29] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Incredible Hulk, The (USA, Europe).xml
+[00:19:29] - > -In 1 try and 0.25s
+[00:19:29] - Incredible Hulk, The (USA, Europe) scraped in 0.25s
+[00:19:29] - > Indiana Jones and the Last Crusade (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:29] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Indiana Jones and the Last Crusade (USA, Europe).xml
+[00:19:29] - > -In 1 try and 0.26s
+[00:19:29] - Indiana Jones and the Last Crusade (USA, Europe) scraped in 0.26s
+[00:19:29] - > Iron Man X-O Manowar in Heavy Metal (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:30] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Iron Man X-O Manowar in Heavy Metal (USA, Europe).xml
+[00:19:30] - > -In 1 try and 0.25s
+[00:19:30] - Iron Man X-O Manowar in Heavy Metal (USA, Europe) scraped in 0.25s
+[00:19:30] - > Itchy & Scratchy Game, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:30] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Itchy & Scratchy Game, The (USA, Europe).xml
+[00:19:30] - > -In 1 try and 0.26s
+[00:19:30] - Itchy & Scratchy Game, The (USA, Europe) scraped in 0.26s
+[00:19:30] - > James Bond 007 - The Duel (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:30] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\James Bond 007 - The Duel (Europe).xml
+[00:19:30] - > -In 1 try and 0.25s
+[00:19:30] - James Bond 007 - The Duel (Europe) scraped in 0.25s
+[00:19:30] - > James Pond 3 - Operation Starfi5h (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:30] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\James Pond 3 - Operation Starfi5h (Europe).xml
+[00:19:30] - > -In 1 try and 0.25s
+[00:19:30] - James Pond 3 - Operation Starfi5h (Europe) scraped in 0.25s
+[00:19:30] - > James Pond II - Codename RoboCod (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:31] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\James Pond II - Codename RoboCod (Europe).xml
+[00:19:31] - > -In 1 try and 0.25s
+[00:19:31] - James Pond II - Codename RoboCod (Europe) scraped in 0.25s
+[00:19:31] - > Jeopardy! - Sports Edition (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:31] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Jeopardy! - Sports Edition (USA, Europe).xml
+[00:19:31] - > -In 1 try and 0.25s
+[00:19:31] - Jeopardy! - Sports Edition (USA, Europe) scraped in 0.26s
+[00:19:31] - > Jeopardy! (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:31] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Jeopardy! (USA).xml
+[00:19:31] - > -In 1 try and 0.25s
+[00:19:31] - Jeopardy! (USA) scraped in 0.25s
+[00:19:31] - > Joe Montana Football (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:31] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Joe Montana Football (USA, Europe).xml
+[00:19:31] - > -In 1 try and 0.25s
+[00:19:31] - Joe Montana Football (USA, Europe) scraped in 0.25s
+[00:19:31] - > Journey from Darkness - Strider Returns (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:32] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Journey from Darkness - Strider Returns (USA, Europe).xml
+[00:19:32] - > -In 1 try and 0.25s
+[00:19:32] - Journey from Darkness - Strider Returns (USA, Europe) scraped in 0.25s
+[00:19:32] - > Judge Dredd (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:32] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Judge Dredd (USA, Europe).xml
+[00:19:32] - > -In 1 try and 0.25s
+[00:19:32] - Judge Dredd (USA, Europe) scraped in 0.25s
+[00:19:32] - > Junction (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:32] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Junction (USA).xml
+[00:19:32] - > -In 1 try and 0.25s
+[00:19:32] - Junction (USA) scraped in 0.25s
+[00:19:32] - > Jungle Book, The (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:32] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Jungle Book, The (Europe).xml
+[00:19:32] - > -In 1 try and 0.25s
+[00:19:32] - Jungle Book, The (Europe) scraped in 0.25s
+[00:19:32] - > Jungle Strike (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:33] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Jungle Strike (USA).xml
+[00:19:33] - > -In 1 try and 0.25s
+[00:19:33] - Jungle Strike (USA) scraped in 0.25s
+[00:19:33] - > Jurassic Park (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:33] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Jurassic Park (USA, Europe).xml
+[00:19:33] - > -In 1 try and 0.25s
+[00:19:33] - Jurassic Park (USA, Europe) scraped in 0.25s
+[00:19:33] - > Kawasaki Superbike Challenge (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:33] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Kawasaki Superbike Challenge (USA, Europe).xml
+[00:19:33] - > -In 1 try and 0.25s
+[00:19:33] - Kawasaki Superbike Challenge (USA, Europe) scraped in 0.25s
+[00:19:33] - > Klax (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:33] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Klax (USA, Europe).xml
+[00:19:33] - > -In 1 try and 0.25s
+[00:19:33] - Klax (USA, Europe) scraped in 0.25s
+[00:19:33] - > Krusty's Fun House (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:34] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Krusty's Fun House (USA, Europe).xml
+[00:19:34] - > -In 1 try and 0.25s
+[00:19:34] - Krusty's Fun House (USA, Europe) scraped in 0.25s
+[00:19:34] - > Land of Illusion Starring Mickey Mouse (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:34] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Land of Illusion Starring Mickey Mouse (USA, Europe).xml
+[00:19:34] - > -In 1 try and 0.25s
+[00:19:34] - Land of Illusion Starring Mickey Mouse (USA, Europe) scraped in 0.25s
+[00:19:34] - > Last Action Hero (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:34] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Last Action Hero (USA).xml
+[00:19:34] - > -In 1 try and 0.25s
+[00:19:34] - Last Action Hero (USA) scraped in 0.25s
+[00:19:34] - > Legend of Illusion Starring Mickey Mouse (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:34] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Legend of Illusion Starring Mickey Mouse (USA, Europe).xml
+[00:19:34] - > -In 1 try and 0.25s
+[00:19:34] - Legend of Illusion Starring Mickey Mouse (USA, Europe) scraped in 0.25s
+[00:19:34] - > Lemmings (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:35] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Lemmings (World).xml
+[00:19:35] - > -In 1 try and 0.25s
+[00:19:35] - Lemmings (World) scraped in 0.25s
+[00:19:35] - > Lion King, The (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:35] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Lion King, The (Europe).xml
+[00:19:35] - > -In 1 try and 0.25s
+[00:19:35] - Lion King, The (Europe) scraped in 0.25s
+[00:19:35] - > Lost World, The - Jurassic Park (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:35] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Lost World, The - Jurassic Park (USA).xml
+[00:19:35] - > -In 1 try and 0.26s
+[00:19:35] - Lost World, The - Jurassic Park (USA) scraped in 0.26s
+[00:19:35] - > Lucky Dime Caper Starring Donald Duck, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:35] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Lucky Dime Caper Starring Donald Duck, The (USA, Europe).xml
+[00:19:35] - > -In 1 try and 0.25s
+[00:19:35] - Lucky Dime Caper Starring Donald Duck, The (USA, Europe) scraped in 0.25s
+[00:19:35] - > Madden 96 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:36] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Madden 96 (USA, Europe).xml
+[00:19:36] - > -In 1 try and 0.25s
+[00:19:36] - Madden 96 (USA, Europe) scraped in 0.25s
+[00:19:36] - > Madden NFL 95 (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:36] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Madden NFL 95 (USA).xml
+[00:19:36] - > -In 1 try and 0.25s
+[00:19:36] - Madden NFL 95 (USA) scraped in 0.25s
+[00:19:36] - > Magical Puzzle Popils (World) (En,Ja) NOT Scraped ($vScrape_Mode=1)
+[00:19:36] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Magical Puzzle Popils (World) (En,Ja).xml
+[00:19:36] - > -In 1 try and 0.25s
+[00:19:36] - Magical Puzzle Popils (World) (En,Ja) scraped in 0.25s
+[00:19:36] - > Majors Pro Baseball, The (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:36] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Majors Pro Baseball, The (USA).xml
+[00:19:36] - > -In 1 try and 0.25s
+[00:19:36] - Majors Pro Baseball, The (USA) scraped in 0.25s
+[00:19:36] - > Marble Madness (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:37] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Marble Madness (USA, Europe).xml
+[00:19:37] - > -In 1 try and 0.26s
+[00:19:37] - Marble Madness (USA, Europe) scraped in 0.26s
+[00:19:37] - > Marko's Magic Football (Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:37] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Marko's Magic Football (Europe) (En,Fr,De,Es).xml
+[00:19:37] - > -In 1 try and 0.25s
+[00:19:37] - Marko's Magic Football (Europe) (En,Fr,De,Es) scraped in 0.25s
+[00:19:37] - > Master of Darkness (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:37] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Master of Darkness (Europe).xml
+[00:19:37] - > -In 1 try and 0.25s
+[00:19:37] - Master of Darkness (Europe) scraped in 0.25s
+[00:19:37] - > Mega Man (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:37] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mega Man (USA).xml
+[00:19:37] - > -In 1 try and 0.25s
+[00:19:37] - Mega Man (USA) scraped in 0.25s
+[00:19:37] - > Mick & Mack as the Global Gladiators (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:38] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mick & Mack as the Global Gladiators (USA, Europe).xml
+[00:19:38] - > -In 1 try and 0.26s
+[00:19:38] - Mick & Mack as the Global Gladiators (USA, Europe) scraped in 0.26s
+[00:19:38] - > Mickey's Ultimate Challenge (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:38] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mickey's Ultimate Challenge (USA).xml
+[00:19:38] - > -In 1 try and 0.26s
+[00:19:38] - Mickey's Ultimate Challenge (USA) scraped in 0.26s
+[00:19:38] - > Micro Machines (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:38] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Micro Machines (Europe).xml
+[00:19:38] - > -In 1 try and 0.25s
+[00:19:38] - Micro Machines (Europe) scraped in 0.25s
+[00:19:38] - > Micro Machines 2 - Turbo Tournament (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:38] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Micro Machines 2 - Turbo Tournament (Europe).xml
+[00:19:38] - > -In 1 try and 0.26s
+[00:19:38] - Micro Machines 2 - Turbo Tournament (Europe) scraped in 0.26s
+[00:19:38] - > Mighty Morphin Power Rangers - The Movie (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:39] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mighty Morphin Power Rangers - The Movie (USA, Europe).xml
+[00:19:39] - > -In 1 try and 0.25s
+[00:19:39] - Mighty Morphin Power Rangers - The Movie (USA, Europe) scraped in 0.25s
+[00:19:39] - > Mighty Morphin Power Rangers (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:39] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mighty Morphin Power Rangers (USA, Europe).xml
+[00:19:39] - > -In 1 try and 0.25s
+[00:19:39] - Mighty Morphin Power Rangers (USA, Europe) scraped in 0.25s
+[00:19:39] - > MLBPA Baseball (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:39] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MLBPA Baseball (USA).xml
+[00:19:39] - > -In 1 try and 0.25s
+[00:19:39] - MLBPA Baseball (USA) scraped in 0.25s
+[00:19:39] - > Monster Truck Wars (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:39] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Monster Truck Wars (USA, Europe).xml
+[00:19:39] - > -In 1 try and 0.25s
+[00:19:39] - Monster Truck Wars (USA, Europe) scraped in 0.25s
+[00:19:39] - > Mortal Kombat (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:40] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mortal Kombat (USA, Europe).xml
+[00:19:40] - > -In 1 try and 0.26s
+[00:19:40] - Mortal Kombat (USA, Europe) scraped in 0.26s
+[00:19:40] - > Mortal Kombat 3 (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:40] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mortal Kombat 3 (Europe).xml
+[00:19:40] - > -In 1 try and 0.26s
+[00:19:40] - Mortal Kombat 3 (Europe) scraped in 0.26s
+[00:19:40] - > Mortal Kombat II (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:40] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mortal Kombat II (World).xml
+[00:19:40] - > -In 1 try and 0.25s
+[00:19:40] - Mortal Kombat II (World) scraped in 0.25s
+[00:19:40] - > Ms. Pac-Man (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:40] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ms. Pac-Man (USA).xml
+[00:19:40] - > -In 1 try and 0.25s
+[00:19:40] - Ms. Pac-Man (USA) scraped in 0.25s
+[00:19:40] - > NBA Action Starring David Robinson (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:41] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NBA Action Starring David Robinson (USA).xml
+[00:19:41] - > -In 1 try and 0.26s
+[00:19:41] - NBA Action Starring David Robinson (USA) scraped in 0.26s
+[00:19:41] - > NBA Jam - Tournament Edition (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:41] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NBA Jam - Tournament Edition (World).xml
+[00:19:41] - > -In 1 try and 0.25s
+[00:19:41] - NBA Jam - Tournament Edition (World) scraped in 0.25s
+[00:19:41] - > NBA Jam (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:41] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NBA Jam (USA, Europe).xml
+[00:19:41] - > -In 1 try and 0.25s
+[00:19:41] - NBA Jam (USA, Europe) scraped in 0.25s
+[00:19:41] - > NFL '95 (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:42] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NFL '95 (USA).xml
+[00:19:42] - > -In 1 try and 0.26s
+[00:19:42] - NFL '95 (USA) scraped in 0.26s
+[00:19:42] - > NFL Quarterback Club (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:42] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NFL Quarterback Club (World).xml
+[00:19:42] - > -In 1 try and 0.25s
+[00:19:42] - NFL Quarterback Club (World) scraped in 0.25s
+[00:19:42] - > NFL Quarterback Club '96 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:42] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NFL Quarterback Club '96 (USA, Europe).xml
+[00:19:42] - > -In 1 try and 0.25s
+[00:19:42] - NFL Quarterback Club '96 (USA, Europe) scraped in 0.25s
+[00:19:42] - > NHL All-Star Hockey (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:42] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NHL All-Star Hockey (USA).xml
+[00:19:42] - > -In 1 try and 0.25s
+[00:19:42] - NHL All-Star Hockey (USA) scraped in 0.25s
+[00:19:42] - > NHL Hockey (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\NHL Hockey (USA, Europe).xml
+[00:19:43] - > -In 1 try and 0.26s
+[00:19:43] - NHL Hockey (USA, Europe) scraped in 0.26s
+[00:19:43] - > Ninja Gaiden (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ninja Gaiden (USA, Europe).xml
+[00:19:43] - > -In 1 try and 0.25s
+[00:19:43] - Ninja Gaiden (USA, Europe) scraped in 0.26s
+[00:19:43] - > Olympic Gold (Europe) (En,Fr,De,Es,It,Nl,Pt,Sv) (Rev 1) NOT Scraped ($vScrape_Mode=1)
+[00:19:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Olympic Gold (Europe) (En,Fr,De,Es,It,Nl,Pt,Sv) (Rev 1).xml
+[00:19:43] - > -In 1 try and 0.26s
+[00:19:43] - Olympic Gold (Europe) (En,Fr,De,Es,It,Nl,Pt,Sv) (Rev 1) scraped in 0.26s
+[00:19:43] - > Ottifants, The (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:19:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ottifants, The (Europe) (En,Fr,De,Es,It).xml
+[00:19:43] - > -In 1 try and 0.25s
+[00:19:43] - Ottifants, The (Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:19:43] - > Out Run (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:44] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Out Run (Europe).xml
+[00:19:44] - > -In 1 try and 0.25s
+[00:19:44] - Out Run (Europe) scraped in 0.25s
+[00:19:44] - > Out Run Europa (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:44] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Out Run Europa (Europe).xml
+[00:19:44] - > -In 1 try and 0.25s
+[00:19:44] - Out Run Europa (Europe) scraped in 0.25s
+[00:19:44] - > Pac-Attack (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:44] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Pac-Attack (USA, Europe).xml
+[00:19:44] - > -In 1 try and 0.25s
+[00:19:44] - Pac-Attack (USA, Europe) scraped in 0.25s
+[00:19:44] - > Pac-Man (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:44] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Pac-Man (USA).xml
+[00:19:44] - > -In 1 try and 0.25s
+[00:19:44] - Pac-Man (USA) scraped in 0.25s
+[00:19:44] - > Paperboy (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:45] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Paperboy (USA, Europe).xml
+[00:19:45] - > -In 1 try and 0.25s
+[00:19:45] - Paperboy (USA, Europe) scraped in 0.25s
+[00:19:45] - > Paperboy 2 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:45] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Paperboy 2 (USA, Europe).xml
+[00:19:45] - > -In 1 try and 0.25s
+[00:19:45] - Paperboy 2 (USA, Europe) scraped in 0.25s
+[00:19:45] - > Pengo (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:45] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Pengo (USA, Europe).xml
+[00:19:45] - > -In 1 try and 0.25s
+[00:19:45] - Pengo (USA, Europe) scraped in 0.25s
+[00:19:45] - > Pete Sampras Tennis (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:45] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Pete Sampras Tennis (Europe).xml
+[00:19:45] - > -In 1 try and 0.26s
+[00:19:45] - Pete Sampras Tennis (Europe) scraped in 0.26s
+[00:19:45] - > PGA Tour 96 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\PGA Tour 96 (USA, Europe).xml
+[00:19:46] - > -In 1 try and 0.25s
+[00:19:46] - PGA Tour 96 (USA, Europe) scraped in 0.25s
+[00:19:46] - > PGA Tour Golf (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\PGA Tour Golf (USA, Europe).xml
+[00:19:46] - > -In 1 try and 0.25s
+[00:19:46] - PGA Tour Golf (USA, Europe) scraped in 0.25s
+[00:19:46] - > PGA Tour Golf II (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\PGA Tour Golf II (USA, Europe).xml
+[00:19:46] - > -In 1 try and 0.25s
+[00:19:46] - PGA Tour Golf II (USA, Europe) scraped in 0.25s
+[00:19:46] - > Phantom 2040 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:46] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Phantom 2040 (USA, Europe).xml
+[00:19:46] - > -In 1 try and 0.25s
+[00:19:46] - Phantom 2040 (USA, Europe) scraped in 0.25s
+[00:19:46] - > Pinball Dreams (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Pinball Dreams (USA).xml
+[00:19:47] - > -In 1 try and 0.25s
+[00:19:47] - Pinball Dreams (USA) scraped in 0.25s
+[00:19:47] - > Poker Face Paul's Blackjack (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Poker Face Paul's Blackjack (USA).xml
+[00:19:47] - > -In 1 try and 0.25s
+[00:19:47] - Poker Face Paul's Blackjack (USA) scraped in 0.25s
+[00:19:47] - > Poker Face Paul's Gin (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Poker Face Paul's Gin (USA).xml
+[00:19:47] - > -In 1 try and 0.25s
+[00:19:47] - Poker Face Paul's Gin (USA) scraped in 0.25s
+[00:19:47] - > Poker Face Paul's Poker (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:47] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Poker Face Paul's Poker (USA).xml
+[00:19:47] - > -In 1 try and 0.25s
+[00:19:47] - Poker Face Paul's Poker (USA) scraped in 0.25s
+[00:19:47] - > Poker Face Paul's Solitaire (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:48] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Poker Face Paul's Solitaire (USA).xml
+[00:19:48] - > -In 1 try and 0.25s
+[00:19:48] - Poker Face Paul's Solitaire (USA) scraped in 0.25s
+[00:19:48] - > Power Drive (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:48] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Power Drive (Europe).xml
+[00:19:48] - > -In 1 try and 0.25s
+[00:19:48] - Power Drive (Europe) scraped in 0.25s
+[00:19:48] - > Predator 2 (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:48] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Predator 2 (USA, Europe).xml
+[00:19:48] - > -In 1 try and 0.26s
+[00:19:48] - Predator 2 (USA, Europe) scraped in 0.26s
+[00:19:48] - > Primal Rage (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:48] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Primal Rage (USA, Europe).xml
+[00:19:48] - > -In 1 try and 0.25s
+[00:19:48] - Primal Rage (USA, Europe) scraped in 0.25s
+[00:19:48] - > Prince of Persia (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:49] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Prince of Persia (USA, Europe).xml
+[00:19:49] - > -In 1 try and 0.25s
+[00:19:49] - Prince of Persia (USA, Europe) scraped in 0.25s
+[00:19:49] - > Psychic World (USA, Europe) (Rev 1) NOT Scraped ($vScrape_Mode=1)
+[00:19:49] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Psychic World (USA, Europe) (Rev 1).xml
+[00:19:49] - > -In 1 try and 0.25s
+[00:19:49] - Psychic World (USA, Europe) (Rev 1) scraped in 0.25s
+[00:19:49] - > Putt & Putter (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:49] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Putt & Putter (USA, Europe).xml
+[00:19:49] - > -In 1 try and 0.25s
+[00:19:49] - Putt & Putter (USA, Europe) scraped in 0.25s
+[00:19:49] - > Quest for the Shaven Yak Starring Ren Hoek & Stimpy (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:49] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Quest for the Shaven Yak Starring Ren Hoek & Stimpy (USA, Europe).xml
+[00:19:49] - > -In 1 try and 0.25s
+[00:19:49] - Quest for the Shaven Yak Starring Ren Hoek & Stimpy (USA, Europe) scraped in 0.25s
+[00:19:49] - > R.B.I. Baseball '94 (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:50] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\R.B.I. Baseball '94 (USA).xml
+[00:19:50] - > -In 1 try and 0.26s
+[00:19:50] - R.B.I. Baseball '94 (USA) scraped in 0.26s
+[00:19:50] - > R.C. Grand Prix (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:50] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\R.C. Grand Prix (USA, Europe).xml
+[00:19:50] - > -In 1 try and 0.25s
+[00:19:50] - R.C. Grand Prix (USA, Europe) scraped in 0.25s
+[00:19:50] - > Revenge of Drancon (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:50] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Revenge of Drancon (USA).xml
+[00:19:50] - > -In 1 try and 0.25s
+[00:19:50] - Revenge of Drancon (USA) scraped in 0.25s
+[00:19:50] - > Riddick Bowe Boxing (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:50] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Riddick Bowe Boxing (USA).xml
+[00:19:50] - > -In 1 try and 0.25s
+[00:19:50] - Riddick Bowe Boxing (USA) scraped in 0.25s
+[00:19:50] - > Rise of the Robots (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:51] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Rise of the Robots (USA, Europe).xml
+[00:19:51] - > -In 1 try and 0.25s
+[00:19:51] - Rise of the Robots (USA, Europe) scraped in 0.25s
+[00:19:51] - > Ristar - The Shooting Star (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:51] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ristar - The Shooting Star (World).xml
+[00:19:51] - > -In 1 try and 0.25s
+[00:19:51] - Ristar - The Shooting Star (World) scraped in 0.25s
+[00:19:51] - > Road Rash (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:51] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Road Rash (Europe).xml
+[00:19:51] - > -In 1 try and 0.5s
+[00:19:51] - Road Rash (Europe) scraped in 0.51s
+[00:19:51] - > RoboCop 3 (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:52] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\RoboCop 3 (World).xml
+[00:19:52] - > -In 1 try and 0.26s
+[00:19:52] - RoboCop 3 (World) scraped in 0.26s
+[00:19:52] - > RoboCop versus The Terminator (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:52] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\RoboCop versus The Terminator (USA, Europe).xml
+[00:19:52] - > -In 1 try and 0.25s
+[00:19:52] - RoboCop versus The Terminator (USA, Europe) scraped in 0.25s
+[00:19:52] - > S.S. Lucifer - Man Overboard! (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:52] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\S.S. Lucifer - Man Overboard! (Europe).xml
+[00:19:52] - > -In 1 try and 0.26s
+[00:19:52] - S.S. Lucifer - Man Overboard! (Europe) scraped in 0.26s
+[00:19:52] - > Samurai Shodown (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:52] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Samurai Shodown (USA).xml
+[00:19:52] - > -In 1 try and 0.26s
+[00:19:52] - Samurai Shodown (USA) scraped in 0.26s
+[00:19:52] - > Scratch Golf (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:53] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Scratch Golf (USA).xml
+[00:19:53] - > -In 1 try and 0.26s
+[00:19:53] - Scratch Golf (USA) scraped in 0.26s
+[00:19:53] - > Sega Game Pack 4 in 1 (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:53] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sega Game Pack 4 in 1 (Europe).xml
+[00:19:53] - > -In 1 try and 0.26s
+[00:19:53] - Sega Game Pack 4 in 1 (Europe) scraped in 0.26s
+[00:19:53] - > Sensible Soccer (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:53] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sensible Soccer (Europe).xml
+[00:19:53] - > -In 1 try and 0.26s
+[00:19:53] - Sensible Soccer (Europe) scraped in 0.26s
+[00:19:53] - > Shaq Fu (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:54] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Shaq Fu (USA, Europe).xml
+[00:19:54] - > -In 1 try and 0.26s
+[00:19:54] - Shaq Fu (USA, Europe) scraped in 0.26s
+[00:19:54] - > Shining Force II - The Sword of Hajya (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:54] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Shining Force II - The Sword of Hajya (USA).xml
+[00:19:54] - > -In 1 try and 0.26s
+[00:19:54] - Shining Force II - The Sword of Hajya (USA) scraped in 0.26s
+[00:19:54] - > Shinobi (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:54] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Shinobi (USA, Europe).xml
+[00:19:54] - > -In 1 try and 0.26s
+[00:19:54] - Shinobi (USA, Europe) scraped in 0.26s
+[00:19:54] - > Side Pocket (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:54] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Side Pocket (USA).xml
+[00:19:54] - > -In 1 try and 0.26s
+[00:19:54] - Side Pocket (USA) scraped in 0.26s
+[00:19:54] - > Simpsons, The - Bart vs. the Space Mutants (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:55] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Simpsons, The - Bart vs. the Space Mutants (USA, Europe).xml
+[00:19:55] - > -In 1 try and 0.26s
+[00:19:55] - Simpsons, The - Bart vs. the Space Mutants (USA, Europe) scraped in 0.26s
+[00:19:55] - > Simpsons, The - Bart vs. the World (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:55] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Simpsons, The - Bart vs. the World (World).xml
+[00:19:55] - > -In 1 try and 0.26s
+[00:19:55] - Simpsons, The - Bart vs. the World (World) scraped in 0.26s
+[00:19:55] - > Slider (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:55] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Slider (USA, Europe).xml
+[00:19:55] - > -In 1 try and 0.26s
+[00:19:55] - Slider (USA, Europe) scraped in 0.26s
+[00:19:55] - > Smurfs Travel the World, The (Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:55] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Smurfs Travel the World, The (Europe) (En,Fr,De,Es).xml
+[00:19:55] - > -In 1 try and 0.26s
+[00:19:55] - Smurfs Travel the World, The (Europe) (En,Fr,De,Es) scraped in 0.26s
+[00:19:55] - > Smurfs, The (Europe) (En,Fr,De,Es) NOT Scraped ($vScrape_Mode=1)
+[00:19:56] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Smurfs, The (Europe) (En,Fr,De,Es).xml
+[00:19:56] - > -In 1 try and 0.26s
+[00:19:56] - Smurfs, The (Europe) (En,Fr,De,Es) scraped in 0.26s
+[00:19:56] - > Solitaire FunPak (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:56] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Solitaire FunPak (USA).xml
+[00:19:56] - > -In 1 try and 0.26s
+[00:19:56] - Solitaire FunPak (USA) scraped in 0.26s
+[00:19:56] - > Solitaire Poker (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:56] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Solitaire Poker (USA, Europe).xml
+[00:19:56] - > -In 1 try and 0.25s
+[00:19:56] - Solitaire Poker (USA, Europe) scraped in 0.26s
+[00:19:56] - > Sonic Blast (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:56] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic Blast (World).xml
+[00:19:56] - > -In 1 try and 0.26s
+[00:19:56] - Sonic Blast (World) scraped in 0.26s
+[00:19:56] - > Sonic Chaos (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:57] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic Chaos (USA, Europe).xml
+[00:19:57] - > -In 1 try and 0.25s
+[00:19:57] - Sonic Chaos (USA, Europe) scraped in 0.25s
+[00:19:57] - > Sonic Drift 2 (Japan, USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:57] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic Drift 2 (Japan, USA).xml
+[00:19:57] - > -In 1 try and 0.26s
+[00:19:57] - Sonic Drift 2 (Japan, USA) scraped in 0.26s
+[00:19:57] - > Sonic Labyrinth (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:57] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic Labyrinth (World).xml
+[00:19:57] - > -In 1 try and 0.25s
+[00:19:57] - Sonic Labyrinth (World) scraped in 0.25s
+[00:19:57] - > Sonic The Hedgehog - Triple Trouble (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:57] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic The Hedgehog - Triple Trouble (USA, Europe).xml
+[00:19:57] - > -In 1 try and 0.26s
+[00:19:57] - Sonic The Hedgehog - Triple Trouble (USA, Europe) scraped in 0.26s
+[00:19:57] - > Sonic The Hedgehog (World) (Rev 1) NOT Scraped ($vScrape_Mode=1)
+[00:19:58] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic The Hedgehog (World) (Rev 1).xml
+[00:19:58] - > -In 1 try and 0.26s
+[00:19:58] - Sonic The Hedgehog (World) (Rev 1) scraped in 0.26s
+[00:19:58] - > Sonic The Hedgehog 2 (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:58] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic The Hedgehog 2 (World).xml
+[00:19:58] - > -In 1 try and 0.26s
+[00:19:58] - Sonic The Hedgehog 2 (World) scraped in 0.26s
+[00:19:58] - > Sonic The Hedgehog Spinball (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:58] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sonic The Hedgehog Spinball (USA, Europe).xml
+[00:19:58] - > -In 1 try and 0.26s
+[00:19:58] - Sonic The Hedgehog Spinball (USA, Europe) scraped in 0.27s
+[00:19:58] - > Space Harrier (World) NOT Scraped ($vScrape_Mode=1)
+[00:19:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Space Harrier (World).xml
+[00:19:59] - > -In 1 try and 0.26s
+[00:19:59] - Space Harrier (World) scraped in 0.27s
+[00:19:59] - > Spider-Man - Return of the Sinister Six (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Spider-Man - Return of the Sinister Six (USA, Europe).xml
+[00:19:59] - > -In 1 try and 0.26s
+[00:19:59] - Spider-Man - Return of the Sinister Six (USA, Europe) scraped in 0.27s
+[00:19:59] - > Spider-Man - X-Men - Arcade's Revenge (USA) NOT Scraped ($vScrape_Mode=1)
+[00:19:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Spider-Man - X-Men - Arcade's Revenge (USA).xml
+[00:19:59] - > -In 1 try and 0.26s
+[00:19:59] - Spider-Man - X-Men - Arcade's Revenge (USA) scraped in 0.26s
+[00:19:59] - > Spider-Man vs. The Kingpin (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:19:59] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Spider-Man vs. The Kingpin (USA, Europe).xml
+[00:19:59] - > -In 1 try and 0.26s
+[00:19:59] - Spider-Man vs. The Kingpin (USA, Europe) scraped in 0.26s
+[00:19:59] - > Sports Illustrated Championship Football & Baseball (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:00] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sports Illustrated Championship Football & Baseball (USA, Europe).xml
+[00:20:00] - > -In 1 try and 0.26s
+[00:20:00] - Sports Illustrated Championship Football & Baseball (USA, Europe) scraped in 0.26s
+[00:20:00] - > Sports Trivia - Championship Edition (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:00] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sports Trivia - Championship Edition (USA, Europe).xml
+[00:20:00] - > -In 1 try and 0.26s
+[00:20:00] - Sports Trivia - Championship Edition (USA, Europe) scraped in 0.26s
+[00:20:00] - > Sports Trivia (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:00] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Sports Trivia (USA).xml
+[00:20:00] - > -In 1 try and 0.25s
+[00:20:00] - Sports Trivia (USA) scraped in 0.26s
+[00:20:00] - > Star Trek - The Next Generation - The Advanced Holodeck Tutorial (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:00] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Star Trek - The Next Generation - The Advanced Holodeck Tutorial (USA).xml
+[00:20:00] - > -In 1 try and 0.26s
+[00:20:00] - Star Trek - The Next Generation - The Advanced Holodeck Tutorial (USA) scraped in 0.26s
+[00:20:00] - > Star Trek Generations - Beyond the Nexus (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:01] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Star Trek Generations - Beyond the Nexus (USA, Europe).xml
+[00:20:01] - > -In 1 try and 0.25s
+[00:20:01] - Star Trek Generations - Beyond the Nexus (USA, Europe) scraped in 0.26s
+[00:20:01] - > Star Wars (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:01] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Star Wars (Europe).xml
+[00:20:01] - > -In 1 try and 0.26s
+[00:20:01] - Star Wars (Europe) scraped in 0.26s
+[00:20:01] - > Stargate (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:01] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Stargate (World).xml
+[00:20:01] - > -In 1 try and 0.25s
+[00:20:01] - Stargate (World) scraped in 0.25s
+[00:20:01] - > Striker (Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:20:01] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Striker (Europe) (En,Fr,De,Es,It).xml
+[00:20:01] - > -In 1 try and 0.25s
+[00:20:01] - Striker (Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:20:01] - > Super Battletank (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:02] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Battletank (USA).xml
+[00:20:02] - > -In 1 try and 0.25s
+[00:20:02] - Super Battletank (USA) scraped in 0.26s
+[00:20:02] - > Super Columns (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:02] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Columns (USA, Europe).xml
+[00:20:02] - > -In 1 try and 0.26s
+[00:20:02] - Super Columns (USA, Europe) scraped in 0.26s
+[00:20:02] - > Super Golf (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:02] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Golf (USA).xml
+[00:20:02] - > -In 1 try and 0.26s
+[00:20:02] - Super Golf (USA) scraped in 0.26s
+[00:20:02] - > Super Monaco GP (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:02] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Monaco GP (USA, Europe).xml
+[00:20:02] - > -In 1 try and 0.26s
+[00:20:02] - Super Monaco GP (USA, Europe) scraped in 0.26s
+[00:20:02] - > Super Off Road (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:03] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Off Road (USA, Europe).xml
+[00:20:03] - > -In 1 try and 0.25s
+[00:20:03] - Super Off Road (USA, Europe) scraped in 0.25s
+[00:20:03] - > Super Return of the Jedi (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:03] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Return of the Jedi (USA, Europe).xml
+[00:20:03] - > -In 1 try and 0.26s
+[00:20:03] - Super Return of the Jedi (USA, Europe) scraped in 0.26s
+[00:20:03] - > Super Smash T.V. (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:03] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Smash T.V. (World).xml
+[00:20:03] - > -In 1 try and 0.26s
+[00:20:03] - Super Smash T.V. (World) scraped in 0.26s
+[00:20:03] - > Super Space Invaders (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:03] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Super Space Invaders (USA, Europe).xml
+[00:20:03] - > -In 1 try and 0.26s
+[00:20:03] - Super Space Invaders (USA, Europe) scraped in 0.26s
+[00:20:03] - > Superman - The Man of Steel (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:04] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Superman - The Man of Steel (Europe).xml
+[00:20:04] - > -In 1 try and 0.26s
+[00:20:04] - Superman - The Man of Steel (Europe) scraped in 0.26s
+[00:20:04] - > Surf Ninjas (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:04] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Surf Ninjas (USA).xml
+[00:20:04] - > -In 1 try and 0.25s
+[00:20:04] - Surf Ninjas (USA) scraped in 0.25s
+[00:20:04] - > T2 - The Arcade Game (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:04] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\T2 - The Arcade Game (USA, Europe).xml
+[00:20:04] - > -In 1 try and 0.26s
+[00:20:04] - T2 - The Arcade Game (USA, Europe) scraped in 0.26s
+[00:20:04] - > Tails Adventures (World) (En,Ja) NOT Scraped ($vScrape_Mode=1)
+[00:20:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tails Adventures (World) (En,Ja).xml
+[00:20:05] - > -In 1 try and 0.26s
+[00:20:05] - Tails Adventures (World) (En,Ja) scraped in 0.27s
+[00:20:05] - > Taito Chase H.Q. (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Taito Chase H.Q. (USA).xml
+[00:20:05] - > -In 1 try and 0.25s
+[00:20:05] - Taito Chase H.Q. (USA) scraped in 0.26s
+[00:20:05] - > TaleSpin (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\TaleSpin (USA, Europe).xml
+[00:20:05] - > -In 1 try and 0.26s
+[00:20:05] - TaleSpin (USA, Europe) scraped in 0.26s
+[00:20:05] - > Tarzan - Lord of the Jungle (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:05] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tarzan - Lord of the Jungle (Europe).xml
+[00:20:05] - > -In 1 try and 0.26s
+[00:20:05] - Tarzan - Lord of the Jungle (Europe) scraped in 0.26s
+[00:20:05] - > Taz in Escape from Mars (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Taz in Escape from Mars (USA, Europe).xml
+[00:20:06] - > -In 1 try and 0.26s
+[00:20:06] - Taz in Escape from Mars (USA, Europe) scraped in 0.26s
+[00:20:06] - > Taz-Mania - The Search for the Lost Seabirds (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Taz-Mania - The Search for the Lost Seabirds (USA, Europe).xml
+[00:20:06] - > -In 1 try and 0.26s
+[00:20:06] - Taz-Mania - The Search for the Lost Seabirds (USA, Europe) scraped in 0.26s
+[00:20:06] - > Tempo Jr. (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tempo Jr. (World).xml
+[00:20:06] - > -In 1 try and 0.26s
+[00:20:06] - Tempo Jr. (World) scraped in 0.26s
+[00:20:06] - > Tengen World Cup Soccer (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:06] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tengen World Cup Soccer (USA, Europe).xml
+[00:20:06] - > -In 1 try and 0.26s
+[00:20:06] - Tengen World Cup Soccer (USA, Europe) scraped in 0.26s
+[00:20:06] - > Terminator 2 - Judgment Day (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Terminator 2 - Judgment Day (World).xml
+[00:20:07] - > -In 1 try and 0.26s
+[00:20:07] - Terminator 2 - Judgment Day (World) scraped in 0.26s
+[00:20:07] - > Terminator, The (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Terminator, The (USA, Europe).xml
+[00:20:07] - > -In 1 try and 0.25s
+[00:20:07] - Terminator, The (USA, Europe) scraped in 0.25s
+[00:20:07] - > Tesserae (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tesserae (USA, Europe).xml
+[00:20:07] - > -In 1 try and 0.25s
+[00:20:07] - Tesserae (USA, Europe) scraped in 0.26s
+[00:20:07] - > Tintin in Tibet (Europe) (En,Fr,De,Es,Nl,Sv) NOT Scraped ($vScrape_Mode=1)
+[00:20:07] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tintin in Tibet (Europe) (En,Fr,De,Es,Nl,Sv).xml
+[00:20:07] - > -In 1 try and 0.26s
+[00:20:07] - Tintin in Tibet (Europe) (En,Fr,De,Es,Nl,Sv) scraped in 0.26s
+[00:20:07] - > Tom and Jerry - The Movie (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Tom and Jerry - The Movie (USA, Europe).xml
+[00:20:08] - > -In 1 try and 0.26s
+[00:20:08] - Tom and Jerry - The Movie (USA, Europe) scraped in 0.26s
+[00:20:08] - > True Lies (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\True Lies (World).xml
+[00:20:08] - > -In 1 try and 0.26s
+[00:20:08] - True Lies (World) scraped in 0.26s
+[00:20:08] - > Ultimate Soccer (Japan, Europe) (En,Fr,De,Es,It) NOT Scraped ($vScrape_Mode=1)
+[00:20:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Ultimate Soccer (Japan, Europe) (En,Fr,De,Es,It).xml
+[00:20:08] - > -In 1 try and 0.25s
+[00:20:08] - Ultimate Soccer (Japan, Europe) (En,Fr,De,Es,It) scraped in 0.25s
+[00:20:08] - > Urban Strike (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Urban Strike (USA, Europe).xml
+[00:20:08] - > -In 1 try and 0.26s
+[00:20:08] - Urban Strike (USA, Europe) scraped in 0.26s
+[00:20:08] - > Vampire - Master of Darkness (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Vampire - Master of Darkness (USA).xml
+[00:20:09] - > -In 1 try and 0.25s
+[00:20:09] - Vampire - Master of Darkness (USA) scraped in 0.25s
+[00:20:09] - > Virtua Fighter Animation (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Virtua Fighter Animation (USA, Europe).xml
+[00:20:09] - > -In 1 try and 0.26s
+[00:20:09] - Virtua Fighter Animation (USA, Europe) scraped in 0.27s
+[00:20:09] - > VR Troopers (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\VR Troopers (USA, Europe).xml
+[00:20:09] - > -In 1 try and 0.26s
+[00:20:09] - VR Troopers (USA, Europe) scraped in 0.27s
+[00:20:09] - > Wheel of Fortune (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:09] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wheel of Fortune (USA).xml
+[00:20:09] - > -In 1 try and 0.26s
+[00:20:09] - Wheel of Fortune (USA) scraped in 0.27s
+[00:20:09] - > Wimbledon (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wimbledon (World).xml
+[00:20:10] - > -In 1 try and 0.26s
+[00:20:10] - Wimbledon (World) scraped in 0.27s
+[00:20:10] - > Winter Olympics - Lillehammer '94 (USA, Europe) (En,Fr,De,Es,It,Pt,Sv,No) NOT Scraped ($vScrape_Mode=1)
+[00:20:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Winter Olympics - Lillehammer '94 (USA, Europe) (En,Fr,De,Es,It,Pt,Sv,No).xml
+[00:20:10] - > -In 1 try and 0.26s
+[00:20:10] - Winter Olympics - Lillehammer '94 (USA, Europe) (En,Fr,De,Es,It,Pt,Sv,No) scraped in 0.26s
+[00:20:10] - > Wizard Pinball (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:10] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wizard Pinball (Europe).xml
+[00:20:10] - > -In 1 try and 0.26s
+[00:20:10] - Wizard Pinball (Europe) scraped in 0.26s
+[00:20:10] - > Wolfchild (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wolfchild (Europe).xml
+[00:20:11] - > -In 1 try and 0.25s
+[00:20:11] - Wolfchild (Europe) scraped in 0.25s
+[00:20:11] - > Wonder Boy - The Dragon's Trap (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wonder Boy - The Dragon's Trap (Europe).xml
+[00:20:11] - > -In 1 try and 0.26s
+[00:20:11] - Wonder Boy - The Dragon's Trap (Europe) scraped in 0.26s
+[00:20:11] - > Wonder Boy (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Wonder Boy (Europe).xml
+[00:20:11] - > -In 1 try and 0.26s
+[00:20:11] - Wonder Boy (Europe) scraped in 0.26s
+[00:20:11] - > Woody Pop (World) NOT Scraped ($vScrape_Mode=1)
+[00:20:11] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Woody Pop (World).xml
+[00:20:11] - > -In 1 try and 0.25s
+[00:20:11] - Woody Pop (World) scraped in 0.25s
+[00:20:11] - > World Class Leader Board (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\World Class Leader Board (USA, Europe).xml
+[00:20:12] - > -In 1 try and 0.26s
+[00:20:12] - World Class Leader Board (USA, Europe) scraped in 0.27s
+[00:20:12] - > World Cup USA 94 (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv) NOT Scraped ($vScrape_Mode=1)
+[00:20:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\World Cup USA 94 (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv).xml
+[00:20:12] - > -In 1 try and 0.26s
+[00:20:12] - World Cup USA 94 (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv) scraped in 0.27s
+[00:20:12] - > World Series Baseball (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\World Series Baseball (USA).xml
+[00:20:12] - > -In 1 try and 0.26s
+[00:20:12] - World Series Baseball (USA) scraped in 0.26s
+[00:20:12] - > World Series Baseball '95 (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:12] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\World Series Baseball '95 (USA).xml
+[00:20:12] - > -In 1 try and 0.26s
+[00:20:12] - World Series Baseball '95 (USA) scraped in 0.26s
+[00:20:12] - > WWF Raw (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\WWF Raw (USA, Europe).xml
+[00:20:13] - > -In 1 try and 0.26s
+[00:20:13] - WWF Raw (USA, Europe) scraped in 0.26s
+[00:20:13] - > WWF Wrestlemania Steel Cage Challenge (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\WWF Wrestlemania Steel Cage Challenge (Europe).xml
+[00:20:13] - > -In 1 try and 0.26s
+[00:20:13] - WWF Wrestlemania Steel Cage Challenge (Europe) scraped in 0.26s
+[00:20:13] - > X-Men - Gamemaster's Legacy (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\X-Men - Gamemaster's Legacy (USA, Europe).xml
+[00:20:13] - > -In 1 try and 0.25s
+[00:20:13] - X-Men - Gamemaster's Legacy (USA, Europe) scraped in 0.26s
+[00:20:13] - > X-Men - Mojo World (USA, Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:13] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\X-Men - Mojo World (USA, Europe).xml
+[00:20:13] - > -In 1 try and 0.26s
+[00:20:13] - X-Men - Mojo World (USA, Europe) scraped in 0.26s
+[00:20:13] - > X-Men (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\X-Men (USA).xml
+[00:20:14] - > -In 1 try and 0.25s
+[00:20:14] - X-Men (USA) scraped in 0.25s
+[00:20:14] - > Zool - Ninja of the 'Nth' Dimension (Europe) NOT Scraped ($vScrape_Mode=1)
+[00:20:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zool - Ninja of the 'Nth' Dimension (Europe).xml
+[00:20:14] - > -In 1 try and 0.26s
+[00:20:14] - Zool - Ninja of the 'Nth' Dimension (Europe) scraped in 0.26s
+[00:20:14] - > Zoop (USA) NOT Scraped ($vScrape_Mode=1)
+[00:20:14] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (USA).xml
+[00:20:14] - > -In 1 try and 0.25s
+[00:20:14] - Zoop (USA) scraped in 0.26s
+[00:20:14] - -- Full Scrape in 72.71s
+[00:21:14] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:21:14] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:21:14] - > SSH Enable
+[00:21:14] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:21:14] - > GUI Refresh
+[00:21:26] - Universal XML Scraper Closed

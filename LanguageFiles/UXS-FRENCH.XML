@@ -14,7 +14,12 @@
 	<err_FillRomList>Aucun fichier trouvé</err_FillRomList>
 	<err_No_Profil>Pas de profil choisi</err_No_Profil>
 	<err_autoconfPathRom>Le chemin des ROMs pour la configuration automatique n'est pas accessible</err_autoconfPathRom>
-	<err_TimeOut>Universal XML Scraper a rencontré un problème pour récupérer les informations de la base de données. Merci de réessayer ultérieurement.</err_TimeOut>
+	<err_UXSGlobal>Universal XML Scraper a rencontré un problème !</err_UXSGlobal>
+	<err_Connection>(Probleme de connection à la BDD)</err_Connection>
+	<err_TimeOut>(Time Out)</err_TimeOut>
+	<err_SystemList>(err_SystemList)</err_SystemList>
+	<err_PlinkGlobal>La commande SSH a rencontré un problème</err_PlinkGlobal>
+	<err_PlinkConnection>(Impossible d'établire la connection)</err_PlinkConnection>
 </error>
 
 <message>

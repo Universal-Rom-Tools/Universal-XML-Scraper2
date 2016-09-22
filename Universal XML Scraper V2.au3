@@ -141,9 +141,9 @@ _LOG("Ending files installation", 1)
 ;---------
 Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
 Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
+Global $iTEMPPath = $iScriptPath & "\TEMP"
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
 Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
-Global $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
 
 _LOG("Verbose LVL : " & $iVerboseLVL, 1)
 _LOG("Path to ini : " & $iINIPath, 1)
@@ -153,9 +153,13 @@ _LOG("Path to language : " & $iLangPath, 1)
 ;Variable def
 ;------------
 Global $vUserLang = IniRead($iINIPath, "LAST_USE", "$vUserLang", -1)
-Local $vSelectedProfil = -1
+Global $MP_, $aPlink_Command
+Local $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
+Local $vXpath2RomPath, $vFullTimer, $vRomTimer, $aPlink_Command, $vSelectedProfil = -1
 Local $L_SCRAPE_Parts[2] = [275, -1]
-Local $oXMLProfil
+Local $oXMLProfil, $oXMLSystem
+Local $aConfig, $aRomList, $aXMLRomList
+Local $nMsg
 
 ;---------;
 ;Principal;
@@ -199,17 +203,12 @@ $vProfilsPath = _ProfilSelection($iProfilsPath, $vProfilsPath)
 IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
 
 ;Opening XML Profil file
-$oXMLProfil = _XML_CreateDOMDocument()
-_XML_Load($oXMLProfil, $vProfilsPath)
-If @error Then
-	_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-	Exit
-EndIf
-_XML_TIDY($oXMLProfil)
-If @error Then
-	_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-	Exit
-EndIf
+$oXMLProfil = _XML_Open($vProfilsPath)
+If $oXMLProfil = -1 Then Exit
+
+;Catching SystemList.xml
+$oXMLSystem = _XMLSystem_Create()
+If $oXMLSystem = -1 Then Exit
 
 ; Main GUI
 #Region ### START Koda GUI section ### Form=
@@ -245,14 +244,6 @@ GUICtrlSetImage($B_SCRAPE, $iScriptPath & "\Ressources\Fleche_DISABLE.bmp", -1, 
 Local $L_SCRAPE = _GUICtrlStatusBar_Create($F_UniversalScraper)
 _GUICtrlStatusBar_SetParts($L_SCRAPE, $L_SCRAPE_Parts)
 
-Local $vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
-If IsArray($vPlink_Command) Then
-	Local $MP_[UBound($vPlink_Command)]
-	For $vBoucle = 1 To UBound($vPlink_Command) - 1
-		$MP_[$vBoucle] = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]), $MP)
-	Next
-EndIf
-
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 _LOG("GUI Constructed", 1)
@@ -260,33 +251,18 @@ $aDIRList = _Check_autoconf($oXMLProfil)
 _GUI_Refresh($oXMLProfil)
 
 While 1
-	Local $nMsg = GUIGetMsg()
+	$nMsg = GUIGetMsg()
 	Switch $nMsg
 		Case $GUI_EVENT_CLOSE, $MF_Exit ; Exit
+			DirRemove($iTEMPPath, 1)
 			_LOG("Universal XML Scraper Closed")
 			Exit
 		Case $MC_Profil ;Profil Selection
 			$vProfilsPath = _ProfilSelection($iProfilsPath)
 			IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
 			;Opening XML Profil file
-			$oXMLProfil = _XML_CreateDOMDocument()
-			_XML_Load($oXMLProfil, $vProfilsPath)
-			If @error Then
-				_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-				Exit
-			EndIf
-			_XML_TIDY($oXMLProfil)
-			If @error Then
-				_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-				Exit
-			EndIf
-			$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
-			If IsArray($vPlink_Command) Then
-				Local $MP_[UBound($vPlink_Command)]
-				For $vBoucle = 1 To UBound($vPlink_Command) - 1
-					$MP_[$vBoucle] = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]), $MP)
-				Next
-			EndIf
+			$oXMLProfil = _XML_Open($vProfilsPath)
+			If $oXMLProfil = -1 Then Exit
 			$aDIRList = _Check_autoconf($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
 			$nMsg = ""
@@ -319,48 +295,38 @@ While 1
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
 		Case $B_SCRAPE
-			Local $aConfig = _LoadConfig($oXMLProfil)
+			DirRemove($iTEMPPath, 1)
+			DirCreate($iTEMPPath)
+			$aConfig = _LoadConfig($oXMLProfil)
 			If $aConfig <> 0 Then
-				Local $FullTimer = TimerInit()
+				$vFullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-				Local $aRomList = _RomList_Create($aConfig)
+
+				$aRomList = _RomList_Create($aConfig)
 				If IsArray($aRomList) Then
-					Local $vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
-					Local $aXMLRomList
+					$vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
 					If FileGetSize($aConfig[0]) <> 0 Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
 					For $vBoucle = 1 To UBound($aRomList) - 1
+						$vRomTimer = TimerInit()
 						$aRomList = _CheckRom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
 						$aRomList = _CalcHash($aRomList, $vBoucle)
+						$aRomList = _DownloadXML($aRomList, $vBoucle)
+						_LOG($aRomList[$vBoucle][2] & " scraped in " & Round((TimerDiff($vRomTimer) / 1000), 2) & "s")
 					Next
+					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
 				EndIf
 			EndIf
 			_GUI_Refresh($oXMLProfil)
-;~ 			If _SCRAPING_VERIF() = 0 Then
-;~ 				If _GUI_REFRESH($INI_P_SOURCE, $INI_P_CIBLE, 1) = 1 Then
-;~ 					$FullTimer = TimerInit()
-;~ 					$V_Header = IniRead($PathConfigINI, $A_Profil[$No_Profil], "$HEADER_1", "0")
-;~ 					$A_System = _SYSTEM_CREATEARRAY_SCREENSCRAPER()
-;~ 					$No_system = _SYSTEM_SelectGUI($A_System)
-;~ 					$aRomList = _SCRAPING($No_Profil, $A_Profil, $vSource_RomPath, $No_system, $vUpperCase, $V_Header)
-;~ 					If IsArray($aRomList) Then
-;~ 						_FUSIONXML($V_Header, $aRomList)
-;~ 						_SCRAPING_BILAN(TimerDiff($FullTimer), $aRomList)
-;~ 					EndIf
-;~ 					FileDelete($PathDIRTmp)
-;~ 					FileDelete($PathTmp_GAME)
-;~ 					FileDelete($PathTmp_SYS)
-;~ 				EndIf
-;~ 			EndIf
-;~ 			_GUI_REFRESH($INI_P_SOURCE, $INI_P_CIBLE, 0)
 	EndSwitch
 	;SSH Menu
-	If IsArray($vPlink_Command) Then
-		For $vBoucle = 1 To UBound($vPlink_Command) - 1
-			If $nMsg = $MP_[$vBoucle] Then _Plink($oXMLProfil, $vPlink_Command[$vBoucle][0])
+	If IsArray($MP_) Then
+		For $vBoucle = 1 To UBound($MP_) - 1
+			If $nMsg = $MP_[$vBoucle] Then _Plink($oXMLProfil, $aPlink_Command[$vBoucle][0])
 		Next
 	EndIf
 
+	;Auto Conf Sub Menu
 	If $aDIRList <> -1 Then
 		For $vBoucle = 1 To UBound($MS_AutoConfigItem) - 1
 			If $nMsg = $MS_AutoConfigItem[$vBoucle] Then
@@ -437,28 +403,30 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 	Local $vPlink_Ip = _XML_Read("Profil/Plink/Ip", 0, "", $oXMLProfil)
 	Local $vPlink_Root = _XML_Read("Profil/Plink/Root", 0, "", $oXMLProfil)
 	Local $vPlink_Pswd = _XML_Read("Profil/Plink/Pswd", 0, "", $oXMLProfil)
-	Local $vPlink_Command = _XML_Read("Profil/Plink/Command/" & $vPlinkCommand, 0, "", $oXMLProfil)
+	Local $aPlink_Command = _XML_Read("Profil/Plink/Command/" & $vPlinkCommand, 0, "", $oXMLProfil)
 
 	If MsgBox($MB_OKCANCEL, $vPlinkCommand, _MultiLang_GetText("mess_ssh_" & $vPlinkCommand)) = $IDOK Then
-		$sRun = $iScriptPath & "\Ressources\plink.exe " & $vPlink_Ip & " -l " & $vPlink_Root & " -pw " & $vPlink_Pswd & " " & $vPlink_Command
+		_LOG("SSH : " & $aPlink_Command)
+		$sRun = $iScriptPath & "\Ressources\plink.exe " & $vPlink_Ip & " -l " & $vPlink_Root & " -pw " & $vPlink_Pswd & " " & $aPlink_Command
 		$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 		While ProcessExists($iPid)
 			$_StderrRead = StderrRead($iPid)
 			If Not @error And $_StderrRead <> '' Then
 				If StringInStr($_StderrRead, 'Unable to open connection') Then
+					MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PlinkGlobal") & @CRLF & _MultiLang_GetText("err_PlinkConnection"))
 					_LOG("Unable to open connection with Plink (" & $vPlink_Root & ":" & $vPlink_Pswd & "@" & $vPlink_Ip & ")", 2)
 					Return -1
 				EndIf
 			EndIf
 		WEnd
-		_LOG("SSH : " & $vPlink_Command)
 	Else
-		_LOG("SSH canceled : " & $vPlink_Command, 1)
+		_LOG("SSH canceled : " & $aPlink_Command, 1)
 	EndIf
+	Return
 EndFunc   ;==>_Plink
 
 Func _GUI_Config_LU()
-	Local $vImage_Extension, $vAutoconf, $vScrapeMode, $vEmptyRom
+	Local $vImage_Extension, $vAutoconf, $vEmptyRom
 	#Region ### START Koda GUI section ### Form=
 	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_LU_Title"), 477, 209, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$G_Scrape = GUICtrlCreateGroup(_MultiLang_GetText("win_config_LU_GroupScrap"), 8, 0, 225, 201)
@@ -536,7 +504,7 @@ Func _GUI_Config_LU()
 EndFunc   ;==>_GUI_Config_LU
 
 Func _GUI_Config_autoconf($oXMLProfil)
-	Local $vImage_Extension, $vAutoconf, $vScrapeMode, $vEmptyRom
+	Local $vImage_Extension, $vAutoconf, $vEmptyRom
 	#Region ### START Koda GUI section ### Form=
 	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_autoconf_Title"), 477, 209, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$CB_Autoconf = GUICtrlCreateCheckbox(_MultiLang_GetText("win_config_autoconf_Use"), 8, 8, 225, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_CENTER, $BS_VCENTER))
@@ -615,8 +583,6 @@ Func _GUI_Config_autoconf($oXMLProfil)
 EndFunc   ;==>_GUI_Config_autoconf
 
 Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
-	Local $vPlink_Command
-
 	If $oXMLProfil <> -1 Then
 		If $ScrapIP = 0 Then
 			; GUI Picture
@@ -648,15 +614,6 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
 			GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
 
-			;SSH Menu
-			If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
-				_LOG("SSH Disable", 1)
-				GUICtrlSetState($MP, $GUI_DISABLE)
-			Else
-				_LOG("SSH Enable", 1)
-				GUICtrlSetState($MP, $GUI_ENABLE)
-			EndIf
-
 			;Overall Menu
 			Local $vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
 			$vSystem = $vSystem[UBound($vSystem) - 1]
@@ -679,14 +636,32 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetData($MS_Scrape, _MultiLang_GetText("mnu_scrape_solo") & " - " & $vSystem)
 			GUICtrlSetData($MS_FullScrape, _MultiLang_GetText("mnu_scrape_fullscrape"))
 
-			GUICtrlSetState($MP, $GUI_ENABLE)
-			GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
+			;SSH Menu
+			If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
+				_LOG("SSH Disable", 1)
+				GUICtrlSetState($MP, $GUI_DISABLE)
+				If IsArray($MP_) Then
+					For $vBoucle = 1 To UBound($MP_) - 1
+						GUICtrlDelete($MP_[$vBoucle])
+					Next
+				EndIf
 
-			$vPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
-			If IsArray($vPlink_Command) Then
-				For $vBoucle = 1 To UBound($vPlink_Command) - 1
-					GUICtrlSetData($MP_[$vBoucle], _MultiLang_GetText("mnu_ssh_" & $vPlink_Command[$vBoucle][0]))
-				Next
+			Else
+				_LOG("SSH Enable", 1)
+				GUICtrlSetState($MP, $GUI_ENABLE)
+				GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
+				If IsArray($MP_) Then
+					For $vBoucle = 1 To UBound($MP_) - 1
+						GUICtrlDelete($MP_[$vBoucle])
+					Next
+				EndIf
+				$aPlink_Command = _XML_ListNode("Profil/Plink/Command", "", $oXMLProfil)
+				If IsArray($aPlink_Command) Then
+					Dim $MP_[UBound($aPlink_Command)]
+					For $vBoucle = 1 To UBound($aPlink_Command) - 1
+						$MP_[$vBoucle] = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_ssh_" & $aPlink_Command[$vBoucle][0]), $MP)
+					Next
+				EndIf
 			EndIf
 
 			GUICtrlSetState($MH, $GUI_ENABLE)
@@ -877,13 +852,13 @@ Func _CalcHash($aRomList, $vNoRom)
 		$TimerHash = TimerInit()
 		$aRomList[$vNoRom][4] = FileGetSize($aRomList[$vNoRom][1])
 		$aRomList[$vNoRom][5] = StringRight(_CRC32ForFile($aRomList[$vNoRom][1]), 8)
-		If Int(($aRomList[$vNoRom][4] / 1048576)) < 50 And IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 0 Then
+		If Int(($aRomList[$vNoRom][4] / 1048576)) > 50 And IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 1 Then
 			_LOG("QUICK Mode ", 1)
 		Else
 			$aRomList[$vNoRom][6] = _MD5ForFile($aRomList[$vNoRom][1])
 			$aRomList[$vNoRom][7] = _SHA1ForFile($aRomList[$vNoRom][1])
 		EndIf
-		_LOG("Rom Info : " & $aRomList[$vNoRom][0] & " in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
+		_LOG("Rom Info (" & $aRomList[$vNoRom][0] & ") Hash in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
 		_LOG("Size : " & $aRomList[$vNoRom][4], 1)
 		_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1)
 		_LOG("MD5 : " & $aRomList[$vNoRom][6], 1)
@@ -891,6 +866,34 @@ Func _CalcHash($aRomList, $vNoRom)
 	EndIf
 	Return $aRomList
 EndFunc   ;==>_CalcHash
+
+Func _XMLSystem_Create()
+	Local $oXMLSystem, $vXMLSystemPath = $iScriptPath & "\Ressources\systemlist.xml"
+	$vXMLSystemPath = _DownloadWRetry("http://www.screenscraper.fr/api/systemesListe.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=XML", $vXMLSystemPath)
+	Switch $vXMLSystemPath
+		Case -1
+			MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_Connection"))
+			Return -1
+		Case -2
+			MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_TimeOut"))
+			Return -1
+		Case Else
+			$oXMLSystem = _XML_Open($vProfilsPath)
+			If $oXMLSystem = -1 Then
+				MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_SystemList"))
+				Return -1
+			Else
+				Return $oXMLSystem
+			EndIf
+	EndSwitch
+EndFunc   ;==>_XMLSystem_Create
+
+Func _DownloadXML($aRomList, $vBoucle)
+	Local $No_system = ""
+	Local $vXMLRom = $iTEMPPath & "\" & StringRegExpReplace($aRomList[$vBoucle][2], "[\[\]/\|\:\?""\*\\<>]", "") & ".xml"
+	$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][4] & "&systemeid=" & $No_system & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
+	Return $aRomList
+EndFunc   ;==>_DownloadXML
 
 #EndRegion Function
 
@@ -909,3 +912,6 @@ EndFunc   ;==>_CalcHash
 ;~ 	$aRomList[][3]=XML to Scrape (0 = No, 1 = Yes)
 ;~ 	$aRomList[][4]=File Size
 ;~ 	$aRomList[][5]=File CRC32
+;~ 	$aRomList[][6]=File MD5
+;~ 	$aRomList[][7]=File SHA1
+;~ 	$aRomList[][8]=XML File Scraped

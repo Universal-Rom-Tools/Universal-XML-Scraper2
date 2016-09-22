@@ -6,7 +6,7 @@
 		<Image_Extension>.jpg</Image_Extension>
 	</General>
 	<AutoConf>
-		<Source_RootPath>C:\Developpement\Romset\RomSetLight</Source_RootPath>
+		<Source_RootPath>Z:\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>

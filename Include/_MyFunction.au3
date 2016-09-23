@@ -986,7 +986,7 @@ Func _XML_Open($iXMLPath)
 		_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 		Return -1
 	EndIf
-	_XML_TIDY($oXMLDoc)
+	$oXMLDoc.loadXML(_XML_TIDY($oXMLDoc))
 	If @error Then
 		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 		Return -1
@@ -1002,7 +1002,7 @@ EndFunc   ;==>_XML_Open
 ;                  $iXMLType	- Type of Value (0 = Node Value, 1 = Attribute Value)
 ;                  $iXMLPath	- Path to the XML File
 ;                  $oXMLDoc		- Object contening the XML File
-; Return values .: Success      - Value
+; Return values .: Success      - First Value
 ;                  Failure      - -1
 ; Author ........: Screech
 ; Modified.......:
@@ -1091,7 +1091,6 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-;~ 			_XML_SaveToFile($oXMLDoc, "TIDY_Example.xml")
 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
 		Case 1

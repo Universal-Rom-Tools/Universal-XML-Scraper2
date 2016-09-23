@@ -142,6 +142,7 @@ _LOG("Ending files installation", 1)
 Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
 Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
 Global $iTEMPPath = $iScriptPath & "\TEMP"
+Global $iRessourcesPath = $iScriptPath & "\Ressources"
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
 Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
 
@@ -301,7 +302,8 @@ While 1
 			If $aConfig <> 0 Then
 				$vFullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-
+				$vRechSYS = IniRead($iINIPath, "GENERAL", "$vRechSYS", 1)
+				$vSystemID = _SelectSystem($oXMLSystem, $vRechSYS)
 				$aRomList = _RomList_Create($aConfig)
 				If IsArray($aRomList) Then
 					$vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
@@ -310,7 +312,7 @@ While 1
 						$vRomTimer = TimerInit()
 						$aRomList = _CheckRom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
 						$aRomList = _CalcHash($aRomList, $vBoucle)
-						$aRomList = _DownloadXML($aRomList, $vBoucle)
+						$aRomList = _DownloadROMXML($aRomList, $vBoucle)
 						_LOG($aRomList[$vBoucle][2] & " scraped in " & Round((TimerDiff($vRomTimer) / 1000), 2) & "s")
 					Next
 					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
@@ -878,22 +880,37 @@ Func _XMLSystem_Create()
 			MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_TimeOut"))
 			Return -1
 		Case Else
-			$oXMLSystem = _XML_Open($vProfilsPath)
+			$oXMLSystem = _XML_Open($vXMLSystemPath)
 			If $oXMLSystem = -1 Then
 				MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_SystemList"))
 				Return -1
 			Else
+				_LOG("systemlist.xml Opened", 1)
 				Return $oXMLSystem
 			EndIf
 	EndSwitch
 EndFunc   ;==>_XMLSystem_Create
 
-Func _DownloadXML($aRomList, $vBoucle)
+Func _DownloadROMXML($aRomList, $vBoucle)
 	Local $No_system = ""
 	Local $vXMLRom = $iTEMPPath & "\" & StringRegExpReplace($aRomList[$vBoucle][2], "[\[\]/\|\:\?""\*\\<>]", "") & ".xml"
 	$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][4] & "&systemeid=" & $No_system & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
 	Return $aRomList
-EndFunc   ;==>_DownloadXML
+EndFunc   ;==>_DownloadROMXML
+
+Func _SelectSystem($oXMLSystem, $vRechSYS)
+	Local $vSystem, $aSystemListTXT, $aSystemListXML
+
+	If $vRechSYS = 1 Then
+		_FileReadToArray($iRessourcesPath & "\systemlist.txt", $aSystemListTXT, $FRTA_NOCOUNT, "|")
+		$vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
+		$vSystem = $vSystem[UBound($vSystem) - 1]
+
+		$aSystemListXML = _XML_ListValue("Data/systeme/noms/*|Data/systeme/id", "", $oXMLSystem)
+		_ArrayDisplay($aSystemListXML, "$aSystemListXML")
+	EndIf
+
+EndFunc   ;==>_SelectSystem
 
 #EndRegion Function
 

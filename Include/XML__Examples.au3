@@ -4,7 +4,7 @@
 #include <array.au3>
 #include <date.au3>
 #include <MsgBoxConstants.au3>
-#include "./_XML.au3"
+#include "XML.au3"
 
 ; This COM Error Hanlder will be used globally (excepting inside UDF Functions)
 Global $oErrorHandler = ObjEvent("AutoIt.Error", ErrFunc_CustomUserHandler_MAIN)
@@ -13,7 +13,7 @@ Global $oErrorHandler = ObjEvent("AutoIt.Error", ErrFunc_CustomUserHandler_MAIN)
 ; This is SetUp for the transfer UDF internal COM Error Handler to the user function
 _XML_ComErrorHandler_UserFunction(ErrFunc_CustomUserHandler_XML)
 
-;~ Example_1__XML_SelectNodes()
+Example_1__XML_SelectNodes()
 
 ;~ Example_2__XML_CreateChildWAttr()
 ;~ If @error Then MsgBox(0, 'Example_2__XML_CreateChildWAttr(): @error:', XML_My_ErrorParser(@error, @extended))
@@ -23,13 +23,13 @@ _XML_ComErrorHandler_UserFunction(ErrFunc_CustomUserHandler_XML)
 ;~ Example_3__XML_ErrorParser_GetDescription()
 ;~ If @error Then MsgBox(0, 'Example_3__XML_ErrorParser_GetDescription(): @error:', XML_My_ErrorParser(@error, @extended))
 
-;~ Example_4__XML_RemoveAttribute()
-;~ If @error Then MsgBox(0, 'Example_4__XML_RemoveAttribute(): @error:', XML_My_ErrorParser(@error, @extended))
+Example_4__XML_RemoveAttribute()
+If @error Then MsgBox(0, 'Example_4__XML_RemoveAttribute(): @error:', XML_My_ErrorParser(@error, @extended))
 
 ;~ Example_5__XML_ReplaceChild()
 ;~ If @error Then MsgBox(0, 'Example_5__XML_ReplaceChild(): @error:', XML_My_ErrorParser(@error, @extended))
 
-Example_6__XML_GetChildNodes()
+;~ Example_6__XML_GetChildNodes()
 ;~ If @error Then MsgBox(0, 'Example_6__XML_GetChildNodes(): @error:', XML_My_ErrorParser(@error, @extended))
 
 ;~ Example_7__XML_GetAllAttribIndex()
@@ -271,17 +271,7 @@ Func Example_6__XML_GetChildNodes()
 
 	; change Nodes Collection to array
 	Local $aNodesColl = _XML_Array_GetNodesProperties($oNodesColl)
-	If @error Then
-		MsgBox($MB_SYSTEMMODAL + $MB_ICONINFORMATION, 'ERR:' & @error & ' EXT:' & @extended, XML_My_ErrorParser(@error, @extended))
-		MsgBox($MB_SYSTEMMODAL + $MB_ICONINFORMATION, '_XML_ErrorParser_GetDescription', _XML_ErrorParser_GetDescription($oXMLDoc))
-		Return 0
-	EndIf
-	If IsArray($aNodesColl) Then
-		_ArrayDisplay($aNodesColl, 'Example_6__XML_GetChildNodes: ')
-	Else
-		MsgBox(0,"ERROR","Pas une array")
-	EndIf
-
+	_ArrayDisplay($aNodesColl, 'Example_6__XML_GetChildNodes: ' & 'Length=' & $oNodesColl.length & '   XPath=' & $oNodesColl.expr)
 
 EndFunc    ;==>Example_6__XML_GetChildNodes
 

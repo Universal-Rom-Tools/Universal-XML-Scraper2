@@ -6,7 +6,7 @@
 		<Image_Extension>.jpg</Image_Extension>
 	</General>
 	<AutoConf>
-		<Source_RootPath>C:\Developpement\Romset\RomSetLight</Source_RootPath>
+		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>
@@ -23,6 +23,17 @@
 			<poweroff>/sbin/poweroff</poweroff>
 		</Command>
 	</Plink>
+	<Root>
+		<Source_Value>Data</Source_Value>
+		<Target_Value>gameList</Target_Value>
+	</Root>
+	<Game>
+		<Source_Value>game</Source_Value>
+		<Target_Value>gameList/game</Target_Value>
+	</Game>
+	<Country>
+		<Source_Value>Data/jeu/region</Source_Value>
+	</Country>
 	<Element Type="Id">
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/id</Source_Value>
@@ -57,7 +68,7 @@
 	</Element>
 	<Element Type="Name">
 		<Source_Type>XML_Value</Source_Type>
-		<Source_Value>Data/jeu/noms/nom_%LANG%</Source_Value>
+		<Source_Value>Data/jeu/noms/nom_%COUNTRY%</Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/name</Target_Value>
 	</Element>
@@ -80,7 +91,7 @@
 		<Source_Type>XML_Download</Source_Type>
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
-		<Source_Value>Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%LANG%</Source_Value>
+		<Source_Value>Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>gameList/game/image</Target_Value>
@@ -100,7 +111,7 @@
 	</Element>
 	<Element Type="ReleaseDate">
 		<Source_Type>XML_Value</Source_Type>
-		<Source_Value>Data/jeu/dates/date_%LANG%</Source_Value>
+		<Source_Value>Data/jeu/dates/date_%COUNTRY%</Source_Value>
 		<Target_Type>XML_Value_FORMAT</Target_Type>
 		<Target_FORMAT>%ES_Date%</Target_FORMAT>
 		<Target_Value>gameList/game/releasedate</Target_Value>
@@ -136,8 +147,8 @@
 		<Target_Value>gameList/game/favorite</Target_Value>
 	</Element>
 	<Element Type="Region">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
+		<Source_Type>XML_Value</Source_Type>
+		<Source_Value>Data/jeu/region</Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>gameList/game/region</Target_Value>
 	</Element>

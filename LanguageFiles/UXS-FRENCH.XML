@@ -5,6 +5,11 @@
 	<prSET_SYSTEM_CREATEARRAY>Récupération de la liste des systèmes</prSET_SYSTEM_CREATEARRAY>
 </progressbar>
 
+<datapref>
+	<langpref>fr|us</langpref>
+	<countrypref>%COUNTRY%|fr|eu|us|origine|jp|xx</countrypref>
+</datapref>
+
 <error>
 	<err_title>Erreur</err_title>
 	<err_PathRom>Le chemin des ROMs n'est pas accessible</err_PathRom>

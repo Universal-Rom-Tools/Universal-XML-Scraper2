@@ -124,7 +124,7 @@ Func _Download($iURL, $iPath, $iTimeOut = 20)
 	InetClose($hDownload)
 
 	If $aData[$INET_DOWNLOADSUCCESS] Then
-		_LOG("File Downloaded : " & $iPath)
+		_LOG("File Downloaded : " & $iPath,1)
 		Return $iPath
 	Else
 		_LOG("Error Downloading File : " & $iPath, 2)
@@ -325,7 +325,7 @@ Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageS
 
 
 	Local $_Selector_gui_GUI = GUICreate(_MultiLang_GetText("win_sel_" & $vText & "_Title"), 230, 100)
-	Local $_Selector_gui_Combo = GUICtrlCreateCombo("(" & _MultiLang_GetText("win_sel_" & $vText & "_Title") & ")", 8, 48, 209, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	Local $_Selector_gui_Combo = GUICtrlCreateCombo("(" & _MultiLang_GetText("win_sel_" & $vText & "_Title") & ")", 8, 48, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE)) ;BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	Local $_Selector_gui_Button = GUICtrlCreateButton(_MultiLang_GetText("win_sel_" & $vText & "_button"), 144, 72, 75, 25)
 	Local $_Selector_gui_Label = GUICtrlCreateLabel(_MultiLang_GetText("win_sel_" & $vText & "_text"), 8, 8, 212, 33)
 
@@ -986,7 +986,7 @@ Func _XML_Open($iXMLPath)
 		_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 		Return -1
 	EndIf
-	$oXMLDoc.loadXML(_XML_TIDY($oXMLDoc))
+	_XML_TIDY($oXMLDoc)
 	If @error Then
 		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 		Return -1
@@ -1015,15 +1015,23 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
 		$oXMLDoc = _XML_Open($iXMLPath)
-		If $oXMLDoc = -1 Then Return -1
+		If $oXMLDoc = -1 Then
+			_LOG('_XML_Open ERROR (' & $iXpath & ')', 2)
+			Return -1
+		EndIf
 	EndIf
 
 	Switch $iXMLType
 		Case 0
 			$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
 			If @error Then
+;~ 				MsgBox(0,"@error",@error)
+				If @error = 21 Then
+					_LOG('_XML_GetValue (' & $iXpath & ') = EMPTY', 1)
+					Return ""
+				EndIf
 				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
-				_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
 			If IsArray($iXMLValue) Then
@@ -1052,7 +1060,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 			_LOG('_XML_GetNodeAttributeValue (' & $iXpath & ') = ' & $iXMLValue, 1)
 			Return $iXMLValue
 		Case Else
-			Return -1
+			Return -2
 	EndSwitch
 
 	Return -1
@@ -1190,6 +1198,103 @@ Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
 	EndIf
 	Return -1
 EndFunc   ;==>_XML_ListNode
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_Make
+; Description ...: Create an XML File and Object
+; Syntax.........: _XML_Make($iXMLPath,$iRoot,[$iUTF8 = True])
+; Parameters ....: $iXMLPath	- Path to the XML File
+;                  $iRoot		- Xpath Root
+;                  $iUTF8		- UTF8 encoding
+; Return values .: Success      - Object contening the XML File
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_Make($iXMLPath, $iRoot, $iUTF8 = True)
+	FileDelete($iXMLPath)
+	Local $oXMLDoc = _XML_CreateFile($iXMLPath, $iRoot, $iUTF8)
+	If @error Then
+		_LOG('_XML_CreateFile @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		Return -1
+	EndIf
+	Return $oXMLDoc
+EndFunc   ;==>_XML_Make
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_WriteValue
+; Description ...: Create a node and is value in XML File or XML Object
+; Syntax.........: _XML_WriteValue($iXpath, [$iValue=""], [$iXMLPath=""], [$oXMLDoc=""])
+; Parameters ....: $iXpath		- Xpath to the value to read
+;                  $iValue		- Value to write
+;                  $iXMLPath	- Path to the XML File
+;                  $oXMLDoc		- Object contening the XML File
+; Return values .: Success      - 1
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "")
+	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
+	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
+	If $iXMLPath <> "" Then
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
+	EndIf
+
+	$iXpathSplit = StringSplit($iXpath, "/")
+	$iXMLChildName = $iXpathSplit[UBound($iXpathSplit) - 1]
+	$iXpath = StringTrimRight($iXpath, StringLen($iXMLChildName) + 1)
+	_XML_CreateChildWAttr($oXMLDoc, $iXpath & "[last()]", $iXMLChildName, Default, $iValue)
+	If @error Then
+		_LOG('_XML_CreateChildWAttr ERROR (' & $iXpath & ')', 2)
+		_LOG('_XML_CreateChildWAttr @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		Return -1
+	EndIf
+	_LOG("Write Value : " & $iXMLChildName & " = " & $iValue, 1)
+	Return 1
+EndFunc   ;==>_XML_WriteValue
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _XML_WriteAttributs
+; Description ...: Read Data in XML File or XML Object
+; Syntax.........: _XML_WriteAttributs($iXpath, $iAttribute, [$iValue=""], [$iXMLPath=""], [$oXMLDoc=""])
+; Parameters ....: $iXpath		- Xpath to the value to read
+;                  $iAttribute	- Attribute name
+;                  $iValue		- Value to write
+;                  $iXMLPath	- Path to the XML File
+;                  $oXMLDoc		- Object contening the XML File
+; Return values .: Success      - 1
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oXMLDoc = "")
+	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
+	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
+	If $iXMLPath <> "" Then
+		$oXMLDoc = _XML_Open($iXMLPath)
+		If $oXMLDoc = -1 Then Return -1
+	EndIf
+
+	_XML_SetAttrib($oXMLDoc, $iXpath & "[last()]", $iAttribute, $iValue)
+	If @error Then
+		_LOG('_XML_SetAttrib ERROR (' & $iXpath & ')', 2)
+		_LOG('_XML_SetAttrib @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		Return -1
+	EndIf
+	Return 1
+EndFunc   ;==>_XML_WriteAttributs
+
 #EndRegion XML Function
 
 #Region XML DOM Error/Event Handling

@@ -478,6 +478,11 @@
 
 #EndRegion XML.au3 - UDF Header
 
+
+
+
+
+
 ; #VARIABLES# ===================================================================================================================
 #Region XML.au3 - Enumeration - ERROR EXTENDED RETURN
 Global Enum _
@@ -693,7 +698,7 @@ Func _XML_CreateComment(ByRef $oXmlDoc, $sXPath, $sComment)
 	#forceref $oXML_COM_ErrorHandler
 
 	Local $oNode_Selected = _XML_SelectSingleNode($oXmlDoc, $sXPath)
-	If @error Then Return SetError(@error, @extended, $XML_RET_FAILURE)
+	If @error Then	Return SetError(@error, @extended, $XML_RET_FAILURE)
 
 	Local $oChild = $oXmlDoc.createComment($sComment)
 	$oNode_Selected.insertBefore($oChild, $oNode_Selected.childNodes(0))
@@ -1275,9 +1280,9 @@ Func _XML_GetValue(ByRef $oXmlDoc, $sXPath)
 	Next
 
 	Local $i
-	For $i = UBound($aResponse) - 1 To 1 Step -1
-		$aResponse[$i] = $aResponse[$i - 1]
-	Next
+    For $i = UBound($aResponse) - 1 To 1 Step - 1
+        $aResponse[$i] = $aResponse[$i - 1]
+    Next
 
 	$aResponse[0] = UBound($aResponse) - 1
 	Return SetError($XML_ERR_OK, $XML_EXT_DEFAULT, $aResponse)
@@ -1947,7 +1952,7 @@ Func __XML_IsValidObject_DOMDocumentOrElement(ByRef $oXML)
 		Return SetError($XML_ERR_INVALIDDOMDOC, $XML_EXT_DOMDOCUMENT, $XML_RET_FAILURE)
 	EndIf
 	Return SetError($XML_ERR_OK, $XML_EXT_DEFAULT, $XML_RET_SUCCESS)
-EndFunc   ;==>__XML_IsValidObject_DOMDocumentOrElement
+EndFunc   ;==>__XML_IsValidObject_DOMDocument
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __XML_IsValidObject_Node
@@ -2838,8 +2843,8 @@ Func _XML_Array_GetNodesProperties(ByRef $oNodesColl)
 	Local $oXML_COM_ErrorHandler = ObjEvent("AutoIt.Error", __XML_ComErrorHandler_InternalFunction)
 	#forceref $oXML_COM_ErrorHandler
 
-	__XML_IsValidObject_NodesColl($oNodesColl)
-	If @error Then Return SetError(@error, @extended, $XML_RET_FAILURE)
+;~ 	__XML_IsValidObject_NodesColl($oNodesColl)
+;~ 	If @error Then Return SetError(@error, @extended, $XML_RET_FAILURE)
 
 	Local $avArray[1][$__g_eARRAY_NODE_ARRAYCOLCOUNT]
 	$avArray[0][$__g_eARRAY_NODE_NAME] = 'nodeName'
@@ -2967,6 +2972,7 @@ EndFunc   ;==>_XML_ErrorParser_GetDescription
 	https://msdn.microsoft.com/en-us/library/ms256086(v=vs.110).aspx
 
 #CE
+
 
 Func _EncodeXML($sFileToEncode)
 ;~ http://www.vb-helper.com/howto_encode_base64_hex.html

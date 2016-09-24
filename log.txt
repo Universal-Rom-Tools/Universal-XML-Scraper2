@@ -1,57 +1,1179 @@
-[17:02:02] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
-[17:02:02] - WIN_10(X64) - 040C
-[17:02:02] - > Dev version
-[17:02:02] - Starting files installation
-[17:02:02] - > Ending files installation
-[17:02:02] - > Verbose LVL : 3
-[17:02:02] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
-[17:02:02] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
-[17:02:02] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
-[17:02:02] - Language Selected : 040c
-[17:02:02] - > Update Checking
-[17:02:03] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
-[17:02:03] - > -In 1 try and 0.52s
-[17:02:03] - Local : In Progress - Github : 1.5.0.11
-[17:02:03] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
-[17:02:03] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v3
-[17:02:03] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
-[17:02:03] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
-[17:02:08] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
-[17:02:08] - > -In 1 try and 4.87s
-[17:02:08] - > systemlist.xml Opened
-[17:02:08] - > GUI Constructed
-[17:02:08] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = C:\Developpement\Romset\RomSetLight
-[17:02:08] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
-[17:02:08] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
-[17:02:08] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
-[17:02:08] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
-[17:02:08] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:02:08] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:02:08] - > SSH Enable
-[17:02:08] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:02:08] - > GUI Refresh
-[17:02:09] - > GUI Desactivated (Scrape in progress)
-[17:02:09] - > _XML_GetValue (Data/systeme/noms/*|Data/systeme/id) = 245 Elements
-[17:02:41] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
-[17:02:41] - 3 Rom(s) found
-[17:02:42] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
-[17:02:42] - > _XML_GetValue (gameList/game/path) = 3 Elements
-[17:02:42] - > Legend of Zelda, The (USA) NOT Scraped ($vScrape_Mode=1)
-[17:02:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Legend of Zelda, The (USA).xml
-[17:02:43] - > -In 1 try and 0.26s
-[17:02:43] - Legend of Zelda, The (USA) scraped in 0.27s
-[17:02:43] - > Mario Bros. Classic (Europe) NOT Scraped ($vScrape_Mode=1)
-[17:02:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Mario Bros. Classic (Europe).xml
-[17:02:43] - > -In 1 try and 0.28s
-[17:02:43] - Mario Bros. Classic (Europe) scraped in 0.29s
-[17:02:43] - > Street Fighter II Turbo (USA) NOT Scraped ($vScrape_Mode=1)
-[17:02:43] - File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Street Fighter II Turbo (USA).xml
-[17:02:43] - > -In 1 try and 0.25s
-[17:02:43] - Street Fighter II Turbo (USA) scraped in 0.26s
-[17:02:43] - -- Full Scrape in 34.1s
-[17:02:45] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
-[17:02:45] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[17:02:45] - > SSH Enable
-[17:02:45] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[17:02:45] - > GUI Refresh
-[17:02:46] - Universal XML Scraper Closed
+[00:49:43] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[00:49:43] - WIN_10(X64) - 040C
+[00:49:43] - > Dev version
+[00:49:43] - Starting files installation
+[00:49:43] - > Ending files installation
+[00:49:43] - > Verbose LVL : 1
+[00:49:43] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[00:49:43] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[00:49:43] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[00:49:43] - Language Selected : 040c
+[00:49:43] - > Update Checking
+[00:49:44] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[00:49:44] - > -In 1 try and 0.77s
+[00:49:44] - Local : In Progress - Github : 1.5.0.11
+[00:49:44] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
+[00:49:44] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
+[00:49:44] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[00:49:50] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
+[00:49:50] - > -In 1 try and 5.89s
+[00:49:50] - > systemlist.xml Opened
+[00:49:50] - > GUI Constructed
+[00:49:50] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\SYNO-SCREECH\Emulation\roms
+[00:49:50] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
+[00:49:50] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
+[00:49:50] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
+[00:49:50] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
+[00:49:50] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:49:50] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:49:50] - > SSH Enable
+[00:49:50] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:49:50] - > GUI Refresh
+[00:49:53] - > $vTarget_XMLName = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml
+[00:49:53] - > $vSource_RomPath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST
+[00:49:53] - > $vTarget_RomPath = ./
+[00:49:53] - > $vSource_ImagePath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\downloaded_images
+[00:49:53] - > $vTarget_ImagePath = ./downloaded_images/
+[00:49:53] - > $vScrape_Mode = 0
+[00:49:53] - > $MissingRom_Mode = 0
+[00:49:53] - > $CountryPic_Mode = 0
+[00:49:53] - > GUI Desactivated (Scrape in progress)
+[00:49:53] - > vScrape_Mode = 0 And \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml = 7089 ---> _XML_Make
+[00:49:53] - > _XML_GetValue (Profil/Root/Target_Value) = gameList
+[00:49:53] - > _XML_GetValue (Data/systeme/noms/*) = 127 Elements
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive"]/id) = 1
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Genesis"]/id) = 1
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Master System"]/id) = 2
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "NES"]/id) = 3
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer"]/id) = 3
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Super Nintendo"]/id) = 4
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Super Famicom"]/id) = 4
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System"]/id) = 6
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 2"]/id) = 7
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 3"]/id) = 8
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy"]/id) = 9
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Color"]/id) = 10
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Virtual Boy"]/id) = 11
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Advance"]/id) = 12
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Gamecube"]/id) = 13
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64"]/id) = 14
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo DS"]/id) = 15
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Wii"]/id) = 16
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Wii U"]/id) = 18
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive 32X"]/id) = 19
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Sega 32X"]/id) = 19
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Mega-CD"]/id) = 20
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Sega CD"]/id) = 20
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Gear"]/id) = 21
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Saturn"]/id) = 22
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Dreamcast"]/id) = 23
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo AES"]/id) = 24
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket"]/id) = 25
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600"]/id) = 26
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Jaguar"]/id) = 27
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Lynx"]/id) = 28
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "3DO"]/id) = 29
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "N-Gage"]/id) = 30
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine"]/id) = 31
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "TurboGrafx-16"]/id) = 31
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Xbox"]/id) = 32
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Xbox 360"]/id) = 33
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Another Arcade Emulator"]/id) = 35
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atom"]/id) = 36
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "BBC Micro"]/id) = 37
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari 800"]/id) = 38
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600 Supercharger"]/id) = 39
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari 5200"]/id) = 40
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari 7800"]/id) = 41
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari ST"]/id) = 42
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atari XE"]/id) = 43
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Astrocade"]/id) = 44
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan"]/id) = 45
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan Color"]/id) = 46
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Cave"]/id) = 47
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Colecovision"]/id) = 48
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Daphne"]/id) = 49
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX"]/id) = 50
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX II"]/id) = 51
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game & Watch"]/id) = 52
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Atomiswave"]/id) = 53
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Model 2"]/id) = 54
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Model 3"]/id) = 55
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Naomi"]/id) = 56
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Playstation"]/id) = 57
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Playstation 2"]/id) = 58
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PSP"]/id) = 61
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PS Vita"]/id) = 62
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Android"]/id) = 63
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Amiga"]/id) = 64
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "CPC"]/id) = 65
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Commodore 64"]/id) = 66
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Super Cassette Vision"]/id) = 67
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo MVS"]/id) = 68
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Sega ST-V"]/id) = 69
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo CD"]/id) = 70
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Fightcade"]/id) = 71
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PC-FX"]/id) = 72
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Vic-20"]/id) = 73
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PV-1000"]/id) = 74
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Mame"]/id) = 75
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "ZX Spectrum"]/id) = 76
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "ZX81"]/id) = 77
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Adventure Vision"]/id) = 78
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Sharp X68000"]/id) = 79
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Channel F"]/id) = 80
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Action Max"]/id) = 81
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket Color"]/id) = 82
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Aamber Pegasus"]/id) = 83
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Archimedes"]/id) = 84
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Electron"]/id) = 85
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Apple II"]/id) = 86
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "GX4000"]/id) = 87
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Camputers Lynx"]/id) = 88
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Adam"]/id) = 89
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Mega Duck"]/id) = 90
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Cougar Boy"]/id) = 90
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Dragon 32/64"]/id) = 91
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "EG2000 Colour Genie"]/id) = 92
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "BK"]/id) = 93
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Arcadia 2001"]/id) = 94
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Pocket Computer"]/id) = 95
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "EXL 100"]/id) = 96
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "FM-7"]/id) = 97
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Loopy"]/id) = 98
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Plus/4"]/id) = 99
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Super A'can"]/id) = 100
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "GP32"]/id) = 101
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Vectrex"]/id) = 102
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game Master"]/id) = 103
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Videopac G7000"]/id) = 104
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Magnavox Odyssey²"]/id) = 104
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine SuperGrafx"]/id) = 105
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer Disk System"]/id) = 106
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Famiri Konpyuta Disuku Shisutemu"]/id) = 106
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Satellaview"]/id) = 107
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Sufami Turbo"]/id) = 108
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "SG-1000"]/id) = 109
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo Power"]/id) = 110
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Amiga (AGA)"]/id) = 111
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Type X"]/id) = 112
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "MSX"]/id) = 113
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine CD-Rom"]/id) = 114
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Intellivision"]/id) = 115
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "MSX2"]/id) = 116
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "MSX2+"]/id) = 117
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "MSX R Turbo"]/id) = 118
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "GBA e-Reader"]/id) = 119
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "V.Smile"]/id) = 120
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Game.com"]/id) = 121
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64DD"]/id) = 122
+[00:49:53] - > _XML_GetValue (Data/systeme[noms/* = "ScummVM"]/id) = 123
+[00:49:53] - No system found for : megadrive test
+[00:49:58] - > Value selected : 1
+[00:49:58] - System selected No 1
+[00:49:58] - > Listing ROM (*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.cue;*.sav*|downloaded_images)
+[00:49:58] - 11 Rom(s) found
+[00:50:00] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
+[00:50:00] - > Introuvable To Scrape ($vScrape_Mode=0)
+[00:50:00] - Rom Info (Introuvable.zip) Hash in 0.02s
+[00:50:00] - > Size : 536836
+[00:50:00] - > CRC32 : E7329DA8
+[00:50:00] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:50:00] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:50:00] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:50:00] - > -In 1 try and 0.26s
+[00:50:00] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:50:00] - > -In 1 try and 0.26s
+[00:50:00] - Introuvable scraped in 0.56s - NOT FOUND
+[00:50:00] - > Zombies Ate My Neighbors (USA) To Scrape ($vScrape_Mode=0)
+[00:50:00] - Rom Info (Zombies Ate My Neighbors (USA).zip) Hash in 0.03s
+[00:50:00] - > Size : 536797
+[00:50:00] - > CRC32 : FE272E3D
+[00:50:00] - > MD5 : 32CD513313294A04E4747992E6C0047B
+[00:50:00] - > SHA1 : B9FA3732C13F484BFB7D1E948994A71E3465099D
+[00:50:01] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zombies Ate My Neighbors (USA).xml
+[00:50:01] - > -In 1 try and 0.26s
+[00:50:01] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:01] - > Write Value : game = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:01] - > _XML_GetValue (Data/jeu/id) = 87
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:01] - > Write Value : path = ./Zombies Ate My Neighbors (USA).zip
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:01] - > Write Value : emulator = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:01] - > Write Value : core = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:01] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = USA
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zombies Ate My Neighbors
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:01] - > Write Value : name = Zombies Ate My Neighbors
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:01] - > Write Value : desc = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
+[00:50:01] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:01] - > Write Value : thumbnail = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:01] - > _XML_GetValue (Data/jeu/developpeur) = LucasArts
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:01] - > Write Value : developer = LucasArts
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:01] - > _XML_GetValue (Data/jeu/editeur) = Konami
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:01] - > Write Value : publisher = Konami
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Action
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:01] - > Write Value : genre = Action
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:01] - > _XML_GetValue (Data/jeu/joueurs) = 1-2
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:01] - > Write Value : players = 1-2
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:01] - > Write Value : favorite = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = USA
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:01] - > Write Value : region = USA
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:01] - > Write Value : romtype = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:01] - > Write Value : hidden = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:01] - Zombies Ate My Neighbors (USA) scraped in 0.45s - FOUND
+[00:50:01] - > Zool - Ninja of the 'Nth' Dimension (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:01] - Rom Info (Zool - Ninja of the 'Nth' Dimension (Europe).zip) Hash in 0.02s
+[00:50:01] - > Size : 555337
+[00:50:01] - > CRC32 : D775F952
+[00:50:01] - > MD5 : 736D5E752A188E796BD11A5F0A37C5E4
+[00:50:01] - > SHA1 : 046815252F592517C911AAF19F56C99BB274D880
+[00:50:01] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zool - Ninja of the 'Nth' Dimension (Europe).xml
+[00:50:01] - > -In 1 try and 0.25s
+[00:50:01] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:01] - > Write Value : game = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:01] - > _XML_GetValue (Data/jeu/id) = 346
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:01] - > Write Value : path = ./Zool - Ninja of the 'Nth' Dimension (Europe).zip
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:01] - > Write Value : emulator = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:01] - > Write Value : core = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:01] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zool
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:01] - > Write Value : name = Zool
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Vous incarnez Zool dans ce jeu d'action/plates-formes sur Megadrive, un ninja de la "Nième Dimension" qui a la capacité de se déplacer très rapidement et de grimper aux parois. Le jeu vous offre la possibilité (originale pour l'époque), de choisir votre musique (Rock ou Funk) ainsi que la vitesse du jeu, qui est une composante essentielle.
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:01] - > Write Value : desc = Vous incarnez Zool dans ce jeu d'action/plates-formes sur Megadrive, un ninja de la "Nième Dimension" qui a la capacité de se déplacer très rapidement et de grimper aux parois. Le jeu vous offre la possibilité (originale pour l'époque), de choisir votre musique (Rock ou Funk) ainsi que la vitesse du jeu, qui est une composante essentielle.
+[00:50:01] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:01] - > Write Value : thumbnail = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:01] - > _XML_GetValue (Data/jeu/developpeur) = Gremlin Interactive
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:01] - > Write Value : developer = Gremlin Interactive
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:01] - > _XML_GetValue (Data/jeu/editeur) = Gremlin Interactive
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:01] - > Write Value : publisher = Gremlin Interactive
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Plateforme
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:01] - > Write Value : genre = Plateforme
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:01] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:01] - > Write Value : players = 1
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:01] - > Write Value : favorite = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:01] - > Write Value : region = Europe
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:01] - > Write Value : romtype = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:01] - > Write Value : hidden = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:01] - Zool - Ninja of the 'Nth' Dimension (Europe) scraped in 0.36s - FOUND
+[00:50:01] - > Zoom! (World) To Scrape ($vScrape_Mode=0)
+[00:50:01] - Rom Info (Zoom! (World).zip) Hash in 0.01s
+[00:50:01] - > Size : 157776
+[00:50:01] - > CRC32 : B3F827F8
+[00:50:01] - > MD5 : BA9C3CD15DA463EDB28C7C636E4CFA60
+[00:50:01] - > SHA1 : 5F766A0F1285CDF4539AF5735095C750EAC97438
+[00:50:01] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoom! (World).xml
+[00:50:01] - > -In 1 try and 0.26s
+[00:50:01] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:01] - > Write Value : game = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:01] - > _XML_GetValue (Data/jeu/id) = 421
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:01] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:01] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:01] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:01] - > Write Value : path = ./Zoom! (World).zip
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:01] - > Write Value : emulator = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:01] - > Write Value : core = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:01] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = World
+[00:50:01] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zoom
+[00:50:01] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:01] - > Write Value : name = Zoom
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zoom sur Megadrive est un jeu de stratégie-réflexion où l'on dirige Zoomer, un nain poilu, à travers différents niveaux. Chacun d'entre eux est constitué d'un damier visualisé en perspective. L'objectif est de passer sur les 4 côtés d'une case et ainsi de nettoyer les lignes. Une fois ces dernières activées, le joueur passe au niveau suivant. De nombreux ennemis viennent cependant augmenter la difficulté.
+[00:50:01] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:01] - > Write Value : desc = Zoom sur Megadrive est un jeu de stratégie-réflexion où l'on dirige Zoomer, un nain poilu, à travers différents niveaux. Chacun d'entre eux est constitué d'un damier visualisé en perspective. L'objectif est de passer sur les 4 côtés d'une case et ainsi de nettoyer les lignes. Une fois ces dernières activées, le joueur passe au niveau suivant. De nombreux ennemis viennent cependant augmenter la difficulté.
+[00:50:01] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:01] - > Write Value : thumbnail = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:01] - > _XML_GetValue (Data/jeu/developpeur) = Discovery Software
+[00:50:01] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:01] - > Write Value : developer = Discovery Software
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:01] - > _XML_GetValue (Data/jeu/editeur) = Discovery Software
+[00:50:01] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:01] - > Write Value : publisher = Discovery Software
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:01] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Puzzle-Game
+[00:50:01] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:01] - > Write Value : genre = Puzzle-Game
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:01] - > _XML_GetValue (Data/jeu/joueurs) = 1-2
+[00:50:01] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:01] - > Write Value : players = 1-2
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:01] - > Write Value : favorite = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:01] - > _XML_GetValue (Data/jeu/region) = World
+[00:50:01] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:01] - > Write Value : region = World
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:01] - > Write Value : romtype = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:01] - > Write Value : hidden = 
+[00:50:01] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:01] - Zoom! (World) scraped in 0.39s - FOUND
+[00:50:01] - > Zoop (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:01] - Rom Info (Zoop (Europe).zip) Hash in 0.02s
+[00:50:01] - > Size : 536836
+[00:50:01] - > CRC32 : E7329DA8
+[00:50:01] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:50:01] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:50:02] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (Europe).xml
+[00:50:02] - > -In 1 try and 0.26s
+[00:50:02] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (Europe).xml
+[00:50:02] - > -In 1 try and 0.26s
+[00:50:02] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:02] - > Write Value : game = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:02] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:02] - > _XML_GetValue (Data/jeu/id) = 502
+[00:50:02] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:02] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:02] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:02] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:02] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:02] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:02] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:02] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:02] - > Write Value : path = ./Zoop (Europe).zip
+[00:50:02] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:02] - > Write Value : emulator = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:02] - > Write Value : core = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:02] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:02] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:02] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:02] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:50:02] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:02] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zoop
+[00:50:02] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:02] - > Write Value : name = Zoop
+[00:50:02] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:02] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zoop sur Megadrive est un puzzle-game dans lequel il faut assembler des blocs de couleur identique, de telle manière à éviter qu'ils ne vous submergent. L'originalité du jeu tient au fait que vous êtes placé au centre des blocs et devez gérer ces éléments de tous les côtés de l'écran. Des blocs de couleur apparaissent à allure régulière et font grimper les colonnes. Pour faire diminuer celles-ci, il vous faut absolument mettre en contact des blocs de couleur identiques.
+[00:50:02] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:02] - > Write Value : desc = Zoop sur Megadrive est un puzzle-game dans lequel il faut assembler des blocs de couleur identique, de telle manière à éviter qu'ils ne vous submergent. L'originalité du jeu tient au fait que vous êtes placé au centre des blocs et devez gérer ces éléments de tous les côtés de l'écran. Des blocs de couleur apparaissent à allure régulière et font grimper les colonnes. Pour faire diminuer celles-ci, il vous faut absolument mettre en contact des blocs de couleur identiques.
+[00:50:02] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:02] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:02] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:02] - > Write Value : thumbnail = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:02] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:02] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:02] - > _XML_GetValue (Data/jeu/developpeur) = Viacom
+[00:50:02] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:02] - > Write Value : developer = Viacom
+[00:50:02] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:02] - > _XML_GetValue (Data/jeu/editeur) = Viacom
+[00:50:02] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:02] - > Write Value : publisher = Viacom
+[00:50:02] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:02] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Puzzle-Game
+[00:50:02] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:02] - > Write Value : genre = Puzzle-Game
+[00:50:02] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:02] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:02] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:02] - > Write Value : players = 1
+[00:50:02] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:02] - > Write Value : favorite = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:02] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:02] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:02] - > Write Value : region = Europe
+[00:50:02] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:02] - > Write Value : romtype = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:02] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:02] - > Write Value : hidden = 
+[00:50:02] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:02] - Zoop (Europe) scraped in 0.68s - FOUND
+[00:50:02] - > Introuvable To Scrape ($vScrape_Mode=0)
+[00:50:02] - Rom Info (Test Rep\Introuvable.zip) Hash in 0.02s
+[00:50:02] - > Size : 536836
+[00:50:02] - > CRC32 : E7329DA8
+[00:50:02] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:50:02] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:50:02] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:50:02] - > -In 1 try and 0.25s
+[00:50:03] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:50:03] - > -In 1 try and 0.26s
+[00:50:03] - Introuvable scraped in 0.57s - NOT FOUND
+[00:50:03] - > Zero the Kamikaze Squirrel (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:03] - Rom Info (Test Rep\Zero the Kamikaze Squirrel (Europe).zip) Hash in 0.07s
+[00:50:03] - > Size : 1158373
+[00:50:03] - > CRC32 : 88014668
+[00:50:03] - > MD5 : 56B224EE9352AA9E312FD18D3769407D
+[00:50:03] - > SHA1 : D2361652C9330A17A5B7F9ECA74208EA6AB43230
+[00:50:03] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero the Kamikaze Squirrel (Europe).xml
+[00:50:03] - > -In 1 try and 0.25s
+[00:50:03] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:03] - > Write Value : game = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:03] - > _XML_GetValue (Data/jeu/id) = 600
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:03] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:03] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:03] - > Write Value : path = ./Test Rep/Zero the Kamikaze Squirrel (Europe).zip
+[00:50:03] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:03] - > Write Value : emulator = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:03] - > Write Value : core = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:03] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:03] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:03] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:03] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:50:03] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:03] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zero The Kamikaze Squirrel
+[00:50:03] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:03] - > Write Value : name = Zero The Kamikaze Squirrel
+[00:50:03] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:03] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zero : the Kamikaze Squirrel sur Megadrive est un jeu de plates-formes tiré de la série Aero the Acro-Bat. Le joueur doit aider Zero à sauver sa dulcinée ainsi que la forêt, en passe d'être rasée. Pour y arriver, Zero dispose de plusieurs mouvements et attaques, il sera aussi possible de trouver dans le jeu un jet pack pour effectuer des sauts plus importants.
+[00:50:03] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:03] - > Write Value : desc = Zero : the Kamikaze Squirrel sur Megadrive est un jeu de plates-formes tiré de la série Aero the Acro-Bat. Le joueur doit aider Zero à sauver sa dulcinée ainsi que la forêt, en passe d'être rasée. Pour y arriver, Zero dispose de plusieurs mouvements et attaques, il sera aussi possible de trouver dans le jeu un jet pack pour effectuer des sauts plus importants.
+[00:50:03] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:03] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:03] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:03] - > Write Value : thumbnail = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:03] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:03] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:03] - > _XML_GetValue (Data/jeu/developpeur) = Iguana Entertainment
+[00:50:03] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:03] - > Write Value : developer = Iguana Entertainment
+[00:50:03] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:03] - > _XML_GetValue (Data/jeu/editeur) = Sunsoft
+[00:50:03] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:03] - > Write Value : publisher = Sunsoft
+[00:50:03] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:03] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Plateforme
+[00:50:03] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:03] - > Write Value : genre = Plateforme
+[00:50:03] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:03] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:03] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:03] - > Write Value : players = 1
+[00:50:03] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:03] - > Write Value : favorite = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:03] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:03] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:03] - > Write Value : region = Europe
+[00:50:03] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:03] - > Write Value : romtype = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:03] - > Write Value : hidden = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:03] - Zero the Kamikaze Squirrel (Europe) scraped in 0.44s - FOUND
+[00:50:03] - > Zero Tolerance (USA, Europe) To Scrape ($vScrape_Mode=0)
+[00:50:03] - Rom Info (Test Rep\Zero Tolerance (USA, Europe).zip) Hash in 0.02s
+[00:50:03] - > Size : 738636
+[00:50:03] - > CRC32 : AF9092F0
+[00:50:03] - > MD5 : 22AA9FCCCDB2657E2B910768F17683F8
+[00:50:03] - > SHA1 : E1C85B5D62A1A8AFE81D80F159042AF3B641B641
+[00:50:03] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero Tolerance (USA, Europe).xml
+[00:50:03] - > -In 1 try and 0.26s
+[00:50:03] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:03] - > Write Value : game = 
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:03] - > _XML_GetValue (Data/jeu/id) = 361
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:03] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:03] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:04] - > Write Value : path = ./Test Rep/Zero Tolerance (USA, Europe).zip
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:04] - > Write Value : emulator = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:04] - > Write Value : core = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:04] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:04] - > _XML_GetValue (Data/jeu/region) = USA
+[00:50:04] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zero Tolerance
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:04] - > Write Value : name = Zero Tolerance
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:04] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zero Tolerance sur Megadrive est un jeu de tir à la première personne qui vous place au milieu d'un groupe d'intervention de secours qu'il faut sans cesse protéger. Vous devez vous occuper des voyous tandis que les pompiers font leur possible pour dégager le chemin et parvenir jusqu'aux civils toujours prisonniers des flammes. Tout un panel d'objets est à votre disposition pour repousser les flammes et combattre les opportuns.
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:04] - > Write Value : desc = Zero Tolerance sur Megadrive est un jeu de tir à la première personne qui vous place au milieu d'un groupe d'intervention de secours qu'il faut sans cesse protéger. Vous devez vous occuper des voyous tandis que les pompiers font leur possible pour dégager le chemin et parvenir jusqu'aux civils toujours prisonniers des flammes. Tout un panel d'objets est à votre disposition pour repousser les flammes et combattre les opportuns.
+[00:50:04] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:04] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:04] - > Write Value : thumbnail = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:04] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:04] - > _XML_GetValue (Data/jeu/developpeur) = Accolade
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:04] - > Write Value : developer = Accolade
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:04] - > _XML_GetValue (Data/jeu/editeur) = Accolade
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:04] - > Write Value : publisher = Accolade
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:04] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Action
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:04] - > Write Value : genre = Action
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:04] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:04] - > Write Value : players = 1
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:04] - > Write Value : favorite = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:04] - > _XML_GetValue (Data/jeu/region) = USA
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:04] - > Write Value : region = USA
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:04] - > Write Value : romtype = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:04] - > Write Value : hidden = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:04] - Zero Tolerance (USA, Europe) scraped in 0.42s - FOUND
+[00:50:04] - > Zero Wing (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:04] - Rom Info (Test Rep\Zero Wing (Europe).zip) Hash in 0.03s
+[00:50:04] - > Size : 366692
+[00:50:04] - > CRC32 : 461F24A2
+[00:50:04] - > MD5 : 021E8DA44DFD6FEE93EE9605C8DA8412
+[00:50:04] - > SHA1 : 5D2AE03CBFBB711C6D1D56AF30356AAF3978E2BA
+[00:50:04] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zero Wing (Europe).xml
+[00:50:04] - > -In 1 try and 0.25s
+[00:50:04] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:04] - > Write Value : game = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:04] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:04] - > _XML_GetValue (Data/jeu/id) = 326
+[00:50:04] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:04] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:04] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:04] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:04] - > Write Value : path = ./Test Rep/Zero Wing (Europe).zip
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:04] - > Write Value : emulator = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:04] - > Write Value : core = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:04] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:04] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:04] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:04] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:50:04] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:04] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zero Wing
+[00:50:04] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:04] - > Write Value : name = Zero Wing
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:04] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zero Wing est un shoot'em up sorti sur Megadrive. Vous êtes l'escadron de la Voie Lactée, le seul espoir de la galaxie pour arrêter la bande de Cats, des pirates interstellaires qui jouent les fanfarons.
+[00:50:04] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:04] - > Write Value : desc = Zero Wing est un shoot'em up sorti sur Megadrive. Vous êtes l'escadron de la Voie Lactée, le seul espoir de la galaxie pour arrêter la bande de Cats, des pirates interstellaires qui jouent les fanfarons.
+[00:50:04] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:04] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:04] - > Write Value : thumbnail = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:04] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:04] - > _XML_GetValue (Data/jeu/developpeur) = Toaplan
+[00:50:04] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:04] - > Write Value : developer = Toaplan
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:04] - > _XML_GetValue (Data/jeu/editeur) = Toaplan
+[00:50:04] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:04] - > Write Value : publisher = Toaplan
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:04] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Shoot'em Up
+[00:50:04] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:04] - > Write Value : genre = Shoot'em Up
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:04] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:04] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:04] - > Write Value : players = 1
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:04] - > Write Value : favorite = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:04] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:04] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:04] - > Write Value : region = Europe
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:04] - > Write Value : romtype = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:04] - > Write Value : hidden = 
+[00:50:04] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:04] - Zero Wing (Europe) scraped in 0.43s - FOUND
+[00:50:04] - > Zombies (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:04] - Rom Info (Test Rep\Zombies (Europe).zip) Hash in 0.02s
+[00:50:04] - > Size : 536169
+[00:50:04] - > CRC32 : E73624E7
+[00:50:04] - > MD5 : DDC693A1726E293544B2746BB12C6C18
+[00:50:04] - > SHA1 : 60025DFE3F464370E79A723A37F281539F9A1B78
+[00:50:05] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zombies (Europe).xml
+[00:50:05] - > -In 1 try and 0.52s
+[00:50:05] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:05] - > Write Value : game = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:05] - > _XML_GetValue (Data/jeu/id) = 87
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:05] - > Write Value : path = ./Test Rep/Zombies (Europe).zip
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:05] - > Write Value : emulator = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:05] - > Write Value : core = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:05] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:05] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_fr) = Zombies
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:05] - > Write Value : name = Zombies
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:05] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:05] - > Write Value : desc = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
+[00:50:05] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:05] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:05] - > Write Value : thumbnail = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:05] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:05] - > _XML_GetValue (Data/jeu/developpeur) = LucasArts
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:05] - > Write Value : developer = LucasArts
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:05] - > _XML_GetValue (Data/jeu/editeur) = Konami
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:05] - > Write Value : publisher = Konami
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:05] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Action
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:05] - > Write Value : genre = Action
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:05] - > _XML_GetValue (Data/jeu/joueurs) = 1-2
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:05] - > Write Value : players = 1-2
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:05] - > Write Value : favorite = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:05] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:05] - > Write Value : region = Europe
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:05] - > Write Value : romtype = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:05] - > Write Value : hidden = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:05] - Zombies (Europe) scraped in 0.7s - FOUND
+[00:50:05] - > Zoop (Europe) To Scrape ($vScrape_Mode=0)
+[00:50:05] - Rom Info (Test Rep\Zoop (Europe).zip) Hash in 0.02s
+[00:50:05] - > Size : 536836
+[00:50:05] - > CRC32 : E7329DA8
+[00:50:05] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:50:05] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:50:05] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (Europe).xml
+[00:50:05] - > -In 1 try and 0.26s
+[00:50:05] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zoop (Europe).xml
+[00:50:05] - > -In 1 try and 0.26s
+[00:50:05] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:50:05] - > Write Value : game = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:50:05] - > _XML_GetValue (Data/jeu/id) = 502
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:50:05] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:50:05] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:50:05] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:50:05] - > Write Value : path = ./Test Rep/Zoop (Europe).zip
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:50:05] - > Write Value : emulator = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:50:05] - > Write Value : core = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:50:05] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:50:05] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:50:05] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zoop
+[00:50:05] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:50:05] - > Write Value : name = Zoop
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:50:05] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zoop sur Megadrive est un puzzle-game dans lequel il faut assembler des blocs de couleur identique, de telle manière à éviter qu'ils ne vous submergent. L'originalité du jeu tient au fait que vous êtes placé au centre des blocs et devez gérer ces éléments de tous les côtés de l'écran. Des blocs de couleur apparaissent à allure régulière et font grimper les colonnes. Pour faire diminuer celles-ci, il vous faut absolument mettre en contact des blocs de couleur identiques.
+[00:50:05] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:50:05] - > Write Value : desc = Zoop sur Megadrive est un puzzle-game dans lequel il faut assembler des blocs de couleur identique, de telle manière à éviter qu'ils ne vous submergent. L'originalité du jeu tient au fait que vous êtes placé au centre des blocs et devez gérer ces éléments de tous les côtés de l'écran. Des blocs de couleur apparaissent à allure régulière et font grimper les colonnes. Pour faire diminuer celles-ci, il vous faut absolument mettre en contact des blocs de couleur identiques.
+[00:50:05] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:50:05] - > _XML_GetValue (/Profil/Element[9]/Target_Type) = XML_Path
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[10]/Target_Value) = gameList/game/thumbnail
+[00:50:05] - > Write Value : thumbnail = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[11]/Target_Type) = XML_Value_FORMAT
+[00:50:05] - > _XML_GetValue (/Profil/Element[12]/Target_Type) = XML_Value_FORMAT
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Source_Value) = Data/jeu/developpeur
+[00:50:05] - > _XML_GetValue (Data/jeu/developpeur) = Viacom
+[00:50:05] - > _XML_GetValue (/Profil/Element[13]/Target_Value) = gameList/game/developer
+[00:50:05] - > Write Value : developer = Viacom
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Source_Value) = Data/jeu/editeur
+[00:50:05] - > _XML_GetValue (Data/jeu/editeur) = Viacom
+[00:50:05] - > _XML_GetValue (/Profil/Element[14]/Target_Value) = gameList/game/publisher
+[00:50:05] - > Write Value : publisher = Viacom
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Source_Value) = Data/jeu/genres/genres_%LANG%/genre_%LANG%
+[00:50:05] - > _XML_GetValue (Data/jeu/genres/genres_fr/genre_fr) = Puzzle-Game
+[00:50:05] - > _XML_GetValue (/Profil/Element[15]/Target_Value) = gameList/game/genre
+[00:50:05] - > Write Value : genre = Puzzle-Game
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Source_Value) = Data/jeu/joueurs
+[00:50:05] - > _XML_GetValue (Data/jeu/joueurs) = 1
+[00:50:05] - > _XML_GetValue (/Profil/Element[16]/Target_Value) = gameList/game/players
+[00:50:05] - > Write Value : players = 1
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[17]/Target_Value) = gameList/game/favorite
+[00:50:05] - > Write Value : favorite = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Source_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Source_Value) = Data/jeu/region
+[00:50:05] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:50:05] - > _XML_GetValue (/Profil/Element[18]/Target_Value) = gameList/game/region
+[00:50:05] - > Write Value : region = Europe
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[19]/Target_Value) = gameList/game/romtype
+[00:50:05] - > Write Value : romtype = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Target_Type) = XML_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Source_Type) = Fixe_Value
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Source_Value) = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[20]/Target_Value) = gameList/game/hidden
+[00:50:05] - > Write Value : hidden = 
+[00:50:05] - > _XML_GetValue (/Profil/Element[21]/Target_Type) = EMPTY
+[00:50:05] - Zoop (Europe) scraped in 0.71s - FOUND
+[00:50:05] - -- Full Scrape in 12.89s
+[00:50:07] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper.jpg
+[00:50:07] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:50:07] - > SSH Enable
+[00:50:07] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:50:07] - > GUI Refresh
+[00:50:08] - Universal XML Scraper Closed

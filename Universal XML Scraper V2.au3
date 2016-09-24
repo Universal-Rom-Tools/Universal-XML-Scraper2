@@ -108,15 +108,6 @@ FileInstall(".\LanguageFiles\UXS-SPANISH.XML", $iScriptPath & "\LanguageFiles\UX
 FileInstall(".\Ressources\empty.jpg", $iScriptPath & "\Ressources\empty.jpg")
 FileInstall(".\Ressources\emptySYS.jpg", $iScriptPath & "\Ressources\emptySYS.jpg")
 FileInstall(".\Ressources\Fleche.jpg", $iScriptPath & "\Ressources\Fleche.jpg")
-FileInstall(".\Ressources\thegamedb.jpg", $iScriptPath & "\Ressources\thegamedb.jpg")
-FileInstall(".\Ressources\Screenscraper.jpg", $iScriptPath & "\Ressources\Screenscraper.jpg")
-FileInstall(".\Ressources\Screenscraper (MIX).jpg", $iScriptPath & "\Ressources\Screenscraper (MIX).jpg")
-FileInstall(".\Ressources\RecalboxV3.jpg", $iScriptPath & "\Ressources\RecalboxV3.jpg")
-FileInstall(".\Ressources\RecalboxV4.jpg", $iScriptPath & "\Ressources\RecalboxV4.jpg")
-FileInstall(".\Ressources\Recalbox.jpg", $iScriptPath & "\Ressources\Recalbox.jpg")
-FileInstall(".\Ressources\Hyperspin.jpg", $iScriptPath & "\Ressources\Hyperspin.jpg")
-FileInstall(".\Ressources\Emulationstation.jpg", $iScriptPath & "\Ressources\Emulationstation.jpg")
-FileInstall(".\Ressources\Attract-Mode.jpg", $iScriptPath & "\Ressources\Attract-Mode.jpg")
 FileInstall(".\Ressources\Fleche_DISABLE.bmp", $iScriptPath & "\Ressources\Fleche_DISABLE.bmp")
 FileInstall(".\Ressources\Fleche_ENABLE.bmp", $iScriptPath & "\Ressources\Fleche_ENABLE.bmp")
 FileInstall(".\Ressources\Fleche_IP1.bmp", $iScriptPath & "\Ressources\Fleche_IP1.bmp")
@@ -127,6 +118,8 @@ FileInstall(".\Ressources\LICENSE optipng.txt", $iScriptPath & "\Ressources\LICE
 FileInstall(".\Ressources\LICENSE plink.txt", $iScriptPath & "\Ressources\LICENSE plink.txt")
 FileInstall(".\Ressources\systemlist.txt", $iScriptPath & "\Ressources\systemlist.txt")
 FileInstall(".\Ressources\regionlist.txt", $iScriptPath & "\Ressources\regionlist.txt")
+FileInstall(".\Ressources\UXS.jpg", $iScriptPath & "\Ressources\UXS.jpg")
+FileInstall(".\Ressources\jingle_uxs.MP3", $iScriptPath & "\Ressources\jingle_uxs.MP3")
 FileInstall(".\Mix\Arcade (moon) By Supernature2k.zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Arcade (moon).zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Background (Modified DarKade-Theme by Nachtgarm).zip", $iScriptPath & "\Mix\")
@@ -136,6 +129,12 @@ FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\
 FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV4.xml", $iScriptPath & "\ProfilsFiles\")
 _LOG("Ending files installation", 1)
 #EndRegion FileInstall
+
+;Splash Screen
+$F_Splashcreen = GUICreate("", 799, 449, -1, -1, $WS_POPUPWINDOW, $WS_EX_TOOLWINDOW)
+GUICtrlCreatePic($iScriptPath & "\Ressources\UXS.jpg", -1, -1, 800, 450)
+SoundPlay($iScriptPath & "\Ressources\jingle_uxs.MP3")
+GUISetState()
 
 ;Const def
 ;---------
@@ -154,7 +153,7 @@ _LOG("Path to language : " & $iLangPath, 1)
 ;Variable def
 ;------------
 Global $vUserLang = IniRead($iINIPath, "LAST_USE", "$vUserLang", -1)
-Global $MP_, $aPlink_Command
+Global $MP_, $aPlink_Command, $vScrapeCancelled
 Local $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
 Local $vXpath2RomPath, $vFullTimer, $vRomTimer, $aPlink_Command, $vSelectedProfil = -1
 Local $L_SCRAPE_Parts[2] = [275, -1]
@@ -210,6 +209,9 @@ If $oXMLProfil = -1 Then Exit
 ;Catching SystemList.xml
 $oXMLSystem = _XMLSystem_Create()
 If $oXMLSystem = -1 Then Exit
+
+;Suppress Splascreen
+GUIDelete($F_Splashcreen)
 
 ; Main GUI
 #Region ### START Koda GUI section ### Form=
@@ -298,27 +300,52 @@ While 1
 		Case $B_SCRAPE
 			DirRemove($iTEMPPath, 1)
 			DirCreate($iTEMPPath)
+			$nMsg = ""
+			$vScrapeCancelled = 0
 			$aConfig = _LoadConfig($oXMLProfil)
 			If $aConfig <> 0 Then
 				$vFullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-				$vRechSYS = IniRead($iINIPath, "GENERAL", "$vRechSYS", 1)
-				$vSystemID = _SelectSystem($oXMLSystem, $vRechSYS)
+
+				$vEmpty_Rom = IniRead($iINIPath, "LAST_USE", "$vEmpty_Rom", 0)
+
+				If $aConfig[5] = 0 Or ($aConfig[5] > 0 And FileGetSize($aConfig[0]) = 0) Then
+					_LOG("vScrape_Mode = " & $aConfig[5] & " And " & $aConfig[0] & " = " & FileGetSize($aConfig[0]) & " ---> _XML_Make", 1)
+					$oXMLTarget = _XML_Make($aConfig[0], _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil))
+				EndIf
+				$aConfig[8] = _XML_Open($aConfig[0])
+
+				$vSystemID = _SelectSystem($oXMLSystem)
 				$aRomList = _RomList_Create($aConfig)
-				If IsArray($aRomList) Then
+				If IsArray($aRomList) And _Check_Cancel() Then
 					$vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
-					If FileGetSize($aConfig[0]) <> 0 Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
+					If FileGetSize($aConfig[0]) <> 0 And _Check_Cancel() Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
 					For $vBoucle = 1 To UBound($aRomList) - 1
+						$vLogMess = "NOT FOUND"
 						$vRomTimer = TimerInit()
-						$aRomList = _CheckRom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
-						$aRomList = _CalcHash($aRomList, $vBoucle)
-						$aRomList = _DownloadROMXML($aRomList, $vBoucle)
-						_LOG($aRomList[$vBoucle][2] & " scraped in " & Round((TimerDiff($vRomTimer) / 1000), 2) & "s")
+						$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
+						If $aRomList[$vBoucle][3] = 1 And _Check_Cancel() Then
+							$aRomList = _CalcHash($aRomList, $vBoucle)
+							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $vSystemID)
+							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1) And _Check_Cancel() Then $aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+						EndIf
+						If $aRomList[$vBoucle][9] = 1 Then $vLogMess = "FOUND"
+						_LOG($aRomList[$vBoucle][2] & " scraped in " & Round((TimerDiff($vRomTimer) / 1000), 2) & "s - " & $vLogMess)
+						$aRomList[$vBoucle][10] = Round((TimerDiff($vRomTimer) / 1000), 2)
+						If Not _Check_Cancel() Then $vBoucle = UBound($aRomList) - 1
 					Next
 					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
+
+					Local $oXMLAfterTidy = _XML_CreateDOMDocument(Default)
+					Local $vXMLAfterTidy = _XML_TIDY($aConfig[8])
+					_XML_LoadXML($oXMLAfterTidy, $vXMLAfterTidy)
+					FileDelete($aConfig[0])
+					_XML_SaveToFile($oXMLAfterTidy, $aConfig[0])
+
 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
 				EndIf
 			EndIf
+			DirRemove($iTEMPPath, 1)
 			_GUI_Refresh($oXMLProfil)
 	EndSwitch
 	;SSH Menu
@@ -356,7 +383,8 @@ WEnd
 
 #Region Function
 Func _LoadConfig($oXMLProfil)
-	Dim $aConfig[8]
+	Local $aMatchingCountry
+	Dim $aConfig[12]
 	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "$vTarget_XMLName", " ")
 	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", "")
 	$aConfig[2] = IniRead($iINIPath, "LAST_USE", "$vTarget_RomPath", "./")
@@ -365,6 +393,12 @@ Func _LoadConfig($oXMLProfil)
 	$aConfig[5] = IniRead($iINIPath, "LAST_USE", "$vScrape_Mode", 0)
 	$aConfig[6] = IniRead($iINIPath, "LAST_USE", "$MissingRom_Mode", 0)
 	$aConfig[7] = IniRead($iINIPath, "LAST_USE", "$CountryPic_Mode", 0)
+	If IniRead($iINIPath, "LAST_USE", "$vLangPref", 0) = 0 Then IniWrite($iINIPath, "LAST_USE", "$vLangPref", _MultiLang_GetText("langpref"))
+	If IniRead($iINIPath, "LAST_USE", "$vCountryPref", 0) = 0 Then IniWrite($iINIPath, "LAST_USE", "$vCountryPref", _MultiLang_GetText("countrypref"))
+	$aConfig[9] = StringSplit(IniRead($iINIPath, "LAST_USE", "$vLangPref", ""), "|")
+	$aConfig[10] = StringSplit(IniRead($iINIPath, "LAST_USE", "$vCountryPref", ""), "|")
+	_FileReadToArray($iRessourcesPath & "\regionlist.txt", $aMatchingCountry, $FRTA_NOCOUNT, "|")
+	$aConfig[11] = $aMatchingCountry
 
 	If Not FileExists($aConfig[1]) Then
 		_ExtMsgBox($EMB_ICONEXCLAM, "OK", _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"), 15)
@@ -372,8 +406,17 @@ Func _LoadConfig($oXMLProfil)
 		Return 0
 	EndIf
 
+	_LOG("$vTarget_XMLName = " & $aConfig[0], 1)
+	_LOG("$vSource_RomPath = " & $aConfig[1], 1)
+	_LOG("$vTarget_RomPath = " & $aConfig[2], 1)
+	_LOG("$vSource_ImagePath = " & $aConfig[3], 1)
+	_LOG("$vTarget_ImagePath = " & $aConfig[4], 1)
+	_LOG("$vScrape_Mode = " & $aConfig[5], 1)
+	_LOG("$MissingRom_Mode = " & $aConfig[6], 1)
+	_LOG("$CountryPic_Mode = " & $aConfig[7], 1)
+
 	If Not FileExists($aConfig[3]) Then DirCreate($aConfig[3] & "\")
-	If Not FileExists($aConfig[0]) Then _FileCreate($aConfig[0])
+;~ 	If Not FileExists($aConfig[0]) Then _FileCreate($aConfig[0])
 
 	Return $aConfig
 EndFunc   ;==>_LoadConfig
@@ -784,6 +827,17 @@ Func _Check_autoconf($oXMLProfil)
 	EndIf
 EndFunc   ;==>_Check_autoconf
 
+Func _Check_Cancel()
+	If GUIGetMsg() = $B_SCRAPE Or $vScrapeCancelled = 1 Then
+		_LOG("Scrape Cancelled")
+		$vScrapeCancelled = 1
+		Return False
+	Else
+		$vScrapeCancelled = 0
+		Return True
+	EndIf
+EndFunc   ;==>_Check_Cancel
+
 Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
 	$vRechFiles = IniRead($iINIPath, "GENERAL", "$vRechFiles ", "*.*z*")
@@ -809,7 +863,7 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 		Return -1
 	EndIf
 
-	For $vBoucle = 1 To 9
+	For $vBoucle = 1 To 10
 		_ArrayColInsert($aRomList, $vBoucle)
 	Next
 
@@ -828,7 +882,7 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Return $aRomList
 EndFunc   ;==>_RomList_Create
 
-Func _CheckRom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode)
+Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode)
 	Switch $vScrape_Mode
 		Case 0
 			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1)
@@ -836,7 +890,7 @@ Func _CheckRom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScra
 			Return $aRomList
 		Case Else
 			If IsArray($aXMLRomList) Then
-				If _ArraySearch($aXMLRomList, $vTarget_RomPath & $aRomList[$vNoRom][0], 0, 0, 0, 0, 1, 2) <> -1 Then
+				If _ArraySearch($aXMLRomList, $vTarget_RomPath & StringReplace($aRomList[$vNoRom][0], "\", "/"), 0, 0, 0, 0, 1, 2) <> -1 Then
 					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1)
 					$aRomList[$vNoRom][3] = 0
 					Return $aRomList
@@ -847,30 +901,30 @@ Func _CheckRom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScra
 			Return $aRomList
 	EndSwitch
 	Return $aRomList
-EndFunc   ;==>_CheckRom2Scrape
+EndFunc   ;==>_Check_Rom2Scrape
 
 Func _CalcHash($aRomList, $vNoRom)
-	If $aRomList[$vNoRom][3] = 1 Then
-		$TimerHash = TimerInit()
-		$aRomList[$vNoRom][4] = FileGetSize($aRomList[$vNoRom][1])
-		$aRomList[$vNoRom][5] = StringRight(_CRC32ForFile($aRomList[$vNoRom][1]), 8)
-		If Int(($aRomList[$vNoRom][4] / 1048576)) > 50 And IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 1 Then
-			_LOG("QUICK Mode ", 1)
-		Else
-			$aRomList[$vNoRom][6] = _MD5ForFile($aRomList[$vNoRom][1])
-			$aRomList[$vNoRom][7] = _SHA1ForFile($aRomList[$vNoRom][1])
-		EndIf
-		_LOG("Rom Info (" & $aRomList[$vNoRom][0] & ") Hash in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
-		_LOG("Size : " & $aRomList[$vNoRom][4], 1)
-		_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1)
-		_LOG("MD5 : " & $aRomList[$vNoRom][6], 1)
-		_LOG("SHA1 : " & $aRomList[$vNoRom][7], 1)
+	If Not _Check_Cancel() Then Return $aRomList
+	$TimerHash = TimerInit()
+	$aRomList[$vNoRom][4] = FileGetSize($aRomList[$vNoRom][1])
+	$aRomList[$vNoRom][5] = StringRight(_CRC32ForFile($aRomList[$vNoRom][1]), 8)
+	If Int(($aRomList[$vNoRom][4] / 1048576)) > 50 And IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 1 And _Check_Cancel() Then
+		_LOG("QUICK Mode ", 1)
+	Else
+		$aRomList[$vNoRom][6] = _MD5ForFile($aRomList[$vNoRom][1])
+		$aRomList[$vNoRom][7] = _SHA1ForFile($aRomList[$vNoRom][1])
 	EndIf
+	_LOG("Rom Info (" & $aRomList[$vNoRom][0] & ") Hash in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
+	_LOG("Size : " & $aRomList[$vNoRom][4], 1)
+	_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1)
+	_LOG("MD5 : " & $aRomList[$vNoRom][6], 1)
+	_LOG("SHA1 : " & $aRomList[$vNoRom][7], 1)
 	Return $aRomList
 EndFunc   ;==>_CalcHash
 
 Func _XMLSystem_Create()
 	Local $oXMLSystem, $vXMLSystemPath = $iScriptPath & "\Ressources\systemlist.xml"
+	_LOG("http://www.screenscraper.fr/api/systemesListe.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=XML", 3)
 	$vXMLSystemPath = _DownloadWRetry("http://www.screenscraper.fr/api/systemesListe.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=XML", $vXMLSystemPath)
 	Switch $vXMLSystemPath
 		Case -1
@@ -891,26 +945,155 @@ Func _XMLSystem_Create()
 	EndSwitch
 EndFunc   ;==>_XMLSystem_Create
 
-Func _DownloadROMXML($aRomList, $vBoucle)
-	Local $No_system = ""
+Func _DownloadROMXML($aRomList, $vBoucle, $vSystemID)
+	If Not _Check_Cancel() Then Return $aRomList
 	Local $vXMLRom = $iTEMPPath & "\" & StringRegExpReplace($aRomList[$vBoucle][2], "[\[\]/\|\:\?""\*\\<>]", "") & ".xml"
-	$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][4] & "&systemeid=" & $No_system & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
+	_LOG("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][4] & "&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], 3)
+	$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][7] & "&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
+	If (StringInStr(FileReadLine($aRomList[$vBoucle][8]), "Erreur") Or Not FileExists($aRomList[$vBoucle][8])) Then
+		_LOG("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=&md5=&sha1=&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], 3)
+		$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&crc=&md5=&sha1=&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
+		If (StringInStr(FileReadLine($aRomList[$vBoucle][8]), "Erreur") Or Not FileExists($aRomList[$vBoucle][8])) Then
+			FileDelete($aRomList[$vBoucle][8])
+			$aRomList[$vBoucle][8] = ""
+			$aRomList[$vBoucle][9] = 0
+			Return $aRomList
+		EndIf
+	EndIf
+	$aRomList[$vBoucle][9] = 1
 	Return $aRomList
 EndFunc   ;==>_DownloadROMXML
 
-Func _SelectSystem($oXMLSystem, $vRechSYS)
-	Local $vSystem, $aSystemListTXT, $aSystemListXML
+Func _SelectSystem($oXMLSystem, $vFullScrape = 0)
+	Local $vSystem, $vSystemID, $vSystemTEMP
+	Local $aSystemListTXT, $aSystemListXML
+	Local $vRechSYS = IniRead($iINIPath, "GENERAL", "$vRechSYS", 1)
+
+	$aSystemListXML = _XML_ListValue("Data/systeme/noms/*", "", $oXMLSystem)
+;~ 	_ArrayDisplay($aSystemListXML, "$aSystemListXML") ;Debug
+	_ArrayColInsert($aSystemListXML, 1)
+	_ArrayColInsert($aSystemListXML, 1)
+	_ArrayDelete($aSystemListXML, 0)
+
+	For $vBoucle = 0 To UBound($aSystemListXML) - 1
+		$aSystemListXML[$vBoucle][1] = _XML_Read('Data/systeme[noms/* = "' & $aSystemListXML[$vBoucle][0] & '"]/id', 0, "", $oXMLSystem)
+		$aSystemListXML[$vBoucle][2] = $aSystemListXML[$vBoucle][1]
+	Next
+	_ArraySort($aSystemListXML)
+;~ 	_ArrayDisplay($aSystemListXML, "$aSystemListXML") ;Debug
 
 	If $vRechSYS = 1 Then
 		_FileReadToArray($iRessourcesPath & "\systemlist.txt", $aSystemListTXT, $FRTA_NOCOUNT, "|")
+;~ 		_ArrayDisplay($aSystemListTXT, "$aSystemListTXT") ;Debug
 		$vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
-		$vSystem = $vSystem[UBound($vSystem) - 1]
-
-		$aSystemListXML = _XML_ListValue("Data/systeme/noms/*|Data/systeme/id", "", $oXMLSystem)
-		_ArrayDisplay($aSystemListXML, "$aSystemListXML")
+		$vSystem = StringLower($vSystem[UBound($vSystem) - 1])
+		$iSystem = _ArraySearch($aSystemListTXT, $vSystem)
+		_LOG("Search " & $vSystem & " in $aSystemListTXT = " & $iSystem, 3)
+		If $iSystem > 0 Then
+			$vSystemTEMP = $aSystemListTXT[$iSystem][1]
+			$iSystem = _ArraySearch($aSystemListXML, $vSystemTEMP)
+			_LOG("Search " & $vSystemTEMP & " in $aSystemListXML = " & $iSystem, 3)
+			If $iSystem > 0 Then
+				_LOG("System detected : " & $aSystemListXML[$iSystem][0] & "(" & $aSystemListXML[$iSystem][1] & ")")
+				Return $aSystemListXML[$iSystem][1]
+			EndIf
+		EndIf
+		_LOG("No system found for : " & $vSystem)
+		If $vFullScrape = 1 Then Return ""
 	EndIf
 
+	$vSystemID = _SelectGUI($aSystemListXML, "", "system")
+	_LOG("System selected No " & $vSystemID)
+	Return $vSystemID
+
 EndFunc   ;==>_SelectSystem
+
+Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+	Local $vValue
+	_XML_WriteValue("//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil), "", "", $aConfig[8])
+	$vWhile = 1
+	While 1
+		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Type", 0, "", $oXMLProfil)
+			Case "XML_Value"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+			Case "XML_Attribute"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				$vAttributeName = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Attribute_Name", 0, "", $oXMLProfil)
+				_XML_WriteAttributs(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vAttributeName, $vValue, "", $aConfig[8])
+			Case "XML_Path"
+				_LOG("TARGET XML_Path", 3)
+			Case "XML_Value_FORMAT"
+				_LOG("TARGET XML_Value_FORMAT", 3)
+			Case Else
+				_LOG("End Of Elements", 3)
+				ExitLoop
+		EndSwitch
+		$vWhile = $vWhile + 1
+	WEnd
+	Return $aRomList
+EndFunc   ;==>_Game_Make
+
+Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+	Local $vXpath, $vValue
+	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oXMLProfil)
+		Case "XML_Value"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+			If StringInStr($vXpath, '%COUNTRY%') Then
+				Local $aCountryPref = $aConfig[10]
+				For $vBoucle2 = 1 To UBound($aCountryPref) - 1
+					Local $vCountryPref = $aCountryPref[$vBoucle2]
+					If $vCountryPref = '%COUNTRY%' Then
+						$vXpathCountry = _XML_Read("/Profil/Country/Source_Value", 0, "", $oXMLProfil)
+						$vCountryPref = _XML_Read($vXpathCountry, 0, $aRomList[$vBoucle][8])
+						Local $aMatchingCountry = $aConfig[11]
+						$iCountryPref = _ArraySearch($aMatchingCountry, $vCountryPref)
+						If $iCountryPref > 0 Then
+							$vCountryPref = $aMatchingCountry[$iCountryPref][1]
+						Else
+							$vCountryPref = ""
+						EndIf
+					EndIf
+					$vXpathTemp = StringReplace($vXpath, '%COUNTRY%', $vCountryPref)
+					$vValue = _XML_Read($vXpathTemp, 0, $aRomList[$vBoucle][8])
+					If $vValue <> -1 And $vValue <> "" Then Return $vValue
+				Next
+				Return ""
+			EndIf
+			If StringInStr($vXpath, '%LANG%') Then
+				Local $aLangPref = $aConfig[9]
+				For $vBoucle2 = 1 To UBound($aLangPref) - 1
+					Local $vLagPref = $aLangPref[$vBoucle2]
+					$vXpathTemp = StringReplace($vXpath, '%LANG%', $vLagPref)
+					$vValue = _XML_Read($vXpathTemp, 0, $aRomList[$vBoucle][8])
+					If $vValue <> -1 And $vValue <> "" Then Return $vValue
+				Next
+				Return ""
+			EndIf
+
+			Return _XML_Read($vXpath, 0, $aRomList[$vBoucle][8])
+
+		Case "XML_Attribute"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			Return _XML_Read(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 1, "", $oXMLProfil), 0, $aRomList[$vBoucle][8])
+		Case "XML_Download"
+			_LOG("SOURCE XML_Download", 3)
+		Case "Fixe_Value"
+			Return _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+		Case "Variable_Value"
+			Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+				Case '%XML_Rom_Path%'
+					Return $aConfig[2] & StringReplace($aRomList[$vBoucle][0], "\", "/")
+				Case Else
+					_LOG("SOURCE Unknown", 3)
+					Return ""
+			EndSwitch
+		Case Else
+			_LOG("SOURCE Unknown", 3)
+			Return ""
+	EndSwitch
+EndFunc   ;==>_XML_Read_Source
 
 #EndRegion Function
 
@@ -921,7 +1104,11 @@ EndFunc   ;==>_SelectSystem
 ;~ 	$aConfig[4]=$vTarget_ImagePath
 ;~ 	$aConfig[5]=$vScrape_Mode (0 = NEW, 1 = Update XML & Picture, [2 = Update Picture only To ADD])
 ;~ 	$aConfig[6]=$MissingRom_Mode (0 = No missing Rom, 1 = Adding missing Rom)
-;~ 	$aConfig[7]=$CountryPic_Mode (0 = Language Pic, 1 = Rom Pic, 2 = Rom Pic + Language Pic)
+;~ 	$aConfig[7]=$CountryPic_Mode (0 = Language Pic, 1 = Rom Pic, 2 = Language Pic Strict, 3 = Rom Pic Strict)
+;~ 	$aConfig[8]=$oTarget_XML
+;~ 	$aConfig[9]=$aLangPref
+;~ 	$aConfig[10]=$aCountryPref
+;~ 	$aConfig[11]=$aMatchingCountry
 
 ;~ 	$aRomList[][0]=Relative Path
 ;~ 	$aRomList[][1]=Full Path
@@ -932,3 +1119,6 @@ EndFunc   ;==>_SelectSystem
 ;~ 	$aRomList[][6]=File MD5
 ;~ 	$aRomList[][7]=File SHA1
 ;~ 	$aRomList[][8]=XML File Scraped
+;~ 	$aRomList[][9]=Rom Found
+;~ 	$aRomList[][10]=Time By Rom
+

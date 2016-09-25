@@ -1022,9 +1022,17 @@ Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				$vAttributeName = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Attribute_Name", 0, "", $oXMLProfil)
 				_XML_WriteAttributs(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vAttributeName, $vValue, "", $aConfig[8])
 			Case "XML_Path"
-				_LOG("TARGET XML_Path", 3)
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				If $vValue <> -1 Then _XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
 			Case "XML_Value_FORMAT"
-				_LOG("TARGET XML_Value_FORMAT", 3)
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_FORMAT", 0, "", $oXMLProfil)
+					Case '%20on1%'
+						$vValue = StringReplace(Round(($vValue * 100 / 20) / 100, 2), ",", ".")
+					Case '%ES_Date%'
+						$vValue = StringLeft(StringReplace($vValue, "-", "") & '00000000', 8) & "T000000"
+				EndSwitch
+				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
 			Case Else
 				_LOG("End Of Elements", 3)
 				ExitLoop
@@ -1042,21 +1050,9 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
 			If StringInStr($vXpath, '%COUNTRY%') Then
 				Local $aCountryPref = $aConfig[10]
-				For $vBoucle2 = 1 To UBound($aCountryPref) - 1
-					Local $vCountryPref = $aCountryPref[$vBoucle2]
-					If $vCountryPref = '%COUNTRY%' Then
-						$vXpathCountry = _XML_Read("/Profil/Country/Source_Value", 0, "", $oXMLProfil)
-						$vCountryPref = _XML_Read($vXpathCountry, 0, $aRomList[$vBoucle][8])
-						Local $aMatchingCountry = $aConfig[11]
-						$iCountryPref = _ArraySearch($aMatchingCountry, $vCountryPref)
-						If $iCountryPref > 0 Then
-							$vCountryPref = $aMatchingCountry[$iCountryPref][1]
-						Else
-							$vCountryPref = ""
-						EndIf
-					EndIf
-					$vXpathTemp = StringReplace($vXpath, '%COUNTRY%', $vCountryPref)
-					$vValue = _XML_Read($vXpathTemp, 0, $aRomList[$vBoucle][8])
+				$aXpathCountry = _CountryArray_Make($aCountryPref, $aConfig[11], $vXpath, $aRomList[$vBoucle][8], $oXMLProfil)
+				For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
+					$vValue = _XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8])
 					If $vValue <> -1 And $vValue <> "" Then Return $vValue
 				Next
 				Return ""
@@ -1078,7 +1074,48 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			If $aRomList[$vBoucle][9] = 0 Then Return ""
 			Return _XML_Read(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 1, "", $oXMLProfil), 0, $aRomList[$vBoucle][8])
 		Case "XML_Download"
-			_LOG("SOURCE XML_Download", 3)
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+
+			If StringInStr($vXpath, '%COUNTRY%') Then
+				Local $aCountryPref = $aConfig[10]
+				$aXpathCountry = _CountryArray_Make($aCountryPref, $aConfig[11], $vXpath, $aRomList[$vBoucle][8], $oXMLProfil)
+				For $vBoucle2 = 1 To UBound($aCountryPref) - 1
+					Local $vCountryPref = $aCountryPref[$vBoucle2]
+					$vDownloadURL = _XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8])
+					$vDownloadTag = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Tag", 0, "", $oXMLProfil)
+					$vDownloadExt = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Ext", 0, "", $oXMLProfil)
+					_LOG("Extension = " & $vDownloadExt, 3)
+					If $vDownloadExt = "%Source%" Then $vDownloadExt = StringRight($vDownloadURL, 3)
+					_LOG("Extension = " & $vDownloadExt, 3)
+					$vDownloadURL = StringTrimRight($vDownloadURL, 3) & $vDownloadExt
+
+					Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Path", 0, "", $oXMLProfil)
+						Case '%Local_Path_File%'
+							$vDownloadPath = $aConfig[3] & "\" & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+						Case Else
+							$vDownloadPath = $aConfig[3] & "\" & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+					EndSwitch
+
+					If FileExists($vDownloadPath) Then Return $aConfig[4] & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+
+					$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath)
+					If $vValue <> -1 And $vValue <> "" Then
+						$vValue = $aConfig[4] & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+						Return $vValue
+					EndIf
+				Next
+				Return ""
+			EndIf
+
+			$vValue = _Picture_Download($aConfig, _XML_Read($vXpath, 0, $aRomList[$vBoucle][8]), _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Tag", 0, "", $oXMLProfil), _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Ext", 0, "", $oXMLProfil))
+
+			If $vValue <> -1 And $vValue <> "" Then
+				$vValue = $aConfig[4] & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+				Return $vValue
+			EndIf
+			Return ""
+
 		Case "Fixe_Value"
 			Return _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
 		Case "Variable_Value"
@@ -1094,6 +1131,42 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			Return ""
 	EndSwitch
 EndFunc   ;==>_XML_Read_Source
+
+Func _CountryArray_Make($aCountryPref, $aMatchingCountry, $vXpath, $vSource_RomXMLPath, $oXMLProfil)
+	Local $aXpathCountry[UBound($aCountryPref)]
+	For $vBoucle = 1 To UBound($aCountryPref) - 1
+		Local $vCountryPref = $aCountryPref[$vBoucle]
+		If $vCountryPref = '%COUNTRY%' Then
+			$vXpathCountry = _XML_Read("/Profil/Country/Source_Value", 0, "", $oXMLProfil)
+			$vCountryPref = _XML_Read($vXpathCountry, 0, $vSource_RomXMLPath)
+			$iCountryPref = _ArraySearch($aMatchingCountry, $vCountryPref)
+			If $iCountryPref > 0 Then
+				$vCountryPref = $aMatchingCountry[$iCountryPref][1]
+			Else
+				$vCountryPref = ""
+			EndIf
+		EndIf
+		$aXpathCountry[$vBoucle] = StringReplace($vXpath, '%COUNTRY%', $vCountryPref)
+	Next
+	Return $aXpathCountry
+EndFunc   ;==>_CountryArray_Make
+
+Func _Picture_Download($aConfig, $vDownloadURL, $vDownloadTag, $vDownloadExt)
+	If $vDownloadExt = "%Source%" Then $vDownloadExt = StringRight($vDownloadURL, 3)
+	$vDownloadURL = StringTrimRight($vDownloadURL, 3) & $vDownloadExt
+
+	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Path", 0, "", $oXMLProfil)
+		Case '%Local_Path_File%'
+			$vDownloadPath = $aConfig[3] & "\" & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+		Case Else
+			$vDownloadPath = $aConfig[3] & "\" & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+	EndSwitch
+
+	If FileExists($vDownloadPath) Then Return $aConfig[4] & StringReplace($aRomList[$vBoucle][0], "\", "_") & $vDownloadTag & "." & $vDownloadExt
+
+	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath)
+	Return $vValue
+EndFunc   ;==>_Picture_Download
 
 #EndRegion Function
 

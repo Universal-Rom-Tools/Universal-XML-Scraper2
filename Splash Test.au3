@@ -1,3 +1,20 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=Ressources\Universal_Xml_Scraper.ico
+#AutoIt3Wrapper_Outfile=..\BIN\Universal_XML_Scraper.exe
+#AutoIt3Wrapper_Outfile_x64=..\BIN\Universal_XML_Scraper64.exe
+#AutoIt3Wrapper_Compile_Both=y
+#AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_Description=Scraper XML Universel
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.1
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
+#AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
+#AutoIt3Wrapper_Res_Language=1036
+#AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
+#AutoIt3Wrapper_Run_Tidy=y
+#AutoIt3Wrapper_UseUpx=n
+#Tidy_Parameters=/reel
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+
 #include <Date.au3>
 #include <array.au3>
 #include <File.au3>

@@ -82,6 +82,7 @@
 		<Source_Type>XML_Download</Source_Type>
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
+		<Source_Download_Ext>jpg</Source_Download_Ext>
 		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
@@ -91,6 +92,7 @@
 		<Source_Type>XML_Download</Source_Type>
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
+		<Source_Download_Ext>jpg</Source_Download_Ext>
 		<Source_Value>Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>

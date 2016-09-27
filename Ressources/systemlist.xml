@@ -2084,6 +2084,7 @@
 			<media_photo_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=45&amp;media=photo&amp;mediaformat=png</media_photo_eu>
 		</media_photos>
 		<media_video>http://www.screenscraper.fr/api/MediaVideoSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=45&amp;media=video&amp;mediaformat=mp4</media_video>
+		<media_box3dvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=45&amp;media=box3D&amp;mediaformat=png</media_box3dvierge>
 		<media_controleur>
 			<media_controleur_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=45&amp;media=controller&amp;mediaformat=png</media_controleur_eu>
 		</media_controleur>
@@ -4197,6 +4198,7 @@
 			<media_screenmarquee-vierge_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=104&amp;media=screenmarquee-vierge(us)&amp;mediaformat=png</media_screenmarquee-vierge_us>
 			<media_screenmarquee-vierge_jp>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=104&amp;media=screenmarquee-vierge(jp)&amp;mediaformat=png</media_screenmarquee-vierge_jp>
 		</media_screenmarquee-vierges>
+		<media_box3dvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=104&amp;media=box3D&amp;mediaformat=png</media_box3dvierge>
 	</medias>
 </systeme>
 <systeme>

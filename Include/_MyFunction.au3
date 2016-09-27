@@ -1034,7 +1034,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
-			If IsArray($iXMLValue) Then
+			If IsArray($iXMLValue) And UBound($iXMLValue)-1 > 0 Then
 				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
 				Return $iXMLValue[1]
 			Else

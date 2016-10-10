@@ -782,115 +782,117 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
-	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
-	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
-	$iPath_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp." & $iExtension
+Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize)
+;~ 	_GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
+	Local $sDrive, $sDir, $sFileName, $iExtension, $vPicTarget_Temp
+	_PathSplit($vPicTarget, $sDrive, $sDir, $sFileName, $iExtension)
+	$vTarget_Maximize = StringUpper($vTarget_Maximize)
+	$vPicTarget_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp." & $iExtension
 
 
 	Local $hImage, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 
-	Local $iWidth = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][4], $A_PathImage[0][0])
-	Local $iHeight = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][5], $A_PathImage[0][1])
+	Local $iWidth = _GDIPlus_RelativePos($aPicParameters[0], $vTarget_Width)
+	Local $iHeight = _GDIPlus_RelativePos($aPicParameters[1], $vTarget_Height)
 
-	If StringRight($TYPE, 3) = 'MAX' Then
-		$iPath = _GDIPlus_ResizeMax($iPath, $iWidth, $iHeight)
+	If $vTarget_Maximize = 'YES' Then
+		$vPicTarget = _GDIPlus_ResizeMax($vPicTarget, $iWidth, $iHeight)
 	EndIf
 
 	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+	FileDelete($vPicTarget_Temp)
+	If Not FileCopy($vPicTarget, $vPicTarget_Temp, 9) Then
+		_LOG("Error copying " & $vPicTarget & " to " & $vPicTarget_Temp, 2)
 		Return -1
 	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
+	If Not FileDelete($vPicTarget) Then
+		_LOG("Error deleting " & $vPicTarget, 2)
 		Return -1
 	EndIf
 
 	_GDIPlus_Startup()
-	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
-	$hGui = GUICreate("", $A_PathImage[0][0], $A_PathImage[0][1])
+	$hImage = _GDIPlus_ImageLoadFromFile($vPicTarget_Temp)
+	$hGui = GUICreate("", $vTarget_Width, $vTarget_Height)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
-	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($A_PathImage[0][0], $A_PathImage[0][1], $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
+	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($vTarget_Width, $vTarget_Height, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor) ; Fill the Graphic Background (0x00000000 for transparent background in .png files)
 
-	If $iWidth = "" Or StringRight($TYPE, 3) = 'MAX' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $iHeight = "" Or StringRight($TYPE, 3) = 'MAX' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
-	Local $Image_C1X = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][6], $A_PathImage[0][0])
-	Local $Image_C1Y = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][7], $A_PathImage[0][1])
-	Local $Image_C2X = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][8], $A_PathImage[0][0])
-	Local $Image_C2Y = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][9], $A_PathImage[0][1])
-	Local $Image_C3X = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][10], $A_PathImage[0][0])
-	Local $Image_C3Y = _GDIPlus_RelativePos($A_MIX_IMAGE_Format[$B_Images][11], $A_PathImage[0][1])
+	If $iWidth = "" Or $vTarget_Maximize = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $iHeight = "" Or $vTarget_Maximize = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
+	Local $Image_C1X = _GDIPlus_RelativePos($aPicParameters[2], $vTarget_Width)
+	Local $Image_C1Y = _GDIPlus_RelativePos($aPicParameters[3], $vTarget_Height)
+	Local $Image_C2X = _GDIPlus_RelativePos($aPicParameters[4], $vTarget_Width)
+	Local $Image_C2Y = _GDIPlus_RelativePos($aPicParameters[5], $vTarget_Height)
+	Local $Image_C3X = _GDIPlus_RelativePos($aPicParameters[6], $vTarget_Width)
+	Local $Image_C3Y = _GDIPlus_RelativePos($aPicParameters[7], $vTarget_Height)
 
 	Switch $Image_C1X
 		Case 'CENTER'
-			$Image_C1X = ($A_PathImage[0][0] / 2) - ($iWidth / 2)
+			$Image_C1X = ($vTarget_Width / 2) - ($iWidth / 2)
 		Case 'LEFT'
 			$Image_C1X = 0
 		Case 'RIGHT'
-			$Image_C1X = $A_PathImage[0][0] - $iWidth
+			$Image_C1X = $vTarget_Width - $iWidth
 	EndSwitch
 	Switch $Image_C1Y
 		Case 'CENTER'
-			$Image_C1Y = ($A_PathImage[0][1] / 2) - ($iHeight / 2)
+			$Image_C1Y = ($vTarget_Height / 2) - ($iHeight / 2)
 		Case 'UP'
 			$Image_C1Y = 0
 		Case 'DOWN'
-			$Image_C1Y = $A_PathImage[0][1] - $iHeight
+			$Image_C1Y = $vTarget_Height - $iHeight
 	EndSwitch
 	Switch $Image_C2X
 		Case 'CENTER'
-			$Image_C2X = ($A_PathImage[0][0] / 2) + ($iWidth / 2)
+			$Image_C2X = ($vTarget_Width / 2) + ($iWidth / 2)
 		Case 'LEFT'
 			$Image_C2X = $iWidth
 		Case 'RIGHT'
-			$Image_C2X = $A_PathImage[0][0]
+			$Image_C2X = $vTarget_Width
 		Case ''
 			$Image_C2X = $Image_C1X + $iWidth
 	EndSwitch
 	Switch $Image_C2Y
 		Case 'CENTER'
-			$Image_C2Y = ($A_PathImage[0][1] / 2) - ($iHeight / 2)
+			$Image_C2Y = ($vTarget_Height / 2) - ($iHeight / 2)
 		Case 'UP'
 			$Image_C2Y = 0
 		Case 'DOWN'
-			$Image_C2Y = $A_PathImage[0][1] - $iHeight
+			$Image_C2Y = $vTarget_Height - $iHeight
 		Case ''
 			$Image_C2Y = $Image_C1Y
 	EndSwitch
 	Switch $Image_C3X
 		Case 'CENTER'
-			$Image_C3X = ($A_PathImage[0][0] / 2) - ($iWidth / 2)
+			$Image_C3X = ($vTarget_Width / 2) - ($iWidth / 2)
 		Case 'LEFT'
 			$Image_C3X = 0
 		Case 'RIGHT'
-			$Image_C3X = $A_PathImage[0][0] - $iWidth
+			$Image_C3X = $vTarget_Width - $iWidth
 		Case ''
 			$Image_C3X = $Image_C1X
 	EndSwitch
 	Switch $Image_C3Y
 		Case 'CENTER'
-			$Image_C3Y = ($A_PathImage[0][1] / 2) + ($iHeight / 2)
+			$Image_C3Y = ($vTarget_Height / 2) + ($iHeight / 2)
 		Case 'UP'
 			$Image_C3Y = 0 + $iHeight
 		Case 'DOWN'
-			$Image_C3Y = $A_PathImage[0][1]
+			$Image_C3Y = $vTarget_Height
 		Case ''
 			$Image_C3Y = $Image_C1Y + $iHeight
 	EndSwitch
 
-	ConsoleWrite("+ Preparation de l'image (_IMAGING) de " & $iPath & @CRLF) ; Debug
+	ConsoleWrite("+ Preparation de l'image (_IMAGING) de " & $vPicTarget & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C1 = " & $Image_C1X & "x" & $Image_C1Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C2 = " & $Image_C2X & "x" & $Image_C2Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C3 = " & $Image_C3X & "x" & $Image_C3Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- (Size) = " & $iWidth & "x" & $iHeight & @CRLF) ; Debug
 
 	_GDIPlus_DrawImagePoints($hGraphic, $hImage, $Image_C1X, $Image_C1Y, $Image_C2X, $Image_C2Y, $Image_C3X, $Image_C3Y)
-	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
+	_GDIPlus_ImageSaveToFile($hBMPBuff, $vPicTarget)
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
 	_GDIPlus_GraphicsDispose($hGraphicGUI)
@@ -898,12 +900,12 @@ Func _GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYP
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
 
-	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+	If Not FileDelete($vPicTarget_Temp) Then
+		_LOG("Error deleting " & $vPicTarget_Temp, 2)
 		Return -1
 	EndIf
 
-	Return $iPath
+	Return $vPicTarget
 EndFunc   ;==>_GDIPlus_Imaging
 
 ; #FUNCTION# ===================================================================================================

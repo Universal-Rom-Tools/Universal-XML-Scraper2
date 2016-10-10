@@ -334,6 +334,7 @@ While 1
 						$aRomList[$vBoucle][10] = Round((TimerDiff($vRomTimer) / 1000), 2)
 						If Not _Check_Cancel() Then $vBoucle = UBound($aRomList) - 1
 					Next
+
 					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
 
 					Local $oXMLAfterTidy = _XML_CreateDOMDocument(Default)
@@ -1064,9 +1065,7 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 				Next
 				Return ""
 			EndIf
-
 			Return _XML_Read($vXpath, 0, $aRomList[$vBoucle][8])
-
 		Case "XML_Attribute"
 			If $aRomList[$vBoucle][9] = 0 Then Return ""
 			Return _XML_Read(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 1, "", $oXMLProfil), 0, $aRomList[$vBoucle][8])
@@ -1084,7 +1083,6 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 				EndSelect
 			Next
 			Return ""
-
 		Case "Fixe_Value"
 			Return _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
 		Case "Variable_Value"
@@ -1095,6 +1093,15 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 					_LOG("SOURCE Unknown", 3)
 					Return ""
 			EndSwitch
+		Case "MIX_Template"
+			Local $vDownloadTag, $vDownloadExt, $vTargetPicturePath, $aPathSplit, $sDrive, $sDir, $sFileName, $sExtension
+			$vDownloadTag = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Tag", 0, "", $oXMLProfil)
+			$vDownloadExt = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Ext", 0, "", $oXMLProfil)
+			$aPathSplit = _PathSplit(StringReplace($aRomList[$vBoucle][0], "\", "_"), $sDrive, $sDir, $sFileName, $sExtension)
+			$vTargetPicturePath = $aConfig[4] & $sFileName & $vDownloadTag & "." & $vDownloadExt
+			$vValue = _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+			FileCopy($vValue, $vTargetPicturePath, $FC_OVERWRITE)
+			Return $vTargetPicturePath
 		Case Else
 			_LOG("SOURCE Unknown", 3)
 			Return ""
@@ -1157,6 +1164,39 @@ Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil)
 		Return -1
 	EndIf
 EndFunc   ;==>_Picture_Download
+
+Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+
+	Local $vMIXTemplatePath = "C:\Developpement\Github\Universal-XML-Scraper2\Mix\Arcade (moon)\"
+	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
+	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
+	Local $vTarget_Height = _XML_Read("/Profil/General/Target_Height", 0, "", $oMixConfig)
+	Local $vPicTarget =-1, $vWhile = 1
+	While 1
+		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oMixConfig)
+			Case "Fixe_Value"
+				$vPicTarget = $iTEMPPath & $vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
+				FileCopy($vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig), $vPicTarget, $FC_OVERWRITE)
+				Dim $aPicParameters[8]
+				$aPicParameters[0] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Width", 0, "", $oMixConfig)
+				$aPicParameters[1] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Height", 0, "", $oMixConfig)
+				$aPicParameters[2] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopLeftX", 0, "", $oMixConfig)
+				$aPicParameters[3] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopLeftY", 0, "", $oMixConfig)
+				$aPicParameters[4] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopRightX", 0, "", $oMixConfig)
+				$aPicParameters[5] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopRightY", 0, "", $oMixConfig)
+				$aPicParameters[6] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftX", 0, "", $oMixConfig)
+				$aPicParameters[7] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftY", 0, "", $oMixConfig)
+				$vTarget_Maximize = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Maximize", 0, "", $oMixConfig)
+				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize)
+			Case Else
+				_LOG("End Of Elements", 3)
+				ExitLoop
+		EndSwitch
+		$vWhile = $vWhile + 1
+	WEnd
+
+	Return $vPicTarget
+EndFunc   ;==>_MIX_Engine
 
 #EndRegion Function
 

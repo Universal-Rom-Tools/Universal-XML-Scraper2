@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name="Full Back">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name="Arcade (moon)">
 	<General>
 		<Source_Image>Empty_exemple.png</Source_Image>
 		<Target_Image>Full_exemple.png</Target_Image>
@@ -77,7 +77,7 @@
 		<Name>marqueeTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>medias/media_wheels/media_wheel_%%</Source_Value>
+		<Source_Value>medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
 		<Target_Width>%0.759</Target_Width>
 		<Target_Height>%0.163</Target_Height>
 		<Target_TopLeftX>%0.185</Target_TopLeftX> 

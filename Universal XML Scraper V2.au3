@@ -1171,7 +1171,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
 	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
 	Local $vTarget_Height = _XML_Read("/Profil/General/Target_Height", 0, "", $oMixConfig)
-	Local $vPicTarget =-1, $vWhile = 1
+	Local $vPicTarget = -1, $vWhile = 1
 	While 1
 		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oMixConfig)
 			Case "Fixe_Value"
@@ -1188,6 +1188,26 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				$aPicParameters[7] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftY", 0, "", $oMixConfig)
 				$vTarget_Maximize = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Maximize", 0, "", $oMixConfig)
 				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize)
+			Case "XML_Value"
+				$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
+				$aXpathCountry = _CountryArray_Make($aConfig, $vXpath, $aRomList[$vBoucle][8], $oXMLProfil)
+				For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
+
+					$vValue = _XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8])
+					If $vValue <> -1 And $vValue <> "" Then Return $vValue
+				Next
+
+				If StringInStr($vXpath, '%LANG%') Then
+					Local $aLangPref = $aConfig[9]
+					For $vBoucle2 = 1 To UBound($aLangPref) - 1
+						Local $vLagPref = $aLangPref[$vBoucle2]
+						$vXpathTemp = StringReplace($vXpath, '%LANG%', $vLagPref)
+						$vValue = _XML_Read($vXpathTemp, 0, $aRomList[$vBoucle][8])
+						If $vValue <> -1 And $vValue <> "" Then Return $vValue
+					Next
+					Return ""
+				EndIf
+				Return _XML_Read($vXpath, 0, $aRomList[$vBoucle][8])
 			Case Else
 				_LOG("End Of Elements", 3)
 				ExitLoop

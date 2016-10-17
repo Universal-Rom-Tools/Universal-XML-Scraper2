@@ -1267,7 +1267,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
 						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
-						If _GDIPlus_Transparancy2($vPath, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparancy Failed", 2)
+						If _GDIPlus_TransparancyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparancy Failed", 2)
 ;~ 						MsgBox(0, 'DEBUG', 'After Transparancy') ;Debug
 					Case Else
 						_LOG("Unknown GDI_Function", 2)

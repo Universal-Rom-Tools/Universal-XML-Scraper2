@@ -487,7 +487,8 @@ EndFunc   ;==>_OptiPNG
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_RelativePos($iValue, $iValueMax)
-	If StringLeft($iValue, 1) = '%' Then Return $iValueMax * StringTrimLeft($iValue, 1)
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_RelativePos") ;Debug
+	If StringLeft($iValue, 1) = '%' Then Return Int($iValueMax * StringTrimLeft($iValue, 1))
 	Return $iValue
 EndFunc   ;==>_GDIPlus_RelativePos
 
@@ -507,6 +508,7 @@ EndFunc   ;==>_GDIPlus_RelativePos
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_ResizeMax");Debug
 	Local $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New, $iRatio, $hImageResized
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
@@ -556,6 +558,9 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 			$iWidth_New = $iMAX_Width
 		EndIf
 	EndIf
+
+	$iWidth_New = Int($iWidth_New)
+	$iHeight_New = Int($iHeight_New)
 
 	If $iWidth <> $iWidth_New Or $iHeight <> $iHeight_New Then
 		_LOG("Resize Max : " & $iPath) ; Debug
@@ -667,6 +672,7 @@ EndFunc   ;==>_GDIPlus_Rotation
 ; Example .......; No
 Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "", $iHeight = "")
 	#forceref $iX, $iY, $iWidth, $iHeight
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_Transparancy");Debug
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
@@ -705,6 +711,7 @@ Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "",
 
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
+	_WinAPI_DeleteObject($hBMPBuff)
 	_GDIPlus_GraphicsDispose($hGraphicGUI)
 	GUIDelete($hGui)
 	_GDIPlus_ImageDispose($hImage)
@@ -815,6 +822,137 @@ Func _GDIPlus_Transparancy2($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = ""
 
 	Return $iPath
 EndFunc   ;==>_GDIPlus_Transparancy2
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_TransparancyZone
+; Description ...: Apply transparancy on a picture
+; Syntax.........: _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
+; Parameters ....: $iPath		- Path to the picture
+;                  $iTransLvl	- Transparancy level
+; Return values .: Success      - Return the Path of the Picture
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......: 	0 - No rotation and no flipping (A 180-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					1 - A 90-degree rotation without flipping (A 270-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					2 - A 180-degree rotation without flipping (No rotation, a horizontal flip followed by a vertical flip)
+;~ 					3 - A 270-degree rotation without flipping (A 90-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					4 - No rotation and a horizontal flip (A 180-degree rotation followed by a vertical flip)
+;~ 					5 - A 90-degree rotation followed by a horizontal flip (A 270-degree rotation followed by a vertical flip)
+;~ 					6 - A 180-degree rotation followed by a horizontal flip (No rotation and a vertical flip)
+;~ 					7 - A 270-degree rotation followed by a horizontal flip (A 90-degree rotation followed by a vertical flip)
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
+	#forceref $iX, $iY, $iWidth, $iHeight
+	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
+	Local $MergedImageBackgroundColor = 0x00000000
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANSZONE_Temp.PNG"
+	$iPath_CutHole_Temp = $sDrive & $sDir & $sFileName & "-CutHole_Temp.PNG"
+	$iPath_Crop_Temp = $sDrive & $sDir & $sFileName & "-CutCrop_Temp.PNG"
+
+	;Working on temporary picture
+	FileDelete($iPath_Temp)
+	If Not FileCopy($iPath, $iPath_Temp, 9) Then
+		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath) Then
+		_LOG("Error deleting " & $iPath, 2)
+		Return -1
+	EndIf
+
+	$iPath = $sDrive & $sDir & $sFileName & ".png"
+	$iWidth = _GDIPlus_RelativePos($iWidth, $vTarget_Width)
+	If $iWidth = "" Then $iWidth = $vTarget_Width
+	$iHeight = _GDIPlus_RelativePos($iHeight, $vTarget_Height)
+	If $iHeight = "" Then $iHeight = $vTarget_Height
+	$iX = _GDIPlus_RelativePos($iX, $vTarget_Width)
+	$iY = _GDIPlus_RelativePos($iY, $vTarget_Height)
+
+	Switch $iX
+		Case 'CENTER'
+			$iX = ($vTarget_Width / 2) - ($iWidth / 2)
+		Case 'LEFT'
+			$iX = 0
+		Case 'RIGHT'
+			$iX = $vTarget_Width - $iWidth
+	EndSwitch
+	Switch $iY
+		Case 'CENTER'
+			$iY = ($vTarget_Height / 2) - ($iHeight / 2)
+		Case 'UP'
+			$iY = 0
+		Case 'DOWN'
+			$iY = $vTarget_Height - $iHeight
+	EndSwitch
+
+	$iX = Int($iX)
+	$iY = Int($iY)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	$hNew_CutHole = _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
+	If @error Then
+		_LOG("Error _GDIPlus_ImageCutRectHole " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	$hNew_Crop = _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
+	If @error Then
+		_LOG("Error _GDIPlus_ImageCrop " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	_GDIPlus_ImageSaveToFile($hNew_CutHole, $iPath_CutHole_Temp)
+	_GDIPlus_ImageSaveToFile($hNew_Crop, $iPath_Crop_Temp)
+	_GDIPlus_ImageDispose($hImage)
+	_GDIPlus_BitmapDispose($hNew_CutHole)
+	_GDIPlus_BitmapDispose($hNew_Crop)
+	_GDIPlus_Shutdown()
+
+	_GDIPlus_Transparancy($iPath_Crop_Temp, $iTransLvl)
+	_GDIPlus_Merge($iPath_CutHole_Temp, $iPath_Crop_Temp)
+
+	FileCopy($iPath_CutHole_Temp,$iPath)
+	FileDelete($iPath_CutHole_Temp)
+
+	If Not FileDelete($iPath_Temp) Then
+		_LOG("Error deleting " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	Return $iPath
+EndFunc   ;==>_GDIPlus_TransparancyZone
+
+
+Func _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height) ;coded by UEZ 2012-12-17
+	Local $hTexture = _GDIPlus_TextureCreate($hImage, 4)
+	$hImage = _GDIPlus_BitmapCreateFromScan0($vTarget_Width, $vTarget_Height)
+	Local $hGfxCtxt = _GDIPlus_ImageGetGraphicsContext($hImage)
+	_GDIPlus_GraphicsSetSmoothingMode($hGfxCtxt, 2)
+	_GDIPlus_GraphicsSetPixelOffsetMode($hGfxCtxt, 2)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, 0, 0, $iX, $vTarget_Height, $hTexture)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX + $iWidthCut, 0, $vTarget_Width - ($iX + $iWidthCut), $vTarget_Height, $hTexture)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX, 0, $iWidthCut, $iY, $hTexture)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX, $iY + $iHeightCut, $iWidthCut, $vTarget_Height - ($iY + $iHeightCut), $hTexture)
+	_GDIPlus_BrushDispose($hTexture)
+	_GDIPlus_GraphicsDispose($hGfxCtxt)
+	Return $hImage
+EndFunc   ;==>_GDIPlus_ImageShapeHole
+
+Func _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height) ;coded by UEZ 2012-12-17
+	Local $hTexture = _GDIPlus_TextureCreate($hImage, 4)
+	$hImage = _GDIPlus_BitmapCreateFromScan0($vTarget_Width, $vTarget_Height)
+	Local $hGfxCtxt = _GDIPlus_ImageGetGraphicsContext($hImage)
+	_GDIPlus_GraphicsSetSmoothingMode($hGfxCtxt, 2)
+	_GDIPlus_GraphicsSetPixelOffsetMode($hGfxCtxt, 2)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX, $iY,$iWidthCut, $iHeightCut, $hTexture)
+	_GDIPlus_BrushDispose($hTexture)
+	_GDIPlus_GraphicsDispose($hGfxCtxt)
+	Return $hImage
+EndFunc   ;==>_GDIPlus_ImageShapeHole
+
 
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_CreateMask
@@ -928,7 +1066,6 @@ Func _GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
 	FileDelete($iPathMask_TEMP)
 EndFunc   ;==>_GDIPlus_CreateMask
 
-
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_Fusion
 ; Description ...: Merge 2 pictures
@@ -943,6 +1080,7 @@ EndFunc   ;==>_GDIPlus_CreateMask
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Merge($iPath1, $iPath2)
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_Merge");Debug
 	Local $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic, $ImageWidth, $ImageHeight
 	Local $MergedImageBackgroundColor = 0x00000000
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
@@ -968,6 +1106,7 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 	$ImageWidth = _GDIPlus_ImageGetWidth($hImage1)
 	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
 	$ImageHeight = _GDIPlus_ImageGetHeight($hImage1)
+	$hGui = GUICreate("", $ImageWidth, $ImageHeight)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($ImageWidth, $ImageHeight, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
@@ -980,6 +1119,7 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
+	_WinAPI_DeleteObject($hBMPBuff)
 	_GDIPlus_GraphicsDispose($hGraphicGUI)
 	GUIDelete($hGui)
 	_GDIPlus_ImageDispose($hImage2)
@@ -1036,18 +1176,13 @@ Func _GDIPlus_GraphicsDrawImageRectRectTrans($hGraphics, $hImage, $iSrcX, $iSrcY
 	;blending values:
 	Local $x = DllStructSetData($tColorMatrix, 1, 1, 1) * DllStructSetData($tColorMatrix, 2, 1, 2) * DllStructSetData($tColorMatrix, 3, 1, 3) * _
 			DllStructSetData($tColorMatrix, 4, $nTrans, 4) * DllStructSetData($tColorMatrix, 5, 1, 5)
-	$x = $x
+;~ 	$x = $x
 	;;create an image attributes object and update its color matrix
-	$hImgAttrib = DllCall($__g_hGDIPDll, "int", "GdipCreateImageAttributes", "ptr*", 0)
-	$hImgAttrib = $hImgAttrib[1]
-	DllCall($__g_hGDIPDll, "int", "GdipSetImageAttributesColorMatrix", "ptr", $hImgAttrib, "int", 1, _
-			"int", 1, "ptr", DllStructGetPtr($tColorMatrix), "ptr", 0, "int", 0)
-	;;draw image into graphic object with alpha blend
-	DllCall($__g_hGDIPDll, "int", "GdipDrawImageRectRectI", "hwnd", $hGraphics, "hwnd", $hImage, "int", $iDstX, "int", _
-			$iDstY, "int", $iDstWidth, "int", $iDstHeight, "int", $iSrcX, "int", $iSrcY, "int", $iSrcWidth, "int", _
-			$iSrcHeight, "int", $iUnit, "ptr", $hImgAttrib, "int", 0, "int", 0)
+	$hImgAttrib = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetColorMatrix($hImgAttrib, 1, 1, DllStructGetPtr($tColorMatrix))
+	_GDIPlus_GraphicsDrawImageRectRect($hGraphics, $hImage, $iSrcX, $iSrcY, $iSrcWidth, $iSrcHeight, $iDstX, $iDstY, $iDstWidth, $iDstHeight, $hImgAttrib, $iUnit)
 	;;clean up
-	DllCall($__g_hGDIPDll, "int", "GdipDisposeImageAttributes", "ptr", $hImgAttrib)
+	_GDIPlus_ImageAttributesDispose($hImgAttrib)
 	Return
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 
@@ -1066,7 +1201,7 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize = 'no')
-;~ 	_GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_Imaging");Debug
 	Local $sDrive, $sDir, $sFileName, $iExtension, $vPicTarget_Temp
 	_PathSplit($vPicTarget, $sDrive, $sDir, $sFileName, $iExtension)
 	$vTarget_Maximize = StringUpper($vTarget_Maximize)
@@ -1177,6 +1312,13 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 			$Image_C3Y = $Image_C1Y + $iHeight
 	EndSwitch
 
+	$Image_C1X = Int($Image_C1X)
+	$Image_C1Y = Int($Image_C1Y)
+	$Image_C2X = Int($Image_C2X)
+	$Image_C2Y = Int($Image_C2Y)
+	$Image_C3X = Int($Image_C3X)
+	$Image_C3Y = Int($Image_C3Y)
+
 	ConsoleWrite("+ Imaging (" & $vPicTarget & ")" & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C1 = " & $Image_C1X & "x" & $Image_C1Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C2 = " & $Image_C2X & "x" & $Image_C2Y & @CRLF) ; Debug
@@ -1187,6 +1329,7 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $vPicTarget)
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
+	_WinAPI_DeleteObject($hBMPBuff)
 	_GDIPlus_GraphicsDispose($hGraphicGUI)
 	GUIDelete($hGui)
 	_GDIPlus_ImageDispose($hImage)

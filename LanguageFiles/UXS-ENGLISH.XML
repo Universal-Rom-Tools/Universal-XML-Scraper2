@@ -5,6 +5,12 @@
 	<prSET_SYSTEM_CREATEARRAY>Getting system list</prSET_SYSTEM_CREATEARRAY>
 </progressbar>
 
+
+<datapref>
+	<langpref>us</langpref>
+	<countrypref>%COUNTRY%|us|eu|origine|jp|xx</countrypref>
+</datapref>
+
 <error>
 	<err_title>Erreur</err_title>
 	<err_PathRom>Rom path not valide</err_PathRom>

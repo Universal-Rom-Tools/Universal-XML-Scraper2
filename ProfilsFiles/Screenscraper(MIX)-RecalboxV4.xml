@@ -3,7 +3,7 @@
 		<Source_Image>Screenscraper (MIX).jpg</Source_Image>
 		<Target_Image>RecalboxV4.jpg</Target_Image>
 		<UpperCase>True</UpperCase>
-		<Image_Extension>.jpg</Image_Extension>
+		<Image_Extension>.png</Image_Extension>
 	</General>
 	<AutoConf>
 		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
@@ -80,6 +80,9 @@
 	</Element>
 	<Element Type="Picture">
 		<Source_Type>MIX_Template</Source_Type>
+		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
+		<Source_Download_Tag>-image</Source_Download_Tag>
+		<Source_Download_Ext>png</Source_Download_Ext>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>gameList/game/image</Target_Value>

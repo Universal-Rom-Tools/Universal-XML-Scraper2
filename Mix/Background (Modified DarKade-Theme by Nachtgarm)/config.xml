@@ -35,9 +35,10 @@
 		<source_Origin>Game</source_Origin>
 		<Source_Value>Data/jeu/medias/media_fanart</Source_Value>
 		<Target_Width>%1</Target_Width>
-		<Target_Height></Target_Height>
+		<Target_Height>-1</Target_Height>
 		<Target_TopLeftX>CENTER</Target_TopLeftX> 
 		<Target_TopLeftY>CENTER</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
 	</Element>
 	<Element>
 		<Name>fanartTransTEMP</Name>
@@ -45,19 +46,116 @@
 		<Source_Function>Transparency</Source_Function>
 		<Source_Value>0.85</Source_Value>
 	</Element>
-	
-	$MIX_IMG4_SOURCE_1	= 'fanartTEMP|SystMAX|medias/media_photos/media_photo_%%|path:image|%1|%1|CENTER|CENTER'
 	<Element>
 		<Name>fanartTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
-		<source_Origin>Sytem</source_Origin>
-		<Source_Value>Data/jeu/medias/media_photos/media_photo_%%</Source_Value>
+		<source_Origin>System</source_Origin>
+		<Source_Value>Data/systeme/medias/media_photos/media_photo_%COUNTRY%</Source_Value>
 		<Target_Width>%1</Target_Width>
-		<Target_Height></Target_Height>
+		<Target_Height>-1</Target_Height>
 		<Target_TopLeftX>CENTER</Target_TopLeftX> 
 		<Target_TopLeftY>CENTER</Target_TopLeftY> 
 		<Target_Maximize>Yes</Target_Maximize> 
 	</Element>
-
-
+	<Element>
+		<Name>fanartTransTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Transparency</Source_Function>
+		<Source_Value>0.85</Source_Value>
+	</Element>
+	<Element>
+		<Name>fanartFusTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Merge</Source_Function>
+	</Element>
+	<Element>
+		<Name>FusionTransTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Transparency</Source_Function>
+		<Source_Value>0.85</Source_Value>
+	</Element>
+	<Element>
+		<Name>FusionCutTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Transparency2</Source_Function>
+		<Source_Value>0.50</Source_Value>
+		<Target_Width>%0.359</Target_Width>
+		<Target_Height>%0.68</Target_Height>
+		<Target_TopLeftX>%0.610</Target_TopLeftX> 
+		<Target_TopLeftY>%0.22</Target_TopLeftY> 
+	</Element>
+	<Element>
+		<Name>PicTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>Data/jeu/medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value>
+		<Target_Width>%0.250</Target_Width>
+		<Target_Height>%0.277</Target_Height>
+		<Target_TopLeftX>%0.016</Target_TopLeftX> 
+		<Target_TopLeftY>%0.195</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
+	<Element>
+		<Name>PicTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
+		<Target_Width>%0.250</Target_Width>
+		<Target_Height>%0.277</Target_Height>
+		<Target_TopLeftX>%0.016</Target_TopLeftX> 
+		<Target_TopLeftY>%0.195</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
+	<Element>
+		<Name>LogoTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>System</source_Origin>
+		<Source_Value>Data/systeme/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Target_Width>%0.534</Target_Width>
+		<Target_Height>%0.139</Target_Height>
+		<Target_TopLeftX>LEFT</Target_TopLeftX> 
+		<Target_TopLeftY>UP</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
+	<Element>
+		<Name>FondSynoTEMP</Name>
+		<Source_Type>Fixe_Value</Source_Type>
+		<Source_Value>Black.jpg</Source_Value>
+		<Target_Width>%0.534</Target_Width>
+		<Target_Height>%0.379</Target_Height>
+		<Target_TopLeftX>%0.016</Target_TopLeftX> 
+		<Target_TopLeftY>%0.527</Target_TopLeftY> 
+	</Element>
+	<Element>
+		<Name>FusionTransTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Transparency</Source_Function>
+		<Source_Value>0.25</Source_Value>
+	</Element>
+	<Element>
+		<Name>FondInfoTEMP</Name>
+		<Source_Type>Fixe_Value</Source_Type>
+		<Source_Value>Black.jpg</Source_Value>
+		<Target_Width>%0.267</Target_Width>
+		<Target_Height>%0.305</Target_Height>
+		<Target_TopLeftX>%0.283</Target_TopLeftX> 
+		<Target_TopLeftY>%0.195</Target_TopLeftY> 
+	</Element>
+	<Element>
+		<Name>FusionTransTEMP</Name>
+		<Source_Type>GDI_Function</Source_Type>
+		<Source_Function>Transparency</Source_Function>
+		<Source_Value>0.25</Source_Value>
+	</Element>
+	<Element>
+		<Name>wheelTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Target_Width>%0.185</Target_Width>
+		<Target_Height>%0.147</Target_Height>
+		<Target_TopLeftX>%0.087</Target_TopLeftX> 
+		<Target_TopLeftY>%0.353</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
 </Profil>

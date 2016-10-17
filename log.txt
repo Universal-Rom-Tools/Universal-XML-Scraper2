@@ -1,197 +1,199 @@
-[10:20:55] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
-[10:20:55] - WIN_10(X64) - 040C
-[10:20:55] - > Dev version
-[10:20:55] - Starting files installation
-[10:20:55] - > Ending files installation
-[10:20:55] - > Verbose LVL : 3
-[10:20:55] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
-[10:20:55] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
-[10:20:55] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
-[10:20:55] - Language Selected : 040c
-[10:20:55] - > Update Checking
-[10:20:56] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
-[10:20:56] - > -In 1 try and 0.76s
-[10:20:56] - Local : In Progress - Github : 1.5.0.11
-[10:20:56] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper(MIX)-Recalbox v4
-[10:20:56] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
-[10:20:56] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
-[10:20:56] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml
-[10:20:56] - --------------------------------------------------------------------------------
-[10:20:56] - http://www.screenscraper.fr/api/systemesListe.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=XML
-[10:20:56] - --------------------------------------------------------------------------------
-[10:21:00] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
-[10:21:00] - > -In 1 try and 4.1s
-[10:21:00] - > systemlist.xml Opened
-[10:21:00] - > GUI Constructed
-[10:21:00] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\SYNO-SCREECH\Emulation\roms
-[10:21:00] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
-[10:21:00] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
-[10:21:00] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
-[10:21:00] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
-[10:21:01] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper (MIX).jpg
-[10:21:01] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
-[10:21:01] - > SSH Enable
-[10:21:01] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
-[10:21:01] - > GUI Refresh
-[10:21:07] - > $vTarget_XMLName = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml
-[10:21:07] - > $vSource_RomPath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST
-[10:21:07] - > $vTarget_RomPath = ./
-[10:21:07] - > $vSource_ImagePath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\downloaded_images
-[10:21:07] - > $vTarget_ImagePath = ./downloaded_images/
-[10:21:07] - > $vScrape_Mode = 0
-[10:21:07] - > $MissingRom_Mode = 0
-[10:21:07] - > $CountryPic_Mode = 0
-[10:21:07] - > GUI Desactivated (Scrape in progress)
-[10:21:07] - > vScrape_Mode = 0 And \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml = 53 ---> _XML_Make
-[10:21:07] - > _XML_GetValue (Profil/Root/Target_Value) = gameList
-[10:21:07] - > _XML_GetValue (Data/systeme/noms/*) = 135 Elements
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive"]/id) = 1
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Genesis"]/id) = 1
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Master System"]/id) = 2
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "NES"]/id) = 3
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer"]/id) = 3
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super Nintendo"]/id) = 4
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super Famicom"]/id) = 4
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System"]/id) = 6
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 2"]/id) = 7
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 3"]/id) = 8
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy"]/id) = 9
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Color"]/id) = 10
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Virtual Boy"]/id) = 11
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Advance"]/id) = 12
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Gamecube"]/id) = 13
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64"]/id) = 14
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo DS"]/id) = 15
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Wii"]/id) = 16
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Wii U"]/id) = 18
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive 32X"]/id) = 19
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Sega 32X"]/id) = 19
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Mega-CD"]/id) = 20
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Sega CD"]/id) = 20
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Gear"]/id) = 21
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Saturn"]/id) = 22
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Dreamcast"]/id) = 23
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo AES"]/id) = 24
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket"]/id) = 25
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600"]/id) = 26
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Jaguar"]/id) = 27
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Lynx"]/id) = 28
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "3DO"]/id) = 29
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "N-Gage"]/id) = 30
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine"]/id) = 31
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "TurboGrafx-16"]/id) = 31
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Xbox"]/id) = 32
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Xbox 360"]/id) = 33
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Another Arcade Emulator"]/id) = 35
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atom"]/id) = 36
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "BBC Micro"]/id) = 37
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari 800"]/id) = 38
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600 Supercharger"]/id) = 39
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari 5200"]/id) = 40
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari 7800"]/id) = 41
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari ST"]/id) = 42
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atari XE"]/id) = 43
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Astrocade"]/id) = 44
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan"]/id) = 45
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan Color"]/id) = 46
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Cave"]/id) = 47
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Colecovision"]/id) = 48
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Daphne"]/id) = 49
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX"]/id) = 50
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX II"]/id) = 51
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game & Watch"]/id) = 52
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Atomiswave"]/id) = 53
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Model 2"]/id) = 54
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Model 3"]/id) = 55
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Naomi"]/id) = 56
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Playstation"]/id) = 57
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Playstation 2"]/id) = 58
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PSP"]/id) = 61
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PS Vita"]/id) = 62
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Android"]/id) = 63
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Amiga"]/id) = 64
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "CPC"]/id) = 65
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Commodore 64"]/id) = 66
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super Cassette Vision"]/id) = 67
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo MVS"]/id) = 68
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Sega ST-V"]/id) = 69
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo CD"]/id) = 70
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Fightcade"]/id) = 71
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PC-FX"]/id) = 72
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Vic-20"]/id) = 73
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PV-1000"]/id) = 74
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Mame"]/id) = 75
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "ZX Spectrum"]/id) = 76
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "ZX81"]/id) = 77
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Adventure Vision"]/id) = 78
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Sharp X68000"]/id) = 79
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Channel F"]/id) = 80
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Action Max"]/id) = 81
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket Color"]/id) = 82
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Aamber Pegasus"]/id) = 83
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Archimedes"]/id) = 84
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Electron"]/id) = 85
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Apple II"]/id) = 86
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "GX4000"]/id) = 87
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Camputers Lynx"]/id) = 88
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Adam"]/id) = 89
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Mega Duck"]/id) = 90
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Cougar Boy"]/id) = 90
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Dragon 32/64"]/id) = 91
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "EG2000 Colour Genie"]/id) = 92
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "BK"]/id) = 93
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Arcadia 2001"]/id) = 94
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Pocket Computer"]/id) = 95
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "EXL 100"]/id) = 96
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "FM-7"]/id) = 97
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Loopy"]/id) = 98
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Plus/4"]/id) = 99
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super A'can"]/id) = 100
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "GP32"]/id) = 101
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Vectrex"]/id) = 102
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game Master"]/id) = 103
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Videopac G7000"]/id) = 104
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Magnavox Odyssey²"]/id) = 104
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine SuperGrafx"]/id) = 105
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer Disk System"]/id) = 106
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Famiri Konpyuta Disuku Shisutemu"]/id) = 106
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Satellaview"]/id) = 107
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Sufami Turbo"]/id) = 108
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "SG-1000"]/id) = 109
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo Power"]/id) = 110
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Amiga (AGA)"]/id) = 111
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Type X"]/id) = 112
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "MSX"]/id) = 113
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine CD-Rom"]/id) = 114
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Intellivision"]/id) = 115
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "MSX2"]/id) = 116
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "MSX2+"]/id) = 117
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "MSX R Turbo"]/id) = 118
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "GBA e-Reader"]/id) = 119
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "V.Smile"]/id) = 120
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Game.com"]/id) = 121
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64DD"]/id) = 122
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "ScummVM"]/id) = 123
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Mikrosha"]/id) = 124
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Pecom 64"]/id) = 125
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Jupiter Ace"]/id) = 126
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Ace4000"]/id) = 126
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super Game Boy"]/id) = 127
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Super Game Boy 2"]/id) = 128
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Amiga CDTV"]/id) = 129
-[10:21:07] - > _XML_GetValue (Data/systeme[noms/* = "Amiga CD32"]/id) = 130
-[10:21:07] - --------------------------------------------------------------------------------
-[10:21:07] - Search megadrive test in $aSystemListTXT = -1
-[10:21:07] - --------------------------------------------------------------------------------
-[10:21:07] - No system found for : megadrive test
-[10:21:12] - > Value selected : 1
-[10:21:12] - System selected No 1
-[10:21:12] - > Listing ROM (*.zip||downloaded_images)
-[10:21:12] - 13 Rom(s) found
-[10:21:13] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
-[10:21:13] - /!\ _XML_GetValue ERROR (gameList/game/path)
-[10:21:13] - --------------------------------------------------------------------------------
-[10:21:13] - _XML_GetValue @error:
+[00:13:23] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2.au3 (In Progress)
+[00:13:23] - WIN_10(X64) - 040C
+[00:13:23] - > Dev version
+[00:13:23] - Starting files installation
+[00:13:23] - > Ending files installation
+[00:13:23] - > Verbose LVL : 3
+[00:13:23] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[00:13:23] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\log.txt
+[00:13:23] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[00:13:23] - Language Selected : 040c
+[00:13:23] - > Update Checking
+[00:13:24] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[00:13:24] - > -In 1 try and 0.76s
+[00:13:24] - Local : In Progress - Github : 1.5.0.11
+[00:13:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper(MIX)-Recalbox v4
+[00:13:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v0
+[00:13:24] - > _XML_GetNodeAttributeValue (Profil) = ScreenScraper-Recalbox v4
+[00:13:24] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml
+[00:13:24] - --------------------------------------------------------------------------------
+[00:13:24] - http://www.screenscraper.fr/api/systemesListe.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=XML
+[00:13:24] - --------------------------------------------------------------------------------
+[00:13:31] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
+[00:13:31] - > -In 1 try and 6.66s
+[00:13:31] - > systemlist.xml Opened
+[00:13:31] - > GUI Constructed
+[00:13:31] - > _XML_GetValue (Profil/AutoConf/Source_RootPath) = \\SYNO-SCREECH\Emulation\roms
+[00:13:31] - > _XML_GetValue (Profil/AutoConf/Target_XMLName) = gamelist.xml
+[00:13:31] - > _XML_GetValue (Profil/AutoConf/Target_RomPath) = ./
+[00:13:31] - > _XML_GetValue (Profil/AutoConf/Source_ImagePath) = downloaded_images
+[00:13:31] - > _XML_GetValue (Profil/AutoConf/Target_ImagePath) = ./downloaded_images/
+[00:13:31] - > _XML_GetValue (Profil/General/Source_Image) = Screenscraper (MIX).jpg
+[00:13:31] - > _XML_GetValue (Profil/General/Target_Image) = RecalboxV4.jpg
+[00:13:31] - > SSH Enable
+[00:13:31] - > _XML_GetValue (Profil/Plink/Command) = 4 Elements
+[00:13:31] - > GUI Refresh
+[00:13:32] - > $vTarget_XMLName = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml
+[00:13:32] - > $vSource_RomPath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST
+[00:13:32] - > $vTarget_RomPath = ./
+[00:13:32] - > $vSource_ImagePath = \\SYNO-SCREECH\Emulation\roms\megadrive TEST\downloaded_images
+[00:13:32] - > $vTarget_ImagePath = ./downloaded_images/
+[00:13:32] - > $vScrape_Mode = 0
+[00:13:32] - > $MissingRom_Mode = 0
+[00:13:32] - > $CountryPic_Mode = 0
+[00:13:32] - > GUI Desactivated (Scrape in progress)
+[00:13:32] - > vScrape_Mode = 0 And \\SYNO-SCREECH\Emulation\roms\megadrive TEST\gamelist.xml = 53 ---> _XML_Make
+[00:13:32] - > _XML_GetValue (Profil/Root/Target_Value) = gameList
+[00:13:32] - > _XML_GetValue (Data/systeme/noms/*) = 137 Elements
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive"]/id) = 1
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Genesis"]/id) = 1
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Master System"]/id) = 2
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "NES"]/id) = 3
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer"]/id) = 3
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super Nintendo"]/id) = 4
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super Famicom"]/id) = 4
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System"]/id) = 6
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 2"]/id) = 7
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Capcom Play System 3"]/id) = 8
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy"]/id) = 9
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Color"]/id) = 10
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Virtual Boy"]/id) = 11
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Boy Advance"]/id) = 12
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Gamecube"]/id) = 13
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64"]/id) = 14
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo DS"]/id) = 15
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Wii"]/id) = 16
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Wii U"]/id) = 18
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Megadrive 32X"]/id) = 19
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Sega 32X"]/id) = 19
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Mega-CD"]/id) = 20
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Sega CD"]/id) = 20
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Gear"]/id) = 21
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Saturn"]/id) = 22
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Dreamcast"]/id) = 23
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo AES"]/id) = 24
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket"]/id) = 25
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600"]/id) = 26
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Jaguar"]/id) = 27
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Lynx"]/id) = 28
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "3DO"]/id) = 29
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "N-Gage"]/id) = 30
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine"]/id) = 31
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "TurboGrafx-16"]/id) = 31
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Xbox"]/id) = 32
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Xbox 360"]/id) = 33
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Another Arcade Emulator"]/id) = 35
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atom"]/id) = 36
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "BBC Micro"]/id) = 37
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari 800"]/id) = 38
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari 2600 Supercharger"]/id) = 39
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari 5200"]/id) = 40
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari 7800"]/id) = 41
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari ST"]/id) = 42
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atari XE"]/id) = 43
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Astrocade"]/id) = 44
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan"]/id) = 45
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "WonderSwan Color"]/id) = 46
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Cave"]/id) = 47
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Colecovision"]/id) = 48
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Daphne"]/id) = 49
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX"]/id) = 50
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "CoreGrafX II"]/id) = 51
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game & Watch"]/id) = 52
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Atomiswave"]/id) = 53
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Model 2"]/id) = 54
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Model 3"]/id) = 55
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Naomi"]/id) = 56
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Playstation"]/id) = 57
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Playstation 2"]/id) = 58
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PSP"]/id) = 61
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PS Vita"]/id) = 62
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Android"]/id) = 63
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Amiga"]/id) = 64
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "CPC"]/id) = 65
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Commodore 64"]/id) = 66
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super Cassette Vision"]/id) = 67
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo MVS"]/id) = 68
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Sega ST-V"]/id) = 69
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo CD"]/id) = 70
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Fightcade"]/id) = 71
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PC-FX"]/id) = 72
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Vic-20"]/id) = 73
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PV-1000"]/id) = 74
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Mame"]/id) = 75
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "ZX Spectrum"]/id) = 76
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "ZX81"]/id) = 77
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Adventure Vision"]/id) = 78
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Sharp X68000"]/id) = 79
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Channel F"]/id) = 80
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Action Max"]/id) = 81
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Neo-Geo Pocket Color"]/id) = 82
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Aamber Pegasus"]/id) = 83
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Archimedes"]/id) = 84
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Electron"]/id) = 85
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Apple II"]/id) = 86
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "GX4000"]/id) = 87
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Camputers Lynx"]/id) = 88
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Adam"]/id) = 89
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Mega Duck"]/id) = 90
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Cougar Boy"]/id) = 90
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Dragon 32/64"]/id) = 91
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "EG2000 Colour Genie"]/id) = 92
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "BK"]/id) = 93
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Arcadia 2001"]/id) = 94
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Pocket Computer"]/id) = 95
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "EXL 100"]/id) = 96
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "FM-7"]/id) = 97
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Loopy"]/id) = 98
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Plus/4"]/id) = 99
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super A'can"]/id) = 100
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "GP32"]/id) = 101
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Vectrex"]/id) = 102
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game Master"]/id) = 103
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Videopac G7000"]/id) = 104
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Magnavox Odyssey²"]/id) = 104
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine SuperGrafx"]/id) = 105
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Family Computer Disk System"]/id) = 106
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Famiri Konpyuta Disuku Shisutemu"]/id) = 106
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Satellaview"]/id) = 107
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Sufami Turbo"]/id) = 108
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "SG-1000"]/id) = 109
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo Power"]/id) = 110
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Amiga (AGA)"]/id) = 111
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Type X"]/id) = 112
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "MSX"]/id) = 113
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "PC Engine CD-Rom"]/id) = 114
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Intellivision"]/id) = 115
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "MSX2"]/id) = 116
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "MSX2+"]/id) = 117
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "MSX R Turbo"]/id) = 118
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "GBA e-Reader"]/id) = 119
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "V.Smile"]/id) = 120
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Game.com"]/id) = 121
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Nintendo 64DD"]/id) = 122
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "ScummVM"]/id) = 123
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Mikrosha"]/id) = 124
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Pecom 64"]/id) = 125
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Jupiter Ace"]/id) = 126
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Ace4000"]/id) = 126
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super Game Boy"]/id) = 127
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Super Game Boy 2"]/id) = 128
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Amiga CDTV"]/id) = 129
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Amiga CD32"]/id) = 130
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "Oric 1 / Atmos"]/id) = 131
+[00:13:32] - > _XML_GetValue (Data/systeme[noms/* = "CD-i"]/id) = 133
+[00:13:32] - --------------------------------------------------------------------------------
+[00:13:32] - Search megadrive test in $aSystemListTXT = -1
+[00:13:32] - --------------------------------------------------------------------------------
+[00:13:32] - No system found for : megadrive test
+[00:13:36] - > Value selected : 1
+[00:13:36] - System selected No 1
+[00:13:36] - > Listing ROM (*.zip||downloaded_images)
+[00:13:36] - 12 Rom(s) found
+[00:13:38] - > _XML_GetValue (Profil/Element[@Type='RomPath']/Target_Value) = gameList/game/path
+[00:13:38] - /!\ _XML_GetValue ERROR (gameList/game/path)
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - _XML_GetValue @error:
 @error description:
 $XML_ERR_OK=0
 All is ok.
@@ -200,172 +202,230 @@ All is ok.
 $XML_EXT_DEFAULT=0
 Default - Do not return any additional information
 
-[10:21:13] - --------------------------------------------------------------------------------
-[10:21:13] - > Baku Baku Animal (Brazil) To Scrape ($vScrape_Mode=0)
-[10:21:13] - Rom Info (Baku Baku Animal (Brazil).zip) Hash in 0.05s
-[10:21:13] - > Size : 536836
-[10:21:13] - > CRC32 : E7329DA8
-[10:21:13] - > MD5 : D062A72D4947E7E399B68DB058FA383F
-[10:21:13] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
-[10:21:13] - --------------------------------------------------------------------------------
-[10:21:13] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Baku Baku Animal (Brazil)&romtaille=536836
-[10:21:13] - --------------------------------------------------------------------------------
-[10:21:14] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Baku Baku Animal (Brazil).xml
-[10:21:14] - > -In 1 try and 1.28s
-[10:21:14] - --------------------------------------------------------------------------------
-[10:21:14] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Baku Baku Animal (Brazil)&romtaille=536836
-[10:21:14] - --------------------------------------------------------------------------------
-[10:21:15] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Baku Baku Animal (Brazil).xml
-[10:21:15] - > -In 1 try and 0.26s
-[10:21:15] - Baku Baku Animal (Brazil) scraped in 1.61s - NOT FOUND
-[10:21:15] - > Dragon Ball Z - Super Butouden 2 (Japan) To Scrape ($vScrape_Mode=0)
-[10:21:15] - Rom Info (Dragon Ball Z - Super Butouden 2 (Japan).zip) Hash in 0.06s
-[10:21:15] - > Size : 536836
-[10:21:15] - > CRC32 : E7329DA8
-[10:21:15] - > MD5 : D062A72D4947E7E399B68DB058FA383F
-[10:21:15] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:15] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Dragon Ball Z - Super Butouden 2 (Japan)&romtaille=536836
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:15] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon Ball Z - Super Butouden 2 (Japan).xml
-[10:21:15] - > -In 1 try and 0.26s
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:15] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Dragon Ball Z - Super Butouden 2 (Japan)&romtaille=536836
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:15] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon Ball Z - Super Butouden 2 (Japan).xml
-[10:21:15] - > -In 1 try and 0.25s
-[10:21:15] - Dragon Ball Z - Super Butouden 2 (Japan) scraped in 0.59s - NOT FOUND
-[10:21:15] - > Introuvable To Scrape ($vScrape_Mode=0)
-[10:21:15] - Rom Info (Introuvable.zip) Hash in 0.06s
-[10:21:15] - > Size : 536836
-[10:21:15] - > CRC32 : E7329DA8
-[10:21:15] - > MD5 : D062A72D4947E7E399B68DB058FA383F
-[10:21:15] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:15] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Introuvable&romtaille=536836
-[10:21:15] - --------------------------------------------------------------------------------
-[10:21:16] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
-[10:21:16] - > -In 1 try and 0.26s
-[10:21:16] - --------------------------------------------------------------------------------
-[10:21:16] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Introuvable&romtaille=536836
-[10:21:16] - --------------------------------------------------------------------------------
-[10:21:16] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
-[10:21:16] - > -In 1 try and 0.25s
-[10:21:16] - Introuvable scraped in 0.59s - NOT FOUND
-[10:21:16] - > Zombies Ate My Neighbors (USA) To Scrape ($vScrape_Mode=0)
-[10:21:16] - Rom Info (Zombies Ate My Neighbors (USA).zip) Hash in 0.06s
-[10:21:16] - > Size : 536797
-[10:21:16] - > CRC32 : FE272E3D
-[10:21:16] - > MD5 : 32CD513313294A04E4747992E6C0047B
-[10:21:16] - > SHA1 : B9FA3732C13F484BFB7D1E948994A71E3465099D
-[10:21:16] - --------------------------------------------------------------------------------
-[10:21:16] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=FE272E3D&md5=32CD513313294A04E4747992E6C0047B&sha1=536797&systemeid=1&romtype=rom&romnom=Zombies Ate My Neighbors (USA)&romtaille=536797
-[10:21:16] - --------------------------------------------------------------------------------
-[10:21:16] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zombies Ate My Neighbors (USA).xml
-[10:21:16] - > -In 1 try and 0.51s
-[10:21:16] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
-[10:21:17] - > Write Value : game = 
-[10:21:17] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
-[10:21:17] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
-[10:21:17] - > _XML_GetValue (Data/jeu/id) = 87
-[10:21:17] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
-[10:21:17] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
-[10:21:17] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
-[10:21:17] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
-[10:21:17] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
-[10:21:17] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
-[10:21:17] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
-[10:21:17] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
-[10:21:17] - > Write Value : path = ./Zombies Ate My Neighbors (USA).zip
-[10:21:17] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
-[10:21:17] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
-[10:21:17] - > Write Value : emulator = 
-[10:21:17] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
-[10:21:17] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
-[10:21:17] - > Write Value : core = 
-[10:21:17] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
-[10:21:17] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
-[10:21:17] - > _XML_GetValue (Data/jeu/region) = USA
-[10:21:17] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zombies Ate My Neighbors
-[10:21:17] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
-[10:21:17] - > Write Value : name = Zombies Ate My Neighbors
-[10:21:17] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
-[10:21:17] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
-[10:21:17] - /!\ _XML_GetValue ERROR (Data/jeu/synopsis/synopsis_%LANG%)
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - _XML_GetValue @error(0) :
-@error description:
-$XML_ERR_OK=0
-All is ok.
-
-@extended description:
-$XML_EXT_DEFAULT=0
-Default - Do not return any additional information
-
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
-[10:21:17] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
-[10:21:17] - > Write Value : desc = Zombies (ou Zombies Ate My Neighbors)  sur Megadrive est un jeu d'action où il est possible d'incarner un garçon (Zeke) ou une fille (Julia). Il faut sauver un maximum de gens au cours de la cinquantaine de niveaux du jeu tout en combattant les vampires, momies et autres zombies. Plusieurs armes sont disponibles dont un pistolet à eau et un bazooka. Un mode Coopératif permet de faire l'intégralité du jeu avec un ami.
-[10:21:17] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
-[10:21:17] - > _XML_GetValue (/Profil/Element[8]/Source_Type) = MIX_Template
-[10:21:17] - > _XML_GetValue (/Profil/Element[8]/Source_Download_Tag) = EMPTY
-[10:21:17] - > _XML_GetValue (/Profil/Element[8]/Source_Download_Ext) = EMPTY
-[10:21:17] - /!\ _XML_Load @error:
-@error description:
-$XML_ERR_PARSE=11
-Error: with Parsing objects, .parseError.errorCode=0 Use _XML_ErrorParser_GetDescription() for get details.
-
-@extended description:
-$XML_EXT_DEFAULT=0
-Default - Do not return any additional information
-
-[10:21:17] - /!\ _XML_GetValue ERROR (/Profil/General/Target_Width)
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - _XML_GetValue @error(0) :
-@error description:
-$XML_ERR_OK=0
-All is ok.
-
-@extended description:
-$XML_EXT_DEFAULT=0
-Default - Do not return any additional information
-
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - /!\ _XML_GetValue ERROR (/Profil/General/Target_Height)
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - _XML_GetValue @error(0) :
-@error description:
-$XML_ERR_OK=0
-All is ok.
-
-@extended description:
-$XML_EXT_DEFAULT=0
-Default - Do not return any additional information
-
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - /!\ _XML_GetValue ERROR (/Profil/Element[1]/Source_Type)
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - _XML_GetValue @error(0) :
-@error description:
-$XML_ERR_OK=0
-All is ok.
-
-@extended description:
-$XML_EXT_DEFAULT=0
-Default - Do not return any additional information
-
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - --------------------------------------------------------------------------------
-[10:21:17] - End Of Elements
-[10:21:17] - --------------------------------------------------------------------------------
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - > Baku Baku Animal (Brazil) To Scrape ($vScrape_Mode=0)
+[00:13:38] - Rom Info (Baku Baku Animal (Brazil).zip) Hash in 0.02s
+[00:13:38] - > Size : 536836
+[00:13:38] - > CRC32 : E7329DA8
+[00:13:38] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:13:38] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Baku Baku Animal (Brazil)&romtaille=536836
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Baku Baku Animal (Brazil).xml
+[00:13:38] - > -In 1 try and 0.26s
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Baku Baku Animal (Brazil)&romtaille=536836
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Baku Baku Animal (Brazil).xml
+[00:13:38] - > -In 1 try and 0.26s
+[00:13:38] - Baku Baku Animal (Brazil) scraped in 0.57s - NOT FOUND
+[00:13:38] - > Dragon Ball Z - Super Butouden 2 (Japan) To Scrape ($vScrape_Mode=0)
+[00:13:38] - Rom Info (Dragon Ball Z - Super Butouden 2 (Japan).zip) Hash in 0.03s
+[00:13:38] - > Size : 536836
+[00:13:38] - > CRC32 : E7329DA8
+[00:13:38] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:13:38] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:38] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Dragon Ball Z - Super Butouden 2 (Japan)&romtaille=536836
+[00:13:38] - --------------------------------------------------------------------------------
+[00:13:39] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon Ball Z - Super Butouden 2 (Japan).xml
+[00:13:39] - > -In 1 try and 0.26s
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:39] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Dragon Ball Z - Super Butouden 2 (Japan)&romtaille=536836
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:39] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Dragon Ball Z - Super Butouden 2 (Japan).xml
+[00:13:39] - > -In 1 try and 0.26s
+[00:13:39] - Dragon Ball Z - Super Butouden 2 (Japan) scraped in 0.55s - NOT FOUND
+[00:13:39] - > Introuvable To Scrape ($vScrape_Mode=0)
+[00:13:39] - Rom Info (Introuvable.zip) Hash in 0.03s
+[00:13:39] - > Size : 536836
+[00:13:39] - > CRC32 : E7329DA8
+[00:13:39] - > MD5 : D062A72D4947E7E399B68DB058FA383F
+[00:13:39] - > SHA1 : CA41D7F8A625F75BF85DDD4C2C9B8CA9B3DC7674
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:39] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=E7329DA8&md5=D062A72D4947E7E399B68DB058FA383F&sha1=536836&systemeid=1&romtype=rom&romnom=Introuvable&romtaille=536836
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:39] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:13:39] - > -In 1 try and 0.26s
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:39] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=&md5=&sha1=&systemeid=1&romtype=rom&romnom=Introuvable&romtaille=536836
+[00:13:39] - --------------------------------------------------------------------------------
+[00:13:40] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Introuvable.xml
+[00:13:40] - > -In 1 try and 0.26s
+[00:13:40] - Introuvable scraped in 0.55s - NOT FOUND
+[00:13:40] - > Zool - Ninja of the 'Nth' Dimension (Europe) To Scrape ($vScrape_Mode=0)
+[00:13:40] - Rom Info (Zool - Ninja of the 'Nth' Dimension (Europe).zip) Hash in 0.03s
+[00:13:40] - > Size : 555337
+[00:13:40] - > CRC32 : D775F952
+[00:13:40] - > MD5 : 736D5E752A188E796BD11A5F0A37C5E4
+[00:13:40] - > SHA1 : 046815252F592517C911AAF19F56C99BB274D880
+[00:13:40] - --------------------------------------------------------------------------------
+[00:13:40] - http://www.screenscraper.fr/api/jeuInfos.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=xml&crc=D775F952&md5=736D5E752A188E796BD11A5F0A37C5E4&sha1=555337&systemeid=1&romtype=rom&romnom=Zool - Ninja of the 'Nth' Dimension (Europe)&romtaille=555337
+[00:13:40] - --------------------------------------------------------------------------------
+[00:13:40] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\Zool - Ninja of the 'Nth' Dimension (Europe).xml
+[00:13:40] - > -In 1 try and 0.26s
+[00:13:40] - > _XML_GetValue (Profil/Game/Target_Value) = gameList/game
+[00:13:40] - > Write Value : game = 
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Type) = XML_Attribute
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Data/jeu/id
+[00:13:40] - > _XML_GetValue (Data/jeu/id) = 346
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Attribute_Name) = id
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Value) = gameList/game
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Type) = XML_Attribute
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = Fixe_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = ScreenScraper
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Attribute_Name) = source
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Value) = gameList/game
+[00:13:40] - > _XML_GetValue (/Profil/Element[3]/Target_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = Variable_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = %XML_Rom_Path%
+[00:13:40] - > _XML_GetValue (/Profil/Element[3]/Target_Value) = gameList/game/path
+[00:13:40] - > Write Value : path = ./Zool - Ninja of the 'Nth' Dimension (Europe).zip
+[00:13:40] - > _XML_GetValue (/Profil/Element[4]/Target_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = Fixe_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = 
+[00:13:40] - > _XML_GetValue (/Profil/Element[4]/Target_Value) = gameList/game/emulator
+[00:13:40] - > Write Value : emulator = 
+[00:13:40] - > _XML_GetValue (/Profil/Element[5]/Target_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = Fixe_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 
+[00:13:40] - > _XML_GetValue (/Profil/Element[5]/Target_Value) = gameList/game/core
+[00:13:40] - > Write Value : core = 
+[00:13:40] - > _XML_GetValue (/Profil/Element[6]/Target_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[6]/Source_Value) = Data/jeu/noms/nom_%COUNTRY%
+[00:13:40] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:13:40] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:13:40] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:13:40] - > _XML_GetValue (Data/jeu/noms/nom_fr) = EMPTY
+[00:13:40] - > _XML_GetValue (Data/jeu/noms/nom_eu) = EMPTY
+[00:13:40] - > _XML_GetValue (Data/jeu/noms/nom_us) = Zool
+[00:13:40] - > _XML_GetValue (/Profil/Element[6]/Target_Value) = gameList/game/name
+[00:13:40] - > Write Value : name = Zool
+[00:13:40] - > _XML_GetValue (/Profil/Element[7]/Target_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = Data/jeu/synopsis/synopsis_%LANG%
+[00:13:40] - > _XML_GetValue (Data/jeu/synopsis/synopsis_fr) = Vous incarnez Zool dans ce jeu d'action/plates-formes sur Megadrive, un ninja de la "Nième Dimension" qui a la capacité de se déplacer très rapidement et de grimper aux parois. Le jeu vous offre la possibilité (originale pour l'époque), de choisir votre musique (Rock ou Funk) ainsi que la vitesse du jeu, qui est une composante essentielle.
+[00:13:40] - > _XML_GetValue (/Profil/Element[7]/Target_Value) = gameList/game/desc
+[00:13:40] - > Write Value : desc = Vous incarnez Zool dans ce jeu d'action/plates-formes sur Megadrive, un ninja de la "Nième Dimension" qui a la capacité de se déplacer très rapidement et de grimper aux parois. Le jeu vous offre la possibilité (originale pour l'époque), de choisir votre musique (Rock ou Funk) ainsi que la vitesse du jeu, qui est une composante essentielle.
+[00:13:40] - > _XML_GetValue (/Profil/Element[8]/Target_Type) = XML_Path
+[00:13:40] - > _XML_GetValue (/Profil/Element[8]/Source_Type) = MIX_Template
+[00:13:40] - > _XML_GetValue (/Profil/Element[8]/Source_Download_Tag) = -image
+[00:13:40] - > _XML_GetValue (/Profil/Element[8]/Source_Download_Ext) = png
+[00:13:40] - > _XML_GetValue (/Profil/Element[8]/Source_Download_Path) = %Local_Path_File%
+[00:13:40] - > _XML_GetValue (/Profil/General/Target_Width) = 1280
+[00:13:40] - > _XML_GetValue (/Profil/General/Target_Height) = 1024
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Source_Type) = Fixe_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Name) = FondFixeTEMP
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Source_Value) = Black.jpg
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Width) = %1
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Height) = %1
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_TopLeftX) = CENTER
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_TopLeftY) = CENTER
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_TopRightX) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_TopRightY) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_BottomLeftX) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_BottomLeftY) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[1]/Target_Maximize) = EMPTY
+[00:13:40] - > C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\FondFixeTEMP.png Created
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Source_Type) = XML_Value
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Name) = fanartTEMP
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Source_Value) = Data/jeu/medias/media_fanart
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/source_Origin) = Game
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Width) = %1
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Height) = -1
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_TopLeftX) = CENTER
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_TopLeftY) = CENTER
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_TopRightX) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_TopRightY) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_BottomLeftX) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_BottomLeftY) = EMPTY
+[00:13:40] - > _XML_GetValue (/Profil/Element[2]/Target_Maximize) = Yes
+[00:13:40] - > _XML_GetValue (Data/jeu/medias/media_fanart) = http://www.screenscraper.fr/api/mediaJeu.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&crc=&md5=&sha1=&systemeid=1&jeuid=346&media=fanart&mediaformat=jpg
+[00:13:41] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png
+[00:13:41] - > -In 1 try and 1.28s
+[00:13:41] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png
+[00:13:41] - > Origine = 1920x1080
+[00:13:41] - > Finale = 1280x720
+[00:13:41] - > C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png Created
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Source_Type) = GDI_Function
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Source_Function) = Transparency
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_Width) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_Height) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_TopLeftX) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_TopLeftY) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_TopRightX) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_TopRightY) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_BottomLeftX) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_BottomLeftY) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Target_Maximize) = EMPTY
+[00:13:41] - > _XML_GetValue (/Profil/Element[3]/Source_Value) = 0.85
+[00:13:41] - Transparancy (0.85) : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Source_Type) = XML_Value
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Name) = fanartTEMP
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Source_Value) = Data/systeme/medias/media_photos/media_photo_%COUNTRY%
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/source_Origin) = System
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_Width) = %1
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_Height) = -1
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_TopLeftX) = CENTER
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_TopLeftY) = CENTER
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_TopRightX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_TopRightY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_BottomLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_BottomLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[4]/Target_Maximize) = Yes
+[00:13:42] - > _XML_GetValue (/Profil/Country/Source_Value) = Data/jeu/region
+[00:13:42] - > _XML_GetValue (Data/jeu/region) = Europe
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_eu) = http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&crc=&md5=&sha1=&systemeid=1&media=photo&mediaformat=png
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_fr) = EMPTY
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_eu) = http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&crc=&md5=&sha1=&systemeid=1&media=photo&mediaformat=png
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_us) = http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&crc=&md5=&sha1=&systemeid=4&media=photo(us)&mediaformat=png
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_origine) = EMPTY
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_jp) = http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&crc=&md5=&sha1=&systemeid=4&media=photo(jp)&mediaformat=png
+[00:13:42] - > _XML_GetValue (Data/systeme/medias/media_photos/media_photo_xx) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Source_Type) = GDI_Function
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Source_Function) = Transparency
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_Width) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_Height) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_TopLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_TopLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_TopRightX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_TopRightY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_BottomLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_BottomLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Target_Maximize) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[5]/Source_Value) = 0.85
+[00:13:42] - Transparancy (0.85) : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png
+[00:13:42] - > _XML_GetValue (/Profil/Element[6]/Source_Type) = GDI_Function
+[00:13:42] - > _XML_GetValue (/Profil/Element[6]/Source_Function) = Merge
+[00:13:42] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\fanartTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\FondFixeTEMP-MER_Temp.PNG
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Source_Type) = GDI_Function
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Source_Function) = Transparency
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_Width) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_Height) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_TopLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_TopLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_TopRightX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_TopRightY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_BottomLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_BottomLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Target_Maximize) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[7]/Source_Value) = 0.85
+[00:13:42] - Transparancy (0.85) : C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\FondFixeTEMP.png
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Source_Type) = GDI_Function
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Source_Function) = Transparency2
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_Width) = %0.359
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_Height) = %0.68
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_TopLeftX) = %0.610
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_TopLeftY) = %0.22
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_TopRightX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_TopRightY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_BottomLeftX) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_BottomLeftY) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Target_Maximize) = EMPTY
+[00:13:42] - > _XML_GetValue (/Profil/Element[8]/Source_Value) = 0.50
+[00:13:42] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\White_TEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\Mask_TEMP-MER_Temp.PNG
+[00:13:42] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\Black_TEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\Mask_TEMP-MER_Temp.PNG
+[00:13:42] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\IMask_TEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP\MIX\MaskPic_TEMP-MER_Temp.PNG

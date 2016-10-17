@@ -37,7 +37,7 @@
 		<Name>screenTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>medias/media_screenshot</Source_Value>
+		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
 		<Target_Width>%0.588</Target_Width>
 		<Target_Height>%0.500</Target_Height>
 		<Target_TopLeftX>%0.147</Target_TopLeftX> 
@@ -64,7 +64,7 @@
 		<Name>marqueeTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>medias/media_marquee</Source_Value>
+		<Source_Value>Data/jeu/medias/media_marquee</Source_Value>
 		<Target_Width>%0.759</Target_Width>
 		<Target_Height>%0.163</Target_Height>
 		<Target_TopLeftX>%0.185</Target_TopLeftX> 
@@ -74,10 +74,11 @@
 		<Target_BottomLeftX>%0.2</Target_BottomLeftX> 
 		<Target_BottomLeftY>%0.225</Target_BottomLeftY> 
 	</Element>
+	<Element>
 		<Name>marqueeTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Source_Value>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
 		<Target_Width>%0.759</Target_Width>
 		<Target_Height>%0.163</Target_Height>
 		<Target_TopLeftX>%0.185</Target_TopLeftX> 

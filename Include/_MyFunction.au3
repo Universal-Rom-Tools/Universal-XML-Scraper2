@@ -1,3 +1,5 @@
+Global Const $AC_SRC_ALPHA = 1
+
 ;~ Function List
 ; #MISC Function# ===================================================================================================
 ;~ _CREATION_LOG([$iLOGPath = @ScriptDir & "\Log.txt"]) Create the Log file with starting info
@@ -124,7 +126,7 @@ Func _Download($iURL, $iPath, $iTimeOut = 20)
 	InetClose($hDownload)
 
 	If $aData[$INET_DOWNLOADSUCCESS] Then
-		_LOG("File Downloaded : " & $iPath,1)
+		_LOG("File Downloaded : " & $iPath, 1)
 		Return $iPath
 	Else
 		_LOG("Error Downloading File : " & $iPath, 2)
@@ -527,8 +529,8 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight = _GDIPlus_ImageGetHeight($hImage)
 
-	If $iMAX_Width = '' Then $iMAX_Width = $iWidth
-	If $iMAX_Height = '' Then $iMAX_Height = $iHeight
+	If $iMAX_Width <= 0 Then $iMAX_Width = $iWidth
+	If $iMAX_Height <= 0 Then $iMAX_Height = $iHeight
 
 	$iWidth_New = $iWidth
 	$iHeight_New = $iHeight
@@ -663,7 +665,7 @@ EndFunc   ;==>_GDIPlus_Rotation
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0)
+Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "", $iHeight = "")
 	#forceref $iX, $iY, $iWidth, $iHeight
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
@@ -695,6 +697,7 @@ Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $i
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($ImageWidth, $ImageHeight, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor)
+;~ 	$hImage = _GDIPlus_ImageColorToTransparent($hImage, $iX, $iY, $iWidth, $iHeight, $iColor = Default)
 	_GDIPlus_GraphicsDrawImageRectRectTrans($hGraphic, $hImage, 0, 0, "", "", "", "", "", "", 2, $iTransLvl)
 
 	_LOG("Transparancy (" & $iTransLvl & ") : " & $iPath) ; Debug
@@ -712,6 +715,286 @@ Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = 0, $iY = 0, $iWidth = 0, $i
 	EndIf
 	Return $iPath
 EndFunc   ;==>_GDIPlus_Transparancy
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_Transparancy
+; Description ...: Apply transparancy on a picture
+; Syntax.........: _GDIPlus_Transparancy($iPath, $iTransLvl)
+; Parameters ....: $iPath		- Path to the picture
+;                  $iTransLvl	- Transparancy level
+; Return values .: Success      - Return the Path of the Picture
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Remarks .......: 	0 - No rotation and no flipping (A 180-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					1 - A 90-degree rotation without flipping (A 270-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					2 - A 180-degree rotation without flipping (No rotation, a horizontal flip followed by a vertical flip)
+;~ 					3 - A 270-degree rotation without flipping (A 90-degree rotation, a horizontal flip and then a vertical flip)
+;~ 					4 - No rotation and a horizontal flip (A 180-degree rotation followed by a vertical flip)
+;~ 					5 - A 90-degree rotation followed by a horizontal flip (A 270-degree rotation followed by a vertical flip)
+;~ 					6 - A 180-degree rotation followed by a horizontal flip (No rotation and a vertical flip)
+;~ 					7 - A 270-degree rotation followed by a horizontal flip (A 90-degree rotation followed by a vertical flip)
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _GDIPlus_Transparancy2($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "", $iHeight = "")
+	#forceref $iX, $iY, $iWidth, $iHeight
+	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
+	Local $MergedImageBackgroundColor = 0x00000000
+	Local $aRemapTable[2][2]
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	Local $iPathMask = $iScriptPath & "\TEMP\MIX\Mask.png"
+	Local $iPathMask_TEMP = $iScriptPath & "\TEMP\MIX\Mask_TEMP.png"
+	Local $iPathIMask = $iScriptPath & "\TEMP\MIX\IMask.png"
+	Local $iPathIMask_TEMP = $iScriptPath & "\TEMP\MIX\IMask_TEMP.png"
+	Local $iPathMaskPic = $iScriptPath & "\TEMP\MIX\MaskPic.png"
+	Local $iPathMaskPic_TEMP = $iScriptPath & "\TEMP\MIX\MaskPic_TEMP.png"
+	Local $iPathIMaskPic = $iScriptPath & "\TEMP\MIX\IMaskPic.png"
+	Local $iPathIMaskPic_TEMP = $iScriptPath & "\TEMP\MIX\IMaskPic_TEMP.png"
+
+	$aRemapTable[0][0] = 1
+	$aRemapTable[1][0] = 0xFFFFFFFF ;Farbe, die Transparent gemacht werden soll
+
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANS_Temp.PNG"
+
+	;Working on temporary picture
+	FileDelete($iPath_Temp)
+	If Not FileCopy($iPath, $iPath_Temp, 9) Then
+		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath) Then
+		_LOG("Error deleting " & $iPath, 2)
+		Return -1
+	EndIf
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
+	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
+	_GDIPlus_ImageDispose($hImage)
+	_GDIPlus_Shutdown()
+
+	$iPath = $sDrive & $sDir & $sFileName & ".png"
+
+	_GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
+
+	FileCopy($iPath_Temp, $iPathMaskPic_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathMask, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathIMaskPic, $iPathIMaskPic_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathIMask, $iPathIMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	_GDIPlus_Merge($iPathMaskPic_TEMP, $iPathIMask_TEMP)
+
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMaskPic_TEMP)
+	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
+	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
+
+	$hIA = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
+	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
+	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathMaskPic)
+	If @error Then MsgBox(2, "ERROOOORRR", "")
+	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
+	_GDIPlus_BitmapDispose($hImage)
+	_GDIPlus_BitmapDispose($hImage_Result)
+	_GDIPlus_ImageAttributesDispose($hIA)
+	_GDIPlus_Shutdown()
+
+
+;~ 	_GDIPlus_Merge($iPathMask_TEMP, $iPathIMaskPic)
+
+
+
+
+	MsgBox(0, "DEBUG", "Break Merging")
+
+
+	Return $iPath
+EndFunc   ;==>_GDIPlus_Transparancy2
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_CreateMask
+; Description ...: Create a Mask
+; Syntax.........: _GDIPlus_Fusion($iPath1,$iPath2)
+; Parameters ....: $iPath1		- First image path
+;                  $iPath1		- Second image path
+; Return values .: Success      - Return the path of the finale picture
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
+	Local $aRemapTable[2][2]
+	Local $iPathBlack_Source = $iScriptPath & "\Ressources\Black.png"
+	Local $iPathWhite_Source = $iScriptPath & "\Ressources\White.png"
+	Local $iPathBlack_TEMP = $iScriptPath & "\TEMP\MIX\Black_TEMP.png"
+	Local $iPathWhite_TEMP = $iScriptPath & "\TEMP\MIX\White_TEMP.png"
+	Local $iPathMask_TEMP = $iScriptPath & "\TEMP\MIX\Mask_TEMP.png"
+	Local $iPathMask = $iScriptPath & "\TEMP\MIX\Mask.png"
+	Local $iPathIMask = $iScriptPath & "\TEMP\MIX\IMask.png"
+
+	$aRemapTable[0][0] = 1
+	$aRemapTable[1][0] = 0xFFFFFFFF ;Farbe, die Transparent gemacht werden soll
+
+	FileCopy($iPathWhite_Source, $iPathWhite_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathBlack_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileDelete($iPathMask)
+	FileDelete($iPathIMask)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
+	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
+	_GDIPlus_ImageDispose($hImage)
+	_GDIPlus_Shutdown()
+
+	Dim $aPicParameters[9]
+	$aPicParameters[0] = $iWidth
+	$aPicParameters[1] = $iHeight
+	$aPicParameters[2] = $iX
+	$aPicParameters[3] = $iY
+	_GDIPlus_Imaging($iPathWhite_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	$aPicParameters[0] = $ImageWidth
+	$aPicParameters[1] = $ImageHeight
+	$aPicParameters[2] = 0
+	$aPicParameters[3] = 0
+	$aPicParameters[4] = $ImageWidth
+	$aPicParameters[5] = 0
+	$aPicParameters[6] = 0
+	$aPicParameters[7] = $ImageHeight
+	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	_GDIPlus_Merge($iPathMask_TEMP, $iPathWhite_TEMP)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
+	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
+	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
+
+	$hIA = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
+	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
+	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathMask)
+
+	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
+	_GDIPlus_BitmapDispose($hImage)
+	_GDIPlus_BitmapDispose($hImage_Result)
+	_GDIPlus_ImageAttributesDispose($hIA)
+	_GDIPlus_Shutdown()
+
+	FileCopy($iPathBlack_Source, $iPathBlack_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathWhite_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+
+	Dim $aPicParameters[9]
+	$aPicParameters[0] = $iWidth
+	$aPicParameters[1] = $iHeight
+	$aPicParameters[2] = $iX
+	$aPicParameters[3] = $iY
+	_GDIPlus_Imaging($iPathBlack_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	$aPicParameters[0] = $ImageWidth
+	$aPicParameters[1] = $ImageHeight
+	$aPicParameters[2] = 0
+	$aPicParameters[3] = 0
+	$aPicParameters[4] = $ImageWidth
+	$aPicParameters[5] = 0
+	$aPicParameters[6] = 0
+	$aPicParameters[7] = $ImageHeight
+	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	_GDIPlus_Merge($iPathMask_TEMP, $iPathBlack_TEMP)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
+	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
+	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
+
+	$hIA = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
+	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
+	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathIMask)
+
+	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
+	_GDIPlus_BitmapDispose($hImage)
+	_GDIPlus_BitmapDispose($hImage_Result)
+	_GDIPlus_ImageAttributesDispose($hIA)
+	_GDIPlus_Shutdown()
+	FileDelete($iPathBlack_TEMP)
+	FileDelete($iPathWhite_TEMP)
+	FileDelete($iPathMask_TEMP)
+EndFunc   ;==>_GDIPlus_CreateMask
+
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_Fusion
+; Description ...: Merge 2 pictures
+; Syntax.........: _GDIPlus_Fusion($iPath1,$iPath2)
+; Parameters ....: $iPath1		- First image path
+;                  $iPath1		- Second image path
+; Return values .: Success      - Return the path of the finale picture
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _GDIPlus_Merge($iPath1, $iPath2)
+	Local $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic, $ImageWidth, $ImageHeight
+	Local $MergedImageBackgroundColor = 0x00000000
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath1, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-MER_Temp.PNG"
+
+	;Working on temporary picture
+	FileDelete($iPath_Temp)
+	If Not FileCopy($iPath1, $iPath_Temp, 9) Then
+		_LOG("Error copying " & $iPath1 & " to " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath1) Then
+		_LOG("Error deleting " & $iPath1, 2)
+		Return -1
+	EndIf
+
+	$iPath1 = $sDrive & $sDir & $sFileName & ".png"
+
+	_GDIPlus_Startup()
+	$hImage1 = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	$hImage2 = _GDIPlus_ImageLoadFromFile($iPath2)
+	$ImageWidth = _GDIPlus_ImageGetWidth($hImage1)
+	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
+	$ImageHeight = _GDIPlus_ImageGetHeight($hImage1)
+	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
+	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($ImageWidth, $ImageHeight, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
+	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
+	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor) ;Fill the Graphic Background (0x00000000 for transparent background in .png files)
+	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage1, 0, 0)
+	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage2, 0, 0)
+
+	_LOG("Merging " & $iPath2 & " on " & $iPath_Temp) ; Debug
+	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath1)
+
+	_GDIPlus_GraphicsDispose($hGraphic)
+	_GDIPlus_BitmapDispose($hBMPBuff)
+	_GDIPlus_GraphicsDispose($hGraphicGUI)
+	GUIDelete($hGui)
+	_GDIPlus_ImageDispose($hImage2)
+	_GDIPlus_ImageDispose($hImage1)
+	_GDIPlus_Shutdown()
+	If Not FileDelete($iPath_Temp) Then
+		_LOG("Error deleting " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath2) Then
+		_LOG("Error deleting " & $iPath2, 2)
+		Return -1
+	EndIf
+	Return $iPath1
+EndFunc   ;==>_GDIPlus_Merge
 
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_GraphicsDrawImageRectRectTrans
@@ -782,23 +1065,29 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize)
+Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize = 'no')
 ;~ 	_GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
 	Local $sDrive, $sDir, $sFileName, $iExtension, $vPicTarget_Temp
 	_PathSplit($vPicTarget, $sDrive, $sDir, $sFileName, $iExtension)
 	$vTarget_Maximize = StringUpper($vTarget_Maximize)
-	$vPicTarget_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp." & $iExtension
+	$vPicTarget_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp" & $iExtension
 
 
 	Local $hImage, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 
+;~ 	MsgBox(0, 'DEBUG', 'Before _GDIPlus_RelativePos $iWidth = ' & $aPicParameters[0] & '$iHeight = ' & $aPicParameters[1]) ;Debug
+
 	Local $iWidth = _GDIPlus_RelativePos($aPicParameters[0], $vTarget_Width)
 	Local $iHeight = _GDIPlus_RelativePos($aPicParameters[1], $vTarget_Height)
 
-	If $vTarget_Maximize = 'YES' Then
+;~ 	MsgBox(0, 'DEBUG', 'After _GDIPlus_RelativePos $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
+
+	If StringLower($vTarget_Maximize) = 'yes' Then
 		$vPicTarget = _GDIPlus_ResizeMax($vPicTarget, $iWidth, $iHeight)
 	EndIf
+
+;~ 	MsgBox(0, 'DEBUG', 'After _GDIPlus_ResizeMax $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
 
 	;Working on temporary picture
 	FileDelete($vPicTarget_Temp)
@@ -810,17 +1099,20 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 		_LOG("Error deleting " & $vPicTarget, 2)
 		Return -1
 	EndIf
+;~ 	MsgBox(0, 'DEBUG', 'Break Temp Pic') ;Debug
 
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($vPicTarget_Temp)
+	If $iWidth <= 0 Or $vTarget_Maximize = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $iHeight <= 0 Or $vTarget_Maximize = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
+;~ 	MsgBox(0, 'DEBUG', 'After Test $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
+
 	$hGui = GUICreate("", $vTarget_Width, $vTarget_Height)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($vTarget_Width, $vTarget_Height, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor) ; Fill the Graphic Background (0x00000000 for transparent background in .png files)
 
-	If $iWidth = "" Or $vTarget_Maximize = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $iHeight = "" Or $vTarget_Maximize = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
 	Local $Image_C1X = _GDIPlus_RelativePos($aPicParameters[2], $vTarget_Width)
 	Local $Image_C1Y = _GDIPlus_RelativePos($aPicParameters[3], $vTarget_Height)
 	Local $Image_C2X = _GDIPlus_RelativePos($aPicParameters[4], $vTarget_Width)
@@ -885,7 +1177,7 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 			$Image_C3Y = $Image_C1Y + $iHeight
 	EndSwitch
 
-	ConsoleWrite("+ Preparation de l'image (_IMAGING) de " & $vPicTarget & @CRLF) ; Debug
+	ConsoleWrite("+ Imaging (" & $vPicTarget & ")" & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C1 = " & $Image_C1X & "x" & $Image_C1Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C2 = " & $Image_C2X & "x" & $Image_C2Y & @CRLF) ; Debug
 	ConsoleWrite("+ ----- C3 = " & $Image_C3X & "x" & $Image_C3Y & @CRLF) ; Debug
@@ -909,60 +1201,36 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 EndFunc   ;==>_GDIPlus_Imaging
 
 ; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_ImageColorToTransparent
+; Name...........: _GDIPlus_ImageAttributesSetRemapTable
 ; Description ...: Put a Color in transparent
-; Syntax.........: _GDIPlus_ImageColorToTransparent($hImage, $iStartPosX = 0, $iStartPosY = 0, $GuiSizeX = Default, $GuiSizeY = Default, $iColor = Default)
-; Parameters ....: $hImage		- Handle to the image
-;                  $iStartPosX	-
-;                  $iStartPosY	-
-;                  $GuiSizeX	-
-;                  $GuiSizeY	-
-;                  $iColor		- Colour to be made transparent. Hex colour format 0xRRGGBB. If Default used then top left pixel colour of image is used as the transparent colour.
-; Return values .: Return $hBitmap
+; Syntax.........: _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
+; Parameters ....: $hImageAttributes	-
+;                  $iColorAdjustType	-
+;                  $fEnable				-
+;                  $aColorMap			-
+; Return values .: Return
 ; Author ........:
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........;
-; Example .......; https://www.autoitscript.com/forum/topic/106797-how-to-set-transparent-color-for-picture/
-Func _GDIPlus_ImageColorToTransparent($hImage, $iStartPosX = 0, $iStartPosY = 0, $GuiSizeX = Default, $GuiSizeY = Default, $iColor = Default)
-	Local $hBitmap, $Reslt, $width, $height, $stride, $format, $Scan0, $v_Buffer, $v_Value, $iIW, $iIH
-	#forceref $width, $height, $format
-	$iIW = _GDIPlus_ImageGetWidth($hImage)
-	$iIH = _GDIPlus_ImageGetHeight($hImage)
-	If $GuiSizeX = Default Or $GuiSizeX > $iIW - $iStartPosX Then $GuiSizeX = $iIW - $iStartPosX
-	If $GuiSizeY = Default Or $GuiSizeY > $iIH - $iStartPosY Then $GuiSizeY = $iIH - $iStartPosY
-	$hBitmap = _GDIPlus_BitmapCloneArea($hImage, $iStartPosX, $iStartPosY, $GuiSizeX, $GuiSizeY, $GDIP_PXF32ARGB)
-	If $iColor = Default Then $iColor = GDIPlus_BitmapGetPixel($hBitmap, 1, 1) ; Transparent color
-	$Reslt = _GDIPlus_BitmapLockBits($hBitmap, 0, 0, $GuiSizeX, $GuiSizeY, BitOR($GDIP_ILMREAD, $GDIP_ILMWRITE), $GDIP_PXF32ARGB)
-	;Get the returned values of _GDIPlus_BitmapLockBits ()
-	$width = DllStructGetData($Reslt, "width")
-	$height = DllStructGetData($Reslt, "height")
-	$stride = DllStructGetData($Reslt, "stride")
-	$format = DllStructGetData($Reslt, "format")
-	$Scan0 = DllStructGetData($Reslt, "Scan0")
-	For $i = 0 To $GuiSizeX - 1
-		For $j = 0 To $GuiSizeY - 1
-			$v_Buffer = DllStructCreate("dword", $Scan0 + ($j * $stride) + ($i * 4))
-			$v_Value = DllStructGetData($v_Buffer, 1)
-			If Hex($v_Value, 6) = Hex($iColor, 6) Then
-				DllStructSetData($v_Buffer, 1, Hex($iColor, 6)) ; Sets Transparency here. Alpha Channel = 00, not written to.
-			EndIf
+; Example .......; https://www.autoitscript.com/forum/topic/165975-bmp-to-png-with-transparent-color/
+Func _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
+	Local $iI, $iCount, $tColorMap, $aResult
+	If IsArray($aColorMap) And UBound($aColorMap) > 1 Then
+		$iCount = $aColorMap[0][0]
+		$tColorMap = DllStructCreate("uint ColorMap[" & $iCount * 2 & "]")
+		For $iI = 1 To $iCount
+			$tColorMap.ColorMap((2 * $iI - 1)) = $aColorMap[$iI][0]
+			$tColorMap.ColorMap((2 * $iI)) = $aColorMap[$iI][1]
 		Next
-	Next
-	_GDIPlus_BitmapUnlockBits($hBitmap, $Reslt)
-	Return $hBitmap
-EndFunc   ;==>_GDIPlus_ImageColorToTransparent
-
-;Test, peut peut etre etre à remplacer par _GDIPlus_BitmapGetPixel
-Func GDIPlus_BitmapGetPixel($hBitmap, $iX, $iY)
-	Local $tArgb, $pArgb, $aRet
-	#forceref $aRet
-	$tArgb = DllStructCreate("dword Argb")
-	$pArgb = DllStructGetPtr($tArgb)
-	$aRet = DllCall($__g_hGDIPDll, "int", "GdipBitmapGetPixel", "hwnd", $hBitmap, "int", $iX, "int", $iY, "ptr", $pArgb)
-	Return "0x" & Hex(DllStructGetData($tArgb, "Argb"))
-EndFunc   ;==>GDIPlus_BitmapGetPixel
+		$aResult = DllCall($__g_hGDIPDll, "int", "GdipSetImageAttributesRemapTable", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "int", $iCount, "struct*", $tColorMap)
+		If @error Then Return SetError(@error, @extended, False)
+		If $aResult[0] Then Return SetError(10, $aResult[0], False)
+		Return True
+	EndIf
+	Return SetError(11, 0, False)
+EndFunc   ;==>_GDIPlus_ImageAttributesSetRemapTable
 
 #EndRegion GDI Function
 
@@ -1036,7 +1304,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
-			If IsArray($iXMLValue) And UBound($iXMLValue)-1 > 0 Then
+			If IsArray($iXMLValue) And UBound($iXMLValue) - 1 > 0 Then
 				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
 				Return $iXMLValue[1]
 			Else
@@ -1485,4 +1753,34 @@ Func XML_My_ErrorParser($iXMLWrapper_Error, $iXMLWrapper_Extended = 0)
 
 EndFunc   ;==>XML_My_ErrorParser
 #EndRegion XML DOM Error/Event Handling
+
+Func ImageColorToTransparent($hImage2, $iColor = Default)
+	Local $hBitmap1, $Reslt, $width, $height, $stride, $format, $Scan0, $v_Buffer, $v_Value, $iIW, $iIH
+
+	$GuiSizeX = _GDIPlus_ImageGetWidth($hImage2)
+	$GuiSizeY = _GDIPlus_ImageGetHeight($hImage2)
+	$hBitmap1 = _GDIPlus_BitmapCloneArea($hImage2, 0, 0, $GuiSizeX, $GuiSizeY, $GDIP_PXF32ARGB)
+	If $iColor = Default Then $iColor = _GDIPlus_BitmapGetPixel($hBitmap1, 1, 1) ; Transparent color
+	ProgressOn("", "Processing", "0 percent", "", @DesktopHeight - 80, 1)
+	$Reslt = _GDIPlus_BitmapLockBits($hBitmap1, 0, 0, $GuiSizeX, $GuiSizeY, BitOR($GDIP_ILMREAD, $GDIP_ILMWRITE), $GDIP_PXF32ARGB)
+	;Get the returned values of _GDIPlus_BitmapLockBits ()
+	$width = DllStructGetData($Reslt, "width")
+	$height = DllStructGetData($Reslt, "height")
+	$stride = DllStructGetData($Reslt, "stride")
+	$format = DllStructGetData($Reslt, "format")
+	$Scan0 = DllStructGetData($Reslt, "Scan0")
+	For $i = 0 To $GuiSizeX - 1
+		For $j = 0 To $GuiSizeY - 1
+			$v_Buffer = DllStructCreate("dword", $Scan0 + ($j * $stride) + ($i * 4))
+			$v_Value = DllStructGetData($v_Buffer, 1)
+			If Hex($v_Value, 6) = Hex($iColor, 6) Then
+				DllStructSetData($v_Buffer, 1, Hex($iColor, 6)) ; Sets Transparency here. Alpha Channel = 00, not written to.
+			EndIf
+		Next
+		ProgressSet(Int(100 * $i / ($GuiSizeX)), Int(100 * $i / ($GuiSizeX)) & " percent")
+	Next
+	_GDIPlus_BitmapUnlockBits($hBitmap1, $Reslt)
+	ProgressOff()
+	Return $hBitmap1
+EndFunc   ;==>ImageColorToTransparent
 

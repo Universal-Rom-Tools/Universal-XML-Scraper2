@@ -1129,6 +1129,7 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			$vValue = _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 			If Not FileExists($vValue) Then Return -1
 			FileCopy($vValue, $vDownloadPath, $FC_OVERWRITE)
+
 			_LOG("MIX Template finished (" & $vTargetPicturePath & ")", 1)
 			Return $vTargetPicturePath
 		Case Else
@@ -1195,7 +1196,6 @@ Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil,
 EndFunc   ;==>_Picture_Download
 
 Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
-
 	Local $vMIXTemplatePath = "C:\Developpement\Github\Universal-XML-Scraper2\Mix\Background (Modified DarKade-Theme by Nachtgarm)\"
 	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
 	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
@@ -1209,10 +1209,9 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
 				FileCopy($vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig), $vPicTarget, $FC_OVERWRITE + $FC_CREATEPATH)
 				$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
-				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $aPicParameters[8])
+				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
 				_LOG($vPicTarget & " Created", 1)
 				_ArrayAdd($aMiXPicTemp, $vPicTarget)
-;~ 				MsgBox(0, 'DEBUG', 'Fixe File Added (' & $vPicTarget & ')') ;Debug
 			Case "xml_value"
 				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
 				$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
@@ -1226,22 +1225,17 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 							$vDownloadURL = StringTrimRight(_XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8]), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
 								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
-;~ 								MsgBox(0, 'DEBUG', 'Game File downloaded (' & $vDownloadURL & ')') ;Debug
-								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $aPicParameters[8])
+								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
 								_ArrayAdd($aMiXPicTemp, $vPicTarget)
 								_LOG($vPicTarget & " Created", 1)
-;~ 								MsgBox(0, 'DEBUG', 'Game File Imaging process done (' & $aXpathCountry[$vBoucle2] & ')') ;Debug
 							EndIf
 						Case 'system'
-;~ 							MsgBox(0, 'DEBUG', '$vOrigin = ' & $vOrigin) ;Debug
 							$vDownloadURL = StringTrimRight(_XML_Read($aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
-;~ 							MsgBox(0, 'DEBUG', 'Systeme File downloaded (' & $vDownloadURL & ')') ;Debug
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
 								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
-								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $aPicParameters[8])
+								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
 								_ArrayAdd($aMiXPicTemp, $vPicTarget)
 								_LOG($vPicTarget & " Created", 1)
-;~ 								MsgBox(0, 'DEBUG', 'Systeme Imaging process done (' & $aXpathCountry[$vBoucle2] & ')') ;Debug
 							EndIf
 					EndSwitch
 				Next
@@ -1249,26 +1243,18 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 			Case 'gdi_function'
 				Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Function", 0, "", $oMixConfig))
 					Case 'transparency'
-;~ 						MsgBox(0, 'DEBUG', 'Before Transparancy') ;Debug
 						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
 						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
-						If _GDIPlus_Transparancy($vPath, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparancy Failed", 2)
-;~ 						MsgBox(0, 'DEBUG', 'After Transparancy') ;Debug
+						If _GDIPlus_Transparency($vPath, $vTransLvl) = -1 Then _LOG("Transparency Failed", 2)
 					Case 'merge'
-;~ 						MsgBox(0, 'DEBUG', 'Before Merge') ;Debug
-;~ 						_ArrayDisplay($aMiXPicTemp, "$aMiXPicTemp Before delete") ;Debug
 						If _GDIPlus_Merge($aMiXPicTemp[UBound($aMiXPicTemp) - 2], $aMiXPicTemp[UBound($aMiXPicTemp) - 1]) = -1 Then _LOG("Merging Failed", 2)
 						_ArrayDelete($aMiXPicTemp, UBound($aMiXPicTemp) - 1)
-;~ 						_ArrayDisplay($aMiXPicTemp, "$aMiXPicTemp After delete") ;Debug
-;~ 						MsgBox(0, 'DEBUG', 'After Merge') ;Debug
-					Case 'transparency2'
-;~ 						MsgBox(0, 'DEBUG', 'Before Transparancy') ;Debug
+					Case 'transparencyzone'
 						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
 						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
-						If _GDIPlus_TransparancyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparancy Failed", 2)
-;~ 						MsgBox(0, 'DEBUG', 'After Transparancy') ;Debug
+						If _GDIPlus_TransparencyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparency Failed", 2)
 					Case Else
 						_LOG("Unknown GDI_Function", 2)
 				EndSwitch
@@ -1280,9 +1266,12 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	WEnd
 
 	For $vBoucle2 = UBound($aMiXPicTemp) - 1 To 2 Step -1
-;~ 		_ArrayDisplay($aMiXPicTemp, "$aMiXPicTemp");Debug
 		If FileExists($aMiXPicTemp[$vBoucle2 - 1]) Then _GDIPlus_Merge($aMiXPicTemp[$vBoucle2 - 1], $aMiXPicTemp[$vBoucle2])
 	Next
+
+	$vpngquant = _XML_Read("/Profil/pngquant/use", 0, "", $oMixConfig)
+	$vpngquantparameter = _XML_Read("/Profil/pngquant/parameter", 0, "", $oMixConfig)
+	If StringLower($vpngquant) = 'yes' Then _PNGQuant($aMiXPicTemp[1], $vpngquantparameter)
 
 	Return $aMiXPicTemp[1]
 EndFunc   ;==>_MIX_Engine

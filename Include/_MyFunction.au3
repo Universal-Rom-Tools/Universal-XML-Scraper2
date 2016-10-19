@@ -406,6 +406,19 @@ Func _IsChecked($idControlID)
 	Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
 EndFunc   ;==>_IsChecked
 
+Func _MakeTEMPFile($iPath, $iPath_Temp)
+	;Working on temporary picture
+	FileDelete($iPath_Temp)
+	If Not FileCopy($iPath, $iPath_Temp, 9) Then
+		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	If Not FileDelete($iPath) Then
+		_LOG("Error deleting " & $iPath, 2)
+		Return -1
+	EndIf
+	Return $iPath_Temp
+EndFunc   ;==>_MakeTEMPFile
 
 #EndRegion MISC Function
 
@@ -423,31 +436,19 @@ EndFunc   ;==>_IsChecked
 ; Related .......:
 ; Link ..........;
 ; Example .......; https://www.autoitscript.com/forum/topic/122168-tinypicsharer-v-1034-new-version-08-june-2013/
-Func _OptiPNG($iPath)
+Func _OptiPNG($iPath, $iParamater = "-clobber")
 	Local $sRun, $iPid, $_StderrRead
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-OPTI_Temp.PNG"
-
-	If StringLower($iExtension) <> "png" Then
+	If StringLower($iExtension) <> ".png" Then
 		_LOG("Not a PNG file : " & $iPath, 2)
 		Return -1
 	EndIf
-
 	$vPathSize = _ByteSuffix(FileGetSize($iPath))
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
-	$sRun = $iScriptPath & '\Ressources\optipng.exe -o1 "' & $iPath_Temp & '" -clobber -out "' & $iPath & '"'
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
+	$sRun = $iScriptPath & '\Ressources\optipng.exe -o1 "' & $iPath_Temp & '" ' & $iParamater & ' -out "' & $iPath & '"'
+	_LOG("OptiPNG command: " & $sRun, 1)
 	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 	While ProcessExists($iPid)
 		$_StderrRead = StderrRead($iPid)
@@ -458,20 +459,59 @@ Func _OptiPNG($iPath)
 			EndIf
 		EndIf
 	WEnd
-
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
-
-	_LOG("PNG Optimization : " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
-
+	_LOG("PNG Optimization (OptiPNG): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
 	If Not FileDelete($iPath_Temp) Then
 		_LOG("Error deleting " & $iPath_Temp, 2)
 		Return -1
 	EndIf
-
 	Return $iPath
 EndFunc   ;==>_OptiPNG
 
-
+; #FUNCTION# ===================================================================================================
+; Name...........: _PNGQuant
+; Description ...: Optimize PNG
+; Syntax.........: _PNGQuant($iPath,$iParamater = "")
+; Parameters ....: $iPath		- Path to the picture
+; Return values .: Success      - Return the Path of the Picture
+;                  Failure      - -1
+; Author ........: wakillon
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; https://www.autoitscript.com/forum/topic/122168-tinypicsharer-v-1034-new-version-08-june-2013/
+Func _PNGQuant($iPath, $iParamater = "")
+	Local $sRun, $iPid, $_StderrRead
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-OPTI_Temp.PNG"
+	If StringLower($iExtension) <> ".png" Then
+		_LOG("Not a PNG file : " & $iPath, 2)
+		Return -1
+	EndIf
+	$vPathSize = _ByteSuffix(FileGetSize($iPath))
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
+	$sRun = $iScriptPath & '\Ressources\pngquant.exe ' & $iParamater & ' ' & $iPath_Temp
+	_LOG("PNGQuant command: " & $sRun, 1)
+	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
+	While ProcessExists($iPid)
+		$_StderrRead = StderrRead($iPid)
+		If Not @error And $_StderrRead <> '' Then
+			If StringInStr($_StderrRead, 'error') And Not StringInStr($_StderrRead, 'No errors') Then
+				_LOG("Error while optimizing " & $iPath, 2)
+				Return -1
+			EndIf
+		EndIf
+	WEnd
+	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
+	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
+	If Not FileDelete($iPath_Temp) Then
+		_LOG("Error deleting " & $iPath_Temp, 2)
+		Return -1
+	EndIf
+	Return $iPath
+EndFunc   ;==>_PNGQuant
 
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_RelativePos
@@ -487,7 +527,6 @@ EndFunc   ;==>_OptiPNG
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_RelativePos($iValue, $iValueMax)
-;~ 	MsgBox(0,"DEBUG","_GDIPlus_RelativePos") ;Debug
 	If StringLeft($iValue, 1) = '%' Then Return Int($iValueMax * StringTrimLeft($iValue, 1))
 	Return $iValue
 EndFunc   ;==>_GDIPlus_RelativePos
@@ -508,35 +547,20 @@ EndFunc   ;==>_GDIPlus_RelativePos
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
-;~ 	MsgBox(0,"DEBUG","_GDIPlus_ResizeMax");Debug
 	Local $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New, $iRatio, $hImageResized
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-RESIZE_Temp." & $iExtension
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
 	$iWidth = _GDIPlus_ImageGetWidth($hImage)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight = _GDIPlus_ImageGetHeight($hImage)
-
 	If $iMAX_Width <= 0 Then $iMAX_Width = $iWidth
 	If $iMAX_Height <= 0 Then $iMAX_Height = $iHeight
-
 	$iWidth_New = $iWidth
 	$iHeight_New = $iHeight
-
 	If $iWidth > $iMAX_Width Then
 		$iRatio = $iWidth / $iMAX_Width
 		$iWidth_New = $iMAX_Width
@@ -547,7 +571,6 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 			$iWidth_New = $iWidth_New / $iRatio
 		EndIf
 	EndIf
-
 	If $iHeight > $iMAX_Height Then
 		$iRatio = $iHeight / $iMAX_Height
 		$iHeight_New = $iMAX_Height
@@ -558,10 +581,8 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 			$iWidth_New = $iMAX_Width
 		EndIf
 	EndIf
-
 	$iWidth_New = Int($iWidth_New)
 	$iHeight_New = Int($iHeight_New)
-
 	If $iWidth <> $iWidth_New Or $iHeight <> $iHeight_New Then
 		_LOG("Resize Max : " & $iPath) ; Debug
 		_LOG("Origine = " & $iWidth & "x" & $iHeight, 1) ; Debug
@@ -569,9 +590,7 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	Else
 		_LOG("No Resizing : " & $iPath) ; Debug
 	EndIf
-
 	$hImageResized = _GDIPlus_ImageResize($hImage, $iWidth_New, $iHeight_New)
-
 	_GDIPlus_ImageSaveToFile($hImageResized, $iPath)
 	_GDIPlus_ImageDispose($hImageResized)
 	_GDIPlus_ImageDispose($hImage)
@@ -580,7 +599,6 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 		_LOG("Error deleting " & $iPath_Temp, 2)
 		Return -1
 	EndIf
-
 	Return $iPath
 EndFunc   ;==>_GDIPlus_ResizeMax
 
@@ -611,34 +629,18 @@ Func _GDIPlus_Rotation($iPath, $iRotation = 0)
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-ROTATE_Temp." & $iExtension
-
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	If $iRotation = '' Or $iRotation > 7 Then $iRotation = 0
-
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
 	$iWidth = _GDIPlus_ImageGetWidth($hImage)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight = _GDIPlus_ImageGetHeight($hImage)
-
 	_GDIPlus_ImageRotateFlip($hImage, $iRotation)
 	$iWidth_New = _GDIPlus_ImageGetWidth($hImage)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight_New = _GDIPlus_ImageGetHeight($hImage)
-
 	_LOG("ROTATION (" & $iRotation & ") : " & $iPath) ; Debug
-
 	_GDIPlus_ImageSaveToFile($hImage, $iPath)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
@@ -650,65 +652,40 @@ Func _GDIPlus_Rotation($iPath, $iRotation = 0)
 EndFunc   ;==>_GDIPlus_Rotation
 
 ; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_Transparancy
-; Description ...: Apply transparancy on a picture
-; Syntax.........: _GDIPlus_Transparancy($iPath, $iTransLvl)
+; Name...........: _GDIPlus_Transparency
+; Description ...: Apply transparency on a picture
+; Syntax.........: _GDIPlus_Transparency($iPath, $iTransLvl)
 ; Parameters ....: $iPath		- Path to the picture
-;                  $iTransLvl	- Transparancy level
+;                  $iTransLvl	- Transparency level
 ; Return values .: Success      - Return the Path of the Picture
 ;                  Failure      - -1
 ; Author ........: Screech
 ; Modified.......:
-; Remarks .......: 	0 - No rotation and no flipping (A 180-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					1 - A 90-degree rotation without flipping (A 270-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					2 - A 180-degree rotation without flipping (No rotation, a horizontal flip followed by a vertical flip)
-;~ 					3 - A 270-degree rotation without flipping (A 90-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					4 - No rotation and a horizontal flip (A 180-degree rotation followed by a vertical flip)
-;~ 					5 - A 90-degree rotation followed by a horizontal flip (A 270-degree rotation followed by a vertical flip)
-;~ 					6 - A 180-degree rotation followed by a horizontal flip (No rotation and a vertical flip)
-;~ 					7 - A 270-degree rotation followed by a horizontal flip (A 90-degree rotation followed by a vertical flip)
-; Related .......:
+;; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "", $iHeight = "")
-	#forceref $iX, $iY, $iWidth, $iHeight
-;~ 	MsgBox(0,"DEBUG","_GDIPlus_Transparancy");Debug
+Func _GDIPlus_Transparency($iPath, $iTransLvl)
+;~ 	MsgBox(0,"DEBUG","_GDIPlus_Transparency");Debug
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANS_Temp.PNG"
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	$iPath = $sDrive & $sDir & $sFileName & ".png"
-
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
 	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
 	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
 	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
-
 	$hGui = GUICreate("", $ImageWidth, $ImageHeight)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($ImageWidth, $ImageHeight, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor)
-;~ 	$hImage = _GDIPlus_ImageColorToTransparent($hImage, $iX, $iY, $iWidth, $iHeight, $iColor = Default)
 	_GDIPlus_GraphicsDrawImageRectRectTrans($hGraphic, $hImage, 0, 0, "", "", "", "", "", "", 2, $iTransLvl)
-
-	_LOG("Transparancy (" & $iTransLvl & ") : " & $iPath) ; Debug
+	_LOG("Transparency (" & $iTransLvl & ") : " & $iPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
-
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
 	_WinAPI_DeleteObject($hBMPBuff)
@@ -721,130 +698,29 @@ Func _GDIPlus_Transparancy($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "",
 		Return -1
 	EndIf
 	Return $iPath
-EndFunc   ;==>_GDIPlus_Transparancy
+EndFunc   ;==>_GDIPlus_Transparency
 
 ; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_Transparancy
-; Description ...: Apply transparancy on a picture
-; Syntax.........: _GDIPlus_Transparancy($iPath, $iTransLvl)
-; Parameters ....: $iPath		- Path to the picture
-;                  $iTransLvl	- Transparancy level
+; Name...........: _GDIPlus_TransparencyZone
+; Description ...: Apply transparency on a picture
+; Syntax.........: _GDIPlus_TransparencyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
+; Parameters ....: $iPath			- Path to the picture
+;                  $vTarget_Width	- Target Width
+;                  $vTarget_Height	- Target Height
+;                  $iTransLvl		- Value range from 0 (Zero for invisible) to 1.0 (fully opaque)
+;                  $iX				- X position of the transparency zone
+;                  $iY				- Y position of the transparency zone
+;                  $iWidth			- Width of the transparency zone
+;                  $iHeight			- Height of the transparency zone
 ; Return values .: Success      - Return the Path of the Picture
 ;                  Failure      - -1
 ; Author ........: Screech
 ; Modified.......:
-; Remarks .......: 	0 - No rotation and no flipping (A 180-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					1 - A 90-degree rotation without flipping (A 270-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					2 - A 180-degree rotation without flipping (No rotation, a horizontal flip followed by a vertical flip)
-;~ 					3 - A 270-degree rotation without flipping (A 90-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					4 - No rotation and a horizontal flip (A 180-degree rotation followed by a vertical flip)
-;~ 					5 - A 90-degree rotation followed by a horizontal flip (A 270-degree rotation followed by a vertical flip)
-;~ 					6 - A 180-degree rotation followed by a horizontal flip (No rotation and a vertical flip)
-;~ 					7 - A 270-degree rotation followed by a horizontal flip (A 90-degree rotation followed by a vertical flip)
+; Remarks .......:
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Transparancy2($iPath, $iTransLvl, $iX = "", $iY = "", $iWidth = "", $iHeight = "")
-	#forceref $iX, $iY, $iWidth, $iHeight
-	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
-	Local $MergedImageBackgroundColor = 0x00000000
-	Local $aRemapTable[2][2]
-	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
-	Local $iPathMask = $iScriptPath & "\TEMP\MIX\Mask.png"
-	Local $iPathMask_TEMP = $iScriptPath & "\TEMP\MIX\Mask_TEMP.png"
-	Local $iPathIMask = $iScriptPath & "\TEMP\MIX\IMask.png"
-	Local $iPathIMask_TEMP = $iScriptPath & "\TEMP\MIX\IMask_TEMP.png"
-	Local $iPathMaskPic = $iScriptPath & "\TEMP\MIX\MaskPic.png"
-	Local $iPathMaskPic_TEMP = $iScriptPath & "\TEMP\MIX\MaskPic_TEMP.png"
-	Local $iPathIMaskPic = $iScriptPath & "\TEMP\MIX\IMaskPic.png"
-	Local $iPathIMaskPic_TEMP = $iScriptPath & "\TEMP\MIX\IMaskPic_TEMP.png"
-
-	$aRemapTable[0][0] = 1
-	$aRemapTable[1][0] = 0xFFFFFFFF ;Farbe, die Transparent gemacht werden soll
-
-	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
-	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANS_Temp.PNG"
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
-	_GDIPlus_Startup()
-	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
-	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
-	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
-	_GDIPlus_ImageDispose($hImage)
-	_GDIPlus_Shutdown()
-
-	$iPath = $sDrive & $sDir & $sFileName & ".png"
-
-	_GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
-
-	FileCopy($iPath_Temp, $iPathMaskPic_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileCopy($iPathMask, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileCopy($iPathIMaskPic, $iPathIMaskPic_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileCopy($iPathIMask, $iPathIMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	_GDIPlus_Merge($iPathMaskPic_TEMP, $iPathIMask_TEMP)
-
-
-	_GDIPlus_Startup()
-	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMaskPic_TEMP)
-	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
-	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
-
-	$hIA = _GDIPlus_ImageAttributesCreate()
-	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
-	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
-	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathMaskPic)
-	If @error Then MsgBox(2, "ERROOOORRR", "")
-	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
-	_GDIPlus_BitmapDispose($hImage)
-	_GDIPlus_BitmapDispose($hImage_Result)
-	_GDIPlus_ImageAttributesDispose($hIA)
-	_GDIPlus_Shutdown()
-
-
-;~ 	_GDIPlus_Merge($iPathMask_TEMP, $iPathIMaskPic)
-
-
-
-
-	MsgBox(0, "DEBUG", "Break Merging")
-
-
-	Return $iPath
-EndFunc   ;==>_GDIPlus_Transparancy2
-
-; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_TransparancyZone
-; Description ...: Apply transparancy on a picture
-; Syntax.........: _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
-; Parameters ....: $iPath		- Path to the picture
-;                  $iTransLvl	- Transparancy level
-; Return values .: Success      - Return the Path of the Picture
-;                  Failure      - -1
-; Author ........: Screech
-; Modified.......:
-; Remarks .......: 	0 - No rotation and no flipping (A 180-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					1 - A 90-degree rotation without flipping (A 270-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					2 - A 180-degree rotation without flipping (No rotation, a horizontal flip followed by a vertical flip)
-;~ 					3 - A 270-degree rotation without flipping (A 90-degree rotation, a horizontal flip and then a vertical flip)
-;~ 					4 - No rotation and a horizontal flip (A 180-degree rotation followed by a vertical flip)
-;~ 					5 - A 90-degree rotation followed by a horizontal flip (A 270-degree rotation followed by a vertical flip)
-;~ 					6 - A 180-degree rotation followed by a horizontal flip (No rotation and a vertical flip)
-;~ 					7 - A 270-degree rotation followed by a horizontal flip (A 90-degree rotation followed by a vertical flip)
-; Related .......:
-; Link ..........;
-; Example .......; No
-Func _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
+Func _GDIPlus_TransparencyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransLvl = 1, $iX = 0, $iY = 0, $iWidth = "", $iHeight = "")
 	#forceref $iX, $iY, $iWidth, $iHeight
 	Local $hImage, $ImageWidth, $ImageHeight, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
@@ -853,46 +729,9 @@ Func _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransL
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-TRANSZONE_Temp.PNG"
 	$iPath_CutHole_Temp = $sDrive & $sDir & $sFileName & "-CutHole_Temp.PNG"
 	$iPath_Crop_Temp = $sDrive & $sDir & $sFileName & "-CutCrop_Temp.PNG"
-
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
-		Return -1
-	EndIf
-
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	$iPath = $sDrive & $sDir & $sFileName & ".png"
-	$iWidth = _GDIPlus_RelativePos($iWidth, $vTarget_Width)
-	If $iWidth = "" Then $iWidth = $vTarget_Width
-	$iHeight = _GDIPlus_RelativePos($iHeight, $vTarget_Height)
-	If $iHeight = "" Then $iHeight = $vTarget_Height
-	$iX = _GDIPlus_RelativePos($iX, $vTarget_Width)
-	$iY = _GDIPlus_RelativePos($iY, $vTarget_Height)
-
-	Switch $iX
-		Case 'CENTER'
-			$iX = ($vTarget_Width / 2) - ($iWidth / 2)
-		Case 'LEFT'
-			$iX = 0
-		Case 'RIGHT'
-			$iX = $vTarget_Width - $iWidth
-	EndSwitch
-	Switch $iY
-		Case 'CENTER'
-			$iY = ($vTarget_Height / 2) - ($iHeight / 2)
-		Case 'UP'
-			$iY = 0
-		Case 'DOWN'
-			$iY = $vTarget_Height - $iHeight
-	EndSwitch
-
-	$iX = Int($iX)
-	$iY = Int($iY)
-
+	_GDIPlus_CalcPos($iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
 	$hNew_CutHole = _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
@@ -911,22 +750,37 @@ Func _GDIPlus_TransparancyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransL
 	_GDIPlus_BitmapDispose($hNew_CutHole)
 	_GDIPlus_BitmapDispose($hNew_Crop)
 	_GDIPlus_Shutdown()
-
-	_GDIPlus_Transparancy($iPath_Crop_Temp, $iTransLvl)
+	_GDIPlus_Transparency($iPath_Crop_Temp, $iTransLvl)
 	_GDIPlus_Merge($iPath_CutHole_Temp, $iPath_Crop_Temp)
-
-	FileCopy($iPath_CutHole_Temp,$iPath)
+	FileCopy($iPath_CutHole_Temp, $iPath)
 	FileDelete($iPath_CutHole_Temp)
-
 	If Not FileDelete($iPath_Temp) Then
 		_LOG("Error deleting " & $iPath_Temp, 2)
 		Return -1
 	EndIf
 	Return $iPath
-EndFunc   ;==>_GDIPlus_TransparancyZone
+EndFunc   ;==>_GDIPlus_TransparencyZone
 
-
-Func _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height) ;coded by UEZ 2012-12-17
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_ImageCutRectHole
+; Description ...: Cut a rectangle hole on a picture
+; Syntax.........: _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height)
+; Parameters ....: $hImage			- Handle to the picture
+;                  $iX				- X position of the cut
+;                  $iY				- Y position of the cut
+;                  $iWidthCut		- Width of the cut
+;                  $iHeightCut		- Height of the cut
+;                  $vTarget_Width	- Target Width
+;                  $vTarget_Height	- Target Height
+; Return values .: Success      - Return Handle
+;                  Failure      - -1
+; Author ........: UEZ
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........; https://www.autoitscript.com/forum/topic/146755-solvedlayer-mask-in-gdi/
+; Example .......;
+Func _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height)
 	Local $hTexture = _GDIPlus_TextureCreate($hImage, 4)
 	$hImage = _GDIPlus_BitmapCreateFromScan0($vTarget_Width, $vTarget_Height)
 	Local $hGfxCtxt = _GDIPlus_ImageGetGraphicsContext($hImage)
@@ -939,143 +793,130 @@ Func _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTar
 	_GDIPlus_BrushDispose($hTexture)
 	_GDIPlus_GraphicsDispose($hGfxCtxt)
 	Return $hImage
-EndFunc   ;==>_GDIPlus_ImageShapeHole
+EndFunc   ;==>_GDIPlus_ImageCutRectHole
 
-Func _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height) ;coded by UEZ 2012-12-17
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_ImageCrop
+; Description ...: Crop a picture
+; Syntax.........: _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height)
+; Parameters ....: $hImage			- Handle to the picture
+;                  $iX				- X position of the crop
+;                  $iY				- Y position of the crop
+;                  $iWidthCut		- Width of the crop
+;                  $iHeightCut		- Height of the crop
+;                  $vTarget_Width	- Target Width
+;                  $vTarget_Height	- Target Height
+; Return values .: Success      - Return Handle
+;                  Failure      - -1
+; Author ........: UEZ
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........; https://www.autoitscript.com/forum/topic/146755-solvedlayer-mask-in-gdi/
+; Example .......;
+Func _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidthCut, $iHeightCut, $vTarget_Width, $vTarget_Height)
 	Local $hTexture = _GDIPlus_TextureCreate($hImage, 4)
 	$hImage = _GDIPlus_BitmapCreateFromScan0($vTarget_Width, $vTarget_Height)
 	Local $hGfxCtxt = _GDIPlus_ImageGetGraphicsContext($hImage)
 	_GDIPlus_GraphicsSetSmoothingMode($hGfxCtxt, 2)
 	_GDIPlus_GraphicsSetPixelOffsetMode($hGfxCtxt, 2)
-	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX, $iY,$iWidthCut, $iHeightCut, $hTexture)
+	_GDIPlus_GraphicsFillRect($hGfxCtxt, $iX, $iY, $iWidthCut, $iHeightCut, $hTexture)
 	_GDIPlus_BrushDispose($hTexture)
 	_GDIPlus_GraphicsDispose($hGfxCtxt)
 	Return $hImage
-EndFunc   ;==>_GDIPlus_ImageShapeHole
-
+EndFunc   ;==>_GDIPlus_ImageCrop
 
 ; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_CreateMask
-; Description ...: Create a Mask
-; Syntax.........: _GDIPlus_Fusion($iPath1,$iPath2)
-; Parameters ....: $iPath1		- First image path
-;                  $iPath1		- Second image path
-; Return values .: Success      - Return the path of the finale picture
-;                  Failure      - -1
+; Name...........: _GDIPlus_CalcPos
+; Description ...: Calculate Relative and tagged position and size
+; Syntax.........: _GDIPlus_CalcPos(ByRef $iX, ByRef $iY, ByRef $iWidth, ByRef $iHeight, $vTarget_Width, $vTarget_Height)
+; Parameters ....: $iX				- X position to calculate
+;                  $iY				- Y position to calculate
+;                  $iWidth			- Width
+;                  $iHeight			- Height
+;                  $vTarget_Width	- Target Width
+;                  $vTarget_Height	- Target Height
+; Return values .: Success      - Return position and size ByRef
 ; Author ........: Screech
 ; Modified.......:
+; Remarks .......:
 ; Related .......:
 ; Link ..........;
-; Example .......; No
-Func _GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
-	Local $aRemapTable[2][2]
-	Local $iPathBlack_Source = $iScriptPath & "\Ressources\Black.png"
-	Local $iPathWhite_Source = $iScriptPath & "\Ressources\White.png"
-	Local $iPathBlack_TEMP = $iScriptPath & "\TEMP\MIX\Black_TEMP.png"
-	Local $iPathWhite_TEMP = $iScriptPath & "\TEMP\MIX\White_TEMP.png"
-	Local $iPathMask_TEMP = $iScriptPath & "\TEMP\MIX\Mask_TEMP.png"
-	Local $iPathMask = $iScriptPath & "\TEMP\MIX\Mask.png"
-	Local $iPathIMask = $iScriptPath & "\TEMP\MIX\IMask.png"
-
-	$aRemapTable[0][0] = 1
-	$aRemapTable[1][0] = 0xFFFFFFFF ;Farbe, die Transparent gemacht werden soll
-
-	FileCopy($iPathWhite_Source, $iPathWhite_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileCopy($iPathBlack_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileDelete($iPathMask)
-	FileDelete($iPathIMask)
-
-	_GDIPlus_Startup()
-	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
-	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
-	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
-	_GDIPlus_ImageDispose($hImage)
-	_GDIPlus_Shutdown()
-
-	Dim $aPicParameters[9]
-	$aPicParameters[0] = $iWidth
-	$aPicParameters[1] = $iHeight
-	$aPicParameters[2] = $iX
-	$aPicParameters[3] = $iY
-	_GDIPlus_Imaging($iPathWhite_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
-	$aPicParameters[0] = $ImageWidth
-	$aPicParameters[1] = $ImageHeight
-	$aPicParameters[2] = 0
-	$aPicParameters[3] = 0
-	$aPicParameters[4] = $ImageWidth
-	$aPicParameters[5] = 0
-	$aPicParameters[6] = 0
-	$aPicParameters[7] = $ImageHeight
-	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
-	_GDIPlus_Merge($iPathMask_TEMP, $iPathWhite_TEMP)
-
-	_GDIPlus_Startup()
-	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
-	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
-	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
-
-	$hIA = _GDIPlus_ImageAttributesCreate()
-	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
-	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
-	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathMask)
-
-	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
-	_GDIPlus_BitmapDispose($hImage)
-	_GDIPlus_BitmapDispose($hImage_Result)
-	_GDIPlus_ImageAttributesDispose($hIA)
-	_GDIPlus_Shutdown()
-
-	FileCopy($iPathBlack_Source, $iPathBlack_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-	FileCopy($iPathWhite_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
-
-	Dim $aPicParameters[9]
-	$aPicParameters[0] = $iWidth
-	$aPicParameters[1] = $iHeight
-	$aPicParameters[2] = $iX
-	$aPicParameters[3] = $iY
-	_GDIPlus_Imaging($iPathBlack_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
-	$aPicParameters[0] = $ImageWidth
-	$aPicParameters[1] = $ImageHeight
-	$aPicParameters[2] = 0
-	$aPicParameters[3] = 0
-	$aPicParameters[4] = $ImageWidth
-	$aPicParameters[5] = 0
-	$aPicParameters[6] = 0
-	$aPicParameters[7] = $ImageHeight
-	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
-	_GDIPlus_Merge($iPathMask_TEMP, $iPathBlack_TEMP)
-
-	_GDIPlus_Startup()
-	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
-	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
-	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
-
-	$hIA = _GDIPlus_ImageAttributesCreate()
-	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
-	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
-	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathIMask)
-
-	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
-	_GDIPlus_BitmapDispose($hImage)
-	_GDIPlus_BitmapDispose($hImage_Result)
-	_GDIPlus_ImageAttributesDispose($hIA)
-	_GDIPlus_Shutdown()
-	FileDelete($iPathBlack_TEMP)
-	FileDelete($iPathWhite_TEMP)
-	FileDelete($iPathMask_TEMP)
-EndFunc   ;==>_GDIPlus_CreateMask
+; Example .......;
+Func _GDIPlus_CalcPos(ByRef $iX, ByRef $iY, ByRef $iWidth, ByRef $iHeight, $vTarget_Width, $vTarget_Height)
+	$iWidth = _GDIPlus_RelativePos($iWidth, $vTarget_Width)
+	If $iWidth = "" Then $iWidth = $vTarget_Width
+	$iHeight = _GDIPlus_RelativePos($iHeight, $vTarget_Height)
+	If $iHeight = "" Then $iHeight = $vTarget_Height
+	$iX = _GDIPlus_CalcPosX($iX, $iWidth, $vTarget_Width)
+	$iY = _GDIPlus_CalcPosY($iY, $iHeight, $vTarget_Height)
+EndFunc   ;==>_GDIPlus_CalcPos
 
 ; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_Fusion
+; Name...........: _GDIPlus_CalcPosX
+; Description ...: Calculate Relative and tagged X position
+; Syntax.........: _GDIPlus_CalcPosX($iX, $iWidth, $vTarget_Width)
+; Parameters ....: $iX				- X position to calculate
+;                  $iWidth			- Width
+;                  $vTarget_Width	- Target Width
+; Return values .: Success      - Return $iX
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......;
+Func _GDIPlus_CalcPosX($iX, $iWidth, $vTarget_Width)
+	$iX = _GDIPlus_RelativePos($iX, $vTarget_Width)
+	Switch $iX
+		Case 'CENTER'
+			$iX = ($vTarget_Width / 2) - ($iWidth / 2)
+		Case 'LEFT'
+			$iX = 0
+		Case 'RIGHT'
+			$iX = $vTarget_Width - $iWidth
+	EndSwitch
+	Return Int($iX)
+EndFunc   ;==>_GDIPlus_CalcPosX
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_CalcPosY
+; Description ...: Calculate Relative and tagged X position
+; Syntax.........: _GDIPlus_CalcPosY($iY, $iHeight, $vTarget_Height)
+; Parameters ....: $iY				- Y position to calculate
+;                  $iHeight			- Height
+;                  $vTarget_Height	- Target Height
+; Return values .: Success      - Return $iY
+; Author ........: Screech
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......;
+Func _GDIPlus_CalcPosY($iY, $iHeight, $vTarget_Height)
+	$iY = _GDIPlus_RelativePos($iY, $vTarget_Height)
+	Switch $iY
+		Case 'CENTER'
+			$iY = ($vTarget_Height / 2) - ($iHeight / 2)
+		Case 'LEFT'
+			$iY = 0
+		Case 'RIGHT'
+			$iY = $vTarget_Height - $iHeight
+	EndSwitch
+	Return Int($iY)
+EndFunc   ;==>_GDIPlus_CalcPosY
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_Merge($iPath1, $iPath2)
 ; Description ...: Merge 2 pictures
-; Syntax.........: _GDIPlus_Fusion($iPath1,$iPath2)
+; Syntax.........: _GDIPlus_Merge($iPath1, $iPath2)
 ; Parameters ....: $iPath1		- First image path
 ;                  $iPath1		- Second image path
 ; Return values .: Success      - Return the path of the finale picture
 ;                  Failure      - -1
 ; Author ........: Screech
 ; Modified.......:
+; Remarks .......: Delete $iPath2 after merging
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
@@ -1087,16 +928,7 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 	_PathSplit($iPath1, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-MER_Temp.PNG"
 
-	;Working on temporary picture
-	FileDelete($iPath_Temp)
-	If Not FileCopy($iPath1, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath1 & " to " & $iPath_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($iPath1) Then
-		_LOG("Error deleting " & $iPath1, 2)
-		Return -1
-	EndIf
+	If _MakeTEMPFile($iPath1, $iPath_Temp) = -1 Then Return -1
 
 	$iPath1 = $sDrive & $sDir & $sFileName & ".png"
 
@@ -1189,91 +1021,59 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_Imaging
 ; Description ...: Prepare a picture
-; Syntax.........: _GDIPlus_Imaging($iPath, $A_PathImage, $A_MIX_IMAGE_Format, $B_Images, $TYPE = '')
-; Parameters ....: $iPath		- Path to the picture
-;                  $iRotation	- Rotation Value
+; Syntax.........: _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize = 'no')
+; Parameters ....: $iPath			- Path to the picture
+;                  $aPicParameters	- Position Parameter
+;                  $vTarget_Width	- Target Width
+;                  $vTarget_Height	- Target Height
+;                  $vTarget_Maximize- Maximize the picture (yes or no)
 ; Return values .: Success      - Return the Path of the Picture
 ;                  Failure      - -1
 ; Author ........: Screech
 ; Modified.......:
-; Remarks .......:
+; Remarks .......: 	$aPicParameters[0] = Target_Width
+; 					$aPicParameters[1] = Target_Height
+;				 	$aPicParameters[2] = Target_TopLeftX
+;				 	$aPicParameters[3] = Target_TopLeftY
+;				 	$aPicParameters[4] = Target_TopRightX
+;				 	$aPicParameters[5] = Target_TopRightY
+;				 	$aPicParameters[6] = Target_BottomLeftX
+;				 	$aPicParameters[7] = Target_BottomLeftY
+;				 	$aPicParameters[8] = Target_Maximize
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height, $vTarget_Maximize = 'no')
-;~ 	MsgBox(0,"DEBUG","_GDIPlus_Imaging");Debug
-	Local $sDrive, $sDir, $sFileName, $iExtension, $vPicTarget_Temp
-	_PathSplit($vPicTarget, $sDrive, $sDir, $sFileName, $iExtension)
-	$vTarget_Maximize = StringUpper($vTarget_Maximize)
-	$vPicTarget_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp" & $iExtension
-
-
+Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
+	$aPicParameters[8] = StringUpper($aPicParameters[8])
+	$iPath_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp" & $iExtension
 	Local $hImage, $hGui, $hGraphicGUI, $hBMPBuff, $hGraphic
 	Local $MergedImageBackgroundColor = 0x00000000
-
-;~ 	MsgBox(0, 'DEBUG', 'Before _GDIPlus_RelativePos $iWidth = ' & $aPicParameters[0] & '$iHeight = ' & $aPicParameters[1]) ;Debug
-
 	Local $iWidth = _GDIPlus_RelativePos($aPicParameters[0], $vTarget_Width)
 	Local $iHeight = _GDIPlus_RelativePos($aPicParameters[1], $vTarget_Height)
-
-;~ 	MsgBox(0, 'DEBUG', 'After _GDIPlus_RelativePos $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
-
-	If StringLower($vTarget_Maximize) = 'yes' Then
-		$vPicTarget = _GDIPlus_ResizeMax($vPicTarget, $iWidth, $iHeight)
+	If $aPicParameters[8] = 'YES' Then
+		$iPath = _GDIPlus_ResizeMax($iPath, $iWidth, $iHeight)
 	EndIf
-
-;~ 	MsgBox(0, 'DEBUG', 'After _GDIPlus_ResizeMax $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
-
-	;Working on temporary picture
-	FileDelete($vPicTarget_Temp)
-	If Not FileCopy($vPicTarget, $vPicTarget_Temp, 9) Then
-		_LOG("Error copying " & $vPicTarget & " to " & $vPicTarget_Temp, 2)
-		Return -1
-	EndIf
-	If Not FileDelete($vPicTarget) Then
-		_LOG("Error deleting " & $vPicTarget, 2)
-		Return -1
-	EndIf
-;~ 	MsgBox(0, 'DEBUG', 'Break Temp Pic') ;Debug
-
+	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	_GDIPlus_Startup()
-	$hImage = _GDIPlus_ImageLoadFromFile($vPicTarget_Temp)
-	If $iWidth <= 0 Or $vTarget_Maximize = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $iHeight <= 0 Or $vTarget_Maximize = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
-;~ 	MsgBox(0, 'DEBUG', 'After Test $iWidth = ' & $iWidth & '$iHeight = ' & $iHeight) ;Debug
-
+	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	If $iWidth <= 0 Or $aPicParameters[8] = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $iHeight <= 0 Or $aPicParameters[8] = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
 	$hGui = GUICreate("", $vTarget_Width, $vTarget_Height)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($vTarget_Width, $vTarget_Height, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor) ; Fill the Graphic Background (0x00000000 for transparent background in .png files)
-
-	Local $Image_C1X = _GDIPlus_RelativePos($aPicParameters[2], $vTarget_Width)
-	Local $Image_C1Y = _GDIPlus_RelativePos($aPicParameters[3], $vTarget_Height)
+	Local $Image_C1X = _GDIPlus_CalcPosX($aPicParameters[2], $iWidth, $vTarget_Width)
+	Local $Image_C1Y = _GDIPlus_CalcPosY($aPicParameters[3], $iHeight, $vTarget_Height)
 	Local $Image_C2X = _GDIPlus_RelativePos($aPicParameters[4], $vTarget_Width)
 	Local $Image_C2Y = _GDIPlus_RelativePos($aPicParameters[5], $vTarget_Height)
 	Local $Image_C3X = _GDIPlus_RelativePos($aPicParameters[6], $vTarget_Width)
 	Local $Image_C3Y = _GDIPlus_RelativePos($aPicParameters[7], $vTarget_Height)
-
-	Switch $Image_C1X
-		Case 'CENTER'
-			$Image_C1X = ($vTarget_Width / 2) - ($iWidth / 2)
-		Case 'LEFT'
-			$Image_C1X = 0
-		Case 'RIGHT'
-			$Image_C1X = $vTarget_Width - $iWidth
-	EndSwitch
-	Switch $Image_C1Y
-		Case 'CENTER'
-			$Image_C1Y = ($vTarget_Height / 2) - ($iHeight / 2)
-		Case 'UP'
-			$Image_C1Y = 0
-		Case 'DOWN'
-			$Image_C1Y = $vTarget_Height - $iHeight
-	EndSwitch
 	Switch $Image_C2X
 		Case 'CENTER'
-			$Image_C2X = ($vTarget_Width / 2) + ($iWidth / 2)
+			$Image_C2X = Int(($vTarget_Width / 2) + ($iWidth / 2))
 		Case 'LEFT'
 			$Image_C2X = $iWidth
 		Case 'RIGHT'
@@ -1283,7 +1083,7 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 	EndSwitch
 	Switch $Image_C2Y
 		Case 'CENTER'
-			$Image_C2Y = ($vTarget_Height / 2) - ($iHeight / 2)
+			$Image_C2Y = Int(($vTarget_Height / 2) - ($iHeight / 2))
 		Case 'UP'
 			$Image_C2Y = 0
 		Case 'DOWN'
@@ -1293,7 +1093,7 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 	EndSwitch
 	Switch $Image_C3X
 		Case 'CENTER'
-			$Image_C3X = ($vTarget_Width / 2) - ($iWidth / 2)
+			$Image_C3X = Int(($vTarget_Width / 2) - ($iWidth / 2))
 		Case 'LEFT'
 			$Image_C3X = 0
 		Case 'RIGHT'
@@ -1303,7 +1103,7 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 	EndSwitch
 	Switch $Image_C3Y
 		Case 'CENTER'
-			$Image_C3Y = ($vTarget_Height / 2) + ($iHeight / 2)
+			$Image_C3Y = Int(($vTarget_Height / 2) + ($iHeight / 2))
 		Case 'UP'
 			$Image_C3Y = 0 + $iHeight
 		Case 'DOWN'
@@ -1311,22 +1111,8 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 		Case ''
 			$Image_C3Y = $Image_C1Y + $iHeight
 	EndSwitch
-
-	$Image_C1X = Int($Image_C1X)
-	$Image_C1Y = Int($Image_C1Y)
-	$Image_C2X = Int($Image_C2X)
-	$Image_C2Y = Int($Image_C2Y)
-	$Image_C3X = Int($Image_C3X)
-	$Image_C3Y = Int($Image_C3Y)
-
-	ConsoleWrite("+ Imaging (" & $vPicTarget & ")" & @CRLF) ; Debug
-	ConsoleWrite("+ ----- C1 = " & $Image_C1X & "x" & $Image_C1Y & @CRLF) ; Debug
-	ConsoleWrite("+ ----- C2 = " & $Image_C2X & "x" & $Image_C2Y & @CRLF) ; Debug
-	ConsoleWrite("+ ----- C3 = " & $Image_C3X & "x" & $Image_C3Y & @CRLF) ; Debug
-	ConsoleWrite("+ ----- (Size) = " & $iWidth & "x" & $iHeight & @CRLF) ; Debug
-
 	_GDIPlus_DrawImagePoints($hGraphic, $hImage, $Image_C1X, $Image_C1Y, $Image_C2X, $Image_C2Y, $Image_C3X, $Image_C3Y)
-	_GDIPlus_ImageSaveToFile($hBMPBuff, $vPicTarget)
+	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
 	_WinAPI_DeleteObject($hBMPBuff)
@@ -1334,47 +1120,12 @@ Func _GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Hei
 	GUIDelete($hGui)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
-
-	If Not FileDelete($vPicTarget_Temp) Then
-		_LOG("Error deleting " & $vPicTarget_Temp, 2)
+	If Not FileDelete($iPath_Temp) Then
+		_LOG("Error deleting " & $iPath_Temp, 2)
 		Return -1
 	EndIf
-
-	Return $vPicTarget
+	Return $iPath
 EndFunc   ;==>_GDIPlus_Imaging
-
-; #FUNCTION# ===================================================================================================
-; Name...........: _GDIPlus_ImageAttributesSetRemapTable
-; Description ...: Put a Color in transparent
-; Syntax.........: _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
-; Parameters ....: $hImageAttributes	-
-;                  $iColorAdjustType	-
-;                  $fEnable				-
-;                  $aColorMap			-
-; Return values .: Return
-; Author ........:
-; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; https://www.autoitscript.com/forum/topic/165975-bmp-to-png-with-transparent-color/
-Func _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
-	Local $iI, $iCount, $tColorMap, $aResult
-	If IsArray($aColorMap) And UBound($aColorMap) > 1 Then
-		$iCount = $aColorMap[0][0]
-		$tColorMap = DllStructCreate("uint ColorMap[" & $iCount * 2 & "]")
-		For $iI = 1 To $iCount
-			$tColorMap.ColorMap((2 * $iI - 1)) = $aColorMap[$iI][0]
-			$tColorMap.ColorMap((2 * $iI)) = $aColorMap[$iI][1]
-		Next
-		$aResult = DllCall($__g_hGDIPDll, "int", "GdipSetImageAttributesRemapTable", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "int", $iCount, "struct*", $tColorMap)
-		If @error Then Return SetError(@error, @extended, False)
-		If $aResult[0] Then Return SetError(10, $aResult[0], False)
-		Return True
-	EndIf
-	Return SetError(11, 0, False)
-EndFunc   ;==>_GDIPlus_ImageAttributesSetRemapTable
-
 #EndRegion GDI Function
 
 #Region XML Function
@@ -1897,6 +1648,8 @@ Func XML_My_ErrorParser($iXMLWrapper_Error, $iXMLWrapper_Extended = 0)
 EndFunc   ;==>XML_My_ErrorParser
 #EndRegion XML DOM Error/Event Handling
 
+
+#Region Not Used Function
 Func ImageColorToTransparent($hImage2, $iColor = Default)
 	Local $hBitmap1, $Reslt, $width, $height, $stride, $format, $Scan0, $v_Buffer, $v_Value, $iIW, $iIH
 
@@ -1927,3 +1680,147 @@ Func ImageColorToTransparent($hImage2, $iColor = Default)
 	Return $hBitmap1
 EndFunc   ;==>ImageColorToTransparent
 
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_CreateMask
+; Description ...: Create a Mask
+; Syntax.........: _GDIPlus_Fusion($iPath1,$iPath2)
+; Parameters ....: $iPath1		- First image path
+;                  $iPath1		- Second image path
+; Return values .: Success      - Return the path of the finale picture
+;                  Failure      - -1
+; Author ........: Screech
+; Modified.......:
+; Related .......:
+; Link ..........;
+; Example .......; No
+Func _GDIPlus_CreateMask($iPath_Temp, $iX, $iY, $iWidth, $iHeight)
+	Local $aRemapTable[2][2]
+	Local $iPathBlack_Source = $iScriptPath & "\Ressources\Black.png"
+	Local $iPathWhite_Source = $iScriptPath & "\Ressources\White.png"
+	Local $iPathBlack_TEMP = $iScriptPath & "\TEMP\MIX\Black_TEMP.png"
+	Local $iPathWhite_TEMP = $iScriptPath & "\TEMP\MIX\White_TEMP.png"
+	Local $iPathMask_TEMP = $iScriptPath & "\TEMP\MIX\Mask_TEMP.png"
+	Local $iPathMask = $iScriptPath & "\TEMP\MIX\Mask.png"
+	Local $iPathIMask = $iScriptPath & "\TEMP\MIX\IMask.png"
+
+	$aRemapTable[0][0] = 1
+	$aRemapTable[1][0] = 0xFFFFFFFF ;Farbe, die Transparent gemacht werden soll
+
+	FileCopy($iPathWhite_Source, $iPathWhite_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathBlack_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileDelete($iPathMask)
+	FileDelete($iPathIMask)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
+	$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $ImageWidth = 4294967295 Then $ImageWidth = 0 ;4294967295 en cas d'erreur.
+	$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
+	_GDIPlus_ImageDispose($hImage)
+	_GDIPlus_Shutdown()
+
+	Dim $aPicParameters[9]
+	$aPicParameters[0] = $iWidth
+	$aPicParameters[1] = $iHeight
+	$aPicParameters[2] = $iX
+	$aPicParameters[3] = $iY
+	_GDIPlus_Imaging($iPathWhite_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	$aPicParameters[0] = $ImageWidth
+	$aPicParameters[1] = $ImageHeight
+	$aPicParameters[2] = 0
+	$aPicParameters[3] = 0
+	$aPicParameters[4] = $ImageWidth
+	$aPicParameters[5] = 0
+	$aPicParameters[6] = 0
+	$aPicParameters[7] = $ImageHeight
+	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	_GDIPlus_Merge($iPathMask_TEMP, $iPathWhite_TEMP)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
+	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
+	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
+
+	$hIA = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
+	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
+	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathMask)
+
+	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
+	_GDIPlus_BitmapDispose($hImage)
+	_GDIPlus_BitmapDispose($hImage_Result)
+	_GDIPlus_ImageAttributesDispose($hIA)
+	_GDIPlus_Shutdown()
+
+	FileCopy($iPathBlack_Source, $iPathBlack_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+	FileCopy($iPathWhite_Source, $iPathMask_TEMP, $FC_OVERWRITE + $FC_CREATEPATH)
+
+	Dim $aPicParameters[9]
+	$aPicParameters[0] = $iWidth
+	$aPicParameters[1] = $iHeight
+	$aPicParameters[2] = $iX
+	$aPicParameters[3] = $iY
+	_GDIPlus_Imaging($iPathBlack_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	$aPicParameters[0] = $ImageWidth
+	$aPicParameters[1] = $ImageHeight
+	$aPicParameters[2] = 0
+	$aPicParameters[3] = 0
+	$aPicParameters[4] = $ImageWidth
+	$aPicParameters[5] = 0
+	$aPicParameters[6] = 0
+	$aPicParameters[7] = $ImageHeight
+	_GDIPlus_Imaging($iPathMask_TEMP, $aPicParameters, $ImageWidth, $ImageHeight)
+	_GDIPlus_Merge($iPathMask_TEMP, $iPathBlack_TEMP)
+
+	_GDIPlus_Startup()
+	$hImage = _GDIPlus_BitmapCreateFromFile($iPathMask_TEMP)
+	$hImage_Result = _GDIPlus_BitmapCreateFromScan0($ImageWidth, $ImageHeight)
+	$hImage_Result_Ctxt = _GDIPlus_ImageGetGraphicsContext($hImage_Result)
+
+	$hIA = _GDIPlus_ImageAttributesCreate()
+	_GDIPlus_ImageAttributesSetRemapTable($hIA, 1, True, $aRemapTable)
+	_GDIPlus_GraphicsDrawImageRectRect($hImage_Result_Ctxt, $hImage, 0, 0, $ImageWidth, $ImageHeight, 0, 0, $ImageWidth, $ImageHeight, $hIA)
+	_GDIPlus_ImageSaveToFile($hImage_Result, $iPathIMask)
+
+	_GDIPlus_GraphicsDispose($hImage_Result_Ctxt)
+	_GDIPlus_BitmapDispose($hImage)
+	_GDIPlus_BitmapDispose($hImage_Result)
+	_GDIPlus_ImageAttributesDispose($hIA)
+	_GDIPlus_Shutdown()
+	FileDelete($iPathBlack_TEMP)
+	FileDelete($iPathWhite_TEMP)
+	FileDelete($iPathMask_TEMP)
+EndFunc   ;==>_GDIPlus_CreateMask
+
+; #FUNCTION# ===================================================================================================
+; Name...........: _GDIPlus_ImageAttributesSetRemapTable
+; Description ...: Put a Color in transparent
+; Syntax.........: _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
+; Parameters ....: $hImageAttributes	-
+;                  $iColorAdjustType	-
+;                  $fEnable				-
+;                  $aColorMap			-
+; Return values .: Return
+; Author ........:
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; https://www.autoitscript.com/forum/topic/165975-bmp-to-png-with-transparent-color/
+Func _GDIPlus_ImageAttributesSetRemapTable($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $aColorMap = 0)
+	Local $iI, $iCount, $tColorMap, $aResult
+	If IsArray($aColorMap) And UBound($aColorMap) > 1 Then
+		$iCount = $aColorMap[0][0]
+		$tColorMap = DllStructCreate("uint ColorMap[" & $iCount * 2 & "]")
+		For $iI = 1 To $iCount
+			$tColorMap.ColorMap((2 * $iI - 1)) = $aColorMap[$iI][0]
+			$tColorMap.ColorMap((2 * $iI)) = $aColorMap[$iI][1]
+		Next
+		$aResult = DllCall($__g_hGDIPDll, "int", "GdipSetImageAttributesRemapTable", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "int", $iCount, "struct*", $tColorMap)
+		If @error Then Return SetError(@error, @extended, False)
+		If $aResult[0] Then Return SetError(10, $aResult[0], False)
+		Return True
+	EndIf
+	Return SetError(11, 0, False)
+EndFunc   ;==>_GDIPlus_ImageAttributesSetRemapTable
+#EndRegion Not Used Function

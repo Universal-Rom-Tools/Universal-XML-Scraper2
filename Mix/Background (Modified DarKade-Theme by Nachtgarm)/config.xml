@@ -9,6 +9,10 @@
 		<use>Yes</use>
 		<parameter>--force --verbose --ordered --speed=1 --quality=50-90 --ext .png</parameter>
 	</pngquant>
+	<OptiPNG>
+		<use>No</use>
+		<parameter>-clobber</parameter>
+	</OptiPNG>
 	<Root>
 		<Source_Value>Data</Source_Value>
 		<Target_Value>gameList</Target_Value>
@@ -77,7 +81,7 @@
 	<Element>
 		<Name>FusionCutTEMP</Name>
 		<Source_Type>GDI_Function</Source_Type>
-		<Source_Function>Transparency2</Source_Function>
+		<Source_Function>TransparencyZone</Source_Function>
 		<Source_Value>0.50</Source_Value>
 		<Target_Width>%0.359</Target_Width>
 		<Target_Height>%0.68</Target_Height>

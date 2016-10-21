@@ -5027,7 +5027,7 @@
 		<nom_eu>Amiga CD32</nom_eu>
 	</noms>
 	<compagnie>Commodore</compagnie>
-	<type>Ordinateur</type>
+	<type>Console</type>
 	<datedebut>1993</datedebut>
 	<datefin>1994</datefin>
 	<romtype>iso</romtype>
@@ -5104,6 +5104,21 @@
 		<media_photos>
 			<media_photo_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=133&amp;media=photo(us)&amp;mediaformat=png</media_photo_us>
 		</media_photos>
+	</medias>
+</systeme>
+<systeme>
+	<id>134</id>
+	<noms>
+		<nom_eu>Amiga CD</nom_eu>
+	</noms>
+	<compagnie>Commodore</compagnie>
+	<type>Accessoire</type>
+	<romtype>iso</romtype>
+	<supporttype>cd</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=134&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
 	</medias>
 </systeme>
 </Data>

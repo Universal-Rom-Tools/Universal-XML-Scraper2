@@ -56,7 +56,7 @@ EndIf
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
 Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\log.txt")
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
-Global $MS_AutoConfigItem[1]
+Global $MS_AutoConfigItem
 
 ;Personnal Librairy definitions
 ;---------------------------
@@ -67,6 +67,7 @@ Global $MS_AutoConfigItem[1]
 #include "./Include/_Hash.au3"
 #include "./Include/_zip.au3"
 #include "./Include/_XML.au3"
+#include "./Include/_GraphGDIPlus.au3"
 #include "./Include/_MyFunction.au3"
 
 ;Checking Version
@@ -331,7 +332,7 @@ While 1
 				EndIf
 				$aConfig[8] = _XML_Open($aConfig[0])
 
-				$vSystemID = _SelectSystem($oXMLSystem)
+				$aConfig[12] = _SelectSystem($oXMLSystem)
 				$aRomList = _RomList_Create($aConfig)
 				If IsArray($aRomList) And _Check_Cancel() Then
 					$vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
@@ -342,7 +343,7 @@ While 1
 						$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
 						If $aRomList[$vBoucle][3] = 1 And _Check_Cancel() Then
 							$aRomList = _CalcHash($aRomList, $vBoucle)
-							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $vSystemID)
+							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $aConfig[12])
 							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1) And _Check_Cancel() Then $aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						EndIf
 						If $aRomList[$vBoucle][9] = 1 Then $vLogMess = "FOUND"
@@ -358,7 +359,10 @@ While 1
 					_XML_LoadXML($oXMLAfterTidy, $vXMLAfterTidy)
 					FileDelete($aConfig[0])
 					_XML_SaveToFile($oXMLAfterTidy, $aConfig[0])
-					_ArrayDisplay($aRomList, '$aRomList') ; Debug
+;~ 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
+
+					_Results($aRomList, $vFullTimer)
+
 				EndIf
 			EndIf
 			DirRemove($iTEMPPath, 1)
@@ -368,7 +372,6 @@ While 1
 	If IsArray($MP_) Then
 		For $vBoucle = 1 To UBound($MP_) - 1
 			If $nMsg = $MP_[$vBoucle] Then _Plink($oXMLProfil, $aPlink_Command[$vBoucle][0])
-			$nMsg = ""
 		Next
 	EndIf
 
@@ -376,7 +379,7 @@ While 1
 	If $aDIRList <> -1 Then
 		For $vBoucle = 1 To UBound($MS_AutoConfigItem) - 1
 			If $nMsg = $MS_AutoConfigItem[$vBoucle] Then
-				ConsoleWrite($aDIRList[$vBoucle][0] & @CRLF)
+				_LOG("Autoconfig Selected :" & $aDIRList[$vBoucle][0])
 				For $vBoucle2 = 1 To UBound($MS_AutoConfigItem) - 1
 					GUICtrlSetState($MS_AutoConfigItem[$vBoucle2], $GUI_UNCHECKED)
 				Next
@@ -386,7 +389,7 @@ While 1
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_XMLName", $aDIRList[$vBoucle][3])
 				IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $aDIRList[$vBoucle][4])
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $aDIRList[$vBoucle][5])
-				$nMsg = ""
+				$nMsg = 0
 				_GUI_Refresh($oXMLProfil)
 			EndIf
 		Next
@@ -401,7 +404,7 @@ WEnd
 #Region Function
 Func _LoadConfig($oXMLProfil)
 	Local $aMatchingCountry
-	Dim $aConfig[12]
+	Dim $aConfig[13]
 	$aConfig[0] = IniRead($iINIPath, "LAST_USE", "$vTarget_XMLName", " ")
 	$aConfig[1] = IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", "")
 	$aConfig[2] = IniRead($iINIPath, "LAST_USE", "$vTarget_RomPath", "./")
@@ -417,6 +420,7 @@ Func _LoadConfig($oXMLProfil)
 ;~ 	_ArrayDisplay($aConfig[9], '$vLangPref') ;Debug
 	_FileReadToArray($iRessourcesPath & "\regionlist.txt", $aMatchingCountry, $FRTA_NOCOUNT, "|")
 	$aConfig[11] = $aMatchingCountry
+	$aConfig[12] = 0
 
 	If Not FileExists($aConfig[1]) Then
 		_ExtMsgBox($EMB_ICONEXCLAM, "OK", _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"), 15)
@@ -894,7 +898,7 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 		$aRomList[$vBoucle][9] = -1
 	Next
 
-	_ArrayDisplay($aRomList, '$aRomList') ; Debug
+;~ 	_ArrayDisplay($aRomList, '$aRomList') ; Debug
 ;~ 	_ArraySort($aRomList)
 
 	Return $aRomList
@@ -1031,6 +1035,7 @@ Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	_XML_WriteValue("//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil), "", "", $aConfig[8])
 	$vWhile = 1
 	While 1
+		If Not _Check_Cancel() Then Return $aRomList
 		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Type", 0, "", $oXMLProfil)
 			Case "XML_Value"
 				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
@@ -1062,6 +1067,7 @@ EndFunc   ;==>_Game_Make
 
 Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 	Local $vXpath, $vValue
+	If Not _Check_Cancel() Then Return ""
 	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oXMLProfil)
 		Case "XML_Value"
 			If $aRomList[$vBoucle][9] = 0 Then Return ""
@@ -1121,7 +1127,7 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Path", 0, "", $oXMLProfil)
 				Case '%Local_Path_File%'
 					$vDownloadPath = $aConfig[3] & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
-				Case Else
+				Case Else ; For the futur
 					$vDownloadPath = $aConfig[3] & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
 			EndSwitch
 			If FileExists($vDownloadPath) Then Return $vTargetPicturePath
@@ -1200,10 +1206,13 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
 	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
 	Local $vTarget_Height = _XML_Read("/Profil/General/Target_Height", 0, "", $oMixConfig)
+	Local $vRoot_Game = _XML_Read("/Profil/Root/Root_Game", 0, "", $oMixConfig) & "/"
+	Local $vRoot_System = _XML_Read("/Profil/Root/Root_System", 0, "", $oMixConfig) & "[id=" & $aConfig[12] & "]/"
 	Local $vPicTarget = -1, $vWhile = 1
 	Dim $aMiXPicTemp[1]
 	FileDelete($iTEMPPath & "\MIX")
 	While 1
+		If Not _Check_Cancel() Then Return ""
 		Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oMixConfig))
 			Case "fixe_value"
 				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
@@ -1222,7 +1231,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
 					Switch $vOrigin
 						Case 'game'
-							$vDownloadURL = StringTrimRight(_XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8]), 3) & "png"
+							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_Game & $aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8]), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
 								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
 								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
@@ -1230,7 +1239,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 								_LOG($vPicTarget & " Created", 1)
 							EndIf
 						Case 'system'
-							$vDownloadURL = StringTrimRight(_XML_Read($aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
+							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_System & $aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
 								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
 								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
@@ -1269,15 +1278,16 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 		If FileExists($aMiXPicTemp[$vBoucle2 - 1]) Then _GDIPlus_Merge($aMiXPicTemp[$vBoucle2 - 1], $aMiXPicTemp[$vBoucle2])
 	Next
 
-	$vpngquant = _XML_Read("/Profil/pngquant/use", 0, "", $oMixConfig)
-	$vpngquantparameter = _XML_Read("/Profil/pngquant/parameter", 0, "", $oMixConfig)
-	If StringLower($vpngquant) = 'yes' Then _PNGQuant($aMiXPicTemp[1], $vpngquantparameter)
+	$vCompression = _XML_Read("/Profil/Compression/use", 0, "", $oMixConfig)
+	$vCompressionSoft = _XML_Read("/Profil/Compression/soft", 0, "", $oMixConfig)
+	$vCompressionParameter = _XML_Read("/Profil/Compression/parameter", 0, "", $oMixConfig)
+	If StringLower($vCompression) = 'yes' Then _Compression($aMiXPicTemp[1], $vCompressionSoft, $vCompressionParameter)
 
 	Return $aMiXPicTemp[1]
 EndFunc   ;==>_MIX_Engine
 
 Func _MIX_Engine_Dim($vWhile, $oMixConfig)
-	Dim $aPicParameters[9]
+	Dim $aPicParameters[11]
 	$aPicParameters[0] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Width", 0, "", $oMixConfig)
 	$aPicParameters[1] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Height", 0, "", $oMixConfig)
 	$aPicParameters[2] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopLeftX", 0, "", $oMixConfig)
@@ -1287,9 +1297,90 @@ Func _MIX_Engine_Dim($vWhile, $oMixConfig)
 	$aPicParameters[6] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftX", 0, "", $oMixConfig)
 	$aPicParameters[7] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftY", 0, "", $oMixConfig)
 	$aPicParameters[8] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Maximize", 0, "", $oMixConfig)
+	$aPicParameters[9] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_OriginX", 0, "", $oMixConfig)
+	$aPicParameters[10] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_OriginY", 0, "", $oMixConfig)
 	Return $aPicParameters
 EndFunc   ;==>_MIX_Engine_Dim
 
+Func _Results($aRomList, $vFullTimer)
+	Local $vTimeTotal, $vTimeMoy = 0, $vNbRom = 0, $vNbRomSraped = 0, $vNbRomOK = 0
+	For $vBoucle = 1 To UBound($aRomList) - 1
+		$vTimeMoy = $vTimeMoy + $aRomList[$vBoucle][10]
+		If $aRomList[$vBoucle][9] = 1 Then $vNbRomOK = $vNbRomOK + 1
+		If $aRomList[$vBoucle][9] <> -1 Then $vNbRomSraped = $vNbRomSraped + 1
+	Next
+	$vTimeMoy = Round($vTimeMoy / $vNbRomSraped, 2)
+	$vTimeMax = _ArrayMax($aRomList, 0, 0, Default, 10)
+	$vTimeTotal = Round((TimerDiff($vFullTimer) / 1000), 2)
+	$vNbRomOKRatio = Round($vNbRomOK / $vNbRomSraped * 100)
+	$vNbRom = UBound($aRomList) - 1
+
+	_LOG("Results")
+	_LOG("Roms : = " & $vNbRom)
+	_LOG("Roms Found = " & $vNbRomOK & "/" & $vNbRomSraped)
+	_LOG("Average Time by Rom = " & $vTimeMoy)
+	_LOG("Max Time = " & $vTimeMax)
+	_LOG("Total Time = " & $vTimeTotal)
+
+	Local $vTitle = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
+	$vTitle = $vTitle[UBound($vTitle) - 1]
+	If $vScrapeCancelled = 1 Then $vTitle = $vTitle & " (Annulé)"
+
+	#Region ### START Koda GUI section ### Form=
+	$F_Results = GUICreate("Bilan de Scrape", 538, 403, 192, 124, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$L_NbRom = GUICtrlCreateLabel("Nombre de roms a scraper", 8, 56)
+	$L_NbRomOK = GUICtrlCreateLabel("Nombre de roms trouvées", 8, 80)
+	$L_TimeMoy = GUICtrlCreateLabel("Temps moyen par rom", 312, 56)
+	$L_TimeTotal = GUICtrlCreateLabel("Temps total du scrape", 312, 80)
+	$L_Results = GUICtrlCreateLabel($vTitle, 8, 8, 247, 29)
+	GUICtrlSetFont(-1, 15, 800, 0, "MS Sans Serif")
+	$L_NbRomOKRatio = GUICtrlCreateLabel("Pourcentage de roms trouvées", 8, 104)
+	$L_NbRomValue = GUICtrlCreateLabel($vNbRom, 176, 56)
+	$L_NbRomOKValue = GUICtrlCreateLabel($vNbRomOK & "/" & $vNbRomSraped, 176, 80)
+	$L_NbRomOKRatioValue = GUICtrlCreateLabel($vNbRomOKRatio & "%", 176, 104)
+	$L_TimeMoyValue = GUICtrlCreateLabel($vTimeMoy & "s", 448, 56)
+	$L_TimeTotalValue = GUICtrlCreateLabel($vTimeTotal & "s", 448, 80)
+	$B_OK = GUICtrlCreateButton("OK", 104, 128, 147, 25)
+	$B_Missing = GUICtrlCreateButton("Generer le fichier Missing", 288, 128, 147, 25)
+	$G_Time = _GraphGDIPlus_Create($F_Results, 25, 160, 500, 190, 0xFF000000, 0xFF34495c)
+	$L_Xmin = GUICtrlCreateLabel("1", 26, 355, 10, 17)
+	$L_Xmax = GUICtrlCreateLabel($vNbRom, 325, 355, 200, 17, $SS_RIGHT)
+	$L_Ymin = GUICtrlCreateLabel("0s", 0, 340, 24, 17, $SS_RIGHT)
+	$L_Ymax = GUICtrlCreateLabel(Round($vTimeMax, 1) & "s", 0, 160, 24, 17, $SS_RIGHT)
+;~ 	$G_Time = _GraphGDIPlus_Create($F_Results, 50, 160, 200, 150, 0xFF000000, 0xFF34495c)
+	GUISetState(@SW_SHOW)
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	#EndRegion ### END Koda GUI section ###
+
+	$vXTicks = 50
+	If $vNbRom <= 50 Then $vXTicks = $vNbRom
+	_GraphGDIPlus_Set_RangeX($G_Time, 1, Round($vNbRom), Round($vXTicks), 0)
+	_GraphGDIPlus_Set_RangeY($G_Time, 0, Round($vTimeMax * 10) + 2, ((Round($vTimeMax)) * 10) + 2, 0)
+	_GraphGDIPlus_Set_GridX($G_Time, 1, 0xFF6993BE)
+	_GraphGDIPlus_Set_GridY($G_Time, 1, 0xFF6993BE)
+	_GraphGDIPlus_Plot_Start($G_Time, 0, 0)
+	_GraphGDIPlus_Set_PenColor($G_Time, 0xFFff0000)
+	_GraphGDIPlus_Set_PenSize($G_Time, 2)
+
+	For $vBoucle = 1 To $vNbRom
+		_GraphGDIPlus_Plot_Line($G_Time, $vBoucle, $aRomList[$vBoucle][10] * 10)
+	Next
+	_GraphGDIPlus_Refresh($G_Time)
+
+	While 1
+		$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case $GUI_EVENT_CLOSE, $B_OK
+				_GraphGDIPlus_Delete($F_Results, $G_Time)
+				GUIDelete($F_Results)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return
+
+		EndSwitch
+	WEnd
+
+EndFunc   ;==>_Results
 #EndRegion Function
 
 ;~ 	$aPicParameters[0] = Target_Width
@@ -1314,6 +1405,7 @@ EndFunc   ;==>_MIX_Engine_Dim
 ;~ 	$aConfig[9]=$aLangPref
 ;~ 	$aConfig[10]=$aCountryPref
 ;~ 	$aConfig[11]=$aMatchingCountry
+;~ 	$aConfig[12]=$vSystemId
 
 ;~ 	$aRomList[][0]=Relative Path
 ;~ 	$aRomList[][1]=Full Path

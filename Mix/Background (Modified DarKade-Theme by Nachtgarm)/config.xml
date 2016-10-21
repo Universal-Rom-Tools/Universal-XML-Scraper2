@@ -5,17 +5,14 @@
 		<Target_Width>1280</Target_Width>
 		<Target_Height>1024</Target_Height>
 	</General>
-	<pngquant>
-		<use>Yes</use>
+	<Compression>
+		<use>yes</use>
+		<soft>pngquant.exe</soft>
 		<parameter>--force --verbose --ordered --speed=1 --quality=50-90 --ext .png</parameter>
-	</pngquant>
-	<OptiPNG>
-		<use>No</use>
-		<parameter>-clobber</parameter>
-	</OptiPNG>
+	</Compression>
 	<Root>
-		<Source_Value>Data</Source_Value>
-		<Target_Value>gameList</Target_Value>
+		<Root_Game>Data/jeu</Root_Game>
+		<Root_System>Data/systeme</Root_System>
 	</Root>
 	<Game>
 		<Source_Value>Data/jeu</Source_Value>
@@ -37,7 +34,7 @@
 		<Name>fanartTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_fanart</Source_Value>
+		<Source_Value>medias/media_fanart</Source_Value>
 		<Target_Width>%1</Target_Width>
 		<Target_Height>-1</Target_Height>
 		<Target_TopLeftX>CENTER</Target_TopLeftX> 
@@ -54,7 +51,7 @@
 		<Name>fanartTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>System</source_Origin>
-		<Source_Value>Data/systeme/medias/media_photos/media_photo_%COUNTRY%</Source_Value>
+		<Source_Value>medias/media_photos/media_photo_%COUNTRY%</Source_Value>
 		<Target_Width>%1</Target_Width>
 		<Target_Height>-1</Target_Height>
 		<Target_TopLeftX>CENTER</Target_TopLeftX> 
@@ -92,7 +89,7 @@
 		<Name>PicTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value>
+		<Source_Value>medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value>
 		<Target_Width>%0.250</Target_Width>
 		<Target_Height>%0.277</Target_Height>
 		<Target_TopLeftX>%0.016</Target_TopLeftX> 
@@ -103,7 +100,7 @@
 		<Name>PicTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
+		<Source_Value>medias/media_screenshot</Source_Value>
 		<Target_Width>%0.250</Target_Width>
 		<Target_Height>%0.277</Target_Height>
 		<Target_TopLeftX>%0.016</Target_TopLeftX> 
@@ -114,9 +111,11 @@
 		<Name>LogoTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>System</source_Origin>
-		<Source_Value>Data/systeme/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Source_Value>medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
 		<Target_Width>%0.534</Target_Width>
 		<Target_Height>%0.139</Target_Height>
+		<Target_OriginX>%0.05</Target_OriginX>
+		<Target_OriginY>%0.05</Target_OriginY>
 		<Target_TopLeftX>LEFT</Target_TopLeftX> 
 		<Target_TopLeftY>UP</Target_TopLeftY> 
 		<Target_Maximize>Yes</Target_Maximize> 
@@ -155,7 +154,7 @@
 		<Name>wheelTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Source_Value>medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
 		<Target_Width>%0.185</Target_Width>
 		<Target_Height>%0.147</Target_Height>
 		<Target_TopLeftX>%0.087</Target_TopLeftX> 

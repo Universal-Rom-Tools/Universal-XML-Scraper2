@@ -481,18 +481,16 @@ EndFunc   ;==>_OptiPNG
 ; Related .......:
 ; Link ..........;
 ; Example .......; https://www.autoitscript.com/forum/topic/122168-tinypicsharer-v-1034-new-version-08-june-2013/
-Func _PNGQuant($iPath, $iParamater = "")
+Func _Compression($iPath, $isoft = 'pngquant.exe', $iParamater = '--force --verbose --ordered --speed=1 --quality=50-90 --ext .png')
 	Local $sRun, $iPid, $_StderrRead
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
-	$iPath_Temp = $sDrive & $sDir & $sFileName & "-OPTI_Temp.PNG"
 	If StringLower($iExtension) <> ".png" Then
 		_LOG("Not a PNG file : " & $iPath, 2)
 		Return -1
 	EndIf
 	$vPathSize = _ByteSuffix(FileGetSize($iPath))
-	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
-	$sRun = $iScriptPath & '\Ressources\pngquant.exe ' & $iParamater & ' ' & $iPath_Temp
+	$sRun = $iScriptPath & '\Ressources\pngquant.exe ' & $iParamater & ' ' & $iPath
 	_LOG("PNGQuant command: " & $sRun, 1)
 	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 	While ProcessExists($iPid)
@@ -506,12 +504,8 @@ Func _PNGQuant($iPath, $iParamater = "")
 	WEnd
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
 	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
-	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
-		Return -1
-	EndIf
 	Return $iPath
-EndFunc   ;==>_PNGQuant
+EndFunc   ;==>_Compression
 
 ; #FUNCTION# ===================================================================================================
 ; Name...........: _GDIPlus_RelativePos
@@ -1111,6 +1105,14 @@ Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
 		Case ''
 			$Image_C3Y = $Image_C1Y + $iHeight
 	EndSwitch
+
+	$Image_C1X = $Image_C1X + _GDIPlus_RelativePos($aPicParameters[9], $vTarget_Width)
+	$Image_C1Y = $Image_C1Y + _GDIPlus_RelativePos($aPicParameters[10], $vTarget_Width)
+	$Image_C2X = $Image_C2X + _GDIPlus_RelativePos($aPicParameters[9], $vTarget_Width)
+	$Image_C2Y = $Image_C2Y + _GDIPlus_RelativePos($aPicParameters[10], $vTarget_Width)
+	$Image_C3X = $Image_C3X + _GDIPlus_RelativePos($aPicParameters[9], $vTarget_Width)
+	$Image_C3Y = $Image_C3Y + _GDIPlus_RelativePos($aPicParameters[10], $vTarget_Width)
+
 	_GDIPlus_DrawImagePoints($hGraphic, $hImage, $Image_C1X, $Image_C1Y, $Image_C2X, $Image_C2Y, $Image_C3X, $Image_C3Y)
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
 	_GDIPlus_GraphicsDispose($hGraphic)

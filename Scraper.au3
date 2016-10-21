@@ -1,0 +1,401 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=Ressources\Scraper.ico
+#AutoIt3Wrapper_Outfile=..\BIN\Scraper.exe
+#AutoIt3Wrapper_Outfile_x64=..\BIN\Scraper64.exe
+#AutoIt3Wrapper_Compile_Both=y
+#AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_Description=Scraper
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.2
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
+#AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
+#AutoIt3Wrapper_Res_Language=1036
+#AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
+#AutoIt3Wrapper_Run_Tidy=y
+#AutoIt3Wrapper_UseUpx=n
+#Tidy_Parameters=/reel
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+
+#include <Date.au3>
+#include <array.au3>
+#include <File.au3>
+#include <String.au3>
+#include <Crypt.au3>
+#include <InetConstants.au3>
+#include <ComboConstants.au3>
+#include <GUIConstantsEx.au3>
+
+If Not _FileCreate(@ScriptDir & "\test") Then ; Testing UXS Directory
+	Global $iScriptPath = @AppDataDir & "\UXMLS" ; If not, use Path to current user's Roaming Application Data
+	DirCreate($iScriptPath) ;
+Else
+	Global $iScriptPath = @ScriptDir
+	FileDelete($iScriptPath & "\test")
+EndIf
+
+Global $iINIPath = $iScriptPath & "\UXS-config.ini"
+Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\log.txt")
+Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
+
+#include "./Include/_MultiLang.au3"
+#include "./Include/_XML.au3"
+#include "./Include/MailSlot.au3"
+#include "./Include/_GraphGDIPlus.au3"
+#include "./Include/_MyFunction.au3"
+
+If @Compiled Then
+	Local $iScriptVer = FileGetVersion(@ScriptFullPath)
+	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
+	Local $iSoftname = "UniversalXMLScraperV" & $iScriptVer
+	If $iINIVer <> $iScriptVer Then
+		FileDelete($iScriptPath & "\UXS-config.ini")
+		FileDelete($iScriptPath & "\LanguageFiles")
+		FileDelete($iScriptPath & "\Ressources")
+		FileDelete($iScriptPath & "\Mix")
+		FileDelete($iScriptPath & "\ProfilsFiles")
+		_LOG("Update file needed from version " & $iINIVer & " to " & $iScriptVer, 1)
+	Else
+		_LOG("No updated files needed (Version : " & $iScriptVer & ")", 1)
+	EndIf
+Else
+	Local $iScriptVer = 'In Progress'
+	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
+	Local $iSoftname = "UniversalXMLScraper(TestDev)"
+	_LOG("Dev version", 1)
+EndIf
+
+Global Const $sMailSlotName = "\\.\mailslot\RandomNameForThisTest"
+Local $iSize, $aRomList, $vBoucle, $aConfig, $vProfilsPath, $oXMLProfil, $oXMLSystem
+Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
+Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
+Global $iTEMPPath = $iScriptPath & "\TEMP"
+Global $iRessourcesPath = $iScriptPath & "\Ressources"
+Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
+Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
+
+Global $hMailSlot = _MailSlotCreate($sMailSlotName)
+If @error Then
+	MsgBox(48 + 262144, "MailSlot", "Failed to create new account!" & @CRLF & "Probably one using that 'address' already exists.")
+	Exit
+EndIf
+
+Global $iNumberOfMessagesOverall = 1
+
+$oXMLSystem = _XMLSystem_Create()
+If $oXMLSystem = -1 Then Exit
+
+While $iNumberOfMessagesOverall < 5
+	If _MailSlotGetMessageCount($hMailSlot) >= 1 Then
+		Switch $iNumberOfMessagesOverall
+			Case 1
+				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
+				If $iSize Then
+					$aRomList = StringSplit(_MailSlotRead($hMailSlot, $iSize, 1), '$!$')
+					$iNumberOfMessagesOverall += 1
+				EndIf
+			Case 2
+				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
+				If $iSize Then
+					$vBoucle = _MailSlotRead($hMailSlot, $iSize, 1)
+					$iNumberOfMessagesOverall += 1
+				EndIf
+			Case 3
+				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
+				If $iSize Then
+					$aConfig = StringSplit(_MailSlotRead($hMailSlot, $iSize, 1), '$!$')
+					$iNumberOfMessagesOverall += 1
+				EndIf
+			Case 4
+				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
+				If $iSize Then
+					$vProfilsPath = _MailSlotRead($hMailSlot, $iSize, 1)
+					$oXMLProfil = _XML_Open($vProfilsPath)
+					$iNumberOfMessagesOverall += 1
+				EndIf
+		EndSwitch
+	EndIf
+
+WEnd
+
+Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+	Local $vValue, $vAttributeName, $vWhile = 1
+	_XML_WriteValue("//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil), "", "", $aConfig[8])
+
+	While 1
+;~ 		If Not _Check_Cancel() Then Return $aRomList
+		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Type", 0, "", $oXMLProfil)
+			Case "XML_Value"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+			Case "XML_Attribute"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				$vAttributeName = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Attribute_Name", 0, "", $oXMLProfil)
+				_XML_WriteAttributs(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vAttributeName, $vValue, "", $aConfig[8])
+			Case "XML_Path"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				If $vValue <> -1 Then _XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+			Case "XML_Value_FORMAT"
+				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+				Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_FORMAT", 0, "", $oXMLProfil)
+					Case '%20on1%'
+						$vValue = StringReplace(Round(($vValue * 100 / 20) / 100, 2), ",", ".")
+					Case '%ES_Date%'
+						$vValue = StringLeft(StringReplace($vValue, "-", "") & '00000000', 8) & "T000000"
+				EndSwitch
+				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+			Case Else
+				_LOG("End Of Elements", 3)
+				ExitLoop
+		EndSwitch
+		$vWhile = $vWhile + 1
+	WEnd
+	Return $aRomList
+EndFunc   ;==>_Game_Make
+
+Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
+	Local $vXpath, $vValue, $vXpathTemp, $aXpathCountry
+;~ 	If Not _Check_Cancel() Then Return ""
+	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oXMLProfil)
+		Case "XML_Value"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+
+			If StringInStr($vXpath, '%LANG%') Then
+				Local $aLangPref = $aConfig[9]
+				For $vBoucle2 = 1 To UBound($aLangPref) - 1
+					$vXpathTemp = StringReplace($vXpath, '%LANG%', $aLangPref[$vBoucle2])
+					$vValue = _XML_Read($vXpathTemp, 0, $aRomList[$vBoucle][8])
+					If $vValue <> -1 And $vValue <> "" Then Return $vValue
+				Next
+			EndIf
+
+			$aXpathCountry = _CountryArray_Make($aConfig, $vXpath, $aRomList[$vBoucle][8], $oXMLProfil)
+			For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
+				$vValue = _XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8])
+				If $vValue <> -1 And $vValue <> "" Then Return $vValue
+			Next
+
+			Return ""
+
+		Case "XML_Attribute"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			Return _XML_Read(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 1, "", $oXMLProfil), 0, $aRomList[$vBoucle][8])
+		Case "XML_Download"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+			$aXpathCountry = _CountryArray_Make($aConfig, $vXpath, $aRomList[$vBoucle][8], $oXMLProfil)
+			For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
+				$vValue = _Picture_Download($aXpathCountry[$vBoucle2], $aRomList, $vBoucle, $vWhile, $oXMLProfil, $aConfig[4], $aConfig[3])
+				Select
+					Case $vValue = -2
+						Return -1
+					Case $vValue <> -1
+						Return $vValue
+				EndSelect
+			Next
+			Return ""
+		Case "Fixe_Value"
+			Return _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+		Case "Variable_Value"
+			Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+				Case '%XML_Rom_Path%'
+					Return $aConfig[2] & StringReplace($aRomList[$vBoucle][0], "\", "/")
+				Case Else
+					_LOG("SOURCE Unknown", 3)
+					Return ""
+			EndSwitch
+		Case "MIX_Template"
+			If $aRomList[$vBoucle][9] = 0 Then Return ""
+			Local $vDownloadTag, $vDownloadExt, $vTargetPicturePath, $aPathSplit, $sDrive, $sDir, $sFileName, $sExtension
+			$vDownloadTag = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Tag", 0, "", $oXMLProfil)
+			$vDownloadExt = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Ext", 0, "", $oXMLProfil)
+			$aPathSplit = _PathSplit(StringReplace($aRomList[$vBoucle][0], "\", "_"), $sDrive, $sDir, $sFileName, $sExtension)
+			$vTargetPicturePath = $aConfig[4] & $sFileName & $vDownloadTag & "." & $vDownloadExt
+			Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Path", 0, "", $oXMLProfil)
+				Case '%Local_Path_File%'
+					$vDownloadPath = $aConfig[3] & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
+				Case Else ; For the futur
+					$vDownloadPath = $aConfig[3] & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
+			EndSwitch
+			If FileExists($vDownloadPath) Then Return $vTargetPicturePath
+
+			$vValue = _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+			If Not FileExists($vValue) Then Return -1
+			FileCopy($vValue, $vDownloadPath, $FC_OVERWRITE)
+
+			_LOG("MIX Template finished (" & $vTargetPicturePath & ")", 1)
+			Return $vTargetPicturePath
+		Case Else
+			_LOG("SOURCE Unknown", 3)
+			Return ""
+	EndSwitch
+EndFunc   ;==>_XML_Read_Source
+
+Func _CountryArray_Make($aConfig, $vXpath, $vSource_RomXMLPath, $oXMLProfil)
+	Local $vCountryPref, $vXpathCountry, $iCountryPref
+	If StringInStr($vXpath, '%COUNTRY%') Then
+		Local $aCountryPref = $aConfig[10]
+	Else
+		Local $aCountryPref[2] = ["", $vXpath]
+	EndIf
+;~ 	_ArrayDisplay($aCountryPref, "$aCountryPref")
+
+	Local $aMatchingCountry = $aConfig[11]
+	Local $aXpathCountry[UBound($aCountryPref)]
+	For $vBoucle = 1 To UBound($aCountryPref) - 1
+		$vCountryPref = $aCountryPref[$vBoucle]
+		If $vCountryPref = '%COUNTRY%' Then
+			$vXpathCountry = _XML_Read("/Profil/Country/Source_Value", 0, "", $oXMLProfil)
+			$vCountryPref = _XML_Read($vXpathCountry, 0, $vSource_RomXMLPath)
+			$iCountryPref = _ArraySearch($aMatchingCountry, $vCountryPref)
+			If $iCountryPref > 0 Then
+				$vCountryPref = $aMatchingCountry[$iCountryPref][1]
+			Else
+				$vCountryPref = ""
+			EndIf
+		EndIf
+		$aXpathCountry[$vBoucle] = StringReplace($vXpath, '%COUNTRY%', $vCountryPref)
+	Next
+	Return $aXpathCountry
+EndFunc   ;==>_CountryArray_Make
+
+Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil, $vTarget_ImagePath, $vSource_ImagePath)
+	Local $vDownloadURL, $vDownloadTag, $vDownloadExt, $vTargetPicturePath, $aPathSplit, $sDrive, $sDir, $sFileName, $sExtension
+	$vDownloadURL = _XML_Read($vCountryPref, 0, $aRomList[$vBoucle][8])
+	$vDownloadTag = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Tag", 0, "", $oXMLProfil)
+	$vDownloadExt = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Ext", 0, "", $oXMLProfil)
+	$aPathSplit = _PathSplit(StringReplace($aRomList[$vBoucle][0], "\", "_"), $sDrive, $sDir, $sFileName, $sExtension)
+	$vTargetPicturePath = $vTarget_ImagePath & $sFileName & $vDownloadTag & "." & $vDownloadExt
+	If $vDownloadExt = "%Source%" Then $vDownloadExt = StringRight($vDownloadURL, 3)
+	$vDownloadURL = StringTrimRight($vDownloadURL, 3) & $vDownloadExt
+	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Download_Path", 0, "", $oXMLProfil)
+		Case '%Local_Path_File%'
+			$vDownloadPath = $vSource_ImagePath & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
+		Case Else
+			$vDownloadPath = $vSource_ImagePath & "\" & $sFileName & $vDownloadTag & "." & $vDownloadExt
+	EndSwitch
+
+	$vCheckExist = _XML_Read(_XML_Read('/Profil/Game/Target_Value', 0, "", $oXMLProfil) & '[* = "' & $vTargetPicturePath & '"]', 0, "", $aConfig[8])
+	If $vCheckExist = -1 Then Return -2
+
+	If FileExists($vDownloadPath) Then Return $vTargetPicturePath
+
+	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath)
+	If $vValue <> -1 And $vValue <> "" Then
+		Return $vTargetPicturePath
+	Else
+		Return -1
+	EndIf
+EndFunc   ;==>_Picture_Download
+
+Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+	Local $vMIXTemplatePath = "C:\Developpement\Github\Universal-XML-Scraper2\Mix\Background (Modified DarKade-Theme by Nachtgarm)\"
+	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
+	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
+	Local $vTarget_Height = _XML_Read("/Profil/General/Target_Height", 0, "", $oMixConfig)
+	Local $vRoot_Game = _XML_Read("/Profil/Root/Root_Game", 0, "", $oMixConfig) & "/"
+	Local $vRoot_System = _XML_Read("/Profil/Root/Root_System", 0, "", $oMixConfig) & "[id=" & $aConfig[12] & "]/"
+	Local $vPicTarget = -1, $vWhile = 1
+	Dim $aMiXPicTemp[1]
+	FileDelete($iTEMPPath & "\MIX")
+	While 1
+;~ 		If Not _Check_Cancel() Then Return ""
+		Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oMixConfig))
+			Case "fixe_value"
+				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
+				FileCopy($vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig), $vPicTarget, $FC_OVERWRITE + $FC_CREATEPATH)
+				$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
+				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
+				_LOG($vPicTarget & " Created", 1)
+				_ArrayAdd($aMiXPicTemp, $vPicTarget)
+			Case "xml_value"
+				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
+				$vXpath = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
+				$vOrigin = StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/source_Origin", 0, "", $oMixConfig))
+				If $vOrigin = -1 Then $vOrigin = 'game'
+				$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
+				$aXpathCountry = _CountryArray_Make($aConfig, $vXpath, $aRomList[$vBoucle][8], $oMixConfig)
+				For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
+					Switch $vOrigin
+						Case 'game'
+							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_Game & $aXpathCountry[$vBoucle2], 0, $aRomList[$vBoucle][8]), 3) & "png"
+							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
+								_ArrayAdd($aMiXPicTemp, $vPicTarget)
+								_LOG($vPicTarget & " Created", 1)
+							EndIf
+						Case 'system'
+							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_System & $aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
+							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
+								_ArrayAdd($aMiXPicTemp, $vPicTarget)
+								_LOG($vPicTarget & " Created", 1)
+							EndIf
+					EndSwitch
+				Next
+
+			Case 'gdi_function'
+				Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Function", 0, "", $oMixConfig))
+					Case 'transparency'
+						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
+						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
+						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
+						If _GDIPlus_Transparency($vPath, $vTransLvl) = -1 Then _LOG("Transparency Failed", 2)
+					Case 'merge'
+						If _GDIPlus_Merge($aMiXPicTemp[UBound($aMiXPicTemp) - 2], $aMiXPicTemp[UBound($aMiXPicTemp) - 1]) = -1 Then _LOG("Merging Failed", 2)
+						_ArrayDelete($aMiXPicTemp, UBound($aMiXPicTemp) - 1)
+					Case 'transparencyzone'
+						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
+						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
+						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
+						If _GDIPlus_TransparencyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparency Failed", 2)
+					Case Else
+						_LOG("Unknown GDI_Function", 2)
+				EndSwitch
+			Case Else
+				_LOG("End Of Elements", 3)
+				ExitLoop
+		EndSwitch
+		$vWhile = $vWhile + 1
+	WEnd
+
+	For $vBoucle2 = UBound($aMiXPicTemp) - 1 To 2 Step -1
+		If FileExists($aMiXPicTemp[$vBoucle2 - 1]) Then _GDIPlus_Merge($aMiXPicTemp[$vBoucle2 - 1], $aMiXPicTemp[$vBoucle2])
+	Next
+
+	$vCompression = _XML_Read("/Profil/Compression/use", 0, "", $oMixConfig)
+	$vCompressionSoft = _XML_Read("/Profil/Compression/soft", 0, "", $oMixConfig)
+	$vCompressionParameter = _XML_Read("/Profil/Compression/parameter", 0, "", $oMixConfig)
+	If StringLower($vCompression) = 'yes' Then _Compression($aMiXPicTemp[1], $vCompressionSoft, $vCompressionParameter)
+
+	Return $aMiXPicTemp[1]
+EndFunc   ;==>_MIX_Engine
+
+Func _MIX_Engine_Dim($vWhile, $oMixConfig)
+	Dim $aPicParameters[11]
+	$aPicParameters[0] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Width", 0, "", $oMixConfig)
+	$aPicParameters[1] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Height", 0, "", $oMixConfig)
+	$aPicParameters[2] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopLeftX", 0, "", $oMixConfig)
+	$aPicParameters[3] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopLeftY", 0, "", $oMixConfig)
+	$aPicParameters[4] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopRightX", 0, "", $oMixConfig)
+	$aPicParameters[5] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_TopRightY", 0, "", $oMixConfig)
+	$aPicParameters[6] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftX", 0, "", $oMixConfig)
+	$aPicParameters[7] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_BottomLeftY", 0, "", $oMixConfig)
+	$aPicParameters[8] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Maximize", 0, "", $oMixConfig)
+	$aPicParameters[9] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_OriginX", 0, "", $oMixConfig)
+	$aPicParameters[10] = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_OriginY", 0, "", $oMixConfig)
+	Return $aPicParameters
+EndFunc   ;==>_MIX_Engine_Dim
+
+Func _XMLSystem_Create()
+	Local $oXMLSystem, $vXMLSystemPath = $iScriptPath & "\Ressources\systemlist.xml"
+	$oXMLSystem = _XML_Open($vXMLSystemPath)
+	If $oXMLSystem = -1 Then
+		MsgBox(0, 'ERREUR', '')
+		Exit
+	Else
+		_LOG("systemlist.xml Opened", 1)
+		Return $oXMLSystem
+	EndIf
+EndFunc   ;==>_XMLSystem_Create

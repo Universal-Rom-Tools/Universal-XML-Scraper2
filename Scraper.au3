@@ -121,9 +121,13 @@ While $iNumberOfMessagesOverall < 5
 				EndIf
 		EndSwitch
 	EndIf
+	If $iNumberOfMessagesOverall = 5 Then
+		$aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+		_ArrayDisplay($aRomList,"$aRomList")
+		$iNumberOfMessagesOverall = 1
+	EndIf
 WEnd
 
-_Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 
 Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	Local $vValue, $vAttributeName, $vWhile = 1
@@ -157,12 +161,12 @@ Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 		EndSwitch
 		$vWhile = $vWhile + 1
 	WEnd
+	_ArrayDisplay($aRomList,"$aRomList")
 	Return $aRomList
 EndFunc   ;==>_Game_Make
 
 Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 	Local $vXpath, $vValue, $vXpathTemp, $aXpathCountry
-;~ 	If Not _Check_Cancel() Then Return ""
 	Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oXMLProfil)
 		Case "XML_Value"
 			If $aRomList[9] = 0 Then Return ""

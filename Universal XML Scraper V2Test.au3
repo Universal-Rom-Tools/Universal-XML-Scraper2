@@ -347,17 +347,8 @@ While 1
 							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $aConfig[12])
 							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1) And _Check_Cancel() Then
 								$sMailSlotName = "\\.\mailslot\RandomNameForThisTest"
-								Dim $aRomListTEMP[UBound($aRomList)]
-								For $vBoucle2 = 0 To UBound($aRomList, 2) - 1
-									ConsoleWrite("$aRomListTEMP[" & $vBoucle2 & "] = $aRomList[" & $vBoucle & "][" & $vBoucle2 & "]" & @CRLF)
-									$aRomListTEMP[$vBoucle2] = $aRomList[$vBoucle][$vBoucle2]
-								Next
-								_SendMail($sMailSlotName, _ArrayToString($aRomListTEMP, '$!$'))
+								_SendMail($sMailSlotName, _ArrayToString($aRomListTEMP, '$!$',$vBoucle,$vBoucle))
 								_SendMail($sMailSlotName, $vBoucle)
-								Dim $aConfigTEMP[UBound($aConfig)]
-								For $vBoucle2 = 0 To UBound($aConfig) - 1
-									$$aConfigTEMP[$vBoucle2] = $aConfig[$vBoucle2]
-								Next
 								_SendMail($sMailSlotName, _ArrayToString($aConfig, '$!$'))
 								_SendMail($sMailSlotName, $vProfilsPath)
 ;~ 								$aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)

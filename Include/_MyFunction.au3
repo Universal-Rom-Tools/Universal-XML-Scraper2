@@ -1652,78 +1652,77 @@ EndFunc   ;==>XML_My_ErrorParser
 
 
 #Region SendMail Function
-Func _SendMail($sMailSlotName,$sDataToSend)
-
+Func _SendMail($hHandle,$sDataToSend)
 	If $sDataToSend Then
-		_MailSlotWrite($sMailSlotName, $sDataToSend);, 1)
+		_MailSlotWrite($hHandle, $sDataToSend, 2)
 		Switch @error
 			Case 1
-				MsgBox(48, "MailSlot demo error", "Account that you try to send to likely doesn't exist!", 0)
+				_LOG("MailSlot error : Account that you try to send to likely doesn't exist!", 2)
+				Return -1
 			Case 2
-				MsgBox(48, "MailSlot demo error", "Message is blocked!", 0)
+				_LOG("MailSlot error : Message is blocked!", 2)
+				Return -1
 			Case 3
-				MsgBox(48, "MailSlot demo error", "Message is send but there is an open handle left." & @CRLF & "That could lead to possible errors in future", 0)
+				_LOG("MailSlot error : Message is send but there is an open handle left.", 2)
+				Return -1
 			Case 4
-				MsgBox(48, "MailSlot demo error", "All is fucked up!" & @CRLF & "Try debugging MailSlot.au3 functions. Thanks.", 0)
+				_LOG("MailSlot error : All is fucked up!" , 2)
+				Return -1
 			Case Else
-				MsgBox(64, "MailSlot demo", "Sucessfully sent!", 0)
+				_LOG("MailSlot : Sucessfully sent!", 3)
+				Return 1
 		EndSwitch
 	Else
-		MsgBox(64, "MailSlot demo", "Nothing to send.", 0)
+		_LOG("MailSlot error : Nothing to send.", 2)
 	EndIf
-
 EndFunc   ;==>_SendMail
 
 Func _ReadMessage($hHandle)
-
 	Local $iSize = _MailSlotCheckForNextMessage($hHandle)
-
 	If $iSize Then
-		Local $sData = _MailSlotRead($hHandle, $iSize, 1)
+		Return _MailSlotRead($hHandle, $iSize, 2)
 	Else
-		MsgBox(64, "Nothing read", "MailSlot is empty", 0)
+		_LOG("MailSlot error : MailSlot is empty", 2)
+		Return -1
 	EndIf
-
 EndFunc   ;==>_ReadMessage
 
 
 Func _CheckCount($hHandle)
-
 	Local $iCount = _MailSlotGetMessageCount($hHandle)
 	Switch $iCount
 		Case 0
-			MsgBox(64, "Messages", "No new messages", 0)
+			_LOG("MailSlot : No new messages", 3)
 		Case 1
-			MsgBox(64, "Messages", "There is 1 message waiting to be read.", 0)
+			_LOG("MailSlot : There is 1 message waiting to be read.", 3)
 		Case Else
-			MsgBox(64, "Messages", "There are " & $iCount & " messages waiting to be read.", 0)
+			_LOG("MailSlot : There are " & $iCount & " messages waiting to be read.", 3)
 	EndSwitch
-
+	Return $iCount
 EndFunc   ;==>_CheckCount
 
 Func _CloseMailAccount(ByRef $hHandle)
-
 	If _MailSlotClose($hHandle) Then
 		$hHandle = 0
-		MsgBox(64, "MailSlot demo", "Account succesfully closed.", 0)
+		_LOG("MailSlot : Account succesfully closed.", 3)
+		Return 1
 	Else
-		MsgBox(48, "MailSlot demo error", "Account could not be closed!", 0)
+		_LOG("MailSlot error : Account could not be closed!", 2)
+		Return -1
 	EndIf
 
 EndFunc   ;==>_CloseMailAccount
 
 
-Func _RestoreAccount($sMailSlotName)
-
-	Local $hMailSlotHandle = _MailSlotCreate($sMailSlotName)
-
+Func _RestoreAccount($hHandle)
+	Local $hMailSlotHandle = _MailSlotCreate($hHandle)
 	If @error Then
-		MsgBox(48, "MailSlot demo error", "Account could not be created!", 0)
+		_LOG("MailSlot error : Account could not be created!", 2)
+		Return -1
 	Else
-		MsgBox(64, "MailSlot demo", "New account with the same address successfully created!", 2)
-		$hMailSlot = $hMailSlotHandle ; global var
+		_LOG("MailSlot error : New account with the same address successfully created!", 2)
+		Return $hMailSlotHandle
 	EndIf
-
 EndFunc   ;==>_RestoreAccount
 
 #EndRegion Not Used Function

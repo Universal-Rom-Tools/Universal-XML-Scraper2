@@ -1,19 +1,21 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Ressources\Scraper.ico
-#AutoIt3Wrapper_Outfile=..\BIN\Scraper.exe
-#AutoIt3Wrapper_Outfile_x64=..\BIN\Scraper64.exe
+#AutoIt3Wrapper_Outfile=.\Scraper.exe
+#AutoIt3Wrapper_Outfile_x64=.\Scraper64.exe
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.2
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.7
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
 #AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
 #AutoIt3Wrapper_Run_Tidy=y
-#AutoIt3Wrapper_UseUpx=n
 #Tidy_Parameters=/reel
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+TraySetState(2)
+
+If $CmdLine[0] = 0 Then Exit
 
 #include <Date.au3>
 #include <array.au3>
@@ -33,8 +35,10 @@ Else
 EndIf
 
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
-Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\log.txt")
+Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log" & $CmdLine[1] & ".txt")
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
+
+_LOG_Ceation($iLOGPath) ; Starting Log
 
 #include "./Include/_MultiLang.au3"
 #include "./Include/_XML.au3"
@@ -42,43 +46,25 @@ Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
 #include "./Include/_GraphGDIPlus.au3"
 #include "./Include/_MyFunction.au3"
 
-If @Compiled Then
-	Local $iScriptVer = FileGetVersion(@ScriptFullPath)
-	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
-	Local $iSoftname = "UniversalXMLScraperV" & $iScriptVer
-	If $iINIVer <> $iScriptVer Then
-		FileDelete($iScriptPath & "\UXS-config.ini")
-		FileDelete($iScriptPath & "\LanguageFiles")
-		FileDelete($iScriptPath & "\Ressources")
-		FileDelete($iScriptPath & "\Mix")
-		FileDelete($iScriptPath & "\ProfilsFiles")
-		_LOG("Update file needed from version " & $iINIVer & " to " & $iScriptVer, 1)
-	Else
-		_LOG("No updated files needed (Version : " & $iScriptVer & ")", 1)
-	EndIf
-Else
-	Local $iScriptVer = 'In Progress'
-	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
-	Local $iSoftname = "UniversalXMLScraper(TestDev)"
-	_LOG("Dev version", 1)
-EndIf
+Local $iScriptVer = FileGetVersion(@ScriptFullPath)
+Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
+Local $iSoftname = "UniversalXMLScraperV" & $iScriptVer
 
-Global Const $sMailSlotName = "\\.\mailslot\RandomNameForThisTest"
-Local $iSize, $aRomList, $vBoucle, $aConfig, $vProfilsPath, $oXMLProfil, $oXMLSystem
 Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
 Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
-Global $iTEMPPath = $iScriptPath & "\TEMP"
+Global $iTEMPPath = $iScriptPath & "\TEMP" & $CmdLine[1]
+Global $iTEMPPathGlobal = $iScriptPath & "\TEMP"
 Global $iRessourcesPath = $iScriptPath & "\Ressources"
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
 Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
 
-Global $hMailSlot = _MailSlotCreate($sMailSlotName)
-If @error Then
-	MsgBox(48 + 262144, "MailSlot", "Failed to create new account!" & @CRLF & "Probably one using that 'address' already exists.")
-	Exit
-EndIf
-
-Global $iNumberOfMessagesOverall = 1
+Local $iSize, $aRomList, $vBoucle, $aConfig, $vProfilsPath, $oXMLProfil, $oXMLSystem, $aMatchingCountry
+Local $sMailSlotMother = "\\.\mailslot\Mother"
+Local $sMailSlotName = "\\.\mailslot\Son" & $CmdLine[1]
+Local $sMailSlotCancel = "\\.\mailslot\Cancel" & $CmdLine[1]
+Local $hMailSlot = _CreateMailslot($sMailSlotName)
+Local $hMailSlotCancel = _CreateMailslot($sMailSlotCancel)
+Local $iNumberOfMessagesOverall = 1
 
 $oXMLSystem = _XMLSystem_Create()
 If $oXMLSystem = -1 Then Exit
@@ -87,65 +73,78 @@ While $iNumberOfMessagesOverall < 5
 	If _MailSlotGetMessageCount($hMailSlot) >= 1 Then
 		Switch $iNumberOfMessagesOverall
 			Case 1
-				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
-				If $iSize Then
-					$aRomList = _MailSlotRead($hMailSlot, $iSize, 1)
-					MsgBox(0, '$aRomList', $aRomList)
-					$aRomList = StringSplit($aRomList, '$!$', $STR_ENTIRESPLIT + $STR_NOCOUNT)
-					_ArrayDisplay($aRomList, '$aRomList')
-					$iNumberOfMessagesOverall += 1
-				EndIf
+				$aRomList = _ReadMessage($hMailSlot)
+;~ 				_SendMail($sMailSlotMother, $aRomList)
+				_LOG("Read Message $aRomList : " & $aRomList, 1, $iLOGPath)
+				$aRomList = StringSplit($aRomList, '{Break}', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+				ReDim $aRomList[12]
+				$iNumberOfMessagesOverall += 1
 			Case 2
-				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
-				If $iSize Then
-					$vBoucle = _MailSlotRead($hMailSlot, $iSize, 1)
-					MsgBox(0, '$vBoucle', $vBoucle)
-					$iNumberOfMessagesOverall += 1
-				EndIf
+				$vBoucle = _ReadMessage($hMailSlot)
+;~ 				_SendMail($sMailSlotMother, $vBoucle)
+				_LOG("Read Message $vBoucle : " & $vBoucle, 1, $iLOGPath)
+				$iNumberOfMessagesOverall += 1
 			Case 3
-				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
-				If $iSize Then
-					$aConfig = _MailSlotRead($hMailSlot, $iSize, 1)
-					MsgBox(0, '$aConfig', $aConfig)
-					$aConfig = StringSplit($aConfig, '$!$', $STR_ENTIRESPLIT + $STR_NOCOUNT)
-					_ArrayDisplay($aConfig, '$aConfig')
-					$iNumberOfMessagesOverall += 1
-				EndIf
+				$aConfig = _ReadMessage($hMailSlot)
+;~ 				_SendMail($sMailSlotMother, $aConfig)
+				_LOG("Read Message $aConfig : " & $aConfig, 1, $iLOGPath)
+				$aConfig = StringSplit($aConfig, '{Break}', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+				ReDim $aConfig[13]
+
+				$aConfig[8] = _XML_Open($iTEMPPathGlobal & "\scraped\" & $vBoucle & ".xml")
+				$aConfig[9] = StringSplit($aConfig[9], "|")
+				$aConfig[10] = StringSplit($aConfig[10], "|")
+				_FileReadToArray($aConfig[11], $aMatchingCountry, $FRTA_NOCOUNT, "|")
+				$aConfig[11] = $aMatchingCountry
+				$iNumberOfMessagesOverall += 1
 			Case 4
-				$iSize = _MailSlotCheckForNextMessage($hMailSlot)
-				If $iSize Then
-					$vProfilsPath = _MailSlotRead($hMailSlot, $iSize, 1)
-					MsgBox(0, '$vProfilsPath', $vProfilsPath)
-					$oXMLProfil = _XML_Open($vProfilsPath)
-					$iNumberOfMessagesOverall += 1
-				EndIf
+				$vProfilsPath = _ReadMessage($hMailSlot)
+;~ 				_SendMail($sMailSlotMother, $vProfilsPath)
+				_LOG("Read Message $vProfilsPath : " & $vProfilsPath, 1, $iLOGPath)
+				$oXMLProfil = _XML_Open($vProfilsPath)
+				$iNumberOfMessagesOverall += 1
 		EndSwitch
 	EndIf
 	If $iNumberOfMessagesOverall = 5 Then
+		$vRomTimer = TimerInit()
+;~ 		Sleep(1000)
 		$aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
-		_ArrayDisplay($aRomList,"$aRomList")
+		$oXMLAfterTidy = _XML_CreateDOMDocument(Default)
+		$vXMLAfterTidy = _XML_TIDY($aConfig[8])
+		_XML_LoadXML($oXMLAfterTidy, $vXMLAfterTidy)
+		FileDelete($iTEMPPathGlobal & "\scraped\" & $vBoucle & ".xml")
+		_XML_SaveToFile($oXMLAfterTidy, $iTEMPPathGlobal & "\scraped\" & $vBoucle & ".xml")
 		$iNumberOfMessagesOverall = 1
+		$vScrapedTime = Round((TimerDiff($vRomTimer) / 1000), 2)
+		_LOG($aRomList[2] & " scraped in " & $vScrapedTime & "s", 3, $iLOGPath)
+		_SendMail($sMailSlotMother, $vBoucle & "|" & $vScrapedTime)
+		If _CheckCount($hMailSlotCancel) >= 1 Then Exit
 	EndIf
 WEnd
 
-
 Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
-	Local $vValue, $vAttributeName, $vWhile = 1
-	_XML_WriteValue("//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil), "", "", $aConfig[8])
-
+	Local $vValue = "", $vAttributeName, $vWhile = 1, $vNode
+	$vNode = "//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil)
+	_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
+	_XML_WriteValue($vNode, "", "", $aConfig[8])
 	While 1
-;~ 		If Not _Check_Cancel() Then Return $aRomList
 		Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Type", 0, "", $oXMLProfil)
 			Case "XML_Value"
 				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
-				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+				$vNode = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil)
+				_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
+				_XML_WriteValue($vNode, $vValue, "", $aConfig[8])
 			Case "XML_Attribute"
 				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 				$vAttributeName = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Attribute_Name", 0, "", $oXMLProfil)
-				_XML_WriteAttributs(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vAttributeName, $vValue, "", $aConfig[8])
+				$vNode = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil)
+				_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
+				_XML_WriteAttributs($vNode, $vAttributeName, $vValue, "", $aConfig[8])
 			Case "XML_Path"
 				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
-				If $vValue <> -1 Then _XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+				$vNode = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil)
+				_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
+				If $vValue <> -1 Then _XML_WriteValue($vNode, $vValue, "", $aConfig[8])
 			Case "XML_Value_FORMAT"
 				$vValue = _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 				Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Target_FORMAT", 0, "", $oXMLProfil)
@@ -154,14 +153,15 @@ Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 					Case '%ES_Date%'
 						$vValue = StringLeft(StringReplace($vValue, "-", "") & '00000000', 8) & "T000000"
 				EndSwitch
-				_XML_WriteValue(_XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil), $vValue, "", $aConfig[8])
+				$vNode = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil)
+				_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
+				_XML_WriteValue($vNode, $vValue, "", $aConfig[8])
 			Case Else
-				_LOG("End Of Elements", 3)
+				_LOG("End Of Elements", 1, $iLOGPath)
 				ExitLoop
 		EndSwitch
 		$vWhile = $vWhile + 1
 	WEnd
-	_ArrayDisplay($aRomList,"$aRomList")
 	Return $aRomList
 EndFunc   ;==>_Game_Make
 
@@ -184,6 +184,7 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			$aXpathCountry = _CountryArray_Make($aConfig, $vXpath, $aRomList[8], $oXMLProfil)
 			For $vBoucle2 = 1 To UBound($aXpathCountry) - 1
 				$vValue = _XML_Read($aXpathCountry[$vBoucle2], 0, $aRomList[8])
+				_LOG("COUNTRY " & $aXpathCountry[$vBoucle2] & "=" & $vValue, 1, $iLOGPath)
 				If $vValue <> -1 And $vValue <> "" Then Return $vValue
 			Next
 
@@ -213,7 +214,7 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 				Case '%XML_Rom_Path%'
 					Return $aConfig[2] & StringReplace($aRomList[0], "\", "/")
 				Case Else
-					_LOG("SOURCE Unknown", 3)
+					_LOG("SOURCE Unknown", 1, $iLOGPath)
 					Return ""
 			EndSwitch
 		Case "MIX_Template"
@@ -235,10 +236,10 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			If Not FileExists($vValue) Then Return -1
 			FileCopy($vValue, $vDownloadPath, $FC_OVERWRITE)
 
-			_LOG("MIX Template finished (" & $vTargetPicturePath & ")", 1)
+			_LOG("MIX Template finished (" & $vTargetPicturePath & ")", 1, $iLOGPath)
 			Return $vTargetPicturePath
 		Case Else
-			_LOG("SOURCE Unknown", 3)
+			_LOG("SOURCE Unknown", 1, $iLOGPath)
 			Return ""
 	EndSwitch
 EndFunc   ;==>_XML_Read_Source
@@ -250,6 +251,7 @@ Func _CountryArray_Make($aConfig, $vXpath, $vSource_RomXMLPath, $oXMLProfil)
 	Else
 		Local $aCountryPref[2] = ["", $vXpath]
 	EndIf
+
 ;~ 	_ArrayDisplay($aCountryPref, "$aCountryPref")
 
 	Local $aMatchingCountry = $aConfig[11]
@@ -268,6 +270,7 @@ Func _CountryArray_Make($aConfig, $vXpath, $vSource_RomXMLPath, $oXMLProfil)
 		EndIf
 		$aXpathCountry[$vBoucle] = StringReplace($vXpath, '%COUNTRY%', $vCountryPref)
 	Next
+;~ 	_ArrayDisplay($aXpathCountry, "$aXpathCountry")
 	Return $aXpathCountry
 EndFunc   ;==>_CountryArray_Make
 
@@ -292,7 +295,7 @@ Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil,
 
 	If FileExists($vDownloadPath) Then Return $vTargetPicturePath
 
-	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath)
+	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath, "", "", $iLOGPath)
 	If $vValue <> -1 And $vValue <> "" Then
 		Return $vTargetPicturePath
 	Else
@@ -318,7 +321,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				FileCopy($vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig), $vPicTarget, $FC_OVERWRITE + $FC_CREATEPATH)
 				$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
-				_LOG($vPicTarget & " Created", 1)
+				_LOG($vPicTarget & " Created", 1, $iLOGPath)
 				_ArrayAdd($aMiXPicTemp, $vPicTarget)
 			Case "xml_value"
 				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
@@ -332,18 +335,18 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						Case 'game'
 							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_Game & $aXpathCountry[$vBoucle2], 0, $aRomList[8]), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
-								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget, "", "", $iLOGPath)
 								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
 								_ArrayAdd($aMiXPicTemp, $vPicTarget)
-								_LOG($vPicTarget & " Created", 1)
+								_LOG($vPicTarget & " Created", 1, $iLOGPath)
 							EndIf
 						Case 'system'
 							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_System & $aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
-								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget, "", "", $iLOGPath)
 								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
 								_ArrayAdd($aMiXPicTemp, $vPicTarget)
-								_LOG($vPicTarget & " Created", 1)
+								_LOG($vPicTarget & " Created", 1, $iLOGPath)
 							EndIf
 					EndSwitch
 				Next
@@ -354,20 +357,20 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
 						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
-						If _GDIPlus_Transparency($vPath, $vTransLvl) = -1 Then _LOG("Transparency Failed", 2)
+						If _GDIPlus_Transparency($vPath, $vTransLvl) = -1 Then _LOG("Transparency Failed", 2, $iLOGPath)
 					Case 'merge'
-						If _GDIPlus_Merge($aMiXPicTemp[UBound($aMiXPicTemp) - 2], $aMiXPicTemp[UBound($aMiXPicTemp) - 1]) = -1 Then _LOG("Merging Failed", 2)
+						If _GDIPlus_Merge($aMiXPicTemp[UBound($aMiXPicTemp) - 2], $aMiXPicTemp[UBound($aMiXPicTemp) - 1]) = -1 Then _LOG("Merging Failed", 2, $iLOGPath)
 						_ArrayDelete($aMiXPicTemp, UBound($aMiXPicTemp) - 1)
 					Case 'transparencyzone'
 						$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 						$vTransLvl = _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig)
 						$vPath = $aMiXPicTemp[UBound($aMiXPicTemp) - 1]
-						If _GDIPlus_TransparencyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparency Failed", 2)
+						If _GDIPlus_TransparencyZone($vPath, $vTarget_Width, $vTarget_Height, $vTransLvl, $aPicParameters[2], $aPicParameters[3], $aPicParameters[0], $aPicParameters[1]) = -1 Then _LOG("Transparency Failed", 2, $iLOGPath)
 					Case Else
-						_LOG("Unknown GDI_Function", 2)
+						_LOG("Unknown GDI_Function", 2, $iLOGPath)
 				EndSwitch
 			Case Else
-				_LOG("End Of Elements", 3)
+				_LOG("End Of Elements", 1, $iLOGPath)
 				ExitLoop
 		EndSwitch
 		$vWhile = $vWhile + 1
@@ -408,7 +411,7 @@ Func _XMLSystem_Create()
 		MsgBox(0, 'ERREUR', '')
 		Exit
 	Else
-		_LOG("systemlist.xml Opened", 1)
+		_LOG("systemlist.xml Opened", 1, $iLOGPath)
 		Return $oXMLSystem
 	EndIf
 EndFunc   ;==>_XMLSystem_Create

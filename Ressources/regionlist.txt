@@ -1,24 +1,22 @@
-Asia|jp
-Australia|xx
-Brazil|xx
-Canada|xx
-China|xx
-Denmark|xx
+Asie|jp
+Australie|xx
+Brésil|pt
+Canada|us
+Chine|xx
+Danemark|eu
 Europe|eu
-Finland|xx
+Finlande|eu
 France|fr
-Germany|xx
-Italy|xx
-Japan|jp
-Japan, Europe|eu
-Japan, USA|us
-Korea|xx
-Netherlands|xx
-Russia|xx
-Spain|xx
-Sweden|xx
+Allemagne|de
+Italie|eu
+Japon|jp
+Corée|xx
+Pays-Bas|eu
+Russie|xx
+Espagne|sp
+Suede|eu
 Taiwan|xx
+Amérique|us
 USA|us
-USA, Australia|us
-USA, Europe|eu
-World|us
+Monde|us
+Royaume-Uni|us

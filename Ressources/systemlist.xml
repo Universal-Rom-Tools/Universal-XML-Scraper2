@@ -5121,4 +5121,81 @@
 		</media_logosmonochrome>
 	</medias>
 </systeme>
+<systeme>
+	<id>135</id>
+	<noms>
+		<nom_eu>PC Dos</nom_eu>
+	</noms>
+	<compagnie>Microsoft</compagnie>
+	<type>Ordinateur</type>
+	<datedebut>1981</datedebut>
+	<romtype>rom</romtype>
+	<supporttype>disquette</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=135&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
+		<media_wheels>
+			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=135&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
+		</media_wheels>
+	</medias>
+</systeme>
+<systeme>
+	<id>136</id>
+	<noms>
+		<nom_eu>PC Win3.xx</nom_eu>
+	</noms>
+	<compagnie>Microsoft</compagnie>
+	<type>Ordinateur</type>
+	<datedebut>1990</datedebut>
+	<romtype>rom</romtype>
+	<supporttype>disquette</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=136&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
+		<media_wheels>
+			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=136&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
+		</media_wheels>
+	</medias>
+</systeme>
+<systeme>
+	<id>137</id>
+	<noms>
+		<nom_eu>PC Win9X</nom_eu>
+	</noms>
+	<compagnie>Microsoft</compagnie>
+	<type>Ordinateur</type>
+	<datedebut>1995</datedebut>
+	<datefin>1998</datefin>
+	<romtype>rom</romtype>
+	<supporttype>disquette</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=137&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
+		<media_wheels>
+			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=137&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
+		</media_wheels>
+	</medias>
+</systeme>
+<systeme>
+	<id>138</id>
+	<noms>
+		<nom_eu>PC Windows</nom_eu>
+	</noms>
+	<compagnie>Microsoft</compagnie>
+	<type>Ordinateur</type>
+	<datedebut>2000</datedebut>
+	<romtype>iso</romtype>
+	<supporttype>cd</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=138&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
+		<media_wheels>
+			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=138&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
+		</media_wheels>
+	</medias>
+</systeme>
 </Data>

@@ -1,4 +1,46 @@
-[15:09:00] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper TEST.au3 (In Progress)
-[15:09:00] - WIN_10(X64) - 040C
-[15:09:00] - Starting files installation
-[15:09:00] - Language Selected : 040c
+[21:11:03] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper V2Test.au3 (In Progress)
+[21:11:03] - WIN_10(X64) - 040C
+[21:11:03] - > Dev version
+[21:11:03] - Starting files installation
+[21:11:03] - > Ending files installation
+[21:11:03] - > Verbose LVL : 3
+[21:11:03] - > Path to ini : C:\Developpement\Github\Universal-XML-Scraper2\UXS-config.ini
+[21:11:03] - > Path to log : C:\Developpement\Github\Universal-XML-Scraper2\LOGs\log.txt
+[21:11:03] - > Path to language : C:\Developpement\Github\Universal-XML-Scraper2\LanguageFiles
+[21:11:03] - Language Selected : 040c
+[21:11:03] - > Update Checking
+[21:11:04] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\changelog.txt
+[21:11:04] - > -In 1 try and 1.01s
+[21:11:04] - Local : In Progress - Github : 1.5.0.11
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4SAVE.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV0.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4SAVE.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml Open
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:05] - http://www.screenscraper.fr/api/systemesListe.php?devid=Screech&devpassword=Screech201601281533y&softname=UniversalXMLScraper(TestDev)&output=XML
+[21:11:05] - --------------------------------------------------------------------------------
+[21:11:11] - > File Downloaded : C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml
+[21:11:11] - > -In 1 try and 6.67s
+[21:11:11] - --------------------------------------------------------------------------------
+[21:11:11] - C:\Developpement\Github\Universal-XML-Scraper2\Ressources\systemlist.xml Open
+[21:11:11] - --------------------------------------------------------------------------------
+[21:11:11] - > systemlist.xml Opened
+[21:11:11] - > GUI Constructed
+[21:11:12] - > SSH Enable
+[21:11:12] - > GUI Refresh
+[00:30:12] - Universal XML Scraper Closed

@@ -1,7 +1,7 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Ressources\Universal_Xml_Scraper.ico
-#AutoIt3Wrapper_Outfile=..\BIN\Universal_XML_Scraper.exe
-#AutoIt3Wrapper_Outfile_x64=..\BIN\Universal_XML_Scraper64.exe
+#AutoIt3Wrapper_Outfile=.\Universal_XML_Scraper.exe
+#AutoIt3Wrapper_Outfile_x64=.\Universal_XML_Scraper64.exe
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper XML Universel
@@ -11,7 +11,6 @@
 #AutoIt3Wrapper_Res_Language=1036
 #AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
 #AutoIt3Wrapper_Run_Tidy=y
-#AutoIt3Wrapper_UseUpx=n
 #Tidy_Parameters=/reel
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
@@ -54,7 +53,7 @@ Else
 EndIf
 
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
-Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\log.txt")
+Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log.txt")
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
 Global $MS_AutoConfigItem
 
@@ -177,6 +176,9 @@ Local $L_SCRAPE_Parts[2] = [275, -1]
 Local $oXMLProfil, $oXMLSystem
 Local $aConfig, $aRomList, $aXMLRomList
 Local $nMsg
+Local $sMailSlotMother = "\\.\mailslot\Mother"
+Local $sMailSlotCancel = "\\.\mailslot\Cancel"
+Local $hMailSlotMother = _CreateMailslot($sMailSlotMother)
 
 ;---------;
 ;Principal;
@@ -316,64 +318,150 @@ While 1
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
 		Case $B_SCRAPE
+
+			While ProcessExists("Scraper64.exe")
+				ProcessClose("Scraper64.exe")
+			WEnd
+
 			DirRemove($iTEMPPath, 1)
 			DirCreate($iTEMPPath)
+			DirCreate($iTEMPPath & "\scraped")
 			$nMsg = ""
 			$vScrapeCancelled = 0
 			$aConfig = _LoadConfig($oXMLProfil)
 			If $aConfig <> 0 Then
 				$vFullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-
+				$vNbThread = 1
+				$vThreadUsed = 1
 				$vEmpty_Rom = IniRead($iINIPath, "LAST_USE", "$vEmpty_Rom", 0)
-
+				$aConfig[8] = "0000"
 				If $aConfig[5] = 0 Or ($aConfig[5] > 0 And FileGetSize($aConfig[0]) = 0) Then
 					_LOG("vScrape_Mode = " & $aConfig[5] & " And " & $aConfig[0] & " = " & FileGetSize($aConfig[0]) & " ---> _XML_Make", 1)
 					$oXMLTarget = _XML_Make($aConfig[0], _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil))
 				EndIf
-				$aConfig[8] = _XML_Open($aConfig[0])
-
 				$aConfig[12] = _SelectSystem($oXMLSystem)
 				$aRomList = _RomList_Create($aConfig)
 				If IsArray($aRomList) And _Check_Cancel() Then
-					$vXpath2RomPath = _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
+					$vXpath2RomPath = "/" & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & "/" & _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
 					If FileGetSize($aConfig[0]) <> 0 And _Check_Cancel() Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
+					_ArrayDisplay($aXMLRomList, "$aXMLRomList")
+					For $vBoucle = 1 To $vNbThread
+						ShellExecute("C:\Developpement\Github\Universal-XML-Scraper2\Scraper64.exe", $vBoucle)
+						Sleep(100)
+					Next
+
 					For $vBoucle = 1 To UBound($aRomList) - 1
-						$vLogMess = "NOT FOUND"
-						$vRomTimer = TimerInit()
 						$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
 						If $aRomList[$vBoucle][3] = 1 And _Check_Cancel() Then
 							$aRomList = _CalcHash($aRomList, $vBoucle)
 							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $aConfig[12])
 							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1) And _Check_Cancel() Then
-								$sMailSlotName = "\\.\mailslot\RandomNameForThisTest"
-								_SendMail($sMailSlotName, _ArrayToString($aRomListTEMP, '$!$',$vBoucle,$vBoucle))
+								_XML_Make($iTEMPPath & "\scraped\" & $vBoucle & ".xml", _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil))
+								$sMailSlotName = "\\.\mailslot\Son" & $vThreadUsed
+								$vMessage = _ArrayToString($aRomList, '{Break}', $vBoucle, $vBoucle, '{Break}')
+								_SendMail($sMailSlotName, $vMessage)
 								_SendMail($sMailSlotName, $vBoucle)
-								_SendMail($sMailSlotName, _ArrayToString($aConfig, '$!$'))
+								$vMessage = _ArrayToString($aConfig, '{Break}')
+								_SendMail($sMailSlotName, $vMessage)
 								_SendMail($sMailSlotName, $vProfilsPath)
-;~ 								$aRomList = _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
+								$aRomList[$vBoucle][11] = 1
+								$vThreadUsed += 1
+								If $vThreadUsed > $vNbThread Then $vThreadUsed = 1
 							EndIf
 						EndIf
-						If $aRomList[$vBoucle][9] = 1 Then $vLogMess = "FOUND"
-						_LOG($aRomList[$vBoucle][2] & " scraped in " & Round((TimerDiff($vRomTimer) / 1000), 2) & "s - " & $vLogMess)
-						$aRomList[$vBoucle][10] = Round((TimerDiff($vRomTimer) / 1000), 2)
-						If Not _Check_Cancel() Then $vBoucle = UBound($aRomList) - 1
+						If Not _Check_Cancel() Then
+							For $vBoucle2 = 1 To $vNbThread
+								_SendMail($sMailSlotCancel & $vBoucle2, "CANCELED")
+							Next
+							$vBoucle = UBound($aRomList) - 1
+						EndIf
 					Next
 
+					If Not _Check_Cancel() Then
+						$vTotalRomToScrap = _MailSlotGetMessageCount($hMailSlotMother)
+					Else
+						$vTotalRomToScrap = 0
+						For $vBoucle = 1 To UBound($aRomList) - 1
+							If $aRomList[$vBoucle][11] = 1 Then $vTotalRomToScrap += 1
+						Next
+					EndIf
+
+;~ 					MsgBox(0, "Verif XML", "")
+
+					Dim $aXMLTarget
+					_FileReadToArray($aConfig[0], $aXMLTarget)
+					_ArrayDelete($aXMLTarget, 0)
+					FileDelete($aConfig[0])
+;~ 					_ArrayDisplay($aXMLTarget, "$aXMLTarget")
+					$vBoucle = UBound($aXMLTarget) - 1
+					While $vBoucle <> 0
+						If $aXMLTarget[$vBoucle] = "" Then
+							_ArrayDelete($aXMLTarget, $vBoucle)
+						Else
+							$vLastLine = $aXMLTarget[$vBoucle]
+							_ArrayDelete($aXMLTarget, $vBoucle)
+							ExitLoop
+						EndIf
+						$vBoucle -= 1
+					WEnd
+					_LOG("Last Line = " & $vLastLine, 3)
+					If $vLastLine = '<' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '/>' Then
+						_ArrayAdd($aXMLTarget, '<' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '>')
+						$vLastLine = '</' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '>'
+					EndIf
+					_LOG("Last Line = " & $vLastLine, 3)
+;~ 					MsgBox(0, "FINIT", "")
+
+					$iNumberOfMessagesOverall = 0
+					While $iNumberOfMessagesOverall < $vTotalRomToScrap
+						_LOG("$iNumberOfMessagesOverall : " & $iNumberOfMessagesOverall & "< $vTotalRomToScrap : " & $vTotalRomToScrap, 3)
+						If _MailSlotGetMessageCount($hMailSlotMother) >= 1 Then
+							$iNumberOfMessagesOverall += 1
+							$vMessageFromChild = _ReadMessage($hMailSlotMother)
+							$aMessageFromChild = StringSplit($vMessageFromChild, '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+							ReDim $aMessageFromChild[2]
+							_LOG("Receveid Message Rom no " & $aMessageFromChild[0] & " in " & $aMessageFromChild[1] & "s", 1)
+							Dim $aXMLSource
+							_LOG($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml" & " -> " & $aConfig[0], 3)
+							_FileReadToArray($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml", $aXMLSource)
+							For $vBoucle = 1 To $aXMLSource[0]
+								_LOG("Writing : " & $aXMLSource[$vBoucle], 3)
+								_ArrayAdd($aXMLTarget, $aXMLSource[$vBoucle])
+							Next
+							$aRomList[$aMessageFromChild[0]][10] = $aMessageFromChild[1]
+							$aRomList[$aMessageFromChild[0]][12] = 1
+						EndIf
+;~ 						If Not _Check_Cancel() Then
+;~ 							$iNumberOfMessagesOverall = $vTotalRomToScrap
+;~ 						EndIf
+					WEnd
+					_ArrayAdd($aXMLTarget, $vLastLine)
+					_FileWriteFromArray($aConfig[0], $aXMLTarget)
+
+					While ProcessExists("Scraper64.exe")
+						ProcessClose("Scraper64.exe")
+					WEnd
 					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
 
+;~ 					MsgBox(0, "FINIT", "")
+
 					Local $oXMLAfterTidy = _XML_CreateDOMDocument(Default)
-					Local $vXMLAfterTidy = _XML_TIDY($aConfig[8])
+					$oToTidy = _XML_Open($aConfig[0])
+					Local $vXMLAfterTidy = _XML_TIDY($oToTidy, -1)
 					_XML_LoadXML($oXMLAfterTidy, $vXMLAfterTidy)
 					FileDelete($aConfig[0])
 					_XML_SaveToFile($oXMLAfterTidy, $aConfig[0])
+
 ;~ 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
 
-					_Results($aRomList, $vFullTimer)
+					_Results($aRomList, $vNbThread, $vFullTimer)
 
 				EndIf
 			EndIf
-			DirRemove($iTEMPPath, 1)
+			For $vBoucle = 1 To $vNbThread
+				DirRemove($iTEMPPath & $vBoucle, 1)
+			Next
 			_GUI_Refresh($oXMLProfil)
 	EndSwitch
 	;SSH Menu
@@ -423,11 +511,10 @@ Func _LoadConfig($oXMLProfil)
 	$aConfig[7] = IniRead($iINIPath, "LAST_USE", "$CountryPic_Mode", 0)
 	If IniRead($iINIPath, "LAST_USE", "$vLangPref", 0) = 0 Then IniWrite($iINIPath, "LAST_USE", "$vLangPref", _MultiLang_GetText("langpref"))
 	If IniRead($iINIPath, "LAST_USE", "$vCountryPref", 0) = 0 Then IniWrite($iINIPath, "LAST_USE", "$vCountryPref", _MultiLang_GetText("countrypref"))
-	$aConfig[9] = StringSplit(IniRead($iINIPath, "LAST_USE", "$vLangPref", ""), "|")
-	$aConfig[10] = StringSplit(IniRead($iINIPath, "LAST_USE", "$vCountryPref", ""), "|")
+	$aConfig[9] = IniRead($iINIPath, "LAST_USE", "$vLangPref", "")
+	$aConfig[10] = IniRead($iINIPath, "LAST_USE", "$vCountryPref", "")
 ;~ 	_ArrayDisplay($aConfig[9], '$vLangPref') ;Debug
-	_FileReadToArray($iRessourcesPath & "\regionlist.txt", $aMatchingCountry, $FRTA_NOCOUNT, "|")
-	$aConfig[11] = $aMatchingCountry
+	$aConfig[11] = $iRessourcesPath & "\regionlist.txt"
 	$aConfig[12] = 0
 
 	If Not FileExists($aConfig[1]) Then
@@ -444,6 +531,9 @@ Func _LoadConfig($oXMLProfil)
 	_LOG("$vScrape_Mode = " & $aConfig[5], 1)
 	_LOG("$MissingRom_Mode = " & $aConfig[6], 1)
 	_LOG("$CountryPic_Mode = " & $aConfig[7], 1)
+	_LOG("$vLangPref = " & $aConfig[9], 1)
+	_LOG("$vCountryPref = " & $aConfig[10], 1)
+	_LOG("$aMatchingCountry = " & $aConfig[11], 1)
 
 	If Not FileExists($aConfig[3]) Then DirCreate($aConfig[3] & "\")
 ;~ 	If Not FileExists($aConfig[0]) Then _FileCreate($aConfig[0])
@@ -893,7 +983,7 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 		Return -1
 	EndIf
 
-	For $vBoucle = 1 To 10
+	For $vBoucle = 1 To 12
 		_ArrayColInsert($aRomList, $vBoucle)
 	Next
 
@@ -1038,25 +1128,26 @@ Func _SelectSystem($oXMLSystem, $vFullScrape = 0)
 
 EndFunc   ;==>_SelectSystem
 
-Func _Results($aRomList, $vFullTimer)
-	Local $vTimeTotal, $vTimeMoy = 0, $vNbRom = 0, $vNbRomSraped = 0, $vNbRomOK = 0
+Func _Results($aRomList, $vNbThread, $vFullTimer)
+	Local $vTimeTotal, $vTimeMoy = 0, $vNbRom = 0, $vNbRomScraped = 0, $vNbRomOK = 0
 	For $vBoucle = 1 To UBound($aRomList) - 1
-		$vTimeMoy = $vTimeMoy + $aRomList[$vBoucle][10]
-		If $aRomList[$vBoucle][9] = 1 Then $vNbRomOK = $vNbRomOK + 1
-		If $aRomList[$vBoucle][9] <> -1 Then $vNbRomSraped = $vNbRomSraped + 1
+		$vTimeMoy += $aRomList[$vBoucle][10]
+		If $aRomList[$vBoucle][12] = 1 Then $vNbRomOK += 1
+		If $aRomList[$vBoucle][11] = 1 Then $vNbRomScraped += 1
 	Next
-	$vTimeMoy = Round($vTimeMoy / $vNbRomSraped, 2)
-	$vTimeMax = _ArrayMax($aRomList, 0, 0, Default, 10)
+	$vTimeMoy = Round($vTimeMoy / $vNbRomScraped, 2)
+	$vTimeMax = _ArrayMax($aRomList, 1, 0, Default, 10)
 	$vTimeTotal = Round((TimerDiff($vFullTimer) / 1000), 2)
-	$vNbRomOKRatio = Round($vNbRomOK / $vNbRomSraped * 100)
+	$vNbRomOKRatio = Round($vNbRomOK / $vNbRomScraped * 100)
 	$vNbRom = UBound($aRomList) - 1
 
 	_LOG("Results")
 	_LOG("Roms : = " & $vNbRom)
-	_LOG("Roms Found = " & $vNbRomOK & "/" & $vNbRomSraped)
+	_LOG("Roms Found = " & $vNbRomOK & "/" & $vNbRomScraped)
 	_LOG("Average Time by Rom = " & $vTimeMoy)
 	_LOG("Max Time = " & $vTimeMax)
 	_LOG("Total Time = " & $vTimeTotal)
+	_LOG("Nb Thread = " & $vNbThread)
 
 	Local $vTitle = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
 	$vTitle = $vTitle[UBound($vTitle) - 1]
@@ -1064,18 +1155,20 @@ Func _Results($aRomList, $vFullTimer)
 
 	#Region ### START Koda GUI section ### Form=
 	$F_Results = GUICreate("Bilan de Scrape", 538, 403, 192, 124, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
-	$L_NbRom = GUICtrlCreateLabel("Nombre de roms a scraper", 8, 56)
-	$L_NbRomOK = GUICtrlCreateLabel("Nombre de roms trouvées", 8, 80)
-	$L_TimeMoy = GUICtrlCreateLabel("Temps moyen par rom", 312, 56)
-	$L_TimeTotal = GUICtrlCreateLabel("Temps total du scrape", 312, 80)
 	$L_Results = GUICtrlCreateLabel($vTitle, 8, 8, 247, 29)
 	GUICtrlSetFont(-1, 15, 800, 0, "MS Sans Serif")
+	$L_NbRom = GUICtrlCreateLabel("Nombre de roms a scraper", 8, 56)
+	$L_NbRomOK = GUICtrlCreateLabel("Nombre de roms trouvées", 8, 80)
 	$L_NbRomOKRatio = GUICtrlCreateLabel("Pourcentage de roms trouvées", 8, 104)
+	$L_TimeMoy = GUICtrlCreateLabel("Temps moyen par rom", 305, 56)
+	$L_TimeTotal = GUICtrlCreateLabel("Temps total du scrape", 305, 80)
+	$L_NbThread = GUICtrlCreateLabel("Nombre de Thread(s) utilisé(s)", 305, 104)
 	$L_NbRomValue = GUICtrlCreateLabel($vNbRom, 176, 56)
-	$L_NbRomOKValue = GUICtrlCreateLabel($vNbRomOK & "/" & $vNbRomSraped, 176, 80)
+	$L_NbRomOKValue = GUICtrlCreateLabel($vNbRomOK & "/" & $vNbRomScraped, 176, 80)
 	$L_NbRomOKRatioValue = GUICtrlCreateLabel($vNbRomOKRatio & "%", 176, 104)
 	$L_TimeMoyValue = GUICtrlCreateLabel($vTimeMoy & "s", 448, 56)
 	$L_TimeTotalValue = GUICtrlCreateLabel($vTimeTotal & "s", 448, 80)
+	$L_NbThreadValue = GUICtrlCreateLabel($vNbThread, 448, 104)
 	$B_OK = GUICtrlCreateButton("OK", 104, 128, 147, 25)
 	$B_Missing = GUICtrlCreateButton("Generer le fichier Missing", 288, 128, 147, 25)
 	$G_Time = _GraphGDIPlus_Create($F_Results, 25, 160, 500, 190, 0xFF000000, 0xFF34495c)
@@ -1117,6 +1210,7 @@ Func _Results($aRomList, $vFullTimer)
 	WEnd
 
 EndFunc   ;==>_Results
+
 #EndRegion Function
 
 ;~ 	$aPicParameters[0] = Target_Width
@@ -1154,4 +1248,6 @@ EndFunc   ;==>_Results
 ;~ 	$aRomList[][8]=XML File Scraped
 ;~ 	$aRomList[][9]=Rom Found
 ;~ 	$aRomList[][10]=Time By Rom
+;~ 	$aRomList[][11]=Send to the scraper
+;~ 	$aRomList[][12]=Return from the scraper
 

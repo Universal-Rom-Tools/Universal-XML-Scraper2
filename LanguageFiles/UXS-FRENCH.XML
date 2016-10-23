@@ -7,7 +7,7 @@
 
 <datapref>
 	<langpref>fr|us</langpref>
-	<countrypref>%COUNTRY%|fr|eu|us|origine|jp|xx</countrypref>
+	<countrypref>%COUNTRY%|fr|eu|us|jp|xx|origine</countrypref>
 </datapref>
 
 <error>

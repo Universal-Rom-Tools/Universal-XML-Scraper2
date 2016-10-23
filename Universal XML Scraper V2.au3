@@ -68,6 +68,7 @@ Global $MS_AutoConfigItem
 #include "./Include/_zip.au3"
 #include "./Include/_XML.au3"
 #include "./Include/_GraphGDIPlus.au3"
+#include "./Include/MailSlot.au3"
 #include "./Include/_MyFunction.au3"
 
 ;Checking Version

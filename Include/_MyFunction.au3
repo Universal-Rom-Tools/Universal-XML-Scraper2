@@ -33,7 +33,7 @@ Global Const $AC_SRC_ALPHA = 1
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _LOG_Ceation()
+Func _LOG_Ceation($iLOGPath = "")
 	Local $iVersion
 	If $iLOGPath = "" Then $iLOGPath = @ScriptDir & "\Log.txt"
 	If @Compiled Then
@@ -102,22 +102,23 @@ EndFunc   ;==>_LOG
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _Download($iURL, $iPath, $iTimeOut = 20)
+Func _Download($iURL, $iPath, $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
 	Local $inetgettime = 0, $aData, $hDownload
+	If $iTimeOut="" Then $iTimeOut = 20
 	$hDownload = InetGet($iURL, $iPath, $INET_FORCERELOAD, $INET_DOWNLOADBACKGROUND)
 	Do
 		Sleep(250)
 		$inetgettime = $inetgettime + 0.25
 		If $inetgettime > $iTimeOut Then
 			InetClose($hDownload)
-			_LOG("Timed out (" & $inetgettime & "s) for downloading file : " & $iPath, 1)
+			_LOG("Timed out (" & $inetgettime & "s) for downloading file : " & $iPath, 1, $iLOGPath)
 			Return -2
 		EndIf
 	Until InetGetInfo($hDownload, $INET_DOWNLOADCOMPLETE) ; Check if the download is complete.
 
 	$aData = InetGetInfo($hDownload)
 	If @error Then
-		_LOG("File Downloaded ERROR InetGetInfo : " & $iPath, 2)
+		_LOG("File Downloaded ERROR InetGetInfo : " & $iPath, 2, $iLOGPath)
 		InetClose($hDownload)
 		FileDelete($iPath)
 		Return -1
@@ -126,16 +127,16 @@ Func _Download($iURL, $iPath, $iTimeOut = 20)
 	InetClose($hDownload)
 
 	If $aData[$INET_DOWNLOADSUCCESS] Then
-		_LOG("File Downloaded : " & $iPath, 1)
+		_LOG("File Downloaded : " & $iPath, 1, $iLOGPath)
 		Return $iPath
 	Else
-		_LOG("Error Downloading File : " & $iPath, 2)
-		_LOG("Bytes read: " & $aData[$INET_DOWNLOADREAD], 2)
-		_LOG("Size: " & $aData[$INET_DOWNLOADSIZE], 2)
-		_LOG("Complete: " & $aData[$INET_DOWNLOADCOMPLETE], 2)
-		_LOG("successful: " & $aData[$INET_DOWNLOADSUCCESS], 2)
-		_LOG("@error: " & $aData[$INET_DOWNLOADERROR], 2)
-		_LOG("@extended: " & $aData[$INET_DOWNLOADEXTENDED], 2)
+		_LOG("Error Downloading File : " & $iPath, 2,$iLOGPath)
+		_LOG("Bytes read: " & $aData[$INET_DOWNLOADREAD], 2,$iLOGPath)
+		_LOG("Size: " & $aData[$INET_DOWNLOADSIZE], 2,$iLOGPath)
+		_LOG("Complete: " & $aData[$INET_DOWNLOADCOMPLETE], 2,$iLOGPath)
+		_LOG("successful: " & $aData[$INET_DOWNLOADSUCCESS], 2,$iLOGPath)
+		_LOG("@error: " & $aData[$INET_DOWNLOADERROR], 2,$iLOGPath)
+		_LOG("@extended: " & $aData[$INET_DOWNLOADEXTENDED], 2,$iLOGPath)
 		Return -1
 	EndIf
 EndFunc   ;==>_Download
@@ -156,13 +157,15 @@ EndFunc   ;==>_Download
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _DownloadWRetry($iURL, $iPath, $iRetry = 3)
+Func _DownloadWRetry($iURL, $iPath, $iRetry = "", $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
 	Local $iCount = 0, $iResult = -1, $vTimer = TimerInit()
+	If $iRetry = "" Then $iRetry=3
+	If $iTimeOut="" Then $iTimeOut = 20
 	While $iResult < 0 And $iCount < $iRetry
 		$iCount = $iCount + 1
-		$iResult = _Download($iURL, $iPath)
+		$iResult = _Download($iURL, $iPath,$iTimeOut, $iLOGPath)
 	WEnd
-	_LOG("-In " & $iCount & " try and " & Round((TimerDiff($vTimer) / 1000), 2) & "s", 1)
+	_LOG("-In " & $iCount & " try and " & Round((TimerDiff($vTimer) / 1000), 2) & "s", 1, $iLOGPath)
 	Return $iResult
 EndFunc   ;==>_DownloadWRetry
 
@@ -1157,6 +1160,7 @@ Func _XML_Open($iXMLPath)
 		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
 		Return -1
 	EndIf
+	_LOG($iXMLPath & " Open", 3)
 	Return $oXMLDoc
 EndFunc   ;==>_XML_Open
 
@@ -1193,7 +1197,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 			If @error Then
 ;~ 				MsgBox(0,"@error",@error)
 				If @error = 21 Then
-					_LOG('_XML_GetValue (' & $iXpath & ') = EMPTY', 1)
+;~ 					_LOG('_XML_GetValue (' & $iXpath & ') = EMPTY', 1)
 					Return ""
 				EndIf
 				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
@@ -1201,7 +1205,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 				Return -1
 			EndIf
 			If IsArray($iXMLValue) And UBound($iXMLValue) - 1 > 0 Then
-				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
+;~ 				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
 				Return $iXMLValue[1]
 			Else
 				_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
@@ -1223,7 +1227,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 				Return -1
 			EndIf
-			_LOG('_XML_GetNodeAttributeValue (' & $iXpath & ') = ' & $iXMLValue, 1)
+;~ 			_LOG('_XML_GetNodeAttributeValue (' & $iXpath & ') = ' & $iXMLValue, 1)
 			Return $iXMLValue
 		Case Else
 			Return -2
@@ -1265,7 +1269,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
+;~ 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
 		Case 1
 			$iXpathSplit = StringSplit($iXpath, "/")
@@ -1277,7 +1281,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
+;~ 			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
 			Return 1
 		Case Else
 			Return -1
@@ -1316,7 +1320,7 @@ Func _XML_ListValue($iXpath, $iXMLPath = "", $oXMLDoc = "")
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
-		_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[0] & " Elements", 1)
+;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[0] & " Elements", 1)
 		Return $iXMLValue
 	Else
 		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
@@ -1356,7 +1360,7 @@ Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
-		_LOG('_XML_GetValue (' & $iXpath & ') = ' & UBound($iXMLValue) - 1 & " Elements", 1)
+;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & UBound($iXMLValue) - 1 & " Elements", 1)
 		Return $iXMLValue
 	Else
 		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
@@ -1406,7 +1410,7 @@ EndFunc   ;==>_XML_Make
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "")
+Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "", $ipos = "last()")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
@@ -1417,13 +1421,13 @@ Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "")
 	$iXpathSplit = StringSplit($iXpath, "/")
 	$iXMLChildName = $iXpathSplit[UBound($iXpathSplit) - 1]
 	$iXpath = StringTrimRight($iXpath, StringLen($iXMLChildName) + 1)
-	_XML_CreateChildWAttr($oXMLDoc, $iXpath & "[last()]", $iXMLChildName, Default, $iValue)
+	_XML_CreateChildWAttr($oXMLDoc, $iXpath & "[" & $ipos & "]", $iXMLChildName, Default, $iValue)
 	If @error Then
 		_LOG('_XML_CreateChildWAttr ERROR (' & $iXpath & ')', 2)
 		_LOG('_XML_CreateChildWAttr @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 		Return -1
 	EndIf
-	_LOG("Write Value : " & $iXMLChildName & " = " & $iValue, 1)
+;~ 	_LOG("Write Value : " & $iXMLChildName & " = " & $iValue, 1)
 	Return 1
 EndFunc   ;==>_XML_WriteValue
 
@@ -1444,7 +1448,7 @@ EndFunc   ;==>_XML_WriteValue
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oXMLDoc = "")
+Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oXMLDoc = "", $ipos = "last()")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
 	If $iXMLPath <> "" Then
@@ -1452,12 +1456,13 @@ Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oX
 		If $oXMLDoc = -1 Then Return -1
 	EndIf
 
-	_XML_SetAttrib($oXMLDoc, $iXpath & "[last()]", $iAttribute, $iValue)
+	_XML_SetAttrib($oXMLDoc, $iXpath & "[" & $ipos & "]", $iAttribute, $iValue)
 	If @error Then
 		_LOG('_XML_SetAttrib ERROR (' & $iXpath & ')', 2)
 		_LOG('_XML_SetAttrib @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
 		Return -1
 	EndIf
+;~ 	_LOG("Write Attribute : " & $iAttribute & " = " & $iValue, 1)
 	Return 1
 EndFunc   ;==>_XML_WriteAttributs
 
@@ -1652,7 +1657,18 @@ EndFunc   ;==>XML_My_ErrorParser
 
 
 #Region SendMail Function
-Func _SendMail($hHandle,$sDataToSend)
+
+Func _CreateMailslot($sMailSlotName)
+	Local $hHandle = _MailSlotCreate($sMailSlotName)
+	If @error Then
+		_LOG("MailSlot error : Failed to create new account! (" & $sMailSlotName & ")", 2)
+		Return -1
+	EndIf
+	Return $hHandle
+EndFunc   ;==>_CreateMailslot
+
+
+Func _SendMail($hHandle, $sDataToSend)
 	If $sDataToSend Then
 		_MailSlotWrite($hHandle, $sDataToSend, 2)
 		Switch @error
@@ -1666,10 +1682,10 @@ Func _SendMail($hHandle,$sDataToSend)
 				_LOG("MailSlot error : Message is send but there is an open handle left.", 2)
 				Return -1
 			Case 4
-				_LOG("MailSlot error : All is fucked up!" , 2)
+				_LOG("MailSlot error : All is fucked up!", 2)
 				Return -1
 			Case Else
-				_LOG("MailSlot : Sucessfully sent!", 3)
+				_LOG("MailSlot : Sucessfully sent =" & $sDataToSend, 3)
 				Return 1
 		EndSwitch
 	Else
@@ -1701,6 +1717,19 @@ Func _CheckCount($hHandle)
 	Return $iCount
 EndFunc   ;==>_CheckCount
 
+Func _CheckAnswer($hHandle, $idata)
+	Local $iAnwser = ""
+	Local $iSize
+	Local $iCounter = 0
+	While $iAnwser <> $idata And $iCounter < 500
+		$iSize = _MailSlotCheckForNextMessage($hHandle)
+		If $iSize Then $idata = _MailSlotRead($hHandle, $iSize, 2)
+		$iCounter += 1
+	WEnd
+	Return 1
+EndFunc   ;==>_CheckAnswer
+
+
 Func _CloseMailAccount(ByRef $hHandle)
 	If _MailSlotClose($hHandle) Then
 		$hHandle = 0
@@ -1725,7 +1754,7 @@ Func _RestoreAccount($hHandle)
 	EndIf
 EndFunc   ;==>_RestoreAccount
 
-#EndRegion Not Used Function
+#EndRegion SendMail Function
 
 
 #Region Not Used Function

@@ -160,6 +160,13 @@ Global $iTEMPPath = $iScriptPath & "\TEMP"
 Global $iRessourcesPath = $iScriptPath & "\Ressources"
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
 Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the profils files.
+If @OSArch = "X64" Then
+	_LOG("Scrape in x64")
+	Local $iScraper = "Scraper64.exe"
+Else
+	_LOG("Scrape in x86")
+	Local $iScraper = "Scraper.exe"
+EndIf
 
 _LOG("Verbose LVL : " & $iVerboseLVL, 1)
 _LOG("Path to ini : " & $iINIPath, 1)
@@ -232,9 +239,8 @@ If $oXMLSystem = -1 Then Exit
 ;Suppress Splascreen
 GUIDelete($F_Splashcreen)
 
-; Main GUI
 #Region ### START Koda GUI section ### Form=
-Local $F_UniversalScraper = GUICreate(_MultiLang_GetText("main_gui"), 350, 181, 215, 143)
+Local $F_UniversalScraper = GUICreate(_MultiLang_GetText("main_gui"), 601, 370)
 GUISetBkColor(0x34495c, $F_UniversalScraper)
 Local $MF = GUICtrlCreateMenu(_MultiLang_GetText("mnu_file"))
 Local $MF_Separation = GUICtrlCreateMenuItem("", $MF)
@@ -258,16 +264,17 @@ Local $MP = GUICtrlCreateMenu(_MultiLang_GetText("mnu_ssh"))
 GUICtrlSetState($MP, $GUI_DISABLE)
 Local $MH = GUICtrlCreateMenu(_MultiLang_GetText("mnu_help"))
 Local $MH_Help = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_help_about"), $MH)
-Local $P_SOURCE = GUICtrlCreatePic("", 0, 0, 150, 100)
-Local $P_CIBLE = GUICtrlCreatePic("", 200, 0, 150, 100)
-Local $PB_SCRAPE = GUICtrlCreateProgress(0, 110, 350, 25)
-Local $B_SCRAPE = GUICtrlCreateButton(_MultiLang_GetText("scrap_button"), 150, 2, 50, 60, BitOR($BS_BITMAP, $BS_FLAT))
-GUICtrlSetImage($B_SCRAPE, $iScriptPath & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
+
+Local $P_BACKGROUND = GUICtrlCreatePic($iScriptPath & "\ProfilsFiles\Ressources\empty.jpg", -1, 0, 600, 293)
+Local $PB_SCRAPE = GUICtrlCreateProgress(2, 297, 478, 25)
+Local $B_SCRAPE = GUICtrlCreateButton(_MultiLang_GetText("scrap_button"), 481, 296, 118, 27)
 Local $L_SCRAPE = _GUICtrlStatusBar_Create($F_UniversalScraper)
 _GUICtrlStatusBar_SetParts($L_SCRAPE, $L_SCRAPE_Parts)
-
+Dim $F_UniversalScraper_AccelTable[3][2] = [["!+{DOWN}", $MC_Config_LU], ["!+{F21}", $MC_Separation], ["{VERR.MAJ}", $MS_FullScrape]]
+GUISetAccelerators($F_UniversalScraper_AccelTable)
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
+
 _LOG("GUI Constructed", 1)
 $aDIRList = _Check_autoconf($oXMLProfil)
 _GUI_Refresh($oXMLProfil)
@@ -319,8 +326,8 @@ While 1
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
 		Case $B_SCRAPE
 
-			While ProcessExists("Scraper64.exe")
-				ProcessClose("Scraper64.exe")
+			While ProcessExists($iScraper)
+				ProcessClose($iScraper)
 			WEnd
 
 			DirRemove($iTEMPPath, 1)
@@ -329,10 +336,16 @@ While 1
 			$nMsg = ""
 			$vScrapeCancelled = 0
 			$aConfig = _LoadConfig($oXMLProfil)
+			$aExtToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideEXT', 0, "", $oXMLProfil), "|")
+			$aValueToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideValue', 0, "", $oXMLProfil), "|")
+
+;~ 			_ArrayDisplay($aExtToHide, "$aExtToHide")
+;~ 			_ArrayDisplay($aValueToHide, "$aValueToHide")
+
 			If $aConfig <> 0 Then
 				$vFullTimer = TimerInit()
 				_GUI_Refresh($oXMLProfil, 1)
-				$vNbThread = 1
+				$vNbThread = 5
 				$vThreadUsed = 1
 				$vEmpty_Rom = IniRead($iINIPath, "LAST_USE", "$vEmpty_Rom", 0)
 				$aConfig[8] = "0000"
@@ -345,18 +358,22 @@ While 1
 				If IsArray($aRomList) And _Check_Cancel() Then
 					$vXpath2RomPath = "/" & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & "/" & _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
 					If FileGetSize($aConfig[0]) <> 0 And _Check_Cancel() Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
-					_ArrayDisplay($aXMLRomList, "$aXMLRomList")
+;~ 					_ArrayDisplay($aXMLRomList, "$aXMLRomList")
 					For $vBoucle = 1 To $vNbThread
-						ShellExecute("C:\Developpement\Github\Universal-XML-Scraper2\Scraper64.exe", $vBoucle)
+						ShellExecute($iScriptPath & "\" & $iScraper, $vBoucle)
 						Sleep(100)
 					Next
 
 					For $vBoucle = 1 To UBound($aRomList) - 1
-						$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5])
-						If $aRomList[$vBoucle][3] = 1 And _Check_Cancel() Then
+						Local $PercentProgression = Round(($vBoucle * 100) / UBound($aRomList) - 1)
+						GUICtrlSetData($PB_SCRAPE, $PercentProgression)
+						_GUICtrlStatusBar_SetText($L_SCRAPE, $aRomList[$vBoucle][2])
+						_GUICtrlStatusBar_SetText($L_SCRAPE, @TAB & @TAB & $vBoucle & "/" & UBound($aRomList) - 1, 1)
+						$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5], $aExtToHide, $aValueToHide)
+						If $aRomList[$vBoucle][3] >= 1 And _Check_Cancel() Then
 							$aRomList = _CalcHash($aRomList, $vBoucle)
 							$aRomList = _DownloadROMXML($aRomList, $vBoucle, $aConfig[12])
-							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1) And _Check_Cancel() Then
+							If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1 Or $aRomList[$vBoucle][3] > 1) And _Check_Cancel() Then
 								_XML_Make($iTEMPPath & "\scraped\" & $vBoucle & ".xml", _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil))
 								$sMailSlotName = "\\.\mailslot\Son" & $vThreadUsed
 								$vMessage = _ArrayToString($aRomList, '{Break}', $vBoucle, $vBoucle, '{Break}')
@@ -415,15 +432,19 @@ While 1
 
 					$iNumberOfMessagesOverall = 0
 					While $iNumberOfMessagesOverall < $vTotalRomToScrap
-						_LOG("$iNumberOfMessagesOverall : " & $iNumberOfMessagesOverall & "< $vTotalRomToScrap : " & $vTotalRomToScrap, 3)
+;~ 						_LOG("$iNumberOfMessagesOverall : " & $iNumberOfMessagesOverall & "< $vTotalRomToScrap : " & $vTotalRomToScrap, 3)
 						If _MailSlotGetMessageCount($hMailSlotMother) >= 1 Then
 							$iNumberOfMessagesOverall += 1
+							Local $PercentProgression = Round(($iNumberOfMessagesOverall * 100) / $vTotalRomToScrap)
+							GUICtrlSetData($PB_SCRAPE, $PercentProgression)
 							$vMessageFromChild = _ReadMessage($hMailSlotMother)
 							$aMessageFromChild = StringSplit($vMessageFromChild, '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 							ReDim $aMessageFromChild[2]
 							_LOG("Receveid Message Rom no " & $aMessageFromChild[0] & " in " & $aMessageFromChild[1] & "s", 1)
 							Dim $aXMLSource
 							_LOG($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml" & " -> " & $aConfig[0], 3)
+							_GUICtrlStatusBar_SetText($L_SCRAPE, $aRomList[$aMessageFromChild[0]][2])
+							_GUICtrlStatusBar_SetText($L_SCRAPE, @TAB & @TAB & $iNumberOfMessagesOverall & "/" & ($vTotalRomToScrap) - 1, 1)
 							_FileReadToArray($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml", $aXMLSource)
 							For $vBoucle = 1 To $aXMLSource[0]
 								_LOG("Writing : " & $aXMLSource[$vBoucle], 3)
@@ -431,16 +452,22 @@ While 1
 							Next
 							$aRomList[$aMessageFromChild[0]][10] = $aMessageFromChild[1]
 							$aRomList[$aMessageFromChild[0]][12] = 1
+
 						EndIf
-;~ 						If Not _Check_Cancel() Then
-;~ 							$iNumberOfMessagesOverall = $vTotalRomToScrap
-;~ 						EndIf
+						If GUIGetMsg() = $B_SCRAPE Then
+							_LOG("Scrape Cancelled")
+							$vScrapeCancelled = 1
+							For $vBoucle2 = 1 To $vNbThread
+								_SendMail($sMailSlotCancel & $vBoucle2, "CANCELED")
+							Next
+							$vTotalRomToScrap = $iNumberOfMessagesOverall
+						EndIf
 					WEnd
 					_ArrayAdd($aXMLTarget, $vLastLine)
 					_FileWriteFromArray($aConfig[0], $aXMLTarget)
 
-					While ProcessExists("Scraper64.exe")
-						ProcessClose("Scraper64.exe")
+					While ProcessExists($iScraper)
+						ProcessClose($iScraper)
 					WEnd
 					_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
 
@@ -454,7 +481,7 @@ While 1
 					_XML_SaveToFile($oXMLAfterTidy, $aConfig[0])
 
 ;~ 					_ArrayDisplay($aRomList, '$aRomList') ; Debug
-
+					GUICtrlSetData($PB_SCRAPE, 0)
 					_Results($aRomList, $vNbThread, $vFullTimer)
 
 				EndIf
@@ -758,26 +785,7 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 				$vSourcePicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vSourcePicturePath
 			EndIf
 
-			Local $vTargetPicturePath = _XML_Read("Profil/General/Target_Image", 0, "", $oXMLProfil)
-			If $vTargetPicturePath < 0 Then
-				$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\empty.jpg"
-			Else
-				$vTargetPicturePath = $iScriptPath & "\ProfilsFiles\Ressources\" & $vTargetPicturePath
-			EndIf
-			_GDIPlus_Startup()
-			$hGraphic = _GDIPlus_GraphicsCreateFromHWND($F_UniversalScraper)
-			$hImage = _GDIPlus_ImageLoadFromFile($iScriptPath & "\Ressources\empty.jpg")
-			$hImage = _GDIPlus_ImageResize($hImage, 100, 40)
-			$ImageWidth = _GDIPlus_ImageGetWidth($hImage)
-			$ImageHeight = _GDIPlus_ImageGetHeight($hImage)
-			_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_UPDATENOW)
-			_GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 175 - ($ImageWidth / 2), 82 - ($ImageHeight / 2))
-			_WinAPI_RedrawWindow($F_UniversalScraper, 0, 0, $RDW_VALIDATE)
-			_GDIPlus_ImageDispose($hImage)
-			_GDIPlus_GraphicsDispose($hGraphic)
-			_GDIPlus_Shutdown()
-			GUICtrlSetImage($P_SOURCE, $vSourcePicturePath)
-			GUICtrlSetImage($P_CIBLE, $vTargetPicturePath)
+			GUICtrlSetImage($P_BACKGROUND, $vSourcePicturePath)
 
 			;Overall Menu
 			Local $vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
@@ -834,7 +842,7 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
 
 			GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
-			GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
+;~ 			GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
 			_GUICtrlStatusBar_SetText($L_SCRAPE, "")
 
 			_LOG("GUI Refresh", 1)
@@ -847,35 +855,6 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetState($MP, $GUI_DISABLE)
 			GUICtrlSetState($MH, $GUI_DISABLE)
 
-;~ 		Local $SCRAP_ENABLE
-;~ 		Local $vErrorMess = ""
-;~ 		$user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", -1)
-
-;~ 		If $No_Profil < 1 Then
-;~ 			$vErrorMess &= _MultiLang_GetText("err_No_Profil") & @CRLF
-;~ 			_CREATION_LOGMESS(2, _MultiLang_GetText("err_No_Profil") & " : " & $No_Profil)
-;~ 			$vScrapeOK = $vScrapeOK + 1
-;~ 		EndIf
-;~ 		If $vScrapeOK = 0 Then
-;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_ENABLE.bmp", -1, 0)
-;~ 			_CREATION_LOGMESS(2, "SCRAPE Enable")
-;~ 			$SCRAP_ENABLE = 1
-;~ 		Else
-;~ 			GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_DISABLE.bmp", -1, 0)
-;~ 			_CREATION_LOGMESS(2, "SCRAPE Disable")
-;~ 			$SCRAP_ENABLE = 0
-;~ 		EndIf
-
-;~ 		$aDIRList = _Check_autoconf($vSource_RootPath, $PATHAUTOCONF_Target_RomPath, $vTarget_XMLName, $vSource_ImagePath, $vTarget_ImagePath)
-;~ 	Else
-;~ 		If $MCnu_SSH = 2 Then GUICtrlSetState($MP, $GUI_DISABLE)
-;~ 		_CREATION_LOGMESS(2, "Menu SSH Disable")
-;~ 		GUICtrlSetState($MF, $GUI_DISABLE)
-;~ 		GUICtrlSetState($MC, $GUI_DISABLE)
-;~ 		GUICtrlSetState($MH, $GUI_DISABLE)
-;~ 		GUICtrlSetImage($B_SCRAPE, $SOURCE_DIRECTORY & "\Ressources\Fleche_IP1.bmp", -1, 0)
-;~ 		$SCRAP_ENABLE = 1
-;~ 		GUICtrlSetState($PB_SCRAPE, $GUI_SHOW)
 		EndIf
 	EndIf
 	Return
@@ -1002,22 +981,48 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Return $aRomList
 EndFunc   ;==>_RomList_Create
 
-Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode)
+Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode, $aExtToHide = "", $aValueToHide = "")
+	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
+
+;~ 	_ArrayDisplay($aExtToHide, "$aExtToHide")
+;~ 	_ArrayDisplay($aValueToHide, "$aValueToHide")
+
+	If IsArray($aExtToHide) Then
+		$aPathSplit = _PathSplit($aRomList[$vNoRom][0], $sDrive, $sDir, $sFileName, $sExtension)
+		$aFindDuplicate = _ArrayFindAll($aRomList, $sFileName, 0, 0, 0, 0, 2)
+		For $vBoucle = 1 To UBound($aExtToHide) - 1
+			If StringLeft($aExtToHide[$vBoucle], 1) <> "." Then $aExtToHide[$vBoucle] = "." & $aExtToHide[$vBoucle]
+			If UBound($aFindDuplicate) > 1 And $sExtension = $aExtToHide[$vBoucle] Then
+				$aRomList[$vNoRom][3] = 2
+				_LOG($aRomList[$vNoRom][2] & " To Hide", 1)
+			EndIf
+		Next
+	EndIf
+
+	If IsArray($aValueToHide) Then
+		For $vBoucle = 1 To UBound($aValueToHide) - 1
+			If StringInStr($aRomList[$vNoRom][0], $aValueToHide[$vBoucle]) Then
+				$aRomList[$vNoRom][3] = 3
+				_LOG($aRomList[$vNoRom][2] & " To Hide", 1)
+			EndIf
+		Next
+	EndIf
+
 	Switch $vScrape_Mode
 		Case 0
 			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1)
-			$aRomList[$vNoRom][3] = 1
+			If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 1
 			Return $aRomList
 		Case Else
 			If IsArray($aXMLRomList) Then
 				If _ArraySearch($aXMLRomList, $vTarget_RomPath & StringReplace($aRomList[$vNoRom][0], "\", "/"), 0, 0, 0, 0, 1, 2) <> -1 Then
 					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1)
-					$aRomList[$vNoRom][3] = 0
+					If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 0
 					Return $aRomList
 				EndIf
 			EndIf
 			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=1)", 1)
-			$aRomList[$vNoRom][3] = 1
+			If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 1
 			Return $aRomList
 	EndSwitch
 	Return $aRomList
@@ -1154,7 +1159,7 @@ Func _Results($aRomList, $vNbThread, $vFullTimer)
 	If $vScrapeCancelled = 1 Then $vTitle = $vTitle & " (Annulé)"
 
 	#Region ### START Koda GUI section ### Form=
-	$F_Results = GUICreate("Bilan de Scrape", 538, 403, 192, 124, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$F_Results = GUICreate("Bilan de Scrape", 538, 403, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$L_Results = GUICtrlCreateLabel($vTitle, 8, 8, 247, 29)
 	GUICtrlSetFont(-1, 15, 800, 0, "MS Sans Serif")
 	$L_NbRom = GUICtrlCreateLabel("Nombre de roms a scraper", 8, 56)

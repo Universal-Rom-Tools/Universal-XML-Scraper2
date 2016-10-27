@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.7
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.10
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -208,11 +208,13 @@ Func _XML_Read_Source($aRomList, $vBoucle, $aConfig, $oXMLProfil, $vWhile)
 			Next
 			Return ""
 		Case "Fixe_Value"
-			Return _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
+			_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
 		Case "Variable_Value"
 			Switch _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oXMLProfil)
 				Case '%XML_Rom_Path%'
 					Return $aConfig[2] & StringReplace($aRomList[0], "\", "/")
+				Case '%AutoHide%'
+					If $aRomList[3] > 1 Then Return "true"
 				Case Else
 					_LOG("SOURCE Unknown", 1, $iLOGPath)
 					Return ""

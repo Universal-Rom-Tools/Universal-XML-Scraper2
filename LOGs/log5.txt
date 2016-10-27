@@ -1,0 +1,48 @@
+[22:20:38] - C:\Developpement\Github\Universal-XML-Scraper2\Scraper64.exe (1.0.0.10)
+[22:20:38] - WIN_10(X64) - 040C
+[22:20:38] - > systemlist.xml Opened
+[22:20:41] - > Read Message $aRomList : 88games.bin{Break}\\SYNO-SCREECH\Emulation\roms\Mame TEST\88games.bin{Break}88games{Break}2{Break}758452{Break}051713C5{Break}3AD802B53D0BF8231ACCE0027B84BCDF{Break}19D2E47FA7BB57CA64C1028FE62F4AD5FF41C009{Break}C:\Developpement\Github\Universal-XML-Scraper2\TEMP\88games.xml{Break}1{Break}{Break}{Break}
+[22:20:41] - > Read Message $vBoucle : 5
+[22:20:41] - > Read Message $aConfig : \\SYNO-SCREECH\Emulation\roms\Mame TEST\gamelist.xml{Break}\\SYNO-SCREECH\Emulation\roms\Mame TEST{Break}./{Break}\\SYNO-SCREECH\Emulation\roms\Mame TEST\downloaded_images{Break}./downloaded_images/{Break}1{Break}0{Break}0{Break}0000{Break}fr|us{Break}%COUNTRY%|fr|eu|us|jp|xx|origine{Break}C:\Developpement\Github\Universal-XML-Scraper2\Ressources\regionlist.txt{Break}75
+[22:20:41] - > Read Message $vProfilsPath : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml
+[22:20:41] - > //game <-- 
+[22:20:41] - > COUNTRY Data/jeu/id=39917
+[22:20:41] - > game <-- 39917
+[22:20:41] - > game <-- 0
+[22:20:41] - > game/path <-- ./88games.bin
+[22:20:41] - > game/emulator <-- 0
+[22:20:41] - > game/core <-- 0
+[22:20:41] - > COUNTRY Data/jeu/noms/nom_=
+[22:20:41] - > COUNTRY Data/jeu/noms/nom_fr=
+[22:20:41] - > COUNTRY Data/jeu/noms/nom_eu=
+[22:20:41] - > COUNTRY Data/jeu/noms/nom_us='88 Games
+[22:20:41] - > game/name <-- '88 Games
+[22:20:41] - > game/desc <-- C'est un jeu qui a donc pour thème les épreuves sportives des jeux olympiques. Pour jouer 2 boutons : un pour aller vite, l'autre pour l'action donc prise en main assez simple. L'épreuve la plus dure est le pigeon d'argile qui dans ce genre de jeux reste toujours difficile. Si vous aimez "track and field vous passerez certainement un bon moment!
+[22:20:41] - > game/image <-- ./downloaded_images/88games-image.png
+[22:20:41] - > game/thumbnail <-- 0
+[22:20:41] - > COUNTRY Data/jeu/note=12
+[22:20:41] - > game/rating <-- 0.6
+[22:20:41] - > COUNTRY Data/jeu/dates/date_=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_fr=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_eu=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_us=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_jp=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_xx=
+[22:20:41] - > COUNTRY Data/jeu/dates/date_origine=
+[22:20:41] - > game/releasedate <-- 00000000T000000
+[22:20:41] - > COUNTRY Data/jeu/developpeur=Konami
+[22:20:41] - > game/developer <-- Konami
+[22:20:41] - > COUNTRY Data/jeu/editeur=Konami
+[22:20:41] - > game/publisher <-- Konami
+[22:20:41] - > game/genre <-- Sport
+[22:20:41] - > COUNTRY Data/jeu/joueurs=1-2
+[22:20:41] - > game/players <-- 1-2
+[22:20:41] - > game/favorite <-- 0
+[22:20:41] - > COUNTRY Data/jeu/region=
+[22:20:41] - > game/region <-- 
+[22:20:41] - > game/romtype <-- 0
+[22:20:41] - > game/hidden <-- true
+[22:20:41] - > End Of Elements
+[22:20:41] - --------------------------------------------------------------------------------
+[22:20:41] - 88games scraped in 0.09s
+[22:20:41] - --------------------------------------------------------------------------------

@@ -40,7 +40,7 @@
 </message>
 
 <gui>
-	<main_gui>Universal XML Scraper</main_gui>
+	<main_gui>Universal XML Scraper V2</main_gui>
 	<menu>
 		<mnu_file>Fichier</mnu_file>
 		<mnu_file_exit>Quitter</mnu_file_exit>

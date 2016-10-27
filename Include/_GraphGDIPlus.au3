@@ -206,7 +206,7 @@ EndFunc ;==>_GraphGDIPlus_Refresh
 ; $bLabels - [optional] 1=show labels, any other number=do not show labels
 ; $iRound - [optional] rounding level of label values
 ; =======================================================================================
-Func _GraphGDIPlus_Set_RangeX(ByRef $aGraphArray, $iLow, $iHigh, $iXTicks = 1, $bLabels = 1, $iRound = 0)
+Func _GraphGDIPlus_Set_RangeX(ByRef $aGraphArray, $iLow, $iHigh, $iXTicks = 1, $bLabels = 0, $iRound = 0)
     If IsArray($aGraphArray) = 0 Then Return
     Local $ahTicksX, $ahTicksLabelsX, $i
     ;----- load user vars to array -----
@@ -221,26 +221,26 @@ Func _GraphGDIPlus_Set_RangeX(ByRef $aGraphArray, $iLow, $iHigh, $iXTicks = 1, $
     Next
     Dim $ahTicksX[1]
     ;----- create new ticks -----
-    For $i = 1 To $iXTicks + 1
-        ReDim $ahTicksX[$i + 1]
-        $ahTicksX[$i] = GUICtrlCreateLabel("", (($i - 1) * ($aGraphArray[4] / $iXTicks)) + $aGraphArray[2], _
-                $aGraphArray[3] + $aGraphArray[5], 1, 5)
-        GUICtrlSetBkColor(-1, 0x000000)
-        GUICtrlSetState(-1, 128)
-    Next
+;~     For $i = 1 To $iXTicks + 1
+;~         ReDim $ahTicksX[$i + 1]
+;~         $ahTicksX[$i] = GUICtrlCreateLabel("", (($i - 1) * ($aGraphArray[4] / $iXTicks)) + $aGraphArray[2], _
+;~                 $aGraphArray[3] + $aGraphArray[5], 1, 5)
+;~         GUICtrlSetBkColor(-1, 0x000000)
+;~         GUICtrlSetState(-1, 128)
+;~     Next
     ;----- delete any existing labels -----
     For $i = 1 To (UBound($ahTicksLabelsX) - 1)
         GUICtrlDelete($ahTicksLabelsX[$i])
     Next
     Dim $ahTicksLabelsX[1]
     ;----- create new labels -----
-    For $i = 1 To $iXTicks + 1
-        ReDim $ahTicksLabelsX[$i + 1]
-        $ahTicksLabelsX[$i] = GUICtrlCreateLabel("", _
-                ($aGraphArray[2] + (($aGraphArray[4] / $iXTicks) * ($i - 1))) - (($aGraphArray[4] / $iXTicks) / 2), _
-                $aGraphArray[3] + $aGraphArray[5] + 10, $aGraphArray[4] / $iXTicks, 13, 1)
-        GUICtrlSetBkColor(-1, -2)
-    Next
+;~     For $i = 1 To $iXTicks + 1
+;~         ReDim $ahTicksLabelsX[$i + 1]
+;~         $ahTicksLabelsX[$i] = GUICtrlCreateLabel("", _
+;~                 ($aGraphArray[2] + (($aGraphArray[4] / $iXTicks) * ($i - 1))) - (($aGraphArray[4] / $iXTicks) / 2), _
+;~                 $aGraphArray[3] + $aGraphArray[5] + 10, $aGraphArray[4] / $iXTicks, 13, 1)
+;~         GUICtrlSetBkColor(-1, -2)
+;~     Next
     ;----- if labels are required, then fill -----
     If $bLabels = 1 Then
         For $i = 1 To (UBound($ahTicksLabelsX) - 1)
@@ -267,7 +267,7 @@ EndFunc ;==>_GraphGDIPlus_Set_RangeX
 ; $bLabels - [optional] 1=show labels, any other number=do not show labels
 ; $iRound - [optional] rounding level of label values
 ; =======================================================================================
-Func _GraphGDIPlus_Set_RangeY(ByRef $aGraphArray, $iLow, $iHigh, $iYTicks = 1, $bLabels = 1, $iRound = 0)
+Func _GraphGDIPlus_Set_RangeY(ByRef $aGraphArray, $iLow, $iHigh, $iYTicks = 1, $bLabels = 0, $iRound = 0)
     If IsArray($aGraphArray) = 0 Then Return
     Local $ahTicksY, $ahTicksLabelsY, $i
     ;----- load user vars to array -----
@@ -282,25 +282,25 @@ Func _GraphGDIPlus_Set_RangeY(ByRef $aGraphArray, $iLow, $iHigh, $iYTicks = 1, $
     Next
     Dim $ahTicksY[1]
     ;----- create new ticks -----
-    For $i = 1 To $iYTicks + 1
-        ReDim $ahTicksY[$i + 1]
-        $ahTicksY[$i] = GUICtrlCreateLabel("", $aGraphArray[2] - 5, _
-                ($aGraphArray[3] + $aGraphArray[5]) - (($aGraphArray[5] / $iYTicks) * ($i - 1)), 5, 1)
-        GUICtrlSetBkColor(-1, 0x000000)
-        GUICtrlSetState(-1, 128)
-    Next
+;~     For $i = 1 To $iYTicks + 1
+;~         ReDim $ahTicksY[$i + 1]
+;~         $ahTicksY[$i] = GUICtrlCreateLabel("", $aGraphArray[2] - 5, _
+;~                 ($aGraphArray[3] + $aGraphArray[5]) - (($aGraphArray[5] / $iYTicks) * ($i - 1)), 5, 1)
+;~         GUICtrlSetBkColor(-1, 0x000000)
+;~         GUICtrlSetState(-1, 128)
+;~     Next
     ;----- delete any existing labels -----
     For $i = 1 To (UBound($ahTicksLabelsY) - 1)
         GUICtrlDelete($ahTicksLabelsY[$i])
     Next
     Dim $ahTicksLabelsY[1]
     ;----- create new labels -----
-    For $i = 1 To $iYTicks + 1
-        ReDim $ahTicksLabelsY[$i + 1]
-        $ahTicksLabelsY[$i] = GUICtrlCreateLabel("", $aGraphArray[2] - 40, _
-                ($aGraphArray[3] + $aGraphArray[5]) - (($aGraphArray[5] / $iYTicks) * ($i - 1)) - 6, 30, 13, 2)
-        GUICtrlSetBkColor(-1, -2)
-    Next
+;~     For $i = 1 To $iYTicks + 1
+;~         ReDim $ahTicksLabelsY[$i + 1]
+;~         $ahTicksLabelsY[$i] = GUICtrlCreateLabel("", $aGraphArray[2] - 40, _
+;~                 ($aGraphArray[3] + $aGraphArray[5]) - (($aGraphArray[5] / $iYTicks) * ($i - 1)) - 6, 30, 13, 2)
+;~         GUICtrlSetBkColor(-1, -2)
+;~     Next
     ;----- if labels are required, then fill -----
     If $bLabels = 1 Then
         For $i = 1 To (UBound($ahTicksLabelsY) - 1)

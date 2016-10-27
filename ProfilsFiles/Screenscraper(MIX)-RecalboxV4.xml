@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper(MIX)-Recalbox v4">
 	<General>
-		<Source_Image>Screenscraper (MIX).jpg</Source_Image>
-		<Target_Image>RecalboxV4.jpg</Target_Image>
+		<Source_Image>Screenscraper(MIX)-RecalboxV4.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
 		<Image_Extension>.png</Image_Extension>
 	</General>
@@ -150,8 +149,10 @@
 		<Target_Value>game/romtype</Target_Value>
 	</Element>
 	<Element Type="RomHidden">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
+		<Source_Type>Variable_Value</Source_Type>
+		<Source_Value>%AutoHide%</Source_Value>
+		<AutoHideEXT>bin</AutoHideEXT>
+		<AutoHideValue>(Track |[Bios]|(Bios)</AutoHideValue>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/hidden</Target_Value>
 	</Element>

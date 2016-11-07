@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper(MIX)-Recalbox v4">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper-Recalbox v3">
 	<General>
-		<Source_Image>Screenscraper(MIX)-RecalboxV4.jpg</Source_Image>
+		<Source_Image>Screenscraper-RecalboxV3.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
-		<Mix>True</Mix>
-		<Image_Extension>.png</Image_Extension>
+		<Image_Extension>.jpg</Image_Extension>
 	</General>
 	<AutoConf>
 		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
@@ -54,18 +53,6 @@
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/path</Target_Value>
 	</Element>
-	<Element Type="Emulator">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/emulator</Target_Value>
-	</Element>
-	<Element Type="core">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/core</Target_Value>
-	</Element>
 	<Element Type="Name">
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/noms/nom_%COUNTRY%</Source_Value>
@@ -79,15 +66,26 @@
 		<Target_Value>game/desc</Target_Value>
 	</Element>
 	<Element Type="Picture">
-		<Source_Type>MIX_Template</Source_Type>
+		<Source_Type>XML_Download</Source_Type>
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
-		<Source_Download_Ext>png</Source_Download_Ext>
+		<Source_Download_Ext>jpg</Source_Download_Ext>
+		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>game/image</Target_Value>
 	</Element>
-	<Element Type="thumbnail">
+	<Element Type="Picture">
+		<Source_Type>XML_Download</Source_Type>
+		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
+		<Source_Download_Tag>-image</Source_Download_Tag>
+		<Source_Download_Ext>jpg</Source_Download_Ext>
+		<Source_Value>Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value>
+		<Target_Type>XML_Path</Target_Type>
+		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
+		<Target_Value>game/image</Target_Value>
+	</Element>
+	<Element Type="Picture">
 		<Source_Type>Fixe_Value</Source_Type>
 		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
@@ -130,31 +128,5 @@
 		<Source_Value>Data/jeu/joueurs</Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/players</Target_Value>
-	</Element>
-	<Element Type="Favorite">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/favorite</Target_Value>
-	</Element>
-	<Element Type="Region">
-		<Source_Type>XML_Value</Source_Type>
-		<Source_Value>Data/jeu/region</Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/region</Target_Value>
-	</Element>
-	<Element Type="RomType">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/romtype</Target_Value>
-	</Element>
-	<Element Type="RomHidden">
-		<Source_Type>Variable_Value</Source_Type>
-		<Source_Value>%AutoHide%</Source_Value>
-		<AutoHideEXT>bin</AutoHideEXT>
-		<AutoHideValue>(Track |[Bios]|(Bios)</AutoHideValue>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/hidden</Target_Value>
 	</Element>
 </Profil>

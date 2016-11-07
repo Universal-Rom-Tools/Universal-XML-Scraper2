@@ -47,6 +47,8 @@
 		
 		<mnu_cfg>Configuration</mnu_cfg>
 		<mnu_cfg_config_LU>Configuration des chemins</mnu_cfg_config_LU>
+		<mnu_cfg_config_MISC>Configuration générale</mnu_cfg_config_MISC>
+		<mnu_cfg_config_PIC>Configuration des images</mnu_cfg_config_PIC>
 		<mnu_cfg_config_autoconf>Configuration des chemins de la configuration automatique</mnu_cfg_config_autoconf>
 		<mnu_cfg_profil>Charger un profil</mnu_cfg_profil>
 		<mnu_cfg_miximage>Changer le profil Mix Images</mnu_cfg_miximage>
@@ -100,6 +102,39 @@
 			<win_config_LU_GroupImage>Images</win_config_LU_GroupImage>
 			<win_config_LU_GroupImage_Source_ImagePath>Répertoire des images à télécharger</win_config_LU_GroupImage_Source_ImagePath>
 			<win_config_LU_GroupImage_Target_ImagePath>Chemin des images dans le fichier XML</win_config_LU_GroupImage_Target_ImagePath>
+			
+			<win_config_PIC_Title>Configuration des images</win_config_PIC_Title>
+			<win_config_PIC_GroupPICParam>Parametre de l'Image</win_config_PIC_GroupPICParam>
+			<win_config_PIC_GroupPICParam_PicSize>Taille de l'image générée</win_config_PIC_GroupPICParam_PicSize>
+			<win_config_PIC_GroupPICParam_PicExt>Extension de l'image</win_config_PIC_GroupPICParam_PicExt>
+			<win_config_PIC_GroupOption>Option</win_config_PIC_GroupOption>
+			<win_config_PIC_GroupOption_Choice>Choix du Type d'image</win_config_PIC_GroupOption_Choice>
+			
+			<win_config_MISC_Title>Configuration Générale</win_config_MISC_Title>
+			<win_config_MISC_GroupMISC>Divers</win_config_MISC_GroupMISC>
+			<win_config_MISC_GroupMISC_CountryPref>Préférence de region</win_config_MISC_GroupMISC_CountryPref>
+			<win_config_MISC_GroupMISC_LangPref>Préférence de langue</win_config_MISC_GroupMISC_LangPref>
+			<win_config_MISC_GroupMISC_ScrapeMode>Mode de Scrape</win_config_MISC_GroupMISC_ScrapeMode>
+			<win_config_MISC_GroupMISC_ScrapeModeChoice>0 - New File|1 - Update XML (Add New Rom)</win_config_MISC_GroupMISC_ScrapeModeChoice>
+			<win_config_MISC_GroupMISC_CountryPicMode>Mode de gestion des images</win_config_MISC_GroupMISC_CountryPicMode>
+			<win_config_MISC_GroupMISC_CountryPicModeChoice>0 - Language Pic|1 - Rom Pic|2 - Language Pic Strict|3 - Rom Pic Strict</win_config_MISC_GroupMISC_CountryPicModeChoice>
+			<win_config_MISC_GroupMISC_Verbose>Niveau de Log</win_config_MISC_GroupMISC_Verbose>
+			<win_config_MISC_GroupMISC_VerboseChoice>0 - Standard|1 - Advanced|2 - Full</win_config_MISC_GroupMISC_VerboseChoice>
+			<win_config_MISC_GroupMISC_MissingMode>Ajout des roms manquantes</win_config_MISC_GroupMISC_MissingMode>
+			<win_config_MISC_GroupMISC_RechSys>Recherche automatique de Systeme</win_config_MISC_GroupMISC_RechSys>
+			<win_config_MISC_GroupScreenScraper>Screenscraper</win_config_MISC_GroupScreenScraper>
+			<win_config_MISC_GroupScreenScraper_Login>Identifiant Screenscraper</win_config_MISC_GroupScreenScraper_Login>
+			<win_config_MISC_GroupScreenScraper_Password>Mot de passe Screenscraper</win_config_MISC_GroupScreenScraper_Password>
+			<win_config_MISC_GroupScreenScraper_NbThread>Nombre de thread</win_config_MISC_GroupScreenScraper_NbThread>
+			<win_config_MISC_GroupScreenScraper_Check>Vérifier</win_config_MISC_GroupScreenScraper_Check>
+			<win_config_MISC_GroupScreenScraper_SSRegister>Inscription sur Screenscraper</win_config_MISC_GroupScreenScraper_SSRegister>
+			<win_config_MISC_GroupRechFiles>Fichiers scrapés</win_config_MISC_GroupRechFiles>
+			<win_config_MISC_GroupRechFiles_Include>Fichiers inclus</win_config_MISC_GroupRechFiles_Include>
+			<win_config_MISC_GroupRechFiles_Exclude>Fichiers exclus</win_config_MISC_GroupRechFiles_Exclude>
+			<win_config_MISC_GroupRechFiles_ExcludeFolder>Répertoires exclus</win_config_MISC_GroupRechFiles_ExcludeFolder>
+			
+			
+			
 			
 			<win_config_autoconf_Title>Configuration des Chemins de l'autoconfiguration</win_config_autoconf_Title>
 			<win_config_autoconf_Use>Activer l'autoconfiguration</win_config_autoconf_Use>

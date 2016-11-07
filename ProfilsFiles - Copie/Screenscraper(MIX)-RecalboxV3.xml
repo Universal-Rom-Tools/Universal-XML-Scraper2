@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper(MIX)-Recalbox v4">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name="ScreenScraper(MIX)-Recalbox v3">
 	<General>
-		<Source_Image>Screenscraper(MIX)-RecalboxV4.jpg</Source_Image>
+		<Source_Image>Screenscraper(MIX)-RecalboxV3.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
-		<Mix>True</Mix>
 		<Image_Extension>.png</Image_Extension>
 	</General>
 	<AutoConf>
@@ -54,18 +53,6 @@
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/path</Target_Value>
 	</Element>
-	<Element Type="Emulator">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/emulator</Target_Value>
-	</Element>
-	<Element Type="core">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/core</Target_Value>
-	</Element>
 	<Element Type="Name">
 		<Source_Type>XML_Value</Source_Type>
 		<Source_Value>Data/jeu/noms/nom_%COUNTRY%</Source_Value>
@@ -87,7 +74,7 @@
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>game/image</Target_Value>
 	</Element>
-	<Element Type="thumbnail">
+	<Element Type="Picture">
 		<Source_Type>Fixe_Value</Source_Type>
 		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
@@ -130,31 +117,5 @@
 		<Source_Value>Data/jeu/joueurs</Source_Value>
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/players</Target_Value>
-	</Element>
-	<Element Type="Favorite">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/favorite</Target_Value>
-	</Element>
-	<Element Type="Region">
-		<Source_Type>XML_Value</Source_Type>
-		<Source_Value>Data/jeu/region</Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/region</Target_Value>
-	</Element>
-	<Element Type="RomType">
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value></Source_Value>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/romtype</Target_Value>
-	</Element>
-	<Element Type="RomHidden">
-		<Source_Type>Variable_Value</Source_Type>
-		<Source_Value>%AutoHide%</Source_Value>
-		<AutoHideEXT>bin</AutoHideEXT>
-		<AutoHideValue>(Track |[Bios]|(Bios)</AutoHideValue>
-		<Target_Type>XML_Value</Target_Type>
-		<Target_Value>game/hidden</Target_Value>
 	</Element>
 </Profil>

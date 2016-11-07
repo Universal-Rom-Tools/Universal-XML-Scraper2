@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><Profil Name="Full Back">
 	<General>
-		<Source_Image>Empty_exemple.png</Source_Image>
-		<Target_Image>Full_exemple.png</Target_Image>
+		<Empty_Exemple>Empty_exemple.jpg</Empty_Exemple>
+		<Full_Exemple>Full_exemple.jpg</Full_Exemple>
 		<Target_Width>1280</Target_Width>
 		<Target_Height>1024</Target_Height>
 	</General>

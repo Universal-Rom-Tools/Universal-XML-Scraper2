@@ -105,6 +105,7 @@
 		<media_wheelsteelvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=2&amp;media=wheel-steel-vierge&amp;mediaformat=png</media_wheelsteelvierge>
 		<media_photos>
 			<media_photo_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=2&amp;media=photo&amp;mediaformat=png</media_photo_eu>
+			<media_photo_jp>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=2&amp;media=photo(jp)&amp;mediaformat=png</media_photo_jp>
 		</media_photos>
 		<media_video>http://www.screenscraper.fr/api/MediaVideoSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=2&amp;media=video&amp;mediaformat=mp4</media_video>
 		<media_bezels>
@@ -5042,6 +5043,10 @@
 		<media_photos>
 			<media_photo_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=130&amp;media=photo&amp;mediaformat=png</media_photo_eu>
 		</media_photos>
+		<media_box3dvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=130&amp;media=box3D&amp;mediaformat=png</media_box3dvierge>
+		<media_supports2d>
+			<media_support2dvierge_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=130&amp;media=support2D&amp;mediaformat=png</media_support2dvierge_eu>
+		</media_supports2d>
 	</medias>
 </systeme>
 <systeme>
@@ -5196,6 +5201,30 @@
 		<media_wheels>
 			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=138&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
 		</media_wheels>
+	</medias>
+</systeme>
+<systeme>
+	<id>139</id>
+	<noms>
+		<nom_eu>Amiga CD32 (hack)</nom_eu>
+	</noms>
+	<compagnie>Commodore</compagnie>
+	<type>Console</type>
+	<datedebut>1993</datedebut>
+	<datefin>1994</datefin>
+	<romtype>iso</romtype>
+	<supporttype>cd</supporttype>
+	<medias>
+		<media_logosmonochrome>
+			<media_logomonochrome_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=139&amp;media=logo-monochrome(us)&amp;mediaformat=png</media_logomonochrome_us>
+		</media_logosmonochrome>
+		<media_wheels>
+			<media_wheel_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=139&amp;media=wheel(us)&amp;mediaformat=png</media_wheel_us>
+		</media_wheels>
+		<media_box3dvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=139&amp;media=box3D&amp;mediaformat=png</media_box3dvierge>
+		<media_supports2d>
+			<media_support2dvierge_eu>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=139&amp;media=support2D&amp;mediaformat=png</media_support2dvierge_eu>
+		</media_supports2d>
 	</medias>
 </systeme>
 </Data>

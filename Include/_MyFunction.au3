@@ -284,19 +284,6 @@ Func _MultiLang_LoadLangDef($iLangPath, $vUserLang)
 		_LOG("Could not load lang file.  Error Code " & @error, 2)
 		Exit
 	EndIf
-
-	Switch StringRight($vUserLang, 2)
-		Case '09'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|origine|eu|es|fr|de|pt|jp|xx')
-		Case '0c'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|origine|de|es|pt|jp|xx')
-		Case '16'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|origine|fr|de|es|jp|xx')
-		Case '07'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|origine|fr|es|pt|jp|xx')
-		Case '0A'
-			IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|origine|fr|de|pt|jp|xx')
-	EndSwitch
 	Return $aLangFiles
 EndFunc   ;==>_MultiLang_LoadLangDef
 
@@ -351,22 +338,6 @@ Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageS
 	GUIDelete($_Selector_gui_GUI)
 	For $i = 0 To UBound($aSelectionItem) - 1
 		If StringInStr($aSelectionItem[$i][0], $_selected) Then
-;~ 			If $demarrage = 0 Then
-;~ 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
-;~ 				WinActivate($F_UniversalScraper)
-;~ 			EndIf
-;~ 			Switch StringRight(StringLeft($aSelectionItem[$i][2], 4), 2)
-;~ 				Case '09'
-;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'us|en|origine|eu|es|fr|de|pt|jp|xx')
-;~ 				Case '0c'
-;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'fr|eu|us|en|origine|de|es|pt|jp|xx')
-;~ 				Case '16'
-;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'pt|eu|us|en|origine|fr|de|es|jp|xx')
-;~ 				Case '07'
-;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'de|eu|us|en|origine|fr|es|pt|jp|xx')
-;~ 				Case '0A'
-;~ 					IniWrite($iINIPath, "GENERAL", "$RechMultiLang", 'es|eu|us|en|origine|fr|de|pt|jp|xx')
-;~ 			EndSwitch
 			If $vLanguageSelector = 1 Then
 				_LOG("Value selected : " & StringLeft($aSelectionItem[$i][2], 4), 1)
 				Return StringLeft($aSelectionItem[$i][2], 4)
@@ -376,10 +347,6 @@ Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageS
 			EndIf
 		EndIf
 	Next
-;~ 	If $demarrage = 0 Then
-;~ 		GUISetState(@SW_ENABLE, $F_UniversalScraper)
-;~ 		WinActivate($F_UniversalScraper)
-;~ 	EndIf
 	_LOG("No Value selected (Default = " & $default & ")", 1)
 	Return $default
 EndFunc   ;==>_SelectGUI
@@ -408,6 +375,55 @@ EndFunc   ;==>_ByteSuffix
 Func _IsChecked($idControlID)
 	Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
 EndFunc   ;==>_IsChecked
+
+Func _FormatElapsedTime($Input_Seconds)
+  If $Input_Seconds < 1 Then Return
+  Global $ElapsedMessage = ''
+  Global $Input = $Input_Seconds
+  Switch $Input_Seconds
+    Case 0 To 59
+      GetSeconds()
+    Case 60 To 3599
+      GetMinutes()
+      GetSeconds()
+    Case 3600 To 86399
+      GetHours()
+      GetMinutes()
+      GetSeconds()
+    Case Else
+      GetDays()
+      GetHours()
+      GetMinutes()
+      GetSeconds()
+  EndSwitch
+  Return $ElapsedMessage
+EndFunc   ;==>FormatElapsedTime
+
+Func GetDays()
+  $Days = Int($Input / 86400)
+  $Input -= ($Days * 86400)
+  $ElapsedMessage &= $Days & ' d, '
+  Return $ElapsedMessage
+EndFunc   ;==>GetDays
+
+Func GetHours()
+  $Hours = Int($Input / 3600)
+  $Input -= ($Hours * 3600)
+  $ElapsedMessage &= $Hours & ' h, '
+  Return $ElapsedMessage
+EndFunc   ;==>GetHours
+
+Func GetMinutes()
+  $Minutes = Int($Input / 60)
+  $Input -= ($Minutes * 60)
+  $ElapsedMessage &= $Minutes & ' min, '
+  Return $ElapsedMessage
+EndFunc   ;==>GetMinutes
+
+Func GetSeconds()
+  $ElapsedMessage &= Int($Input) & ' sec.'
+  Return $ElapsedMessage
+EndFunc   ;==>GetSeconds
 
 Func _MakeTEMPFile($iPath, $iPath_Temp)
 	;Working on temporary picture
@@ -1269,7 +1285,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-;~ 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
+			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
 		Case 1
 			$iXpathSplit = StringSplit($iXpath, "/")

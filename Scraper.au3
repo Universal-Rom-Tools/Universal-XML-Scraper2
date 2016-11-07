@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.10
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.12
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -15,7 +15,15 @@
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 TraySetState(2)
 
+;~ If $CmdLine[0] = 0 And @Compiled Then Exit
+;~ If @Compiled Then
+;~ 	$vThreadNumber = $CmdLine[1]
+;~ Else
+;~ 	$vThreadNumber = "1"
+;~ EndIf
+
 If $CmdLine[0] = 0 Then Exit
+$vThreadNumber = $CmdLine[1]
 
 #include <Date.au3>
 #include <array.au3>
@@ -35,8 +43,8 @@ Else
 EndIf
 
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
-Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log" & $CmdLine[1] & ".txt")
-Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$Verbose", 0)
+Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log" & $vThreadNumber & ".txt")
+Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$vVerbose", 0)
 
 _LOG_Ceation($iLOGPath) ; Starting Log
 
@@ -52,7 +60,7 @@ Local $iSoftname = "UniversalXMLScraperV" & $iScriptVer
 
 Global $iDevId = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B5", "1gdf1g1gf", $CALG_RC4))
 Global $iDevPassword = BinaryToString(_Crypt_DecryptData("0x1552EDED2FA9B547FBD0D9A623D954AE7BEDC681", "1gdf1g1gf", $CALG_RC4))
-Global $iTEMPPath = $iScriptPath & "\TEMP" & $CmdLine[1]
+Global $iTEMPPath = $iScriptPath & "\TEMP" & $vThreadNumber
 Global $iTEMPPathGlobal = $iScriptPath & "\TEMP"
 Global $iRessourcesPath = $iScriptPath & "\Ressources"
 Global $iLangPath = $iScriptPath & "\LanguageFiles" ; Where we are storing the language files.
@@ -60,8 +68,8 @@ Global $iProfilsPath = $iScriptPath & "\ProfilsFiles" ; Where we are storing the
 
 Local $iSize, $aRomList, $vBoucle, $aConfig, $vProfilsPath, $oXMLProfil, $oXMLSystem, $aMatchingCountry
 Local $sMailSlotMother = "\\.\mailslot\Mother"
-Local $sMailSlotName = "\\.\mailslot\Son" & $CmdLine[1]
-Local $sMailSlotCancel = "\\.\mailslot\Cancel" & $CmdLine[1]
+Local $sMailSlotName = "\\.\mailslot\Son" & $vThreadNumber
+Local $sMailSlotCancel = "\\.\mailslot\Cancel" & $vThreadNumber
 Local $hMailSlot = _CreateMailslot($sMailSlotName)
 Local $hMailSlotCancel = _CreateMailslot($sMailSlotCancel)
 Local $iNumberOfMessagesOverall = 1
@@ -77,7 +85,7 @@ While $iNumberOfMessagesOverall < 5
 ;~ 				_SendMail($sMailSlotMother, $aRomList)
 				_LOG("Read Message $aRomList : " & $aRomList, 1, $iLOGPath)
 				$aRomList = StringSplit($aRomList, '{Break}', $STR_ENTIRESPLIT + $STR_NOCOUNT)
-				ReDim $aRomList[12]
+				ReDim $aRomList[13]
 				$iNumberOfMessagesOverall += 1
 			Case 2
 				$vBoucle = _ReadMessage($hMailSlot)
@@ -89,7 +97,7 @@ While $iNumberOfMessagesOverall < 5
 ;~ 				_SendMail($sMailSlotMother, $aConfig)
 				_LOG("Read Message $aConfig : " & $aConfig, 1, $iLOGPath)
 				$aConfig = StringSplit($aConfig, '{Break}', $STR_ENTIRESPLIT + $STR_NOCOUNT)
-				ReDim $aConfig[13]
+				ReDim $aConfig[16]
 
 				$aConfig[8] = _XML_Open($iTEMPPathGlobal & "\scraped\" & $vBoucle & ".xml")
 				$aConfig[9] = StringSplit($aConfig[9], "|")
@@ -306,7 +314,7 @@ Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil,
 EndFunc   ;==>_Picture_Download
 
 Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
-	Local $vMIXTemplatePath = "C:\Developpement\Github\Universal-XML-Scraper2\Mix\Background (Modified DarKade-Theme by Nachtgarm)\"
+	Local $vMIXTemplatePath = $iScriptPath & "\Mix\TEMP\"
 	Local $oMixConfig = _XML_Open($vMIXTemplatePath & "config.xml")
 	Local $vTarget_Width = _XML_Read("/Profil/General/Target_Width", 0, "", $oMixConfig)
 	Local $vTarget_Height = _XML_Read("/Profil/General/Target_Height", 0, "", $oMixConfig)

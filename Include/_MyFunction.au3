@@ -439,6 +439,11 @@ Func _MakeTEMPFile($iPath, $iPath_Temp)
 	Return $iPath_Temp
 EndFunc   ;==>_MakeTEMPFile
 
+Func _Coalesce($vValue1,$vValue2,$vTestValue = "")
+	If $vValue1 = $vTestValue Then Return $vValue2
+	Return $vValue1
+EndFunc
+
 #EndRegion MISC Function
 
 #Region GDI Function

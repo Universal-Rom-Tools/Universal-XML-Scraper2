@@ -48,6 +48,7 @@
 		<mnu_cfg>Configuration</mnu_cfg>
 		<mnu_cfg_config_LU>Configuration des chemins</mnu_cfg_config_LU>
 		<mnu_cfg_config_MISC>Configuration générale</mnu_cfg_config_MISC>
+		<mnu_cfg_config_Option>Configuration des options</mnu_cfg_config_Option>
 		<mnu_cfg_config_PIC>Configuration des images</mnu_cfg_config_PIC>
 		<mnu_cfg_config_autoconf>Configuration des chemins de la configuration automatique</mnu_cfg_config_autoconf>
 		<mnu_cfg_profil>Charger un profil</mnu_cfg_profil>
@@ -119,7 +120,7 @@
 			<win_config_MISC_GroupMISC_CountryPicMode>Mode de gestion des images</win_config_MISC_GroupMISC_CountryPicMode>
 			<win_config_MISC_GroupMISC_CountryPicModeChoice>0 - Language Pic|1 - Rom Pic|2 - Language Pic Strict|3 - Rom Pic Strict</win_config_MISC_GroupMISC_CountryPicModeChoice>
 			<win_config_MISC_GroupMISC_Verbose>Niveau de Log</win_config_MISC_GroupMISC_Verbose>
-			<win_config_MISC_GroupMISC_VerboseChoice>0 - Standard|1 - Advanced|2 - Full</win_config_MISC_GroupMISC_VerboseChoice>
+			<win_config_MISC_GroupMISC_VerboseChoice>0 - Standard|1 - Advanced|2 - Full|3 - Not official</win_config_MISC_GroupMISC_VerboseChoice>
 			<win_config_MISC_GroupMISC_MissingMode>Ajout des roms manquantes</win_config_MISC_GroupMISC_MissingMode>
 			<win_config_MISC_GroupMISC_RechSys>Recherche automatique de Systeme</win_config_MISC_GroupMISC_RechSys>
 			<win_config_MISC_GroupScreenScraper>Screenscraper</win_config_MISC_GroupScreenScraper>

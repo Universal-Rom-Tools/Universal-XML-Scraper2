@@ -272,6 +272,7 @@ Local $MF_Exit = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_exit"), $MF)
 Local $MC = GUICtrlCreateMenu(_MultiLang_GetText("mnu_cfg"))
 Local $MC_Config_LU = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_LU"), $MC)
 Local $MC_config_autoconf = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_autoconf"), $MC)
+Local $MC_config_Option = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_Option"), $MC)
 Local $MC_config_PIC = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_PIC"), $MC)
 Local $MC_config_MISC = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_MISC"), $MC)
 Local $MC_Separation = GUICtrlCreateMenuItem("", $MC)
@@ -311,13 +312,16 @@ While 1
 		Case $MC_TEST
 ;~ 			$vTest = _XML_Read('Profil/Element[@Type="Picture"]/Option/Source_Value_Option[1]', 0, "", $oXMLProfil)
 ;~ 			MsgBox(0, "$vTest", $vTest)
-			$aTEST = _XML_ListValue('Profil/Element[@Type="Picture"]/Source_Value_Option', "", $oXMLProfil)
+			$aTEST = _XML_ListValue('Profil/Options/Option/Name', "", $oXMLProfil)
 ;~ 			$aTEST = _XML_ListValue('Profil/Element[@Type="Picture"]/Option/*', "", $oXMLProfil)
 			_ArrayDisplay($aTEST, "$aTEST") ;Debug
-			_ArrayColInsert($aTEST, 1)
-			For $vBoucle = 1 To UBound($aTEST) - 1
-				$aTEST[$vBoucle][1] = _XML_Read('/Profil/Element[@Type="Picture"]/Source_Value_Option[' & $vBoucle & ']/Name', 1, "", $oXMLProfil)
-			Next
+;~ 			_ArrayColInsert($aTEST, 1)
+;~ 			For $vBoucle = 1 To UBound($aTEST) - 1
+;~ 				$aTEST[$vBoucle][1] = _XML_Read('Profil/Options/Option[' & $vBoucle & ']/Name', 1, "", $oXMLProfil)
+;~ 			Next
+;~ 			_ArrayDisplay($aTEST, "$aTEST") ;Debug
+			$aTEST = _XML_ListValue('Profil/Options/Option[Name="Picture"]/Source_Value_Option', "", $oXMLProfil)
+;~ 			$aTEST = _XML_ListValue('Profil/Element[@Type="Picture"]/Option/*', "", $oXMLProfil)
 			_ArrayDisplay($aTEST, "$aTEST") ;Debug
 
 		Case $GUI_EVENT_CLOSE, $MF_Exit ; Exit
@@ -343,6 +347,9 @@ While 1
 			_GUI_Refresh($oXMLProfil)
 		Case $MC_Config_LU
 			_GUI_Config_LU()
+			_GUI_Refresh($oXMLProfil)
+		Case $MC_config_Option
+			_GUI_Config_Options($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
 		Case $MC_config_PIC
 			_GUI_Config_Image($oXMLProfil, $iPathMixTmp)
@@ -533,51 +540,30 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 	Return
 EndFunc   ;==>_Plink
 
-Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
+Func _GUI_Config_Options($oXMLProfil)
 	#Region ### START Koda GUI section ### Form=
-	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_PIC_Title"), 474, 122, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
-	$G_Picture = GUICtrlCreateGroup(_MultiLang_GetText("win_config_PIC_GroupPICParam"), 8, 0, 225, 113)
-	$L_PicSize = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupPICParam_PicSize"), 16, 16)
-	$I_Width = GUICtrlCreateInput("", 16, 36, 89, 21)
-	$I_Height = GUICtrlCreateInput("", 136, 36, 89, 21)
-	$L_X = GUICtrlCreateLabel("X", 116, 40, 11, 17)
-	$L_PicExt = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupPICParam_PicExt"), 16, 76)
-	$C_PicExt = GUICtrlCreateCombo("", 136, 72, 89, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
-	GUICtrlSetData($C_PicExt, "defaut|.jpg|.png", StringLower(_XML_Read('Profil/General/Image_Extension', 0, "", $oXMLProfil)))
+	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_Option_Title"), 243, 263, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$G_Option = GUICtrlCreateGroup(_MultiLang_GetText("win_config_Option_GroupOption"), 8, 8, 225, 65)
+	$L_Option = GUICtrlCreateLabel(_MultiLang_GetText("win_config_Option_GroupOption_Choice"), 16, 23)
+	$C_Option = GUICtrlCreateCombo("", 16, 40, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$G_Option = GUICtrlCreateGroup(_MultiLang_GetText("win_config_PIC_GroupOption"), 240, 0, 225, 65)
-	$L_Option = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupOption_Choice"), 248, 15)
-	$C_Option = GUICtrlCreateCombo("", 248, 32, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
+	$G_OptionParam = GUICtrlCreateGroup("Group1", 8, 80, 225, 129)
+	$C_OptionParam = GUICtrlCreateCombo("Combo1", 16, 104, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
+	$E_OptionParamDesc = GUICtrlCreateEdit("", 16, 128, 209, 73, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_READONLY, $ES_WANTRETURN))
+	GUICtrlSetData(-1, "")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 72, 105, 41)
-	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 72, 105, 41)
+	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 8, 216, 105, 41)
+	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 126, 216, 105, 41)
 	GUISetState(@SW_SHOW)
 	GUISetState(@SW_DISABLE, $F_UniversalScraper)
 	#EndRegion ### END Koda GUI section ###
 
-	If StringLower(_XML_Read('Profil/General/Mix', 0, "", $oXMLProfil)) = "true" Then
-		GUICtrlSetData($I_Width, _XML_Read("Profil/General/Target_Width", 0, $iPathMixTmp & "\config.xml"))
-		GUICtrlSetData($I_Height, _XML_Read("Profil/General/Target_Height", 0, $iPathMixTmp & "\config.xml"))
-		GUICtrlSetData($C_Option, "N/A", "N/A")
-		GUISetState(@SW_DISABLE, $C_Option)
-	Else
-		$aOption = _XML_ListValue('Profil/Element[@Type="Picture"]/Source_Value_Option', "", $oXMLProfil)
-		$vOption = ""
-		_ArrayColInsert($aOption, 1)
-		For $vBoucle = 1 To UBound($aOption) - 1
-			$aOption[$vBoucle][1] = _XML_Read('Profil/Element[@Type="Picture"]/Source_Value_Option[' & $vBoucle & ']/Name', 1, "", $oXMLProfil)
-			$vOption = $vOption & $aOption[$vBoucle][1] & "|"
-		Next
-		$vDefaultOptionValue = _XML_Read('Profil/Element[@Type="Picture"]/Source_Value', 0, "", $oXMLProfil)
-		$vDefaultOptionName = _ArraySearch($aOption, $vDefaultOptionValue)
-		If $vDefaultOptionName > 0 Then
-			$vDefaultOptionName = $aOption[$vDefaultOptionName][1]
-		Else
-			$vDefaultOptionName = $aOption[1][1]
-		EndIf
-		GUICtrlSetData($C_Option, $vOption, $vDefaultOptionName)
-
-	EndIf
+	$aOption = _XML_ListValue('Profil/Options/Option/Name', "", $oXMLProfil)
+	$vOption = ""
+	For $vBoucle = 1 To UBound($aOption) - 1
+		$vOption = $vOption & $aOption[$vBoucle] & "|"
+	Next
+	GUICtrlSetData($C_Option, $vOption, "Select an option")
 
 	While 1
 		$nMsg = GUIGetMsg()
@@ -586,18 +572,42 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Path Configuration Canceled", 0)
+				_LOG("Option Configuration Canceled", 0)
 				Return
-			Case $B_CONFENREG
-				$vDefaultOptionName = GUICtrlRead($C_Option)
-				$vDefaultOptionValue = _ArraySearch($aOption, $vDefaultOptionName)
-				If $vDefaultOptionValue > 0 Then
-					$vDefaultOptionValue = $aOption[$vDefaultOptionValue][0]
+			Case $C_Option
+				$vValue_Option = ""
+				GUICtrlSetData($C_OptionParam, $vValue_Option)
+				$aValue_Option = _XML_ListValue('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/Source_Value_Option', "", $oXMLProfil)
+				_ArrayColInsert($aValue_Option, 1)
+				For $vBoucle = 1 To UBound($aValue_Option) - 1
+					$aValue_Option[$vBoucle][1] = _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/Source_Value_Option[' & $vBoucle & ']/Name', 1, "", $oXMLProfil)
+					$vValue_Option = $vValue_Option & $aValue_Option[$vBoucle][1] & "|"
+				Next
+
+				$vNode = _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/NodeName', 0, "", $oXMLProfil)
+				$vDefaultOptionValue = _XML_Read('Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode, 0, "", $oXMLProfil)
+				$vDefaultOptionName = _ArraySearch($aValue_Option, $vDefaultOptionValue)
+				If $vDefaultOptionName > 0 Then
+					$vDefaultOptionName = $aValue_Option[$vDefaultOptionName][1]
 				Else
-					$vDefaultOptionValue = $aOption[1][0]
+					$vDefaultOptionName = $aValue_Option[1][1]
 				EndIf
-				MsgBox(0, "$vDefaultOptionValue", $vDefaultOptionValue)
-				_XML_Replace('Profil/Element[@Type="Picture"]/Source_Value', $vDefaultOptionValue, 0, "", $oXMLProfil)
+				GUICtrlSetData($C_OptionParam, $vValue_Option, $vDefaultOptionName)
+				GUICtrlSetData($E_OptionParamDesc, _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/Source_Value_Option[@Name="' & GUICtrlRead($C_OptionParam) & '"]/Desc', 1, "", $oXMLProfil))
+			Case $C_OptionParam
+				GUICtrlSetData($E_OptionParamDesc, _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/Source_Value_Option[@Name="' & GUICtrlRead($C_OptionParam) & '"]/Desc', 1, "", $oXMLProfil))
+			Case $B_CONFENREG
+				$vDefaultOptionName = GUICtrlRead($C_OptionParam)
+				$vDefaultOptionValue = _ArraySearch($aValue_Option, $vDefaultOptionName)
+				If $vDefaultOptionValue > 0 And IsArray($aValue_Option) Then
+					$vNode = _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/NodeName', 0, "", $oXMLProfil)
+					$vDefaultOptionValue = $aValue_Option[$vDefaultOptionValue][0]
+					MsgBox(0, "$vDefaultOptionValue - Node", $vDefaultOptionValue & " - " & $vNode)
+					_XML_Replace('Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode, $vDefaultOptionValue, 0, "", $oXMLProfil)
+
+				EndIf
+
+;~ 				_XML_Replace("Profil/AutoConf/Source_RootPath", $vSource_RootPath, 0, "", $oXMLProfil)
 
 ;~ 				$vSource_RomPath = GUICtrlRead($I_Source_RomPath) ;$vSource_RomPath
 ;~ 				If (StringRight($vSource_RomPath, 1) = '\') Then StringTrimRight($vSource_RomPath, 1)
@@ -617,6 +627,58 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 ;~ 				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
 ;~ 				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
 ;~ 				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return
+		EndSwitch
+	WEnd
+EndFunc   ;==>_GUI_Config_Options
+
+Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
+	#Region ### START Koda GUI section ### Form=
+	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_PIC_Title"), 474, 122, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$G_Picture = GUICtrlCreateGroup(_MultiLang_GetText("win_config_PIC_GroupPICParam"), 8, 0, 225, 113)
+	$L_PicSize = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupPICParam_PicSize"), 16, 16)
+	$I_Width = GUICtrlCreateInput("", 16, 36, 89, 21)
+	$I_Height = GUICtrlCreateInput("", 136, 36, 89, 21)
+	$L_X = GUICtrlCreateLabel("X", 116, 40, 11, 17)
+	$L_PicExt = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupPICParam_PicExt"), 16, 76)
+	$C_PicExt = GUICtrlCreateCombo("", 136, 72, 89, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
+	GUICtrlSetData($C_PicExt, "defaut|.jpg|.png", StringLower(_Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Ext", ""), _XML_Read('Profil/General/Image_Extension', 0, "", $oXMLProfil))))
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 72, 105, 41)
+	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 72, 105, 41)
+	GUISetState(@SW_SHOW)
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	#EndRegion ### END Koda GUI section ###
+
+	If StringLower(_XML_Read('Profil/General/Mix', 0, "", $oXMLProfil)) = "true" Then
+		GUICtrlSetData($I_Width, _Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Width", ""), _XML_Read("Profil/General/Target_Width", 0, $iPathMixTmp & "\config.xml")))
+		GUICtrlSetData($I_Height, _Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Height", ""), _XML_Read("Profil/General/Target_Height", 0, $iPathMixTmp & "\config.xml")))
+	Else
+		GUICtrlSetData($I_Width, _Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Width", ""), _XML_Read("Profil/General/Target_Image_Width", 0, "", $oXMLProfil)))
+		GUICtrlSetData($I_Height, _Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Height", ""), _XML_Read("Profil/General/Target_Image_Height", 0, "", $oXMLProfil)))
+	EndIf
+
+	While 1
+		$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case $GUI_EVENT_CLOSE, $B_CONFANNUL
+				GUIDelete($F_CONFIG)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				_LOG("Path Configuration Canceled", 0)
+				Return
+			Case $B_CONFENREG
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Width", GUICtrlRead($I_Width))
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Height", GUICtrlRead($I_Height))
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Ext", GUICtrlRead($C_PicExt))
+				_LOG("Image Configuration Saved", 0)
+				_LOG("------------------------", 1)
+				_LOG("$vTarget_Image_Width = " & GUICtrlRead($I_Width), 1)
+				_LOG("$vTarget_Image_Height = " & GUICtrlRead($I_Height), 1)
+				_LOG("$vTarget_Image_Ext = " & GUICtrlRead($C_PicExt), 1)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -1009,6 +1071,9 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			;Overall Menu
 			Local $vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
 			$vSystem = $vSystem[UBound($vSystem) - 1]
+
+			GUICtrlSetState($MC_Miximage, $GUI_DISABLE)
+			If StringLower(_XML_Read('Profil/General/Mix', 0, "", $oXMLProfil)) = "true" Then GUICtrlSetState($MC_Miximage, $GUI_ENABLE)
 
 			GUICtrlSetState($MF, $GUI_ENABLE)
 			GUICtrlSetData($MF, _MultiLang_GetText("mnu_file"))

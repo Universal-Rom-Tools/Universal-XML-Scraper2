@@ -4591,6 +4591,7 @@
 			<media_screenmarquee-vierge_us>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=113&amp;media=screenmarquee-vierge(us)&amp;mediaformat=png</media_screenmarquee-vierge_us>
 			<media_screenmarquee-vierge_jp>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=113&amp;media=screenmarquee-vierge(jp)&amp;mediaformat=png</media_screenmarquee-vierge_jp>
 		</media_screenmarquee-vierges>
+		<media_box3dvierge>http://www.screenscraper.fr/api/mediaSysteme.php?devid=Screech&amp;devpassword=Screech201601281533y&amp;softname=UniversalXMLScraper(TestDev)&amp;crc=&amp;md5=&amp;sha1=&amp;systemeid=113&amp;media=box3D&amp;mediaformat=png</media_box3dvierge>
 	</medias>
 </systeme>
 <systeme>

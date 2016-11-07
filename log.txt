@@ -1,10 +1,9 @@
-[01:06:58] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper.au3 (In Progress)
-[01:06:58] - WIN_10(X64) - 040C
-[01:06:58] - Starting files installation
-[01:06:58] - Scrape in x64
-[01:06:58] - Language Selected : 040c
-[01:06:59] - Local : In Progress - Github : 1.5.0.11
-[01:06:59] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
-[01:07:06] - Setting Mix Template
-[01:08:13] - Path Configuration Canceled
-[01:08:14] - Universal XML Scraper Closed
+[18:03:58] - C:\Developpement\Github\Universal-XML-Scraper2\Universal XML Scraper.au3 (In Progress)
+[18:03:58] - WIN_10(X64) - 040C
+[18:03:58] - Starting files installation
+[18:03:58] - Scrape in x64
+[18:03:58] - Language Selected : 040c
+[18:03:59] - Local : In Progress - Github : 1.5.0.11
+[18:03:59] - Profil selected : C:\Developpement\Github\Universal-XML-Scraper2\ProfilsFiles\Screenscraper-RecalboxV4.xml
+[18:04:06] - Setting Mix Template
+[18:04:28] - Universal XML Scraper Closed

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Data>
+<ssuser>
+	<id>screech</id>
+	<niveau>500</niveau>
+	<visites>700</visites>
+	<datedernierevisite>2016-11-07 21:26:07</datedernierevisite>
+	<favregion>usa</favregion>
+</ssuser>
 </Data>
             
 

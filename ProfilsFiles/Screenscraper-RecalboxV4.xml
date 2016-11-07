@@ -3,12 +3,12 @@
 		<Source_Image>Screenscraper-RecalboxV4.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
 		<Mix>False</Mix>
-		<Target_Image_Extension>.jpg</Target_Image_Extension>
+		<Target_Image_Extension>jpg</Target_Image_Extension>
 		<Target_Image_Width>640</Target_Image_Width>
 		<Target_Image_Height>480</Target_Image_Height>
 	</General>
 	<AutoConf>
-		<Source_RootPath>C:\Developpement\Romset\RomSetLight</Source_RootPath>
+		<Source_RootPath>\\RECALBOX\share\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>
@@ -85,7 +85,7 @@
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
 		<Source_Download_Ext>jpg</Source_Download_Ext>
-		<Source_Value>Data/jeu/medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value>
+		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>game/image</Target_Value>
@@ -95,7 +95,7 @@
 		<Source_Download_Path>%Local_Path_File%</Source_Download_Path>
 		<Source_Download_Tag>-image</Source_Download_Tag>
 		<Source_Download_Ext>jpg</Source_Download_Ext>
-		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
+		<Source_Value>Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value>
 		<Target_Type>XML_Path</Target_Type>
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>game/image</Target_Value>
@@ -175,13 +175,13 @@
 			<Name>Picture</Name>
 			<NodeName>Source_Value</NodeName>
 			<Source_Value_Option Name="Screenshot" Desc="The Game Screenshot">Data/jeu/medias/media_screenshot</Source_Value_Option>
-			<Source_Value_Option Name="Box 2D"  Desc="The Box Front in 2D">Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Box 2D" Desc="The Box Front in 2D">Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Box 3D" Desc="The Box Front and Side in 3D">Data/jeu/medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Box Texture" Desc="The Box Back, Side and Front">Data/jeu/medias/media_boxs/media_boxstexture/media_boxtexture_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Support 2D" Desc="The Media in 2D">>Data/jeu/medias/media_supports/media_supports2d/media_support2d_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Support Texture" Desc="The Media Label">>Data/jeu/medias/media_supports/media_supportstexture/media_supporttexture_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Fanart" Desc="Big Fanart representing the game">>Data/jeu/medias/media_fanart</Source_Value_Option>
-			<Source_Value_Option Name="Wheels" Desc="The game Logo">>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Support 2D" Desc="The Media in 2D">Data/jeu/medias/media_supports/media_supports2d/media_support2d_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Support Texture" Desc="The Media Label">Data/jeu/medias/media_supports/media_supportstexture/media_supporttexture_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Fanart" Desc="Big Fanart representing the game">Data/jeu/medias/media_fanart</Source_Value_Option>
+			<Source_Value_Option Name="Wheels" Desc="The game Logo">Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Carbon" Desc="The game Logo in a Carbon Wheel">Data/jeu/medias/media_wheelscarbon/media_wheelcarbon_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Steel" Desc="The game Logo in a Steel Wheel">Data/jeu/medias/media_wheelssteel/media_wheelsteel_%COUNTRY%</Source_Value_Option>
 		</Option>
@@ -189,13 +189,13 @@
 			<Name>Picture Alt</Name>
 			<NodeName>Source_Value</NodeName>
 			<Source_Value_Option Name="Screenshot" Desc="The Game Screenshot">Data/jeu/medias/media_screenshot</Source_Value_Option>
-			<Source_Value_Option Name="Box 2D"  Desc="The Box Front in 2D">Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Box 2D" Desc="The Box Front in 2D">Data/jeu/medias/media_boxs/media_boxs2d/media_box2d_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Box 3D" Desc="The Box Front and Side in 3D">Data/jeu/medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Box Texture" Desc="The Box Back, Side and Front">Data/jeu/medias/media_boxs/media_boxstexture/media_boxtexture_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Support 2D" Desc="The Media in 2D">>Data/jeu/medias/media_supports/media_supports2d/media_support2d_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Support Texture" Desc="The Media Label">>Data/jeu/medias/media_supports/media_supportstexture/media_supporttexture_%COUNTRY%</Source_Value_Option>
-			<Source_Value_Option Name="Fanart" Desc="Big Fanart representing the game">>Data/jeu/medias/media_fanart</Source_Value_Option>
-			<Source_Value_Option Name="Wheels" Desc="The game Logo">>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Support 2D" Desc="The Media in 2D">Data/jeu/medias/media_supports/media_supports2d/media_support2d_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Support Texture" Desc="The Media Label">Data/jeu/medias/media_supports/media_supportstexture/media_supporttexture_%COUNTRY%</Source_Value_Option>
+			<Source_Value_Option Name="Fanart" Desc="Big Fanart representing the game">Data/jeu/medias/media_fanart</Source_Value_Option>
+			<Source_Value_Option Name="Wheels" Desc="The game Logo">Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Carbon" Desc="The game Logo in a Carbon Wheel">Data/jeu/medias/media_wheelscarbon/media_wheelcarbon_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Steel" Desc="The game Logo in a Steel Wheel">Data/jeu/medias/media_wheelssteel/media_wheelsteel_%COUNTRY%</Source_Value_Option>
 		</Option>

@@ -1,10 +1,3 @@
-<progressbar>
-	<prSET_ROM_CREATEARRAY>Calcul des HASH</prSET_ROM_CREATEARRAY>
-	<prSET_XML_CREATEROM>Création des fichiers XML</prSET_XML_CREATEROM>
-	<prSET_XML_FUSIONROM>Fusion des fichiers XML</prSET_XML_FUSIONROM>
-	<prSET_SYSTEM_CREATEARRAY>Récupération de la liste des systèmes</prSET_SYSTEM_CREATEARRAY>
-</progressbar>
-
 <datapref>
 	<langpref>fr|us</langpref>
 	<countrypref>%COUNTRY%|fr|eu|us|jp|xx|origine</countrypref>
@@ -13,11 +6,7 @@
 <error>
 	<err_title>Erreur</err_title>
 	<err_PathRom>Le chemin des ROMs n'est pas accessible</err_PathRom>
-	<err_PathImage>Le chemin des images n'est pas accessible</err_PathImage>
-	<err_PathNew>Le chemin du fichier XML n'est pas accessible</err_PathNew>
-	<err_PathNew_ext>L'extension du fichier XML n'est pas valide</err_PathNew_ext>
 	<err_FillRomList>Aucun fichier trouvé</err_FillRomList>
-	<err_No_Profil>Pas de profil choisi</err_No_Profil>
 	<err_autoconfPathRom>Le chemin des ROMs pour la configuration automatique n'est pas accessible</err_autoconfPathRom>
 	<err_UXSGlobal>Universal XML Scraper a rencontré un problème !</err_UXSGlobal>
 	<err_Connection>(Probleme de connection à la BDD)</err_Connection>
@@ -25,6 +14,7 @@
 	<err_SystemList>(err_SystemList)</err_SystemList>
 	<err_PlinkGlobal>La commande SSH a rencontré un problème</err_PlinkGlobal>
 	<err_PlinkConnection>(Impossible d'établire la connection)</err_PlinkConnection>
+	<err_NotRegistered>Désolé, votre compte n'a pas été trouvé (verifiez votre login et mot de passe)</err_NotRegistered>
 </error>
 
 <message>
@@ -37,6 +27,9 @@
 	<mess_ssh_poweroff>Etes vous sur de vouloir Arreter la machine distante ?</mess_ssh_poweroff>
 	<mess_update_Title>Mise à jour disponible</mess_update_Title>
 	<mess_update_Question>Une mise à jour est disponible, voulez-vous la telecharger ?</mess_update_Question>
+	<mess_ssregister_title>Compte reconnu</mess_ssregister_title>
+	<mess_ssregister_OK>Votre compte vous donne droit à un maximum de </mess_ssregister_OK>
+	<mess_ssregister_GodMode>Vous etes : ou un dieu, ou un demi dieu (voir un 2/3 de dieu), ou Chuck Norris. Attention à pas tout casser !!!</mess_ssregister_GodMode>
 </message>
 
 <gui>
@@ -54,7 +47,6 @@
 		<mnu_cfg_profil>Charger un profil</mnu_cfg_profil>
 		<mnu_cfg_miximage>Changer le profil Mix Images</mnu_cfg_miximage>
 		<mnu_cfg_langue>Changer de langue</mnu_cfg_langue>
-		<mnu_cfg_autoconfpath>Chemin de la configuration automatique</mnu_cfg_autoconfpath>
 		
 		<mnu_scrape>Scraper</mnu_scrape>
 		<mnu_scrape_autoconf>Configuration automatique</mnu_scrape_autoconf>
@@ -67,17 +59,12 @@
 		<mnu_ssh_reboot>Redémarrer Distant</mnu_ssh_reboot>
 		<mnu_ssh_poweroff>Eteindre Distant</mnu_ssh_poweroff>
 		
-		<mnu_mode>Scrape Mode</mnu_mode>
-		<mnu_mode_new>Création d'un nouveau Fichier</mnu_mode_new>
-		<mnu_mode_append>Ajout des roms manquantes</mnu_mode_append>
-		<mnu_mode_empty>Ajout des roms non trouvées</mnu_mode_empty>
 		<mnu_help>Aide</mnu_help>
 		<mnu_help_about>A propos</mnu_help_about>
 	</menu>
 	<windows>
 		<scrap_button>Scraper</scrap_button>
 		<scrap_cancel_button>Annuler</scrap_cancel_button>
-		<autoconfpath_button>Chemin des systèmes</autoconfpath_button>
 		<win_sel_langue>
 			<win_sel_langue_Title>Sélectionner une langue</win_sel_langue_Title>
 			<win_sel_langue_text>Merci de sélectionner une langue</win_sel_langue_text>
@@ -108,8 +95,11 @@
 			<win_config_PIC_GroupPICParam>Parametre de l'Image</win_config_PIC_GroupPICParam>
 			<win_config_PIC_GroupPICParam_PicSize>Taille de l'image générée</win_config_PIC_GroupPICParam_PicSize>
 			<win_config_PIC_GroupPICParam_PicExt>Extension de l'image</win_config_PIC_GroupPICParam_PicExt>
-			<win_config_PIC_GroupOption>Option</win_config_PIC_GroupOption>
-			<win_config_PIC_GroupOption_Choice>Choix du Type d'image</win_config_PIC_GroupOption_Choice>
+			
+			<win_config_Option_Title>Configuration des options</win_config_Option_Title>
+			<win_config_Option_GroupOption>Item a changer</win_config_Option_GroupOption>
+			<win_config_Option_GroupOption_Choice>Choix de l'item</win_config_Option_GroupOption_Choice>
+			<win_config_Option_GroupParam>Parametre a changer</win_config_Option_GroupOption>
 			
 			<win_config_MISC_Title>Configuration Générale</win_config_MISC_Title>
 			<win_config_MISC_GroupMISC>Divers</win_config_MISC_GroupMISC>
@@ -134,9 +124,6 @@
 			<win_config_MISC_GroupRechFiles_Exclude>Fichiers exclus</win_config_MISC_GroupRechFiles_Exclude>
 			<win_config_MISC_GroupRechFiles_ExcludeFolder>Répertoires exclus</win_config_MISC_GroupRechFiles_ExcludeFolder>
 			
-			
-			
-			
 			<win_config_autoconf_Title>Configuration des Chemins de l'autoconfiguration</win_config_autoconf_Title>
 			<win_config_autoconf_Use>Activer l'autoconfiguration</win_config_autoconf_Use>
 			<win_config_autoconf_GroupScrap>Scraper</win_config_autoconf_GroupScrap>
@@ -146,21 +133,7 @@
 			<win_config_autoconf_GroupImage>Images</win_config_autoconf_GroupImage>
 			<win_config_autoconf_GroupImage_Source_ImagePath>Nom du répertoire des images à télécharger</win_config_autoconf_GroupImage_Source_ImagePath>
 			<win_config_autoconf_GroupImage_Target_ImagePath>Chemin des images dans le fichier XML</win_config_autoconf_GroupImage_Target_ImagePath>
-			
-			<win_config_GroupImage_hautImage>Hauteur</win_config_LU_GroupImage_hautImage>
-			<win_config_GroupImage_LongImage>Largeur</win_config_LU_GroupImage_LongImage>
-			<win_config_GroupImage_Extension>Extension</win_config_GroupImage_Extension>
-			<win_config_GroupAutoconf>Conf. Auto.</win_config_GroupAutoconf>
-			<win_config_GroupAutoconf_PathRom>Chemin des systèmes</win_config_GroupAutoconf_PathRom>
-			<win_config_GroupAutoconf_PathXML>Nom du fichier XML</win_config_GroupAutoconf_PathXML>
-			<win_config_GroupAutoconf_PathRomSub>Chemin des roms dans le fichier XML</win_config_GroupAutoconf_PathRomSub>
-			<win_config_GroupAutoconf_PathImage>Répertoire des images à télécharger</win_config_GroupAutoconf_PathImage>
-			<win_config_GroupAutoconf_PathImageSub>Chemin des images dans le fichier XML</win_config_GroupAutoconf_PathImageSub>
-			<win_config_GroupAutoconf_Use>Conf. Auto.</win_config_GroupAutoconf_Use>
-			<win_config_mode_new>Nouveau Fichier</win_config_mode_new>
-			<win_config_mode_append>Ajout de rom</win_config_mode_append>
-			<win_config_mode_empty>Non trouvées</win_config_mode_empty>
-			<win_config_mode_MAJ>Majuscule</win_config_mode_MAJ>
+
 			<win_config_Enreg>Enregistrer</win_config_Enreg>
 			<win_config_Cancel>Annuler</win_config_Cancel>
 			<win_config_Advanced>Avancée</win_config_Advanced>
@@ -177,19 +150,16 @@
 			<win_About_By>Auteur : Screech</win_About_By>
 			<win_About_Thanks>Remerciement à :</win_About_Thanks>
 		</win_About>
-		<win_Datas>
-			<win_Datas_Title>Compte rendu</win_Datas_Title>
-			<win_Datas_Text>Scrape Terminé</win_Datas_Text>
-			<win_Datas_RomsFound>Nombre de Roms trouvées : </win_Datas_RomsFound>
-			<win_Datas_RomsExist>Nombre de Roms déjà existantes : </win_Datas_RomsExist>
-			<win_Datas_RomsAdd>Nombre de Roms ajoutées : </win_Datas_RomsAdd>
-			<win_Datas_MoyTime>Temps moyen par Roms : </win_Datas_MoyTime>
-			<win_Datas_FullTime>Temps Total du Scrape : </win_Datas_FullTime>
-		</win_Datas>
-		<win_Cancel>
-			<win_Cancel_Title>Scrape Annulé</win_Cancel_Title>
-			<win_Cancel_Text>Scrape Annulé</win_Cancel_Text>
-		</win_Cancel>
+		<win_Results>
+			<win_Results_Title>Compte rendu</win_Results_Title>
+			<win_Results_Text>Scrape Terminé</win_Results_Text>
+			<win_Results_FilesFound>Nombre de fichiers trouvés : </win_Results_FilesFound>
+			<win_Results_RomsFound>Nombre de Roms trouvées : </win_Results_RomsFound>
+			<win_Results_PercentFound>Pourcentage de roms trouvées : </win_Results_PercentFound>
+			<win_Results_MoyTime>Temps moyen par Roms : </win_Results_MoyTime>
+			<win_Results_FullTime>Temps Total du Scrape : </win_Results_FullTime>
+			<win_Results_NbThread>Nombre de Thread(s) utilisé(s) : </win_Results_NbThread>
+		</win_Results>
 	</windows>
 	<tips>
 		<tips_config>

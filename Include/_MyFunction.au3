@@ -104,7 +104,7 @@ EndFunc   ;==>_LOG
 ; Example .......; No
 Func _Download($iURL, $iPath, $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
 	Local $inetgettime = 0, $aData, $hDownload
-	If $iTimeOut="" Then $iTimeOut = 20
+	If $iTimeOut = "" Then $iTimeOut = 20
 	$hDownload = InetGet($iURL, $iPath, $INET_FORCERELOAD, $INET_DOWNLOADBACKGROUND)
 	Do
 		Sleep(250)
@@ -130,13 +130,13 @@ Func _Download($iURL, $iPath, $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt
 		_LOG("File Downloaded : " & $iPath, 1, $iLOGPath)
 		Return $iPath
 	Else
-		_LOG("Error Downloading File : " & $iPath, 2,$iLOGPath)
-		_LOG("Bytes read: " & $aData[$INET_DOWNLOADREAD], 2,$iLOGPath)
-		_LOG("Size: " & $aData[$INET_DOWNLOADSIZE], 2,$iLOGPath)
-		_LOG("Complete: " & $aData[$INET_DOWNLOADCOMPLETE], 2,$iLOGPath)
-		_LOG("successful: " & $aData[$INET_DOWNLOADSUCCESS], 2,$iLOGPath)
-		_LOG("@error: " & $aData[$INET_DOWNLOADERROR], 2,$iLOGPath)
-		_LOG("@extended: " & $aData[$INET_DOWNLOADEXTENDED], 2,$iLOGPath)
+		_LOG("Error Downloading File : " & $iPath, 2, $iLOGPath)
+		_LOG("Bytes read: " & $aData[$INET_DOWNLOADREAD], 2, $iLOGPath)
+		_LOG("Size: " & $aData[$INET_DOWNLOADSIZE], 2, $iLOGPath)
+		_LOG("Complete: " & $aData[$INET_DOWNLOADCOMPLETE], 2, $iLOGPath)
+		_LOG("successful: " & $aData[$INET_DOWNLOADSUCCESS], 2, $iLOGPath)
+		_LOG("@error: " & $aData[$INET_DOWNLOADERROR], 2, $iLOGPath)
+		_LOG("@extended: " & $aData[$INET_DOWNLOADEXTENDED], 2, $iLOGPath)
 		Return -1
 	EndIf
 EndFunc   ;==>_Download
@@ -159,11 +159,11 @@ EndFunc   ;==>_Download
 ; Example .......; No
 Func _DownloadWRetry($iURL, $iPath, $iRetry = "", $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
 	Local $iCount = 0, $iResult = -1, $vTimer = TimerInit()
-	If $iRetry = "" Then $iRetry=3
-	If $iTimeOut="" Then $iTimeOut = 20
+	If $iRetry = "" Then $iRetry = 3
+	If $iTimeOut = "" Then $iTimeOut = 20
 	While $iResult < 0 And $iCount < $iRetry
 		$iCount = $iCount + 1
-		$iResult = _Download($iURL, $iPath,$iTimeOut, $iLOGPath)
+		$iResult = _Download($iURL, $iPath, $iTimeOut, $iLOGPath)
 	WEnd
 	_LOG("-In " & $iCount & " try and " & Round((TimerDiff($vTimer) / 1000), 2) & "s", 1, $iLOGPath)
 	Return $iResult
@@ -377,52 +377,52 @@ Func _IsChecked($idControlID)
 EndFunc   ;==>_IsChecked
 
 Func _FormatElapsedTime($Input_Seconds)
-  If $Input_Seconds < 1 Then Return
-  Global $ElapsedMessage = ''
-  Global $Input = $Input_Seconds
-  Switch $Input_Seconds
-    Case 0 To 59
-      GetSeconds()
-    Case 60 To 3599
-      GetMinutes()
-      GetSeconds()
-    Case 3600 To 86399
-      GetHours()
-      GetMinutes()
-      GetSeconds()
-    Case Else
-      GetDays()
-      GetHours()
-      GetMinutes()
-      GetSeconds()
-  EndSwitch
-  Return $ElapsedMessage
-EndFunc   ;==>FormatElapsedTime
+	If $Input_Seconds < 1 Then Return
+	Global $ElapsedMessage = ''
+	Global $Input = $Input_Seconds
+	Switch $Input_Seconds
+		Case 0 To 59
+			GetSeconds()
+		Case 60 To 3599
+			GetMinutes()
+			GetSeconds()
+		Case 3600 To 86399
+			GetHours()
+			GetMinutes()
+			GetSeconds()
+		Case Else
+			GetDays()
+			GetHours()
+			GetMinutes()
+			GetSeconds()
+	EndSwitch
+	Return $ElapsedMessage
+EndFunc   ;==>_FormatElapsedTime
 
 Func GetDays()
-  $Days = Int($Input / 86400)
-  $Input -= ($Days * 86400)
-  $ElapsedMessage &= $Days & ' d, '
-  Return $ElapsedMessage
+	$Days = Int($Input / 86400)
+	$Input -= ($Days * 86400)
+	$ElapsedMessage &= $Days & ' d, '
+	Return $ElapsedMessage
 EndFunc   ;==>GetDays
 
 Func GetHours()
-  $Hours = Int($Input / 3600)
-  $Input -= ($Hours * 3600)
-  $ElapsedMessage &= $Hours & ' h, '
-  Return $ElapsedMessage
+	$Hours = Int($Input / 3600)
+	$Input -= ($Hours * 3600)
+	$ElapsedMessage &= $Hours & ' h, '
+	Return $ElapsedMessage
 EndFunc   ;==>GetHours
 
 Func GetMinutes()
-  $Minutes = Int($Input / 60)
-  $Input -= ($Minutes * 60)
-  $ElapsedMessage &= $Minutes & ' min, '
-  Return $ElapsedMessage
+	$Minutes = Int($Input / 60)
+	$Input -= ($Minutes * 60)
+	$ElapsedMessage &= $Minutes & ' min, '
+	Return $ElapsedMessage
 EndFunc   ;==>GetMinutes
 
 Func GetSeconds()
-  $ElapsedMessage &= Int($Input) & ' sec.'
-  Return $ElapsedMessage
+	$ElapsedMessage &= Int($Input) & ' sec.'
+	Return $ElapsedMessage
 EndFunc   ;==>GetSeconds
 
 Func _MakeTEMPFile($iPath, $iPath_Temp)
@@ -439,10 +439,10 @@ Func _MakeTEMPFile($iPath, $iPath_Temp)
 	Return $iPath_Temp
 EndFunc   ;==>_MakeTEMPFile
 
-Func _Coalesce($vValue1,$vValue2,$vTestValue = "")
+Func _Coalesce($vValue1, $vValue2, $vTestValue = "")
 	If $vValue1 = $vTestValue Then Return $vValue2
 	Return $vValue1
-EndFunc
+EndFunc   ;==>_Coalesce
 
 #EndRegion MISC Function
 
@@ -916,9 +916,9 @@ Func _GDIPlus_CalcPosY($iY, $iHeight, $vTarget_Height)
 	Switch $iY
 		Case 'CENTER'
 			$iY = ($vTarget_Height / 2) - ($iHeight / 2)
-		Case 'LEFT'
+		Case 'UP'
 			$iY = 0
-		Case 'RIGHT'
+		Case 'DOWN'
 			$iY = $vTarget_Height - $iHeight
 	EndSwitch
 	Return Int($iY)
@@ -1276,7 +1276,10 @@ EndFunc   ;==>_XML_Read
 ; Example .......; No
 Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
-	If $iXMLPath = "" And $oXMLDoc = "" Then Return -1
+	If $iXMLPath = "" And $oXMLDoc = "" Then
+		_LOG('_XML_Replace Error : Need an Handle or Path', 2)
+		Return -1
+	EndIf
 	If $iXMLPath <> "" Then
 		$oXMLDoc = _XML_Open($iXMLPath)
 		If $oXMLDoc = -1 Then Return -1
@@ -1290,6 +1293,12 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
+;~ 			_XML_SaveToFile($oXMLDoc, $iXMLPath)
+;~ 			If @error Then
+;~ 				_LOG('_XML_SaveToFile @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+;~ 				Return -1
+;~ 			EndIf
+;~ 			$oXMLDoc = _XML_Open($iXMLPath)
 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
 		Case 1
@@ -1302,8 +1311,12 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-;~ 			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
+;~ 			_XML_SaveToFile($oXMLDoc, $iXMLPath)
+;~ 			$oXMLDoc = _XML_Open($iXMLPath)
+			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
 			Return 1
+;~ 			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
+;~ 			Return 1
 		Case Else
 			Return -1
 	EndSwitch

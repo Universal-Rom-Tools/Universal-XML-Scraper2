@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper XML Universel
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.1
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.0
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -102,19 +102,20 @@ DirCreate($iScriptPath & "\Ressources")
 DirCreate($iScriptPath & "\Mix")
 DirCreate($iScriptPath & "\Mix\TEMP")
 DirCreate($iScriptPath & "\ProfilsFiles")
+DirCreate($iScriptPath & "\ProfilsFiles\Ressources")
 FileInstall(".\UXS-config.ini", $iScriptPath & "\UXS-config.ini")
 FileInstall(".\LanguageFiles\UXS-ENGLISH.XML", $iScriptPath & "\LanguageFiles\UXS-ENGLISH.XML")
 FileInstall(".\LanguageFiles\UXS-FRENCH.XML", $iScriptPath & "\LanguageFiles\UXS-FRENCH.XML")
 FileInstall(".\LanguageFiles\UXS-PORTUGUESE.XML", $iScriptPath & "\LanguageFiles\UXS-PORTUGUESE.XML")
 FileInstall(".\LanguageFiles\UXS-GERMAN.XML", $iScriptPath & "\LanguageFiles\UXS-GERMAN.XML")
 FileInstall(".\LanguageFiles\UXS-SPANISH.XML", $iScriptPath & "\LanguageFiles\UXS-SPANISH.XML")
-FileInstall(".\Ressources\empty.jpg", $iScriptPath & "\Ressources\empty.jpg")
-FileInstall(".\Ressources\emptySYS.jpg", $iScriptPath & "\Ressources\emptySYS.jpg")
-FileInstall(".\Ressources\Fleche.jpg", $iScriptPath & "\Ressources\Fleche.jpg")
-FileInstall(".\Ressources\Fleche_DISABLE.bmp", $iScriptPath & "\Ressources\Fleche_DISABLE.bmp")
-FileInstall(".\Ressources\Fleche_ENABLE.bmp", $iScriptPath & "\Ressources\Fleche_ENABLE.bmp")
-FileInstall(".\Ressources\Fleche_IP1.bmp", $iScriptPath & "\Ressources\Fleche_IP1.bmp")
-FileInstall(".\Ressources\Fleche_IP2.bmp", $iScriptPath & "\Ressources\Fleche_IP2.bmp")
+;~ FileInstall(".\Ressources\empty.jpg", $iScriptPath & "\Ressources\empty.jpg")
+;~ FileInstall(".\Ressources\emptySYS.jpg", $iScriptPath & "\Ressources\emptySYS.jpg")
+;~ FileInstall(".\Ressources\Fleche.jpg", $iScriptPath & "\Ressources\Fleche.jpg")
+;~ FileInstall(".\Ressources\Fleche_DISABLE.bmp", $iScriptPath & "\Ressources\Fleche_DISABLE.bmp")
+;~ FileInstall(".\Ressources\Fleche_ENABLE.bmp", $iScriptPath & "\Ressources\Fleche_ENABLE.bmp")
+;~ FileInstall(".\Ressources\Fleche_IP1.bmp", $iScriptPath & "\Ressources\Fleche_IP1.bmp")
+;~ FileInstall(".\Ressources\Fleche_IP2.bmp", $iScriptPath & "\Ressources\Fleche_IP2.bmp")
 FileInstall(".\Ressources\plink.exe", $iScriptPath & "\Ressources\plink.exe")
 FileInstall(".\Ressources\optipng.exe", $iScriptPath & "\Ressources\optipng.exe")
 FileInstall(".\Ressources\LICENSE optipng.txt", $iScriptPath & "\Ressources\LICENSE optipng.txt")
@@ -123,25 +124,29 @@ FileInstall(".\Ressources\systemlist.txt", $iScriptPath & "\Ressources\systemlis
 FileInstall(".\Ressources\regionlist.txt", $iScriptPath & "\Ressources\regionlist.txt")
 FileInstall(".\Ressources\UXS.jpg", $iScriptPath & "\Ressources\UXS.jpg")
 FileInstall(".\Ressources\jingle_uxs.MP3", $iScriptPath & "\Ressources\jingle_uxs.MP3")
-FileInstall(".\Mix\Arcade (moon) By Supernature2k.zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Arcade (moon).zip", $iScriptPath & "\Mix\")
-FileInstall(".\Mix\Background (Modified DarKade-Theme by Nachtgarm).zip", $iScriptPath & "\Mix\")
-FileInstall(".\Mix\Oldtv (Multi Sys).zip", $iScriptPath & "\Mix\")
-FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
-FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\")
+FileInstall(".\Mix\Full Back.zip", $iScriptPath & "\Mix\")
+;~ FileInstall(".\Mix\Oldtv (Multi Sys).zip", $iScriptPath & "\Mix\")
+;~ FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
+;~ FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\")
 FileInstall(".\ProfilsFiles\Screenscraper(MIX)-RecalboxV4.xml", $iScriptPath & "\ProfilsFiles\", 0)
-FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV0.xml", $iScriptPath & "\ProfilsFiles\", 0)
+FileInstall(".\ProfilsFiles\Screenscraper(MIX)-RecalboxV3.xml", $iScriptPath & "\ProfilsFiles\", 0)
+FileInstall(".\ProfilsFiles\Screenscraper(MIX)-Retropie.xml", $iScriptPath & "\ProfilsFiles\", 0)
 FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV4.xml", $iScriptPath & "\ProfilsFiles\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Attract-Mode.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Screenscraper-RecalboxV3.xml", $iScriptPath & "\ProfilsFiles\", 0)
+FileInstall(".\ProfilsFiles\Screenscraper-Retropie.xml", $iScriptPath & "\ProfilsFiles\", 0)
+;~ FileInstall(".\ProfilsFiles\Ressources\Attract-Mode.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
 FileInstall(".\ProfilsFiles\Ressources\empty.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Emulationstation.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Hyperspin.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Recalbox.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\RecalboxV3.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\RecalboxV4.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Ref.xlsx", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Screenscraper (MIX).jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
-FileInstall(".\ProfilsFiles\Ressources\Screenscraper.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+;~ FileInstall(".\ProfilsFiles\Ressources\Emulationstation.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+;~ FileInstall(".\ProfilsFiles\Ressources\Hyperspin.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper(MIX)-RecalboxV4.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper(MIX)-RecalboxV3.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper(MIX)-Retropie.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper-RecalboxV4.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper-RecalboxV3.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\ProfilsFiles\Ressources\Screenscraper-Retropie.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
+FileInstall(".\Scraper.exe", $iScriptPath & "\Scraper.exe", 0)
+FileInstall(".\Scraper64.exe", $iScriptPath & "\Scraper64.exe", 0)
 _LOG("Ending files installation", 1)
 
 #EndRegion FileInstall
@@ -349,7 +354,12 @@ While 1
 			_GUI_Config_LU()
 			_GUI_Refresh($oXMLProfil)
 		Case $MC_config_Option
-			_GUI_Config_Options($oXMLProfil)
+			$GUI_Config_Options = _GUI_Config_Options($oXMLProfil)
+			If $GUI_Config_Options = 1 Then
+				FileDelete($vProfilsPath)
+				_XML_SaveToFile($oXMLProfil, $vProfilsPath)
+			EndIf
+			$aDIRList = _Check_autoconf($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
 		Case $MC_config_PIC
 			_GUI_Config_Image($oXMLProfil, $iPathMixTmp)
@@ -541,14 +551,16 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 EndFunc   ;==>_Plink
 
 Func _GUI_Config_Options($oXMLProfil)
+	Local $aValue_Option = ""
+	Local $vDefaultOptionValue = 0
 	#Region ### START Koda GUI section ### Form=
 	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_Option_Title"), 243, 263, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$G_Option = GUICtrlCreateGroup(_MultiLang_GetText("win_config_Option_GroupOption"), 8, 8, 225, 65)
 	$L_Option = GUICtrlCreateLabel(_MultiLang_GetText("win_config_Option_GroupOption_Choice"), 16, 23)
 	$C_Option = GUICtrlCreateCombo("", 16, 40, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$G_OptionParam = GUICtrlCreateGroup("Group1", 8, 80, 225, 129)
-	$C_OptionParam = GUICtrlCreateCombo("Combo1", 16, 104, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
+	$G_OptionParam = GUICtrlCreateGroup(_MultiLang_GetText("win_config_Option_GroupOption"), 8, 80, 225, 129)
+	$C_OptionParam = GUICtrlCreateCombo("", 16, 104, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
 	$E_OptionParamDesc = GUICtrlCreateEdit("", 16, 128, 209, 73, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_READONLY, $ES_WANTRETURN))
 	GUICtrlSetData(-1, "")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -573,7 +585,7 @@ Func _GUI_Config_Options($oXMLProfil)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
 				_LOG("Option Configuration Canceled", 0)
-				Return
+				Return -1
 			Case $C_Option
 				$vValue_Option = ""
 				GUICtrlSetData($C_OptionParam, $vValue_Option)
@@ -598,39 +610,29 @@ Func _GUI_Config_Options($oXMLProfil)
 				GUICtrlSetData($E_OptionParamDesc, _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/Source_Value_Option[@Name="' & GUICtrlRead($C_OptionParam) & '"]/Desc', 1, "", $oXMLProfil))
 			Case $B_CONFENREG
 				$vDefaultOptionName = GUICtrlRead($C_OptionParam)
-				$vDefaultOptionValue = _ArraySearch($aValue_Option, $vDefaultOptionName)
-				If $vDefaultOptionValue > 0 And IsArray($aValue_Option) Then
-					$vNode = _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/NodeName', 0, "", $oXMLProfil)
-					$vDefaultOptionValue = $aValue_Option[$vDefaultOptionValue][0]
-					MsgBox(0, "$vDefaultOptionValue - Node", $vDefaultOptionValue & " - " & $vNode)
-					_XML_Replace('Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode, $vDefaultOptionValue, 0, "", $oXMLProfil)
+				If IsArray($aValue_Option) Then
+					$vDefaultOptionValue = _ArraySearch($aValue_Option, $vDefaultOptionName)
+					If $vDefaultOptionValue > 0 Then
+						$vNode = _XML_Read('Profil/Options/Option[Name="' & GUICtrlRead($C_Option) & '"]/NodeName', 0, "", $oXMLProfil)
+						$vDefaultOptionValue = $aValue_Option[$vDefaultOptionValue][0]
+;~ 						MsgBox(0, "$vDefaultOptionValue - Node", 'Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode & " -> " & $vDefaultOptionValue)
+						_XML_Replace('Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode, $vDefaultOptionValue, 0, "", $oXMLProfil)
+						_LOG("Option Configuration Saved", 0)
+						_LOG("------------------------", 1)
+						_LOG(GUICtrlRead($C_Option) & " = " & $vDefaultOptionValue, 1)
 
+						GUIDelete($F_CONFIG)
+						GUISetState(@SW_ENABLE, $F_UniversalScraper)
+						WinActivate($F_UniversalScraper)
+						Return 1
+					EndIf
 				EndIf
-
-;~ 				_XML_Replace("Profil/AutoConf/Source_RootPath", $vSource_RootPath, 0, "", $oXMLProfil)
-
-;~ 				$vSource_RomPath = GUICtrlRead($I_Source_RomPath) ;$vSource_RomPath
-;~ 				If (StringRight($vSource_RomPath, 1) = '\') Then StringTrimRight($vSource_RomPath, 1)
-;~ 				IniWrite($iINIPath, "LAST_USE", "$vSource_RomPath", $vSource_RomPath)
-;~ 				$vTarget_XMLName = GUICtrlRead($I_Target_XMLName) ;$vTarget_XMLName
-;~ 				IniWrite($iINIPath, "LAST_USE", "$vTarget_XMLName", $vTarget_XMLName)
-;~ 				$vTarget_RomPath = GUICtrlRead($I_Target_RomPath) ;$vTarget_RomPath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$vTarget_RomPath", $vTarget_RomPath)
-;~ 				$vSource_ImagePath = GUICtrlRead($I_Source_ImagePath) ;$vSource_ImagePath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $vSource_ImagePath)
-;~ 				$vTarget_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$vTarget_ImagePath
-;~ 				IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $vTarget_ImagePath)
-;~ 				_LOG("Path Configuration Saved", 0)
-;~ 				_LOG("------------------------", 1)
-;~ 				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1)
-;~ 				_LOG("$vSource_RomPath = " & $vSource_RomPath, 1)
-;~ 				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
-;~ 				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
-;~ 				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				Return
+				_LOG("Option Configuration Error : No choice made", 0)
+				Return -1
+
 		EndSwitch
 	WEnd
 EndFunc   ;==>_GUI_Config_Options
@@ -645,7 +647,7 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 	$L_X = GUICtrlCreateLabel("X", 116, 40, 11, 17)
 	$L_PicExt = GUICtrlCreateLabel(_MultiLang_GetText("win_config_PIC_GroupPICParam_PicExt"), 16, 76)
 	$C_PicExt = GUICtrlCreateCombo("", 136, 72, 89, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
-	GUICtrlSetData($C_PicExt, "defaut|.jpg|.png", StringLower(_Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Ext", ""), _XML_Read('Profil/General/Image_Extension', 0, "", $oXMLProfil))))
+	GUICtrlSetData($C_PicExt, "defaut|jpg|png", StringLower(_Coalesce(IniRead($iINIPath, "LAST_USE", "$vTarget_Image_Ext", ""), _XML_Read('Profil/General/Image_Extension', 0, "", $oXMLProfil))))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$B_CONFENREG = GUICtrlCreateButton(_MultiLang_GetText("win_config_Enreg"), 240, 72, 105, 41)
 	$B_CONFANNUL = GUICtrlCreateButton(_MultiLang_GetText("win_config_Cancel"), 358, 72, 105, 41)
@@ -668,17 +670,19 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Path Configuration Canceled", 0)
+				_LOG("Image Configuration Canceled", 0)
 				Return
 			Case $B_CONFENREG
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Width", GUICtrlRead($I_Width))
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Height", GUICtrlRead($I_Height))
-				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Ext", GUICtrlRead($C_PicExt))
+				$vPicExt = GUICtrlRead($C_PicExt)
+				If $vPicExt = "defaut" Then $vPicExt = ""
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Ext", $vPicExt)
 				_LOG("Image Configuration Saved", 0)
 				_LOG("------------------------", 1)
 				_LOG("$vTarget_Image_Width = " & GUICtrlRead($I_Width), 1)
 				_LOG("$vTarget_Image_Height = " & GUICtrlRead($I_Height), 1)
-				_LOG("$vTarget_Image_Ext = " & GUICtrlRead($C_PicExt), 1)
+				_LOG("$vTarget_Image_Ext = " & $vPicExt, 1)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -726,12 +730,14 @@ Func _GUI_Config_MIX($iMIXPath, $iPathMixTmp)
 				GUIDelete($F_MIXIMAGE)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
+				_LOG("MIX Configuration Canceled", 0)
 				Return
 			Case $B_OK
 				IniWrite($iINIPath, "LAST_USE", "$vMixImage", GUICtrlRead($C_MIXIMAGE))
 				GUIDelete($F_MIXIMAGE)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
+				_LOG("MIX Configuration Saved : " & GUICtrlRead($C_MIXIMAGE), 0)
 				Return
 			Case $C_MIXIMAGE
 				If GUICtrlRead($C_MIXIMAGE) <> _XML_Read("/Profil/Name", 1, $iPathMixTmp & "\config.xml") Then
@@ -753,6 +759,7 @@ Func _GUI_Config_MISC()
 	Local $aScrapeMode = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_ScrapeModeChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 	Local $aCountryPic_Mode = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_CountryPicModeChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 	Local $aVerbose = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_VerboseChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+	Local $vNbThreadDefault = 0
 
 	#Region ### START Koda GUI section ### Form=
 	$F_CONFIG = GUICreate(_MultiLang_GetText("win_config_MISC_Title"), 475, 372, -1, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
@@ -838,7 +845,7 @@ Func _GUI_Config_MISC()
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Path Configuration Canceled", 0)
+				_LOG("MISC Configuration Canceled", 0)
 				Return
 			Case $B_CONFENREG
 				IniWrite($iINIPath, "LAST_USE", "$vNbThread", GUICtrlRead($C_Thread))
@@ -864,6 +871,7 @@ Func _GUI_Config_MISC()
 				WinActivate($F_UniversalScraper)
 				Return GUICtrlRead($C_Thread)
 			Case $B_SSRegister
+				_LOG("Launch Internet Browser to Register", 0)
 				ShellExecute("http://www.screenscraper.fr/membreinscription.php")
 			Case $B_SSCheck
 				GUICtrlSetData($C_Thread, "", "")
@@ -877,25 +885,36 @@ Func _GUI_Config_MISC()
 				Switch $vSSLevel
 					Case 0
 						$vNbThreadMax = 1
-						MsgBox(0, "PAS OK SSLevel (0)", $vSSLevel, 0, $F_CONFIG)
+						$vNbThreadDefault = 0
+						_LOG("Not Registered", 0)
+						MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_NotRegistered"), 10, $F_CONFIG)
 					Case 1 To 9
-						MsgBox(0, "OK SSLevel 1 to 9", $vSSLevel, 0, $F_CONFIG)
 						$vNbThreadMax = 2
+						$vNbThreadDefault = 0
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
 					Case 10 To 39
-						MsgBox(0, "OK SSLevel 10 to 39", $vSSLevel, 0, $F_CONFIG)
 						$vNbThreadMax = 5
-					Case 40 To 10000
+						$vNbThreadDefault = 0
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
+					Case 40 To 499
 						$vNbThreadMax = 10
-						MsgBox(0, "OK SSLevel 40 to 1000", $vSSLevel, 0, $F_CONFIG)
+						$vNbThreadDefault = 5
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
 					Case Else
-						$vNbThreadMax = 1
-						MsgBox(0, "PAS OK SSLevel", $vSSLevel, 0, $F_CONFIG)
+						$vNbThreadMax = 99
+						$vNbThreadDefault = 10
+						_LOG("God Mode", 0)
+						MsgBox($MB_ICONWARNING, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_GodMode"), 10, $F_CONFIG)
 				EndSwitch
 				$vNbThreadC = ""
 				For $vBoucle = 1 To $vNbThreadMax
 					$vNbThreadC = $vNbThreadC & $vBoucle & "|"
 				Next
-				GUICtrlSetData($C_Thread, $vNbThreadC, $vNbThreadMax)
+				If $vNbThreadDefault = 0 Then $vNbThreadDefault = $vNbThreadMax
+				GUICtrlSetData($C_Thread, $vNbThreadC, $vNbThreadDefault)
 		EndSwitch
 	WEnd
 EndFunc   ;==>_GUI_Config_MISC
@@ -1126,7 +1145,6 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetData($MH_Help, _MultiLang_GetText("mnu_help_about"))
 
 			GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
-;~ 			GUICtrlSetState($PB_SCRAPE, $GUI_HIDE)
 			_GUICtrlStatusBar_SetText($L_SCRAPE, "")
 
 			_LOG("GUI Refresh", 1)
@@ -1172,7 +1190,6 @@ Func _Check_autoconf($oXMLProfil)
 	If StringRight($vSource_RootPath, 1) = '\' Then $vSource_RootPath = StringTrimRight($vSource_RootPath, 1)
 	$aDIRList = _FileListToArrayRec($vSource_RootPath, "*", $FLTAR_FOLDERS, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_RELPATH)
 	If IsArray($aDIRList) Then
-;~ 		_ArrayDisplay($aDIRList, '$aDIRList') ; Debug
 		If IsArray($MS_AutoConfigItem) Then
 			For $B_ArrayDelete = 1 To UBound($MS_AutoConfigItem) - 1
 				GUICtrlSetState($MS_AutoConfigItem[$B_ArrayDelete], $GUI_UNCHECKED)
@@ -1195,7 +1212,6 @@ Func _Check_autoconf($oXMLProfil)
 			DirCreate($aDIRList[$vBoucle][4])
 			$MS_AutoConfigItem[$vBoucle] = GUICtrlCreateMenuItem($aDIRList[$vBoucle][0], $MS_AutoConfig)
 		Next
-;~ 		_ArrayDisplay($aDIRList, '$aDIRList') ; Debug
 		GUISetState(@SW_ENABLE, $F_UniversalScraper)
 		SplashOff()
 		Return $aDIRList
@@ -1258,19 +1274,11 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 		$aRomList[$vBoucle][2] = $aPathSplit[3]
 		$aRomList[$vBoucle][9] = -1
 	Next
-
-;~ 	_ArrayDisplay($aRomList, '$aRomList') ; Debug
-;~ 	_ArraySort($aRomList)
-
 	Return $aRomList
 EndFunc   ;==>_RomList_Create
 
 Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode, $aExtToHide = "", $aValueToHide = "")
 	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
-
-;~ 	_ArrayDisplay($aExtToHide, "$aExtToHide")
-;~ 	_ArrayDisplay($aValueToHide, "$aValueToHide")
-
 	If IsArray($aExtToHide) Then
 		$aPathSplit = _PathSplit($aRomList[$vNoRom][0], $sDrive, $sDir, $sFileName, $sExtension)
 		$aFindDuplicate = _ArrayFindAll($aRomList, $sFileName, 0, 0, 0, 0, 2)
@@ -1457,15 +1465,15 @@ Func _Results($aRomList, $vNbThread, $vFullTimer, $vFullScrape = 0)
 	If $vScrapeCancelled = 1 Then $vTitle = $vTitle & " (Annulé)"
 
 	#Region ### START Koda GUI section ### Form=
-	$F_Results = GUICreate("Bilan de Scrape", 538, 403, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
+	$F_Results = GUICreate(_MultiLang_GetText("win_Results_Title"), 538, 403, -1, -1, BitOR($WS_EX_TOPMOST, $WS_EX_WINDOWEDGE))
 	$L_Results = GUICtrlCreateLabel($vTitle, 8, 8, 247, 29)
 	GUICtrlSetFont(-1, 15, 800, 0, "MS Sans Serif")
-	$L_NbRom = GUICtrlCreateLabel("Nombre de roms a scraper", 8, 56)
-	$L_NbRomOK = GUICtrlCreateLabel("Nombre de roms trouvées", 8, 80)
-	$L_NbRomOKRatio = GUICtrlCreateLabel("Pourcentage de roms trouvées", 8, 104)
-	$L_TimeMoy = GUICtrlCreateLabel("Temps moyen par rom", 305, 56)
-	$L_TimeTotal = GUICtrlCreateLabel("Temps total du scrape", 305, 80)
-	$L_NbThread = GUICtrlCreateLabel("Nombre de Thread(s) utilisé(s)", 305, 104)
+	$L_NbRom = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_FilesFound"), 8, 56)
+	$L_NbRomOK = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_RomsFound"), 8, 80)
+	$L_NbRomOKRatio = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_PercentFound"), 8, 104)
+	$L_TimeMoy = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_MoyTime"), 305, 56)
+	$L_TimeTotal = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_FullTime"), 305, 80)
+	$L_NbThread = GUICtrlCreateLabel(_MultiLang_GetText("win_Results_NbThread"), 305, 104)
 	$L_NbRomValue = GUICtrlCreateLabel($vNbRom, 176, 56)
 	$L_NbRomOKValue = GUICtrlCreateLabel($vNbRomOK & "/" & $vNbRomScraped, 176, 80)
 	$L_NbRomOKRatioValue = GUICtrlCreateLabel($vNbRomOKRatio, 176, 104)

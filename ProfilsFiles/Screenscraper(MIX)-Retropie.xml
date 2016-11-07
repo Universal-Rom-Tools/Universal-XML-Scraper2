@@ -2,6 +2,7 @@
 	<General>
 		<Source_Image>Screenscraper(MIX)-Retropie.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
+		<Mix>True</Mix>
 		<Image_Extension>.png</Image_Extension>
 	</General>
 	<AutoConf>

@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><Profil Name="Arcade (moon)">
+<?xml version="1.0" encoding="UTF-8"?><Profil Name="Standard (4img)">
 	<General>
 		<Empty_Exemple>Empty_exemple.jpg</Empty_Exemple>
 		<Full_Exemple>Full_exemple.jpg</Full_Exemple>
-		<Target_Width>1280</Target_Width>
-		<Target_Height>1024</Target_Height>
+		<Target_Width>600</Target_Width>
+		<Target_Height>400</Target_Height>
 	</General>
-	<pngquant>
-		<use>Yes</use>
+	<Compression>
+		<use>yes</use>
+		<soft>pngquant.exe</soft>
 		<parameter>--force --verbose --ordered --speed=1 --quality=50-90 --ext .png</parameter>
-	</pngquant>
+	</Compression>
 	<Root>
-		<Source_Value>Data</Source_Value>
-		<Target_Value>gameList</Target_Value>
+		<Root_Game>Data/jeu</Root_Game>
+		<Root_System>Data/systeme</Root_System>
 	</Root>
 	<Game>
 		<Source_Value>Data/jeu</Source_Value>
@@ -21,80 +22,47 @@
 		<Source_Value>Data/jeu/region</Source_Value>
 	</Country>
 	<Element>
-		<Name>screenfixeTEMP</Name>
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value>neige.png</Source_Value>
-		<Target_Width>%0.588</Target_Width>
-		<Target_Height>%0.500</Target_Height>
-		<Target_TopLeftX>%0.147</Target_TopLeftX> 
-		<Target_TopLeftY>%0.375</Target_TopLeftY> 
-		<Target_TopRightX>%0.5</Target_TopRightX> 
-		<Target_TopRightY>%0.345</Target_TopRightY> 
-		<Target_BottomLeftX>%0.191</Target_BottomLeftX> 
-		<Target_BottomLeftY>%0.658</Target_BottomLeftY> 
-	</Element>
-	<Element>
 		<Name>screenTEMP</Name>
 		<Source_Type>XML_Value</Source_Type>
 		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_screenshot</Source_Value>
-		<Target_Width>%0.588</Target_Width>
-		<Target_Height>%0.500</Target_Height>
-		<Target_TopLeftX>%0.147</Target_TopLeftX> 
-		<Target_TopLeftY>%0.375</Target_TopLeftY> 
-		<Target_TopRightX>%0.5</Target_TopRightX> 
-		<Target_TopRightY>%0.345</Target_TopRightY> 
-		<Target_BottomLeftX>%0.191</Target_BottomLeftX> 
-		<Target_BottomLeftY>%0.658</Target_BottomLeftY>
-	</Element>
-	<Element>
-		<Name>marqueefixeTEMP</Name>
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value>marquee.png</Source_Value>
-		<Target_Width>%0.759</Target_Width>
-		<Target_Height>%0.163</Target_Height>
-		<Target_TopLeftX>%0.185</Target_TopLeftX> 
-		<Target_TopLeftY>%0.09</Target_TopLeftY> 
-		<Target_TopRightX>%0.724</Target_TopRightX> 
-		<Target_TopRightY>%0.08</Target_TopRightY> 
-		<Target_BottomLeftX>%0.2</Target_BottomLeftX> 
-		<Target_BottomLeftY>%0.225</Target_BottomLeftY> 
-	</Element>
-	<Element>
-		<Name>marqueeTEMP</Name>
-		<Source_Type>XML_Value</Source_Type>
-		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_marquee</Source_Value>
-		<Target_Width>%0.759</Target_Width>
-		<Target_Height>%0.163</Target_Height>
-		<Target_TopLeftX>%0.185</Target_TopLeftX> 
-		<Target_TopLeftY>%0.09</Target_TopLeftY> 
-		<Target_TopRightX>%0.724</Target_TopRightX> 
-		<Target_TopRightY>%0.08</Target_TopRightY> 
-		<Target_BottomLeftX>%0.2</Target_BottomLeftX> 
-		<Target_BottomLeftY>%0.225</Target_BottomLeftY> 
-	</Element>
-	<Element>
-		<Name>marqueeTEMP</Name>
-		<Source_Type>XML_Value</Source_Type>
-		<source_Origin>Game</source_Origin>
-		<Source_Value>Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
-		<Target_Width>%0.759</Target_Width>
-		<Target_Height>%0.163</Target_Height>
-		<Target_TopLeftX>%0.185</Target_TopLeftX> 
-		<Target_TopLeftY>%0.09</Target_TopLeftY> 
-		<Target_TopRightX>%0.724</Target_TopRightX> 
-		<Target_TopRightY>%0.08</Target_TopRightY> 
-		<Target_BottomLeftX>%0.2</Target_BottomLeftX> 
-		<Target_BottomLeftY>%0.225</Target_BottomLeftY> 
-	</Element>
-	<Element>
-		<Name>moonfixeTEMP</Name>
-		<Source_Type>Fixe_Value</Source_Type>
-		<Source_Value>moon.png</Source_Value>
-		<Target_Width>%1</Target_Width>
-		<Target_Height>%1</Target_Height>
+		<Source_Value>medias/media_screenshot</Source_Value>
+		<Target_Width>%0.9</Target_Width>
+		<Target_Height>%0.85</Target_Height>
 		<Target_TopLeftX>CENTER</Target_TopLeftX> 
-		<Target_TopLeftY>CENTER</Target_TopLeftY>
+		<Target_TopLeftY>UP</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
+	<Element>
+		<Name>box3dTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>medias/media_boxs/media_boxs3d/media_box3d_%COUNTRY%</Source_Value>
+		<Target_Width>%0.5</Target_Width>
+		<Target_Height>%0.75</Target_Height>
+		<Target_TopLeftX>LEFT</Target_TopLeftX> 
+		<Target_TopLeftY>DOWN</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+	</Element>
+	<Element>
+		<Name>SupportTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>medias/media_supports/media_supports2d/media_support2d_%COUNTRY%</Source_Value>
+		<Target_Width>%0.25</Target_Width>
+		<Target_Height>%0.375</Target_Height>
+		<Target_TopLeftX>%0.167</Target_TopLeftX> 
+		<Target_TopLeftY>DOWN</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
+		</Element>
+	<Element>
+		<Name>wheelTEMP</Name>
+		<Source_Type>XML_Value</Source_Type>
+		<source_Origin>Game</source_Origin>
+		<Source_Value>medias/media_wheels/media_wheel_%COUNTRY%</Source_Value>
+		<Target_Width>%0.5</Target_Width>
+		<Target_Height>%0.333</Target_Height>
+		<Target_TopLeftX>RIGHT</Target_TopLeftX> 
+		<Target_TopLeftY>DOWN</Target_TopLeftY> 
+		<Target_Maximize>Yes</Target_Maximize> 
 	</Element>
 </Profil>

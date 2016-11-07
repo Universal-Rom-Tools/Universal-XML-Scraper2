@@ -3,7 +3,7 @@
 		<Source_Image>Screenscraper(MIX)-RecalboxV4.jpg</Source_Image>
 		<UpperCase>True</UpperCase>
 		<Mix>True</Mix>
-		<Image_Extension>.png</Image_Extension>
+		<Image_Extension>png</Image_Extension>
 	</General>
 	<AutoConf>
 		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>

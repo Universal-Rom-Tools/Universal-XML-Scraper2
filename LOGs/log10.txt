@@ -1,0 +1,7 @@
+[20:29:24] - C:\Developpement\Github\Universal-XML-Scraper2\Scraper64.exe (1.0.0.17)
+[20:29:24] - WIN_10(X64) - 040C
+[20:29:31] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\box3dTEMP.png
+[20:29:32] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\SupportTEMP.png
+[20:29:33] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\wheelTEMP.png
+[20:29:33] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\wheelTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\SupportTEMP-MER_Temp.PNG
+[20:29:33] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\SupportTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP10\MIX\box3dTEMP-MER_Temp.PNG

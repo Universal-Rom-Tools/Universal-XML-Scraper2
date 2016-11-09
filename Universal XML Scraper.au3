@@ -734,10 +734,10 @@ Func _GUI_Config_MIX($iMIXPath, $iPathMixTmp)
 				Return
 			Case $B_OK
 				IniWrite($iINIPath, "LAST_USE", "$vMixImage", GUICtrlRead($C_MIXIMAGE))
+				_LOG("MIX Configuration Saved : " & GUICtrlRead($C_MIXIMAGE), 0)
 				GUIDelete($F_MIXIMAGE)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("MIX Configuration Saved : " & GUICtrlRead($C_MIXIMAGE), 0)
 				Return
 			Case $C_MIXIMAGE
 				If GUICtrlRead($C_MIXIMAGE) <> _XML_Read("/Profil/Name", 1, $iPathMixTmp & "\config.xml") Then

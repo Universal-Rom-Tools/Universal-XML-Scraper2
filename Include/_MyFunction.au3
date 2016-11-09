@@ -257,31 +257,31 @@ Func _MultiLang_LoadLangDef($iLangPath, $vUserLang)
 	_MultiLang_SetFileInfo($aLangFiles)
 	If @error Then
 		MsgBox(48, "Error", "Could not set file info.  Error Code " & @error)
-		_LOG("Could not set file info.  Error Code " & @error, 2)
+		_LOG("Could not set file info.  Error Code " & @error, 2, $iLOGPath)
 		Exit
 	EndIf
 
 	;Check if the loaded settings file exists.  If not ask user to select language.
 	If $vUserLang = -1 Then
 		;Create Selection GUI
-		_LOG("Loading language :" & StringLower(@OSLang), 1)
+		_LOG("Loading language :" & StringLower(@OSLang), 1, $iLOGPath)
 		_MultiLang_LoadLangFile(StringLower(@OSLang))
 		$vUserLang = _SelectGUI($aLangFiles, StringLower(@OSLang), "langue", 1)
 		If @error Then
 			MsgBox(48, "Error", "Could not create selection GUI.  Error Code " & @error)
-			_LOG("Could not create selection GUI.  Error Code " & @error, 2)
+			_LOG("Could not create selection GUI.  Error Code " & @error, 2, $iLOGPath)
 			Exit
 		EndIf
 		IniWrite($iINIPath, "LAST_USE", "$vUserLang", $vUserLang)
 	EndIf
 
-	_LOG("Language Selected : " & $vUserLang, 0)
+	_LOG("Language Selected : " & $vUserLang, 0, $iLOGPath)
 
 	;If you supplied an invalid $vUserLang, we will load the default language file
 	If _MultiLang_LoadLangFile($vUserLang) = 2 Then MsgBox(64, "Information", "Just letting you know that we loaded the default language file")
 	If @error Then
 		MsgBox(48, "Error", "Could not load lang file.  Error Code " & @error)
-		_LOG("Could not load lang file.  Error Code " & @error, 2)
+		_LOG("Could not load lang file.  Error Code " & @error, 2, $iLOGPath)
 		Exit
 	EndIf
 	Return $aLangFiles
@@ -307,7 +307,7 @@ Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageS
 ;~ 	_CREATION_LOGMESS(2, "Selection de la langue")
 ;~ 	If $demarrage = 0 Then GUISetState(@SW_DISABLE, $F_UniversalScraper)
 	If $aSelectionItem = -1 Or IsArray($aSelectionItem) = 0 Then
-		_LOG("Selection Array Invalid", 2)
+		_LOG("Selection Array Invalid", 2, $iLOGPath)
 		Return -1
 	EndIf
 	If $vLanguageSelector = 1 Then
@@ -339,15 +339,15 @@ Func _SelectGUI($aSelectionItem, $default = -1, $vText = "standard", $vLanguageS
 	For $i = 0 To UBound($aSelectionItem) - 1
 		If StringInStr($aSelectionItem[$i][0], $_selected) Then
 			If $vLanguageSelector = 1 Then
-				_LOG("Value selected : " & StringLeft($aSelectionItem[$i][2], 4), 1)
+				_LOG("Value selected : " & StringLeft($aSelectionItem[$i][2], 4), 1, $iLOGPath)
 				Return StringLeft($aSelectionItem[$i][2], 4)
 			Else
-				_LOG("Value selected : " & $aSelectionItem[$i][2], 1)
+				_LOG("Value selected : " & $aSelectionItem[$i][2], 1, $iLOGPath)
 				Return $aSelectionItem[$i][2]
 			EndIf
 		EndIf
 	Next
-	_LOG("No Value selected (Default = " & $default & ")", 1)
+	_LOG("No Value selected (Default = " & $default & ")", 1, $iLOGPath)
 	Return $default
 EndFunc   ;==>_SelectGUI
 
@@ -429,11 +429,11 @@ Func _MakeTEMPFile($iPath, $iPath_Temp)
 	;Working on temporary picture
 	FileDelete($iPath_Temp)
 	If Not FileCopy($iPath, $iPath_Temp, 9) Then
-		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2)
+		_LOG("Error copying " & $iPath & " to " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	If Not FileDelete($iPath) Then
-		_LOG("Error deleting " & $iPath, 2)
+		_LOG("Error deleting " & $iPath, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath_Temp
@@ -466,27 +466,27 @@ Func _OptiPNG($iPath, $iParamater = "-clobber")
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-OPTI_Temp.PNG"
 	If StringLower($iExtension) <> ".png" Then
-		_LOG("Not a PNG file : " & $iPath, 2)
+		_LOG("Not a PNG file : " & $iPath, 2, $iLOGPath)
 		Return -1
 	EndIf
 	$vPathSize = _ByteSuffix(FileGetSize($iPath))
 	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	$sRun = $iScriptPath & '\Ressources\optipng.exe -o1 "' & $iPath_Temp & '" ' & $iParamater & ' -out "' & $iPath & '"'
-	_LOG("OptiPNG command: " & $sRun, 1)
+	_LOG("OptiPNG command: " & $sRun, 1, $iLOGPath)
 	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 	While ProcessExists($iPid)
 		$_StderrRead = StderrRead($iPid)
 		If Not @error And $_StderrRead <> '' Then
 			If StringInStr($_StderrRead, 'error') Then
-				_LOG("Error while optimizing " & $iPath, 2)
+				_LOG("Error while optimizing " & $iPath, 2, $iLOGPath)
 				Return -1
 			EndIf
 		EndIf
 	WEnd
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
-	_LOG("PNG Optimization (OptiPNG): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
+	_LOG("PNG Optimization (OptiPNG): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")",0, $iLOGPath)
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -510,24 +510,24 @@ Func _Compression($iPath, $isoft = 'pngquant.exe', $iParamater = '--force --verb
 	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	If StringLower($iExtension) <> ".png" Then
-		_LOG("Not a PNG file : " & $iPath, 2)
+		_LOG("Not a PNG file : " & $iPath, 2, $iLOGPath)
 		Return -1
 	EndIf
 	$vPathSize = _ByteSuffix(FileGetSize($iPath))
 	$sRun = $iScriptPath & '\Ressources\pngquant.exe ' & $iParamater & ' ' & $iPath
-	_LOG("PNGQuant command: " & $sRun, 1)
+	_LOG("PNGQuant command: " & $sRun, 1, $iLOGPath)
 	$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 	While ProcessExists($iPid)
 		$_StderrRead = StderrRead($iPid)
 		If Not @error And $_StderrRead <> '' Then
 			If StringInStr($_StderrRead, 'error') And Not StringInStr($_StderrRead, 'No errors') Then
-				_LOG("Error while optimizing " & $iPath, 2)
+				_LOG("Error while optimizing " & $iPath, 2, $iLOGPath)
 				Return -1
 			EndIf
 		EndIf
 	WEnd
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
-	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")")
+	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")",0, $iLOGPath)
 	Return $iPath
 EndFunc   ;==>_Compression
 
@@ -602,11 +602,11 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	$iWidth_New = Int($iWidth_New)
 	$iHeight_New = Int($iHeight_New)
 	If $iWidth <> $iWidth_New Or $iHeight <> $iHeight_New Then
-		_LOG("Resize Max : " & $iPath) ; Debug
-		_LOG("Origine = " & $iWidth & "x" & $iHeight, 1) ; Debug
-		_LOG("Finale = " & $iWidth_New & "x" & $iHeight_New, 1) ; Debug
+		_LOG("Resize Max : " & $iPath,0, $iLOGPath) ; Debug
+		_LOG("Origine = " & $iWidth & "x" & $iHeight, 1, $iLOGPath) ; Debug
+		_LOG("Finale = " & $iWidth_New & "x" & $iHeight_New, 1, $iLOGPath) ; Debug
 	Else
-		_LOG("No Resizing : " & $iPath) ; Debug
+		_LOG("No Resizing : " & $iPath,0, $iLOGPath) ; Debug
 	EndIf
 	$hImageResized = _GDIPlus_ImageResize($hImage, $iWidth_New, $iHeight_New)
 	_GDIPlus_ImageSaveToFile($hImageResized, $iPath)
@@ -614,7 +614,7 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -658,12 +658,12 @@ Func _GDIPlus_Rotation($iPath, $iRotation = 0)
 	$iWidth_New = _GDIPlus_ImageGetWidth($hImage)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight_New = _GDIPlus_ImageGetHeight($hImage)
-	_LOG("ROTATION (" & $iRotation & ") : " & $iPath) ; Debug
+	_LOG("ROTATION (" & $iRotation & ") : " & $iPath,0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hImage, $iPath)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -702,7 +702,7 @@ Func _GDIPlus_Transparency($iPath, $iTransLvl)
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor)
 	_GDIPlus_GraphicsDrawImageRectRectTrans($hGraphic, $hImage, 0, 0, "", "", "", "", "", "", 2, $iTransLvl)
-	_LOG("Transparency (" & $iTransLvl & ") : " & $iPath) ; Debug
+	_LOG("Transparency (" & $iTransLvl & ") : " & $iPath,0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
@@ -712,7 +712,7 @@ Func _GDIPlus_Transparency($iPath, $iTransLvl)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -754,12 +754,12 @@ Func _GDIPlus_TransparencyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransL
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
 	$hNew_CutHole = _GDIPlus_ImageCutRectHole($hImage, $iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
 	If @error Then
-		_LOG("Error _GDIPlus_ImageCutRectHole " & $iPath_Temp, 2)
+		_LOG("Error _GDIPlus_ImageCutRectHole " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	$hNew_Crop = _GDIPlus_ImageCrop($hImage, $iX, $iY, $iWidth, $iHeight, $vTarget_Width, $vTarget_Height)
 	If @error Then
-		_LOG("Error _GDIPlus_ImageCrop " & $iPath_Temp, 2)
+		_LOG("Error _GDIPlus_ImageCrop " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	_GDIPlus_ImageSaveToFile($hNew_CutHole, $iPath_CutHole_Temp)
@@ -773,7 +773,7 @@ Func _GDIPlus_TransparencyZone($iPath, $vTarget_Width, $vTarget_Height, $iTransL
 	FileCopy($iPath_CutHole_Temp, $iPath)
 	FileDelete($iPath_CutHole_Temp)
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -964,7 +964,7 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage1, 0, 0)
 	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage2, 0, 0)
 
-	_LOG("Merging " & $iPath2 & " on " & $iPath_Temp) ; Debug
+	_LOG("Merging " & $iPath2 & " on " & $iPath_Temp,0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath1)
 
 	_GDIPlus_GraphicsDispose($hGraphic)
@@ -976,11 +976,11 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 	_GDIPlus_ImageDispose($hImage1)
 	_GDIPlus_Shutdown()
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	If Not FileDelete($iPath2) Then
-		_LOG("Error deleting " & $iPath2, 2)
+		_LOG("Error deleting " & $iPath2, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath1
@@ -1012,7 +1012,7 @@ EndFunc   ;==>_GDIPlus_Merge
 ; Link ..........; http://www.autoitscript.com/forum/index.php?s=&showtopic=70573&view=findpost&p=517195
 ; Example .......; Yes
 Func _GDIPlus_GraphicsDrawImageRectRectTrans($hGraphics, $hImage, $iSrcX, $iSrcY, $iSrcWidth = "", $iSrcHeight = "", _
-		$iDstX = "", $iDstY = "", $iDstWidth = "", $iDstHeight = "", $iUnit = 2, $nTrans = 1)
+	$iDstX = "", $iDstY = "", $iDstWidth = "", $iDstHeight = "", $iUnit = 2, $nTrans = 1)
 	Local $tColorMatrix, $hImgAttrib, $iW = _GDIPlus_ImageGetWidth($hImage), $iH = _GDIPlus_ImageGetHeight($hImage)
 	If $iSrcWidth = 0 Or $iSrcWidth = "" Then $iSrcWidth = $iW
 	If $iSrcHeight = 0 Or $iSrcHeight = "" Then $iSrcHeight = $iH
@@ -1076,8 +1076,8 @@ Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
 	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
-	If $iWidth <= 0 Or $aPicParameters[8] = 'YES' Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
-	If $iHeight <= 0 Or $aPicParameters[8] = 'YES' Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
+	If $iWidth <= 0 Then $iWidth = _GDIPlus_ImageGetWidth($hImage) ;Or $aPicParameters[8] = 'YES'
+	If $iHeight <= 0 Then $iHeight = _GDIPlus_ImageGetHeight($hImage) ;Or $aPicParameters[8] = 'YES'
 	$hGui = GUICreate("", $vTarget_Width, $vTarget_Height)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($vTarget_Width, $vTarget_Height, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
@@ -1147,7 +1147,7 @@ Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
 	If Not FileDelete($iPath_Temp) Then
-		_LOG("Error deleting " & $iPath_Temp, 2)
+		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $iPath
@@ -1173,15 +1173,15 @@ Func _XML_Open($iXMLPath)
 	Local $oXMLDoc = _XML_CreateDOMDocument()
 	_XML_Load($oXMLDoc, $iXMLPath)
 	If @error Then
-		_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		_LOG('_XML_Load @error:' & @CRLF & XML_My_ErrorParser(@error), 2, $iLOGPath)
 		Return -1
 	EndIf
 	_XML_TIDY($oXMLDoc)
 	If @error Then
-		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		_LOG('_XML_TIDY @error:' & @CRLF & XML_My_ErrorParser(@error), 2, $iLOGPath)
 		Return -1
 	EndIf
-	_LOG($iXMLPath & " Open", 3)
+	_LOG($iXMLPath & " Open", 3, $iLOGPath)
 	Return $oXMLDoc
 EndFunc   ;==>_XML_Open
 
@@ -1207,7 +1207,7 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	If $iXMLPath <> "" Then
 		$oXMLDoc = _XML_Open($iXMLPath)
 		If $oXMLDoc = -1 Then
-			_LOG('_XML_Open ERROR (' & $iXpath & ')', 2)
+			_LOG('_XML_Open ERROR (' & $iXpath & ')', 2, $iLOGPath)
 			Return -1
 		EndIf
 	EndIf
@@ -1221,15 +1221,15 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 ;~ 					_LOG('_XML_GetValue (' & $iXpath & ') = EMPTY', 1)
 					Return ""
 				EndIf
-				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
-				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3)
+				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2, $iLOGPath)
+				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 				Return -1
 			EndIf
 			If IsArray($iXMLValue) And UBound($iXMLValue) - 1 > 0 Then
 ;~ 				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
 				Return $iXMLValue[1]
 			Else
-				_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
+				_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
 				Return -1
 			EndIf
 		Case 1
@@ -1238,14 +1238,14 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 			$iXpath = StringTrimRight($iXpath, StringLen($iXMLAttributeName) + 1)
 			$oNode = _XML_SelectSingleNode($oXMLDoc, $iXpath)
 			If @error Then
-				_LOG('_XML_SelectSingleNode ERROR (' & $iXpath & ')', 2)
-				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+				_LOG('_XML_SelectSingleNode ERROR (' & $iXpath & ')', 2, $iLOGPath)
+				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 				Return -1
 			EndIf
 			$iXMLValue = _XML_GetNodeAttributeValue($oNode, $iXMLAttributeName)
 			If @error Then
-				_LOG('_XML_GetNodeAttributeValue ERROR (' & $iXpath & ')', 2)
-				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+				_LOG('_XML_GetNodeAttributeValue ERROR (' & $iXpath & ')', 2, $iLOGPath)
+				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 				Return -1
 			EndIf
 ;~ 			_LOG('_XML_GetNodeAttributeValue (' & $iXpath & ') = ' & $iXMLValue, 1)
@@ -1277,7 +1277,7 @@ EndFunc   ;==>_XML_Read
 Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 	Local $iXMLValue = -1, $oNode, $iXpathSplit, $iXMLAttributeName
 	If $iXMLPath = "" And $oXMLDoc = "" Then
-		_LOG('_XML_Replace Error : Need an Handle or Path', 2)
+		_LOG('_XML_Replace Error : Need an Handle or Path', 2, $iLOGPath)
 		Return -1
 	EndIf
 	If $iXMLPath <> "" Then
@@ -1289,7 +1289,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 		Case 0
 			$iXMLValue = _XML_UpdateField($oXMLDoc, $iXpath, $iValue)
 			If @error Then
-				_LOG('_XML_UpdateField @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				_LOG('_XML_UpdateField @error:' & @CRLF & XML_My_ErrorParser(@error), 2, $iLOGPath)
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
@@ -1299,7 +1299,7 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 ;~ 				Return -1
 ;~ 			EndIf
 ;~ 			$oXMLDoc = _XML_Open($iXMLPath)
-			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
+			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1, $iLOGPath)
 			Return 1
 		Case 1
 			$iXpathSplit = StringSplit($iXpath, "/")
@@ -1307,13 +1307,13 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 			$iXpath = StringTrimRight($iXpath, StringLen($iXMLAttributeName) + 1)
 			_XML_SetAttrib($oXMLDoc, $iXpath, $iXMLAttributeName, $iValue)
 			If @error Then
-				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+				_LOG('_XML_SelectSingleNode @error:' & @CRLF & XML_My_ErrorParser(@error), 2, $iLOGPath)
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
 ;~ 			_XML_SaveToFile($oXMLDoc, $iXMLPath)
 ;~ 			$oXMLDoc = _XML_Open($iXMLPath)
-			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1)
+			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1, $iLOGPath)
 			Return 1
 ;~ 			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
 ;~ 			Return 1
@@ -1349,15 +1349,15 @@ Func _XML_ListValue($iXpath, $iXMLPath = "", $oXMLDoc = "")
 
 	$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
 	If @error Then
-		_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2)
-		_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2, $iLOGPath)
+		_LOG('_XML_GetValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
 ;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[0] & " Elements", 1)
 		Return $iXMLValue
 	Else
-		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
+		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
 		Return -1
 	EndIf
 
@@ -1389,15 +1389,15 @@ Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
 
 	$iXMLValue = _XML_GetChildren($oXMLDoc, $iXpath)
 	If @error Then
-		_LOG('_XML_GetChildNodes ERROR (' & $iXpath & ')', 2)
-		_LOG('_XML_GetChildNodes @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		_LOG('_XML_GetChildNodes ERROR (' & $iXpath & ')', 2, $iLOGPath)
+		_LOG('_XML_GetChildNodes @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
 ;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & UBound($iXMLValue) - 1 & " Elements", 1)
 		Return $iXMLValue
 	Else
-		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2)
+		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return -1
@@ -1422,7 +1422,7 @@ Func _XML_Make($iXMLPath, $iRoot, $iUTF8 = True)
 	FileDelete($iXMLPath)
 	Local $oXMLDoc = _XML_CreateFile($iXMLPath, $iRoot, $iUTF8)
 	If @error Then
-		_LOG('_XML_CreateFile @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
+		_LOG('_XML_CreateFile @error:' & @CRLF & XML_My_ErrorParser(@error), 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $oXMLDoc
@@ -1457,8 +1457,8 @@ Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "", $ipos
 	$iXpath = StringTrimRight($iXpath, StringLen($iXMLChildName) + 1)
 	_XML_CreateChildWAttr($oXMLDoc, $iXpath & "[" & $ipos & "]", $iXMLChildName, Default, $iValue)
 	If @error Then
-		_LOG('_XML_CreateChildWAttr ERROR (' & $iXpath & ')', 2)
-		_LOG('_XML_CreateChildWAttr @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		_LOG('_XML_CreateChildWAttr ERROR (' & $iXpath & ')', 2, $iLOGPath)
+		_LOG('_XML_CreateChildWAttr @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
 ;~ 	_LOG("Write Value : " & $iXMLChildName & " = " & $iValue, 1)
@@ -1492,8 +1492,8 @@ Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oX
 
 	_XML_SetAttrib($oXMLDoc, $iXpath & "[" & $ipos & "]", $iAttribute, $iValue)
 	If @error Then
-		_LOG('_XML_SetAttrib ERROR (' & $iXpath & ')', 2)
-		_LOG('_XML_SetAttrib @error:' & @CRLF & XML_My_ErrorParser(@error), 3)
+		_LOG('_XML_SetAttrib ERROR (' & $iXpath & ')', 2, $iLOGPath)
+		_LOG('_XML_SetAttrib @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
 ;~ 	_LOG("Write Attribute : " & $iAttribute & " = " & $iValue, 1)
@@ -1695,7 +1695,7 @@ EndFunc   ;==>XML_My_ErrorParser
 Func _CreateMailslot($sMailSlotName)
 	Local $hHandle = _MailSlotCreate($sMailSlotName)
 	If @error Then
-		_LOG("MailSlot error : Failed to create new account! (" & $sMailSlotName & ")", 2)
+		_LOG("MailSlot error : Failed to create new account! (" & $sMailSlotName & ")", 2, $iLOGPath)
 		Return -1
 	EndIf
 	Return $hHandle
@@ -1707,23 +1707,23 @@ Func _SendMail($hHandle, $sDataToSend)
 		_MailSlotWrite($hHandle, $sDataToSend, 2)
 		Switch @error
 			Case 1
-				_LOG("MailSlot error : Account that you try to send to likely doesn't exist!", 2)
+				_LOG("MailSlot error : Account that you try to send to likely doesn't exist!", 2, $iLOGPath)
 				Return -1
 			Case 2
-				_LOG("MailSlot error : Message is blocked!", 2)
+				_LOG("MailSlot error : Message is blocked!", 2, $iLOGPath)
 				Return -1
 			Case 3
-				_LOG("MailSlot error : Message is send but there is an open handle left.", 2)
+				_LOG("MailSlot error : Message is send but there is an open handle left.", 2, $iLOGPath)
 				Return -1
 			Case 4
-				_LOG("MailSlot error : All is fucked up!", 2)
+				_LOG("MailSlot error : All is fucked up!", 2, $iLOGPath)
 				Return -1
 			Case Else
-				_LOG("MailSlot : Sucessfully sent =" & $sDataToSend, 3)
+				_LOG("MailSlot : Sucessfully sent =" & $sDataToSend, 3, $iLOGPath)
 				Return 1
 		EndSwitch
 	Else
-		_LOG("MailSlot error : Nothing to send.", 2)
+		_LOG("MailSlot error : Nothing to send.", 2, $iLOGPath)
 	EndIf
 EndFunc   ;==>_SendMail
 
@@ -1732,7 +1732,7 @@ Func _ReadMessage($hHandle)
 	If $iSize Then
 		Return _MailSlotRead($hHandle, $iSize, 2)
 	Else
-		_LOG("MailSlot error : MailSlot is empty", 2)
+		_LOG("MailSlot error : MailSlot is empty", 2, $iLOGPath)
 		Return -1
 	EndIf
 EndFunc   ;==>_ReadMessage
@@ -1742,11 +1742,11 @@ Func _CheckCount($hHandle)
 	Local $iCount = _MailSlotGetMessageCount($hHandle)
 	Switch $iCount
 		Case 0
-			_LOG("MailSlot : No new messages", 3)
+			_LOG("MailSlot : No new messages", 3, $iLOGPath)
 		Case 1
-			_LOG("MailSlot : There is 1 message waiting to be read.", 3)
+			_LOG("MailSlot : There is 1 message waiting to be read.", 3, $iLOGPath)
 		Case Else
-			_LOG("MailSlot : There are " & $iCount & " messages waiting to be read.", 3)
+			_LOG("MailSlot : There are " & $iCount & " messages waiting to be read.", 3, $iLOGPath)
 	EndSwitch
 	Return $iCount
 EndFunc   ;==>_CheckCount
@@ -1767,10 +1767,10 @@ EndFunc   ;==>_CheckAnswer
 Func _CloseMailAccount(ByRef $hHandle)
 	If _MailSlotClose($hHandle) Then
 		$hHandle = 0
-		_LOG("MailSlot : Account succesfully closed.", 3)
+		_LOG("MailSlot : Account succesfully closed.", 3, $iLOGPath)
 		Return 1
 	Else
-		_LOG("MailSlot error : Account could not be closed!", 2)
+		_LOG("MailSlot error : Account could not be closed!", 2, $iLOGPath)
 		Return -1
 	EndIf
 
@@ -1780,10 +1780,10 @@ EndFunc   ;==>_CloseMailAccount
 Func _RestoreAccount($hHandle)
 	Local $hMailSlotHandle = _MailSlotCreate($hHandle)
 	If @error Then
-		_LOG("MailSlot error : Account could not be created!", 2)
+		_LOG("MailSlot error : Account could not be created!", 2, $iLOGPath)
 		Return -1
 	Else
-		_LOG("MailSlot error : New account with the same address successfully created!", 2)
+		_LOG("MailSlot error : New account with the same address successfully created!", 2, $iLOGPath)
 		Return $hMailSlotHandle
 	EndIf
 EndFunc   ;==>_RestoreAccount

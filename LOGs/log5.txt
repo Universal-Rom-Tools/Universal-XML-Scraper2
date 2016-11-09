@@ -1,0 +1,11 @@
+[20:29:24] - C:\Developpement\Github\Universal-XML-Scraper2\Scraper64.exe (1.0.0.17)
+[20:29:24] - WIN_10(X64) - 040C
+[20:29:28] - No Resizing : C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\screenTEMP.png
+[20:29:29] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\box3dTEMP.png
+[20:29:30] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\SupportTEMP.png
+[20:29:30] - Resize Max : C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\wheelTEMP.png
+[20:29:30] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\wheelTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\SupportTEMP-MER_Temp.PNG
+[20:29:30] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\SupportTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\box3dTEMP-MER_Temp.PNG
+[20:29:30] - Merging C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\box3dTEMP.png on C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\screenTEMP-MER_Temp.PNG
+[20:29:31] - PNG Optimization (PNGQuant): C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\screenTEMP.png(477 KB -> 103 KB)
+[20:29:33] - No Resizing : C:\Developpement\Github\Universal-XML-Scraper2\TEMP5\MIX\screenTEMP.png

@@ -1,0 +1,151 @@
+<progressbar>
+	<prSET_ROM_CREATEARRAY>ハッシュ 作成中</prSET_ROM_CREATEARRAY>
+	<prSET_XML_CREATEROM>XMLファイル 作成中</prSET_XML_CREATEROM>
+	<prSET_XML_FUSIONROM>XMLファイル 結合中</prSET_XML_FUSIONROM>
+	<prSET_SYSTEM_CREATEARRAY>システムリストを 取得中</prSET_SYSTEM_CREATEARRAY>
+</progressbar>
+
+<error>
+	<err_title>エラー</err_title>
+	<err_PathRom>ROMのパスが 正しくありません</err_PathRom>
+	<err_PathImage>画像のパスが 正しくありません</err_PathImage>
+	<err_PathNew>XMLファイルのパスが 正しくありません</err_PathNew>
+	<err_PathNew_ext>不正な XMLファイルです</err_PathNew_ext>
+	<err_FillRomList>ZIPファイルが 見つかりません</err_FillRomList>
+	<err_No_Profil>プロフィールが 選択されていません</err_No_Profil>
+	<err_autoconfPathRom>自動ROMパス設定が 正しくありません</err_autoconfPathRom>
+	<err_TimeOut>Universal XML Scraper はデータベースに接続できません。 また後で試してください。</err_TimeOut>
+</error>
+
+<message>
+	<mess_autoconf>自動コンフィグレーションを設定中</mess_autoconf>
+	<mess_autoconf_ask_Title>自動コンフィグレーション</mess_autoconf_ask_Title>
+	<mess_autoconf_ask_Question>自動コンフィグレーションを使いますか？</mess_autoconf_ask_Question>
+	<mess_ssh_killall>EmulationStationを停止しますか？</mess_ssh_killall>
+	<mess_ssh_start>EmulationStationを起動しますか？</mess_ssh_start>
+	<mess_ssh_reboot>コンピュータを再起動しますか？</mess_ssh_reboot>
+	<mess_ssh_poweroff>コンピュータを停止しますか？</mess_ssh_poweroff>
+	<mess_update_Title>新しいバージョンがあります</mess_update_Title>
+	<mess_update_Question>新しいバージョンがあります。ダウンロードしますか？</mess_update_Question>
+</message>
+
+<gui>
+	<main_gui>Universal XML Scraper</main_gui>
+	<menu>
+		<mnu_file>ファイル</mnu_file>
+		<mnu_file_profil>プロフィールを読み込む</mnu_file_profil>
+		<mnu_file_exit>終了</mnu_file_exit>
+		<mnu_edit>編集</mnu_edit>
+		<mnu_edit_autoconfpath>自動コンフィグレーションパス</mnu_edit_autoconfpath>
+		<mnu_edit_autoconf>自動コンフィグレーション</mnu_edit_autoconf>
+		<mnu_edit_fullscrape>全てのシステムをスクレイプする</mnu_edit_fullscrape>
+		<mnu_edit_miximage>画像合成プロフィールを変更する</mnu_edit_miximage>
+		<mnu_edit_langue>言語を変更する</mnu_edit_langue>
+		<mnu_edit_config>コンフィグ</mnu_edit_config>
+		<mnu_ssh>SSH コマンド</mnu_ssh>
+		<mnu_ssh_killall>EmulationStationを停止</mnu_ssh_killall>
+		<mnu_ssh_start>EmulationStationを起動</mnu_ssh_start>
+		<mnu_ssh_reboot>再起動</mnu_ssh_reboot>
+		<mnu_ssh_halt>電源オフ</mnu_ssh_halt>
+		<mnu_mode>スクレイプモード</mnu_mode>
+		<mnu_mode_new>新規ファイル</mnu_mode_new>
+		<mnu_mode_append>不明なROMを追加</mnu_mode_append>
+		<mnu_mode_empty>見つからなかったROMを追加</mnu_mode_empty>
+		<mnu_help>ヘルプ</mnu_help>
+		<mnu_help_about>バージョン情報</mnu_help_about>
+	</menu>
+	<windows>
+		<scrap_button>スクレイプ</scrap_button>
+		<scrap_cancel_button>キャンセル</scrap_cancel_button>
+		<autoconfpath_button>全てのシステムのパス</autoconfpath_button>
+		<win_sel_langue>
+			<win_sel_langue_Title>言語選択</win_sel_langue_Title>
+			<win_sel_langue_text>言語を選択してください</win_sel_langue_text>
+			<win_sel_langue_button>選択</win_sel_langue_button>
+		</win_sel_langue>
+		<win_sel_profil>
+			<win_sel_profil_Title>プロフィール選択</win_sel_profil_Title>
+			<win_sel_profil_text>プロフィールを選択してください</win_sel_profil_text>
+			<win_sel_profil_button>選択</win_sel_profil_button>
+		</win_sel_profil>
+		<win_sel_system>
+			<win_sel_system_Title>システム選択</win_sel_system_Title>
+			<win_sel_system_text>システムを選択してください</win_sel_system_text>
+			<win_sel_system_button>選択</win_sel_system_button>
+		</win_sel_system>
+		<win_config>
+			<win_config_Title>コンフィグレーション</win_config_Title>
+			<win_config_GroupScrap>スクレイパー</win_config_GroupScrap>
+			<win_config_GroupScrap_PathRom>スクレイプするROMのパス</win_config_GroupScrap_PathRom>
+			<win_config_GroupScrap_PathXML>XMLファイルのパス</win_config_GroupScrap_PathXML>
+			<win_config_GroupScrap_PathRomSub>XMLファイルのROMのパス</win_config_GroupScrap_PathRomSub>
+			<win_config_GroupImage>画像</win_config_GroupImage>
+			<win_config_GroupImage_PathImage>ダウンロード画像のパス</win_config_GroupImage_PathImage>
+			<win_config_GroupImage_hautImage>高さ</win_config_GroupImage_hautImage>
+			<win_config_GroupImage_LongImage>幅</win_config_GroupImage_LongImage>
+			<win_config_GroupImage_PathImageSub>XMLファイルの画像のパス</win_config_GroupImage_PathImageSub>
+			<win_config_GroupImage_Extension>拡張子</win_config_GroupImage_Extension>
+			<win_config_GroupAutoconf>自動コンフィグ</win_config_GroupAutoconf>
+			<win_config_GroupAutoconf_PathRom>システムパス</win_config_GroupAutoconf_PathRom>
+			<win_config_GroupAutoconf_PathXML>XMLファイル名</win_config_GroupAutoconf_PathXML>
+			<win_config_GroupAutoconf_PathRomSub>XMLファイルのROMのパス</win_config_GroupAutoconf_PathRomSub>
+			<win_config_GroupAutoconf_PathImage>ダウンロード画像のディレクトリ</win_config_GroupAutoconf_PathImage>
+			<win_config_GroupAutoconf_PathImageSub>XMLファイルの画像のパス</win_config_GroupAutoconf_PathImageSub>
+			<win_config_GroupAutoconf_Use>自動コンフィグ</win_config_GroupAutoconf_Use>
+			<win_config_mode_new>新規XMLファイル</win_config_mode_new>
+			<win_config_mode_append>追加XMLファイル</win_config_mode_append>
+			<win_config_mode_empty>空のROMを追加</win_config_mode_empty>
+			<win_config_mode_MAJ>大文字</win_config_mode_MAJ>
+			<win_config_Enreg>保存</win_config_Enreg>
+			<win_config_Cancel>キャンセル</win_config_Cancel>
+			<win_config_Advanced>アドバンス</win_config_Advanced>
+		</win_config>
+		<win_config_mix>
+			<win_config_mix_Title>画像合成コンフグレーション</win_config_mix_Title>
+			<win_config_mix_empty>空のテンプレート</win_config_mix_empty>
+			<win_config_mix_exemple>テンプレート</win_config_mix_exemple>
+			<win_config_mix_Enreg>保存</win_config_mix_Enreg>
+			<win_config_mix_Cancel>キャンセル</win_config_mix_Cancel>
+		</win_config_mix>
+		<win_About>
+			<win_About_Title>バージョン情報</win_About_Title>
+			<win_About_By>製作 : Screech</win_About_By>
+			<win_About_Thanks>Thanks to :</win_About_Thanks>
+		</win_About>
+		<win_Datas>
+			<win_Datas_Title>結果</win_Datas_Title>
+			<win_Datas_Text>スクレイプ完了</win_Datas_Text>
+			<win_Datas_RomsFound>見つかったROM : </win_Datas_RomsFound>
+			<win_Datas_RomsExist>存在したROM : </win_Datas_RomsExist>
+			<win_Datas_RomsAdd>追加されたROMの数 : </win_Datas_RomsAdd>
+			<win_Datas_MoyTime>ROMの平均時間 : </win_Datas_MoyTime>
+			<win_Datas_FullTime>合計時間 : </win_Datas_FullTime>
+		</win_Datas>
+		<win_Cancel>
+			<win_Cancel_Title>スクレイプはキャンセルされました</win_Cancel_Title>
+			<win_Cancel_Text>スクレイプはキャンセルされました</win_Cancel_Text>
+		</win_Cancel>
+	</windows>
+	<tips>
+		<tips_config>
+			<tips_config_GroupScrap_PathRom>ROMのあるパス</tips_config_GroupScrap_PathRom>
+			<tips_config_GroupScrap_PathXML>XMLファイルのフルパス</tips_config_GroupScrap_PathXML>
+			<tips_config_GroupScrap_PathRomSub>ROMのある ローカルパス(XMLファイル)</tips_config_GroupScrap_PathRomSub>
+			<tips_config_GroupImage_PathImage>ダウンロードした画像が 格納されるパス</tips_config_GroupImage_PathImage>
+			<tips_config_GroupImage_hautImage>ダウンロードした画像の 最大高さ (拡大・縮小)</tips_config_GroupImage_hautImage>
+			<tips_config_GroupImage_LongImage>ダウンロードした画像の 最大幅 (拡大・縮小)</tips_config_GroupImage_LongImage>
+			<tips_config_GroupImage_PathImageSub>画像のある ローカルパス(XMLファイル)</tips_config_GroupImage_PathImageSub>
+			<tips_config_GroupImage_Extension>ダウンロードした画像の 拡張子(デフォルト = Webと同じ)</tips_config_GroupImage_Extension>
+			<tips_config_GroupAutoconf_PathRom>システムのある ディレクトリ</tips_config_GroupAutoconf_PathRom>
+			<tips_config_GroupAutoconf_PathXML>生成されたXMLファイル名 </tips_config_GroupAutoconf_PathXML>
+			<tips_config_GroupAutoconf_PathRomSub>ROMのある ローカルパス(XMLファイル)</tips_config_GroupAutoconf_PathRomSub>
+			<tips_config_GroupAutoconf_PathImage>ダウンロードされた画像がある ディレクトリ</tips_config_GroupAutoconf_PathImage>
+			<tips_config_GroupAutoconf_PathImageSub>ROMがある ローカルパス(XMLファイル)</tips_config_GroupAutoconf_PathImageSub>
+			<tips_config_GroupAutoconf_Use>自動コンフィグの有効化</tips_config_GroupAutoconf_Use>
+			<tips_config_mode_new>新規XMLファイルを作成しました (存在する場合は上書き)</tips_config_mode_new>
+			<tips_config_mode_append>存在するXMLファイルを追加します</tips_config_mode_append>
+			<tips_config_mode_empty>情報が 見つからない場合に、 XMLファイルに 空のエントリーを 追加します</tips_config_mode_empty>
+			<tips_config_mode_MAJ>スクレイプ時に大文字に変換します</tips_config_mode_MAJ>
+		</tips_config>
+	<tips>
+</gui>

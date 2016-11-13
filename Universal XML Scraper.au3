@@ -12,6 +12,8 @@
 #AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
 #AutoIt3Wrapper_Run_Tidy=y
 #Tidy_Parameters=/reel
+#AutoIt3Wrapper_Run_Before=ShowOriginalLine.exe %in%
+#AutoIt3Wrapper_Run_After=ShowOriginalLine.exe %in%
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 ;*************************************************************************
@@ -53,7 +55,7 @@ Else
 EndIf
 
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
-Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log.txt")
+Global $iLOGPath = $iScriptPath & "\LOGs\log.txt"
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$vVerbose", 0)
 Global $MS_AutoConfigItem
 
@@ -69,10 +71,14 @@ Global $MS_AutoConfigItem
 #include "./Include/MailSlot.au3"
 #include "./Include/_GraphGDIPlus.au3"
 #include "./Include/_MyFunction.au3"
+#include "./Include/_AutoItErrorTrap.au3"
+
+_AutoItErrorTrap("Main Module", "Hi!" & @CRLF & @CRLF & "An error was detected in the program, you can try again," & _
+		" cancel to exit or continue to see more details of the error." & @CRLF & @CRLF & "Sorry for the inconvenience!")
 
 ;Checking Version
 ;----------------
-_LOG_Ceation() ; Starting Log
+_LOG_Ceation($iLOGPath) ; Starting Log
 
 If @Compiled Then
 	Local $iScriptVer = FileGetVersion(@ScriptFullPath)
@@ -84,19 +90,19 @@ If @Compiled Then
 		FileDelete($iScriptPath & "\Ressources")
 		FileDelete($iScriptPath & "\Mix")
 		FileDelete($iScriptPath & "\ProfilsFiles")
-		_LOG("Update file needed from version " & $iINIVer & " to " & $iScriptVer, 1)
+		_LOG("Update file needed from version " & $iINIVer & " to " & $iScriptVer, 1, $iLOGPath)
 	Else
-		_LOG("No updated files needed (Version : " & $iScriptVer & ")", 1)
+		_LOG("No updated files needed (Version : " & $iScriptVer & ")", 1, $iLOGPath)
 	EndIf
 Else
 	Local $iScriptVer = 'In Progress'
 	Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
 	Local $iSoftname = "UniversalXMLScraper(TestDev)"
-	_LOG("Dev version", 1)
+	_LOG("Dev version", 1, $iLOGPath)
 EndIf
 
 #Region FileInstall
-_LOG("Starting files installation", 0)
+_LOG("Starting files installation", 0, $iLOGPath)
 DirCreate($iScriptPath & "\LanguageFiles")
 DirCreate($iScriptPath & "\Ressources")
 DirCreate($iScriptPath & "\Mix")
@@ -118,14 +124,20 @@ FileInstall(".\LanguageFiles\UXS-SPANISH.XML", $iScriptPath & "\LanguageFiles\UX
 ;~ FileInstall(".\Ressources\Fleche_IP2.bmp", $iScriptPath & "\Ressources\Fleche_IP2.bmp")
 FileInstall(".\Ressources\plink.exe", $iScriptPath & "\Ressources\plink.exe")
 FileInstall(".\Ressources\optipng.exe", $iScriptPath & "\Ressources\optipng.exe")
+FileInstall(".\Ressources\pngquant.exe", $iScriptPath & "\Ressources\pngquant.exe")
 FileInstall(".\Ressources\LICENSE optipng.txt", $iScriptPath & "\Ressources\LICENSE optipng.txt")
+FileInstall(".\Ressources\LICENSE pngquant.txt", $iScriptPath & "\Ressources\LICENSE pngquant.txt")
 FileInstall(".\Ressources\LICENSE plink.txt", $iScriptPath & "\Ressources\LICENSE plink.txt")
 FileInstall(".\Ressources\systemlist.txt", $iScriptPath & "\Ressources\systemlist.txt")
 FileInstall(".\Ressources\regionlist.txt", $iScriptPath & "\Ressources\regionlist.txt")
 FileInstall(".\Ressources\UXS.jpg", $iScriptPath & "\Ressources\UXS.jpg")
+FileInstall(".\Ressources\UXS Wizard.jpg", $iScriptPath & "\Ressources\UXS Wizard.jpg")
 FileInstall(".\Ressources\jingle_uxs.MP3", $iScriptPath & "\Ressources\jingle_uxs.MP3")
 FileInstall(".\Mix\Arcade (moon).zip", $iScriptPath & "\Mix\")
+FileInstall(".\Mix\Arcade Zoomed (moon).zip", $iScriptPath & "\Mix\")
 FileInstall(".\Mix\Full Back.zip", $iScriptPath & "\Mix\")
+FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
+FileInstall(".\Mix\Standard (4img).zip", $iScriptPath & "\Mix\")
 ;~ FileInstall(".\Mix\Oldtv (Multi Sys).zip", $iScriptPath & "\Mix\")
 ;~ FileInstall(".\Mix\Standard (3img).zip", $iScriptPath & "\Mix\")
 ;~ FileInstall(".\Mix\Standard (4img)  By Supernature2k.zip", $iScriptPath & "\Mix\")
@@ -147,7 +159,7 @@ FileInstall(".\ProfilsFiles\Ressources\Screenscraper-RecalboxV3.jpg", $iScriptPa
 FileInstall(".\ProfilsFiles\Ressources\Screenscraper-Retropie.jpg", $iScriptPath & "\ProfilsFiles\Ressources\", 0)
 FileInstall(".\Scraper.exe", $iScriptPath & "\Scraper.exe", 0)
 FileInstall(".\Scraper64.exe", $iScriptPath & "\Scraper64.exe", 0)
-_LOG("Ending files installation", 1)
+_LOG("Ending files installation", 1, $iLOGPath)
 
 #EndRegion FileInstall
 
@@ -169,23 +181,23 @@ Global $iMIXPath = $iScriptPath & "\Mix" ; Where we are storing the MIX files.
 Global $iPathMixTmp = $iMIXPath & "\TEMP" ; Where we are storing the current MIX files.
 
 If @OSArch = "X64" Then
-	_LOG("Scrape in x64")
+	_LOG("Scrape in x64", 0, $iLOGPath)
 	Local $iScraper = "Scraper64.exe"
 Else
-	_LOG("Scrape in x86")
+	_LOG("Scrape in x86", 0, $iLOGPath)
 	Local $iScraper = "Scraper.exe"
 EndIf
 
-_LOG("Verbose LVL : " & $iVerboseLVL, 1)
-_LOG("Path to ini : " & $iINIPath, 1)
-_LOG("Path to log : " & $iLOGPath, 1)
-_LOG("Path to language : " & $iLangPath, 1)
+_LOG("Verbose LVL : " & $iVerboseLVL, 1, $iLOGPath)
+_LOG("Path to ini : " & $iINIPath, 1, $iLOGPath)
+_LOG("Path to log : " & $iLOGPath, 1, $iLOGPath)
+_LOG("Path to language : " & $iLangPath, 1, $iLOGPath)
 
 ;Variable def
 ;------------
 Global $vUserLang = IniRead($iINIPath, "LAST_USE", "$vUserLang", -1)
 Global $MP_, $aPlink_Command, $vScrapeCancelled
-Local $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
+Global $vProfilsPath = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", -1)
 Local $vXpath2RomPath, $vFullTimer, $vRomTimer, $aPlink_Command, $vSelectedProfil = -1
 Local $L_SCRAPE_Parts[3] = [300, 480, -1]
 Local $oXMLProfil, $oXMLSystem
@@ -195,6 +207,7 @@ Local $sMailSlotMother = "\\.\mailslot\Mother"
 Local $sMailSlotCancel = "\\.\mailslot\Cancel"
 Local $hMailSlotMother = _CreateMailslot($sMailSlotMother)
 Local $vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
+Local $vStart = 0
 
 ;---------;
 ;Principal;
@@ -203,66 +216,39 @@ Local $vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
 ; Loading language
 Local $aLangList = _MultiLang_LoadLangDef($iLangPath, $vUserLang)
 If Not IsArray($aLangList) Or $aLangList < 0 Then
-	_LOG("Impossible to load language", 2)
+	_LOG("Impossible to load language", 2, $iLOGPath)
 	Exit
 EndIf
 ;~ _ArrayDisplay($aLangList, "$aLangList") ;Debug
 
 ; Update Checking
-_LOG("Update Checking", 1)
+_LOG("Update Checking", 1, $iLOGPath)
 Local $iChangelogPath = $iScriptPath & "\changelog.txt"
 FileDelete($iChangelogPath)
 Local $Result = _DownloadWRetry("https://raw.githubusercontent.com/Universal-Rom-Tools/Universal-XML-Scraper/master/changelog.txt", $iChangelogPath)
 Switch $Result
 	Case -1
-		_LOG("Error downloading Changelog", 2)
+		_LOG("Error downloading Changelog", 2, $iLOGPath)
 	Case -2
-		_LOG("Time Out downloading Changelog", 2)
+		_LOG("Time Out downloading Changelog", 2, $iLOGPath)
 	Case Else
 		Local $iChangelogVer = FileReadLine($iChangelogPath)
-		_LOG("Local : " & $iScriptVer & " - Github : " & $iChangelogVer)
+		_LOG("Local : " & $iScriptVer & " - Github : " & $iChangelogVer, 0, $iLOGPath)
 		If $iChangelogVer <> $iScriptVer And @Compiled = 1 Then
-			_LOG("Asking to Update")
+			_LOG("Asking to Update", 0, $iLOGPath)
 			If MsgBox($MB_YESNO, _MultiLang_GetText("mess_update_Title") & " ( Local : " & $iScriptVer & " - Github : " & $iChangelogVer & " )", _MultiLang_GetText("mess_update_Question")) = $IDYES Then
-				_LOG("Open GitHub Release Webpage and quit")
+				_LOG("Open GitHub Release Webpage and quit", 0, $iLOGPath)
 				ShellExecute("https://github.com/Universal-Rom-Tools/Universal-XML-Scraper/releases")
 				Exit
 			Else
-				_LOG("NOT UPDATED")
+				_LOG("NOT UPDATED", 0, $iLOGPath)
 			EndIf
 		EndIf
 EndSwitch
 
-;Profil Selection
-$vProfilsPath = _ProfilSelection($iProfilsPath, $vProfilsPath)
-IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vProfilsPath)
-
-;Opening XML Profil file
-$oXMLProfil = _XML_Open($vProfilsPath)
-If $oXMLProfil = -1 Then Exit
-
 ;Catching SystemList.xml
 $oXMLSystem = _XMLSystem_Create()
 If $oXMLSystem = -1 Then Exit
-
-;Setting MIX Template
-_LOG("Setting Mix Template")
-$vLastMIX = $iMIXPath & "\" & IniRead($iINIPath, "LAST_USE", "$vMixImage", "") & ".zip"
-DirRemove($iPathMixTmp, 1)
-DirCreate($iPathMixTmp)
-$vResult = _Zip_UnzipAll($vLastMIX, $iPathMixTmp, 0)
-If @error Then
-	Switch @error
-		Case 1
-			_LOG("no Zip file", 2)
-		Case 2
-			_LOG("no Zip dll found : " & @SystemDir & "\zipfldr.dll", 2)
-		Case 3
-			_LOG("Zip dll (zipfldr.dll) isn't registered", 2)
-		Case Else
-			_LOG("Unknown Zip Error (" & @error & ")", 2)
-	EndSwitch
-EndIf
 
 ;Delete Splascreen
 GUIDelete($F_Splashcreen)
@@ -275,6 +261,8 @@ Local $MF_Separation = GUICtrlCreateMenuItem("", $MF)
 Local $MF_Exit = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_exit"), $MF)
 
 Local $MC = GUICtrlCreateMenu(_MultiLang_GetText("mnu_cfg"))
+Local $MC_Wizard = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_Wizard"), $MC)
+Local $MC_Separation = GUICtrlCreateMenuItem("", $MC)
 Local $MC_Config_LU = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_LU"), $MC)
 Local $MC_config_autoconf = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_autoconf"), $MC)
 Local $MC_config_Option = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_config_Option"), $MC)
@@ -284,7 +272,7 @@ Local $MC_Separation = GUICtrlCreateMenuItem("", $MC)
 Local $MC_Profil = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_profil"), $MC)
 Local $MC_Miximage = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_miximage"), $MC)
 Local $MC_Langue = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_cfg_langue"), $MC)
-Local $MC_TEST = GUICtrlCreateMenuItem("TEST", $MC) ; Debug
+;~ Local $MC_TEST = GUICtrlCreateMenuItem("TEST", $MC) ; Debug
 
 Local $MS = GUICtrlCreateMenu(_MultiLang_GetText("mnu_scrape"))
 Local $MS_AutoConfig = GUICtrlCreateMenu(_MultiLang_GetText("mnu_scrape_autoconf"), $MS, 1)
@@ -307,31 +295,114 @@ GUISetAccelerators($F_UniversalScraper_AccelTable)
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 
-_LOG("GUI Constructed", 1)
-$aDIRList = _Check_autoconf($oXMLProfil)
-_GUI_Refresh($oXMLProfil)
+$vProfilDefault = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", "")
+If $vProfilDefault = "" Then
+	$vStart = 1
+Else
+	;Opening XML Profil file
+	$oXMLProfil = _XML_Open($vProfilsPath)
+	If $oXMLProfil = -1 Then Exit
+
+	;Setting MIX Template
+	_LOG("Setting Mix Template", 0, $iLOGPath)
+	$vLastMIX = $iMIXPath & "\" & IniRead($iINIPath, "LAST_USE", "$vMixImage", "Standard (3img)") & ".zip"
+	DirRemove($iPathMixTmp, 1)
+	DirCreate($iPathMixTmp)
+	$vResult = _Zip_UnzipAll($vLastMIX, $iPathMixTmp, 0)
+	If @error Then
+		Switch @error
+			Case 1
+				_LOG("no Zip file", 2, $iLOGPath)
+			Case 2
+				_LOG("no Zip dll found : " & @SystemDir & "\zipfldr.dll", 2, $iLOGPath)
+			Case 3
+				_LOG("Zip dll (zipfldr.dll) isn't registered", 2, $iLOGPath)
+			Case Else
+				_LOG("Unknown Zip Error (" & @error & ")", 2, $iLOGPath)
+		EndSwitch
+	EndIf
+	$aDIRList = _Check_autoconf($oXMLProfil)
+	_LoadConfig($oXMLProfil)
+	_GUI_Refresh($oXMLProfil)
+EndIf
+_LOG("GUI Constructed", 1, $iLOGPath)
 
 While 1
 	$nMsg = GUIGetMsg()
-	Switch $nMsg
-		Case $MC_TEST
-;~ 			$vTest = _XML_Read('Profil/Element[@Type="Picture"]/Option/Source_Value_Option[1]', 0, "", $oXMLProfil)
-;~ 			MsgBox(0, "$vTest", $vTest)
-			$aTEST = _XML_ListValue('Profil/Options/Option/Name', "", $oXMLProfil)
-;~ 			$aTEST = _XML_ListValue('Profil/Element[@Type="Picture"]/Option/*', "", $oXMLProfil)
-			_ArrayDisplay($aTEST, "$aTEST") ;Debug
-;~ 			_ArrayColInsert($aTEST, 1)
-;~ 			For $vBoucle = 1 To UBound($aTEST) - 1
-;~ 				$aTEST[$vBoucle][1] = _XML_Read('Profil/Options/Option[' & $vBoucle & ']/Name', 1, "", $oXMLProfil)
-;~ 			Next
-;~ 			_ArrayDisplay($aTEST, "$aTEST") ;Debug
-			$aTEST = _XML_ListValue('Profil/Options/Option[Name="Picture"]/Source_Value_Option', "", $oXMLProfil)
-;~ 			$aTEST = _XML_ListValue('Profil/Element[@Type="Picture"]/Option/*', "", $oXMLProfil)
-			_ArrayDisplay($aTEST, "$aTEST") ;Debug
+	If $vStart = 1 Then
+		$nMsg = $MC_Wizard
+		$vStart = 0
+	EndIf
 
+	Switch $nMsg
+		Case $MC_Wizard ;Wizard
+			$vBoucle = 1
+			$vMaxWizard = 5
+			While $vBoucle < $vMaxWizard
+				Switch $vBoucle
+					Case 1
+						$vResult = _WizardProfil()
+						Switch $vResult
+							Case -2
+								$vBoucle = $vMaxWizard
+							Case -1
+								$vBoucle = $vBoucle - 1
+							Case Else
+								IniWrite($iINIPath, "LAST_USE", "$vProfilsPath", $vResult)
+								_LOG("Wizard - Profil selected : " & $vResult, 0, $iLOGPath)
+								$oXMLProfil = _XML_Open($vResult)
+								If $oXMLProfil = -1 Then Exit
+								;Catching SystemList.xml
+								$vBoucle = $vBoucle + 1
+						EndSwitch
+
+					Case 2
+						$vResult = _WizardAutoconf()
+						Switch $vResult
+							Case -2
+								$vBoucle = $vMaxWizard
+							Case -1
+								$vBoucle = $vBoucle - 1
+							Case Else
+								_XML_Replace("Profil/AutoConf/Source_RootPath", $vResult, 0, "", $oXMLProfil)
+								FileDelete($vProfilsPath)
+								_XML_SaveToFile($oXMLProfil, $vProfilsPath)
+								IniWrite($iINIPath, "LAST_USE", "$vAutoconf_Use", 1)
+								$aDIRList = _Check_autoconf($oXMLProfil)
+								IniWrite($iINIPath, "LAST_USE", "$vSource_RomPath", $aDIRList[1][1])
+								IniWrite($iINIPath, "LAST_USE", "$vTarget_RomPath", $aDIRList[1][2])
+								IniWrite($iINIPath, "LAST_USE", "$vTarget_XMLName", $aDIRList[1][3])
+								IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $aDIRList[1][4])
+								IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $aDIRList[1][5])
+								_LoadConfig($oXMLProfil)
+								_GUI_Refresh($oXMLProfil)
+								If IniRead($iINIPath, "LAST_USE", "$vRechFiles", 0) = 0 Then IniWrite($iINIPath, "LAST_USE", "$vRechFiles", "*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.cfg;*.nv;*.sav*|")
+								If IniRead($iINIPath, "LAST_USE", "$vAutoconf_Use", 0) <> 0 Then $vBoucle = $vBoucle + 1
+						EndSwitch
+					Case 3
+						If StringLower(_XML_Read('Profil/General/Mix', 0, "", $oXMLProfil)) = "true" Then
+							$vResult = _WizardWindow(_MultiLang_GetText("win_Wizard_MIX_Title"), _MultiLang_GetText("win_Wizard_MIX_Desc"), "", "", 0, 1, 1, 0)
+							If $vResult > 0 Then _GUI_Config_MIX($iMIXPath, $iPathMixTmp)
+						Else
+							_WizardWindow(_MultiLang_GetText("win_Wizard_END_Title"), _MultiLang_GetText("win_Wizard_END_Desc"), "", "", 0, 1, 1, 0)
+							$vResult = -2
+						EndIf
+						Switch $vResult
+							Case -2
+								$vBoucle = $vMaxWizard
+							Case -1
+								$vBoucle = $vBoucle - 1
+							Case Else
+								$vBoucle = $vBoucle + 1
+						EndSwitch
+					Case 4
+						$vResult = _WizardWindow(_MultiLang_GetText("win_Wizard_END_Title"), _MultiLang_GetText("win_Wizard_END_Desc"), "", "", 0, 0, 0, 1)
+						$vBoucle = $vMaxWizard
+				EndSwitch
+			WEnd
 		Case $GUI_EVENT_CLOSE, $MF_Exit ; Exit
 			DirRemove($iTEMPPath, 1)
-			_LOG("Universal XML Scraper Closed")
+			_LOG("Universal XML Scraper Closed", 0, $iLOGPath)
 			Exit
 		Case $MC_Profil ;Profil Selection
 			$vProfilsPath = _ProfilSelection($iProfilsPath)
@@ -342,18 +413,18 @@ While 1
 			$aDIRList = _Check_autoconf($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
 			$nMsg = ""
-		Case $MC_Langue
+		Case $MC_Langue ;Langue Selection
 			$aLangList = _MultiLang_LoadLangDef($iLangPath, -1)
 			If Not IsArray($aLangList) Or $aLangList < 0 Then
-				_LOG("Impossible to load language", 2)
+				_LOG("Impossible to load language", 2, $iLOGPath)
 				Exit
 			EndIf
 			_LoadConfig($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
-		Case $MC_Config_LU
+		Case $MC_Config_LU ;Manual Path Configuration
 			_GUI_Config_LU()
 			_GUI_Refresh($oXMLProfil)
-		Case $MC_config_Option
+		Case $MC_config_Option ;Option Configuration
 			$GUI_Config_Options = _GUI_Config_Options($oXMLProfil)
 			If $GUI_Config_Options = 1 Then
 				FileDelete($vProfilsPath)
@@ -361,15 +432,15 @@ While 1
 			EndIf
 			$aDIRList = _Check_autoconf($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
-		Case $MC_config_PIC
+		Case $MC_config_PIC ;Picture Configuration
 			_GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 			_GUI_Refresh($oXMLProfil)
-		Case $MC_config_MISC
+		Case $MC_config_MISC ;General Configuration
 			_GUI_Config_MISC()
 			_GUI_Refresh($oXMLProfil)
-		Case $MC_Miximage
+		Case $MC_Miximage ;Mix Image Selection
 			_GUI_Config_MIX($iMIXPath, $iPathMixTmp)
-		Case $MC_config_autoconf
+		Case $MC_config_autoconf ;Autoconf Configuration
 			$GUI_Config_autoconf = _GUI_Config_autoconf($oXMLProfil)
 			If $GUI_Config_autoconf = 1 Then
 				FileDelete($vProfilsPath)
@@ -377,7 +448,7 @@ While 1
 			EndIf
 			$aDIRList = _Check_autoconf($oXMLProfil)
 			_GUI_Refresh($oXMLProfil)
-		Case $MH_Help
+		Case $MH_Help ;Help
 			$sMsg = "UNIVERSAL XML SCRAPER - " & $iScriptVer & @CRLF
 			$sMsg &= _MultiLang_GetText("win_About_By") & @CRLF & @CRLF
 			$sMsg &= _MultiLang_GetText("win_About_Thanks") & @CRLF
@@ -387,16 +458,16 @@ While 1
 			$sMsg &= "http://www.emulationstation.org/" & @CRLF
 			_ExtMsgBoxSet(1, 2, 0x34495c, 0xFFFF00, 10, "Arial")
 			_ExtMsgBox($EMB_ICONINFO, "OK", _MultiLang_GetText("win_About_Title"), $sMsg, 15)
-		Case $B_SCRAPE
+		Case $B_SCRAPE, $MS_Scrape ;Solo Scrape or Cancel
 			$vFullTimer = TimerInit()
 			$vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
 			$aRomList = _SCRAPE($oXMLProfil, $vNbThread)
 			$vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
-			_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
+			_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s", 0, $iLOGPath)
 			_Results($aRomList, $vNbThread, $vFullTimer)
 			$vScrapeCancelled = 0
 			_GUI_Refresh($oXMLProfil)
-		Case $MS_FullScrape
+		Case $MS_FullScrape ;FullScrape
 			Dim $aRomList_FULL[1][12]
 			$vFullTimer = TimerInit()
 			$vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
@@ -418,7 +489,7 @@ While 1
 				If Not _Check_Cancel() Then $vBoucle = UBound($MS_AutoConfigItem) - 1
 			Next
 			$vNbThread = IniRead($iINIPath, "LAST_USE", "$vNbThread", 1)
-			_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s")
+			_LOG("-- Full Scrape in " & Round((TimerDiff($vFullTimer) / 1000), 2) & "s", 0, $iLOGPath)
 			_Results($aRomList_FULL, $vNbThread, $vFullTimer)
 			$vScrapeCancelled = 0
 			_GUI_Refresh($oXMLProfil)
@@ -434,7 +505,7 @@ While 1
 	If $aDIRList <> -1 Then
 		For $vBoucle = 1 To UBound($MS_AutoConfigItem) - 1
 			If $nMsg = $MS_AutoConfigItem[$vBoucle] Then
-				_LOG("Autoconfig Selected :" & $aDIRList[$vBoucle][0])
+				_LOG("Autoconfig Selected :" & $aDIRList[$vBoucle][0],0, $iLOGPath)
 				For $vBoucle2 = 1 To UBound($MS_AutoConfigItem) - 1
 					GUICtrlSetState($MS_AutoConfigItem[$vBoucle2], $GUI_UNCHECKED)
 				Next
@@ -456,7 +527,6 @@ WEnd
 ;Fonctions;
 ;---------;
 
-#Region Function
 Func _LoadConfig($oXMLProfil)
 	Local $aMatchingCountry
 	Dim $aConfig[15]
@@ -479,21 +549,21 @@ Func _LoadConfig($oXMLProfil)
 
 	If Not FileExists($aConfig[1]) Then
 		_ExtMsgBox($EMB_ICONEXCLAM, "OK", _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"), 15)
-		_LOG("Error Access to : " & $aConfig[1], 2)
+		_LOG("Error Access to : " & $aConfig[1], 2, $iLOGPath)
 		Return 0
 	EndIf
 
-	_LOG("$vTarget_XMLName = " & $aConfig[0], 1)
-	_LOG("$vSource_RomPath = " & $aConfig[1], 1)
-	_LOG("$vTarget_RomPath = " & $aConfig[2], 1)
-	_LOG("$vSource_ImagePath = " & $aConfig[3], 1)
-	_LOG("$vTarget_ImagePath = " & $aConfig[4], 1)
-	_LOG("$vScrape_Mode = " & $aConfig[5], 1)
-	_LOG("$vMissingRom_Mode = " & $aConfig[6], 1)
-	_LOG("$vCountryPic_Mode = " & $aConfig[7], 1)
-	_LOG("$vLangPref = " & $aConfig[9], 1)
-	_LOG("$vCountryPref = " & $aConfig[10], 1)
-	_LOG("$aMatchingCountry = " & $aConfig[11], 1)
+	_LOG("$vTarget_XMLName = " & $aConfig[0], 1, $iLOGPath)
+	_LOG("$vSource_RomPath = " & $aConfig[1], 1, $iLOGPath)
+	_LOG("$vTarget_RomPath = " & $aConfig[2], 1, $iLOGPath)
+	_LOG("$vSource_ImagePath = " & $aConfig[3], 1, $iLOGPath)
+	_LOG("$vTarget_ImagePath = " & $aConfig[4], 1, $iLOGPath)
+	_LOG("$vScrape_Mode = " & $aConfig[5], 1, $iLOGPath)
+	_LOG("$vMissingRom_Mode = " & $aConfig[6], 1, $iLOGPath)
+	_LOG("$vCountryPic_Mode = " & $aConfig[7], 1, $iLOGPath)
+	_LOG("$vLangPref = " & $aConfig[9], 1, $iLOGPath)
+	_LOG("$vCountryPref = " & $aConfig[10], 1, $iLOGPath)
+	_LOG("$aMatchingCountry = " & $aConfig[11], 1, $iLOGPath)
 
 	If Not FileExists($aConfig[3]) Then DirCreate($aConfig[3] & "\")
 ;~ 	If Not FileExists($aConfig[0]) Then _FileCreate($aConfig[0])
@@ -506,7 +576,7 @@ Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 	$aProfilList = _FileListToArrayRec($iProfilsPath, "*.xml", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_FULLPATH)
 ;~ 	_ArrayDisplay($aProfilList, "$aProfilList") ;Debug
 	If Not IsArray($aProfilList) Then
-		_LOG("No Profils found", 2)
+		_LOG("No Profils found", 2, $iLOGPath)
 		Exit
 	EndIf
 	_ArrayColInsert($aProfilList, 0)
@@ -520,7 +590,7 @@ Func _ProfilSelection($iProfilsPath, $vProfilsPath = -1) ;Profil Selection
 ;~ 	_ArrayDisplay($aProfilList, "$aProfilList") ;Debug
 
 	If $vProfilsPath = -1 Then $vProfilsPath = _SelectGUI($aProfilList, $aProfilList[0][2], "Profil")
-	_LOG("Profil selected : " & $vProfilsPath)
+	_LOG("Profil selected : " & $vProfilsPath, 0, $iLOGPath)
 	Return $vProfilsPath
 EndFunc   ;==>_ProfilSelection
 
@@ -531,7 +601,7 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 	Local $aPlink_Command = _XML_Read("Profil/Plink/Command/" & $vPlinkCommand, 0, "", $oXMLProfil)
 
 	If MsgBox($MB_OKCANCEL, $vPlinkCommand, _MultiLang_GetText("mess_ssh_" & $vPlinkCommand)) = $IDOK Then
-		_LOG("SSH : " & $aPlink_Command)
+		_LOG("SSH : " & $aPlink_Command, 0, $iLOGPath)
 		$sRun = $iScriptPath & "\Ressources\plink.exe " & $vPlink_Ip & " -l " & $vPlink_Root & " -pw " & $vPlink_Pswd & " " & $aPlink_Command
 		$iPid = Run($sRun, '', @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
 		While ProcessExists($iPid)
@@ -539,13 +609,13 @@ Func _Plink($oXMLProfil, $vPlinkCommand) ;Send a Command via Plink
 			If Not @error And $_StderrRead <> '' Then
 				If StringInStr($_StderrRead, 'Unable to open connection') Then
 					MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PlinkGlobal") & @CRLF & _MultiLang_GetText("err_PlinkConnection"))
-					_LOG("Unable to open connection with Plink (" & $vPlink_Root & ":" & $vPlink_Pswd & "@" & $vPlink_Ip & ")", 2)
+					_LOG("Unable to open connection with Plink (" & $vPlink_Root & ":" & $vPlink_Pswd & "@" & $vPlink_Ip & ")", 2, $iLOGPath)
 					Return -1
 				EndIf
 			EndIf
 		WEnd
 	Else
-		_LOG("SSH canceled : " & $aPlink_Command, 1)
+		_LOG("SSH canceled : " & $aPlink_Command, 1, $iLOGPath)
 	EndIf
 	Return
 EndFunc   ;==>_Plink
@@ -584,7 +654,7 @@ Func _GUI_Config_Options($oXMLProfil)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Option Configuration Canceled", 0)
+				_LOG("Option Configuration Canceled", 0, $iLOGPath)
 				Return -1
 			Case $C_Option
 				$vValue_Option = ""
@@ -617,9 +687,9 @@ Func _GUI_Config_Options($oXMLProfil)
 						$vDefaultOptionValue = $aValue_Option[$vDefaultOptionValue][0]
 ;~ 						MsgBox(0, "$vDefaultOptionValue - Node", 'Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode & " -> " & $vDefaultOptionValue)
 						_XML_Replace('Profil/Element[@Type="' & GUICtrlRead($C_Option) & '"]/' & $vNode, $vDefaultOptionValue, 0, "", $oXMLProfil)
-						_LOG("Option Configuration Saved", 0)
-						_LOG("------------------------", 1)
-						_LOG(GUICtrlRead($C_Option) & " = " & $vDefaultOptionValue, 1)
+						_LOG("Option Configuration Saved", 0, $iLOGPath)
+						_LOG("------------------------", 1, $iLOGPath)
+						_LOG(GUICtrlRead($C_Option) & " = " & $vDefaultOptionValue, 1, $iLOGPath)
 
 						GUIDelete($F_CONFIG)
 						GUISetState(@SW_ENABLE, $F_UniversalScraper)
@@ -630,7 +700,7 @@ Func _GUI_Config_Options($oXMLProfil)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Option Configuration Error : No choice made", 0)
+				_LOG("Option Configuration Error : No choice made", 0, $iLOGPath)
 				Return -1
 
 		EndSwitch
@@ -670,7 +740,7 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Image Configuration Canceled", 0)
+				_LOG("Image Configuration Canceled", 0, $iLOGPath)
 				Return
 			Case $B_CONFENREG
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Width", GUICtrlRead($I_Width))
@@ -678,11 +748,11 @@ Func _GUI_Config_Image($oXMLProfil, $iPathMixTmp)
 				$vPicExt = GUICtrlRead($C_PicExt)
 				If $vPicExt = "defaut" Then $vPicExt = ""
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Ext", $vPicExt)
-				_LOG("Image Configuration Saved", 0)
-				_LOG("------------------------", 1)
-				_LOG("$vTarget_Image_Width = " & GUICtrlRead($I_Width), 1)
-				_LOG("$vTarget_Image_Height = " & GUICtrlRead($I_Height), 1)
-				_LOG("$vTarget_Image_Ext = " & $vPicExt, 1)
+				_LOG("Image Configuration Saved", 0, $iLOGPath)
+				_LOG("------------------------", 1, $iLOGPath)
+				_LOG("$vTarget_Image_Width = " & GUICtrlRead($I_Width), 1, $iLOGPath)
+				_LOG("$vTarget_Image_Height = " & GUICtrlRead($I_Height), 1, $iLOGPath)
+				_LOG("$vTarget_Image_Ext = " & $vPicExt, 1, $iLOGPath)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -730,11 +800,13 @@ Func _GUI_Config_MIX($iMIXPath, $iPathMixTmp)
 				GUIDelete($F_MIXIMAGE)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("MIX Configuration Canceled", 0)
+				_LOG("MIX Configuration Canceled", 0, $iLOGPath)
 				Return
 			Case $B_OK
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Width", "")
+				IniWrite($iINIPath, "LAST_USE", "$vTarget_Image_Height", "")
 				IniWrite($iINIPath, "LAST_USE", "$vMixImage", GUICtrlRead($C_MIXIMAGE))
-				_LOG("MIX Configuration Saved : " & GUICtrlRead($C_MIXIMAGE), 0)
+				_LOG("MIX Configuration Saved : " & GUICtrlRead($C_MIXIMAGE), 0, $iLOGPath)
 				GUIDelete($F_MIXIMAGE)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -755,7 +827,7 @@ Func _GUI_Config_MIX($iMIXPath, $iPathMixTmp)
 EndFunc   ;==>_GUI_Config_MIX
 
 Func _GUI_Config_MISC()
-	Local $aRechFiles = StringSplit(IniRead($iINIPath, "LAST_USE", "$vRechFiles", "*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.nv;*.sav*|"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+	Local $aRechFiles = StringSplit(IniRead($iINIPath, "LAST_USE", "$vRechFiles", "*.*|*.xml;*.txt;*.dv;*.fs;*.xor;*.drv;*.dat;*.cfg;*.nv;*.sav*|"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 	Local $aScrapeMode = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_ScrapeModeChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 	Local $aCountryPic_Mode = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_CountryPicModeChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 	Local $aVerbose = StringSplit(_MultiLang_GetText("win_config_MISC_GroupMISC_VerboseChoice"), '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
@@ -776,7 +848,7 @@ Func _GUI_Config_MISC()
 	GUICtrlSetData($C_CountryPic_Mode, _MultiLang_GetText("win_config_MISC_GroupMISC_CountryPicModeChoice"), $aCountryPic_Mode[IniRead($iINIPath, "LAST_USE", "$vCountryPic_Mode", 0)])
 	$L_Verbose = GUICtrlCreateLabel(_MultiLang_GetText("win_config_MISC_GroupMISC_Verbose"), 16, 204)
 	$C_Verbose = GUICtrlCreateCombo("", 16, 224, 209, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
-	GUICtrlSetData($C_Verbose, _MultiLang_GetText("win_config_MISC_GroupMISC_VerboseChoice"), $aVerbose[IniRead($iINIPath, "LAST_USE", "$vVerbose", 0)])
+	GUICtrlSetData($C_Verbose, _MultiLang_GetText("win_config_MISC_GroupMISC_VerboseChoice"), $aVerbose[IniRead($iINIPath, "GENERAL", "$vVerbose", 0)])
 	$CB_MissingRom_Mode = GUICtrlCreateCheckbox(_MultiLang_GetText("win_config_MISC_GroupMISC_MissingMode"), 16, 254)
 	$CB_RechSys = GUICtrlCreateCheckbox(_MultiLang_GetText("win_config_MISC_GroupMISC_RechSys"), 16, 278)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -814,7 +886,7 @@ Func _GUI_Config_MISC()
 	$vTEMPPathSSCheck = $iScriptPath & "\Ressources\SSCheck.xml"
 	$vSSLogin = GUICtrlRead($I_SSLogin) ;$vSSLogin
 	$vSSPassword = GUICtrlRead($I_SSPassword) ;$vSSPassword
-	_LOG("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, 3)
+	_LOG("SS Check ssid=" & $vSSLogin, 1, $iLOGPath)
 	$vTEMPPathSSCheck = _DownloadWRetry("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, $vTEMPPathSSCheck)
 	$vSSLevel = Number(_XML_Read("/Data/ssuser/niveau", 0, $vTEMPPathSSCheck))
 	If $vSSLevel < 1 Then $vSSLevel = 0
@@ -845,13 +917,13 @@ Func _GUI_Config_MISC()
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("MISC Configuration Canceled", 0)
+				_LOG("MISC Configuration Canceled", 0, $iLOGPath)
 				Return
 			Case $B_CONFENREG
 				IniWrite($iINIPath, "LAST_USE", "$vNbThread", GUICtrlRead($C_Thread))
 				IniWrite($iINIPath, "LAST_USE", "$vScrape_Mode", StringLeft(GUICtrlRead($C_ScrapeMode), 1))
 				IniWrite($iINIPath, "LAST_USE", "$vCountryPic_Mode", StringLeft(GUICtrlRead($C_CountryPic_Mode), 1))
-				IniWrite($iINIPath, "LAST_USE", "$vVerbose", StringLeft(GUICtrlRead($C_Verbose), 1))
+				IniWrite($iINIPath, "GENERAL", "$vVerbose", StringLeft(GUICtrlRead($C_Verbose), 1))
 				$iVerboseLVL = StringLeft(GUICtrlRead($C_Verbose), 1)
 				IniWrite($iINIPath, "LAST_USE", "$vMissingRom_Mode", 0)
 				If _IsChecked($CB_MissingRom_Mode) Then IniWrite($iINIPath, "LAST_USE", "$vMissingRom_Mode", 1)
@@ -871,14 +943,14 @@ Func _GUI_Config_MISC()
 				WinActivate($F_UniversalScraper)
 				Return GUICtrlRead($C_Thread)
 			Case $B_SSRegister
-				_LOG("Launch Internet Browser to Register", 0)
+				_LOG("Launch Internet Browser to Register", 0, $iLOGPath)
 				ShellExecute("http://www.screenscraper.fr/membreinscription.php")
 			Case $B_SSCheck
 				GUICtrlSetData($C_Thread, "", "")
 				$vTEMPPathSSCheck = $iScriptPath & "\Ressources\SSCheck.xml"
 				$vSSLogin = GUICtrlRead($I_SSLogin) ;$vSSLogin
 				$vSSPassword = GUICtrlRead($I_SSPassword) ;$vSSPassword
-				_LOG("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, 3)
+				_LOG("SS Check ssid=" & $vSSLogin, 3, $iLOGPath)
 				$vTEMPPathSSCheck = _DownloadWRetry("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, $vTEMPPathSSCheck)
 				$vSSLevel = Number(_XML_Read("/Data/ssuser/niveau", 0, $vTEMPPathSSCheck))
 				If $vSSLevel < 1 Then $vSSLevel = 0
@@ -886,27 +958,27 @@ Func _GUI_Config_MISC()
 					Case 0
 						$vNbThreadMax = 1
 						$vNbThreadDefault = 0
-						_LOG("Not Registered", 0)
+						_LOG("Not Registered", 0, $iLOGPath)
 						MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_NotRegistered"), 10, $F_CONFIG)
 					Case 1 To 9
 						$vNbThreadMax = 2
 						$vNbThreadDefault = 0
-						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0, $iLOGPath)
 						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
 					Case 10 To 39
 						$vNbThreadMax = 5
 						$vNbThreadDefault = 0
-						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0, $iLOGPath)
 						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
 					Case 40 To 499
 						$vNbThreadMax = 10
 						$vNbThreadDefault = 5
-						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0)
+						_LOG("Registered Lvl : " & $vSSLevel & " - Nb Thread Available : " & $vNbThreadMax, 0, $iLOGPath)
 						MsgBox($MB_ICONINFORMATION, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_OK") & " " & $vNbThreadMax & " Threads", 10, $F_CONFIG)
 					Case Else
 						$vNbThreadMax = 99
 						$vNbThreadDefault = 10
-						_LOG("God Mode", 0)
+						_LOG("God Mode", 0, $iLOGPath)
 						MsgBox($MB_ICONWARNING, _MultiLang_GetText("mess_ssregister_title"), _MultiLang_GetText("mess_ssregister_GodMode"), 10, $F_CONFIG)
 				EndSwitch
 				$vNbThreadC = ""
@@ -957,7 +1029,7 @@ Func _GUI_Config_LU()
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Path Configuration Canceled", 0)
+				_LOG("Path Configuration Canceled", 0, $iLOGPath)
 				Return
 			Case $B_Target_XMLName
 				$vTarget_XMLName = FileSaveDialog(_MultiLang_GetText("win_config_GroupScrap_PathXML"), GUICtrlRead($I_Source_RomPath), "xml (*.xml)", 18, "gamelist.xml", $F_CONFIG)
@@ -981,13 +1053,13 @@ Func _GUI_Config_LU()
 				IniWrite($iINIPath, "LAST_USE", "$vSource_ImagePath", $vSource_ImagePath)
 				$vTarget_ImagePath = GUICtrlRead($I_Target_ImagePath) ;$vTarget_ImagePath
 				IniWrite($iINIPath, "LAST_USE", "$vTarget_ImagePath", $vTarget_ImagePath)
-				_LOG("Path Configuration Saved", 0)
-				_LOG("------------------------", 1)
-				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1)
-				_LOG("$vSource_RomPath = " & $vSource_RomPath, 1)
-				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
-				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
-				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
+				_LOG("Path Configuration Saved", 0, $iLOGPath)
+				_LOG("------------------------", 1, $iLOGPath)
+				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1, $iLOGPath)
+				_LOG("$vSource_RomPath = " & $vSource_RomPath, 1, $iLOGPath)
+				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1, $iLOGPath)
+				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1, $iLOGPath)
+				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1, $iLOGPath)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -1036,7 +1108,7 @@ Func _GUI_Config_autoconf($oXMLProfil)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
-				_LOG("Path Configuration Canceled", 0)
+				_LOG("Path Configuration Canceled", 0, $iLOGPath)
 				Return
 			Case $B_Source_RootPath
 				$vSource_RootPath = FileSelectFolder(_MultiLang_GetText("win_config_LU_GroupScrap_Source_RootPath"), GUICtrlRead($I_Source_RootPath), $FSF_CREATEBUTTON, GUICtrlRead($I_Source_RootPath), $F_CONFIG)
@@ -1059,13 +1131,13 @@ Func _GUI_Config_autoconf($oXMLProfil)
 					$vAutoconf_Use = 0
 				EndIf
 				IniWrite($iINIPath, "LAST_USE", "$vAutoconf_Use", $vAutoconf_Use)
-				_LOG("AutoConf Path Configuration Saved", 0)
-				_LOG("------------------------", 1)
-				_LOG("$vSource_RootPath = " & $vSource_RootPath, 1)
-				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1)
-				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1)
-				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1)
-				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1)
+				_LOG("AutoConf Path Configuration Saved", 0, $iLOGPath)
+				_LOG("------------------------", 1, $iLOGPath)
+				_LOG("$vSource_RootPath = " & $vSource_RootPath, 1, $iLOGPath)
+				_LOG("$vTarget_XMLName = " & $vTarget_XMLName, 1, $iLOGPath)
+				_LOG("$vTarget_RomPath = " & $vTarget_RomPath, 1, $iLOGPath)
+				_LOG("$vSource_ImagePath = " & $vSource_ImagePath, 1, $iLOGPath)
+				_LOG("$vTarget_ImagePath = " & $vTarget_ImagePath, 1, $iLOGPath)
 				GUIDelete($F_CONFIG)
 				GUISetState(@SW_ENABLE, $F_UniversalScraper)
 				WinActivate($F_UniversalScraper)
@@ -1114,7 +1186,7 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 
 			;SSH Menu
 			If _XML_NodeExists($oXMLProfil, "Profil/Plink/Ip") = $XML_RET_FAILURE Then
-				_LOG("SSH Disable", 1)
+				_LOG("SSH Disable", 1, $iLOGPath)
 				GUICtrlSetState($MP, $GUI_DISABLE)
 				If IsArray($MP_) Then
 					For $vBoucle = 1 To UBound($MP_) - 1
@@ -1123,7 +1195,7 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 				EndIf
 
 			Else
-				_LOG("SSH Enable", 1)
+				_LOG("SSH Enable", 1, $iLOGPath)
 				GUICtrlSetState($MP, $GUI_ENABLE)
 				GUICtrlSetData($MP, _MultiLang_GetText("mnu_ssh"))
 				If IsArray($MP_) Then
@@ -1147,10 +1219,10 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 			GUICtrlSetData($B_SCRAPE, _MultiLang_GetText("scrap_button"))
 			_GUICtrlStatusBar_SetText($L_SCRAPE, "")
 
-			_LOG("GUI Refresh", 1)
+			_LOG("GUI Refresh", 1, $iLOGPath)
 
 		Else
-			_LOG("GUI Desactivated (Scrape in progress)", 1)
+			_LOG("GUI Desactivated (Scrape in progress)", 1, $iLOGPath)
 			GUICtrlSetState($MF, $GUI_DISABLE)
 			GUICtrlSetState($MC, $GUI_DISABLE)
 			GUICtrlSetState($MS, $GUI_DISABLE)
@@ -1163,6 +1235,7 @@ Func _GUI_Refresh($oXMLProfil = -1, $ScrapIP = 0, $vScrapeOK = 0) ;Refresh GUI
 EndFunc   ;==>_GUI_Refresh
 
 Func _Check_autoconf($oXMLProfil)
+
 	$vAutoconf_Use = IniRead($iINIPath, "LAST_USE", "$vAutoconf_Use", "-1")
 	If $vAutoconf_Use = "-1" Then
 		If MsgBox(BitOR($MB_ICONQUESTION, $MB_YESNO), _MultiLang_GetText("mess_autoconf_ask_Title"), _MultiLang_GetText("mess_autoconf_ask_Question")) = $IDYES Then
@@ -1185,7 +1258,7 @@ Func _Check_autoconf($oXMLProfil)
 		Return -1
 	EndIf
 
-	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	If IsHWnd($F_UniversalScraper) Then GUISetState(@SW_DISABLE, $F_UniversalScraper)
 	SplashTextOn(_MultiLang_GetText("mnu_edit_autoconf"), _MultiLang_GetText("mess_autoconf"), 400, 50)
 	If StringRight($vSource_RootPath, 1) = '\' Then $vSource_RootPath = StringTrimRight($vSource_RootPath, 1)
 	$aDIRList = _FileListToArrayRec($vSource_RootPath, "*", $FLTAR_FOLDERS, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_RELPATH)
@@ -1228,7 +1301,7 @@ EndFunc   ;==>_Check_autoconf
 
 Func _Check_Cancel()
 	If GUIGetMsg() = $B_SCRAPE Or $vScrapeCancelled = 1 Then
-		_LOG("Scrape Cancelled")
+		_LOG("Scrape Cancelled", 0, $iLOGPath)
 		$vScrapeCancelled = 1
 		Return False
 	Else
@@ -1239,7 +1312,7 @@ EndFunc   ;==>_Check_Cancel
 
 Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
-	$vRechFiles = IniRead($iINIPath, "GENERAL", "$vRechFiles ", "*.*z*")
+	$vRechFiles = IniRead($iINIPath, "LAST_USE", "$vRechFiles ", "*.*z*")
 	Local $vPicDir = StringSplit($aConfig[3], "\")
 	$vPipeCount = StringSplit($vRechFiles, "|")
 	If $vPipeCount[0] = 2 Then $vRechFiles = $vRechFiles & "|"
@@ -1248,16 +1321,16 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 	Else
 		$vRechFiles = $vRechFiles & ";" & $vPicDir[UBound($vPicDir) - 1]
 	EndIf
-	_LOG("Listing ROM (" & $vRechFiles & ")", 1)
+	_LOG("Listing ROM (" & $vRechFiles & ")", 1, $iLOGPath)
 	$aRomList = _FileListToArrayRec($aConfig[1], $vRechFiles, $FLTAR_FILES, $FLTAR_RECUR, $FLTAR_SORT)
 
 	If @error = 1 Then
-		_LOG("Invalid Rom Path : " & $aConfig[1], 2)
+		_LOG("Invalid Rom Path : " & $aConfig[1], 2, $iLOGPath)
 		If $vFullScrape = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_PathRom"))
 		Return -1
 	EndIf
 	If @error = 4 Then
-		_LOG("No rom in " & $aConfig[1], 2)
+		_LOG("No rom in " & $aConfig[1], 2, $iLOGPath)
 		If $vFullScrape = 0 Then MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_FillRomList"))
 		Return -1
 	EndIf
@@ -1266,7 +1339,7 @@ Func _RomList_Create($aConfig, $vFullScrape = 0)
 		_ArrayColInsert($aRomList, $vBoucle)
 	Next
 
-	_LOG(UBound($aRomList) - 1 & " Rom(s) found")
+	_LOG(UBound($aRomList) - 1 & " Rom(s) found", 0, $iLOGPath)
 
 	For $vBoucle = 1 To UBound($aRomList) - 1
 		$aRomList[$vBoucle][1] = $aConfig[1] & "\" & $aRomList[$vBoucle][0]
@@ -1279,6 +1352,7 @@ EndFunc   ;==>_RomList_Create
 
 Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScrape_Mode, $aExtToHide = "", $aValueToHide = "")
 	Local $sDrive = "", $sDir = "", $sFileName = "", $sExtension = "", $aPathSplit
+
 	If IsArray($aExtToHide) Then
 		$aPathSplit = _PathSplit($aRomList[$vNoRom][0], $sDrive, $sDir, $sFileName, $sExtension)
 		$aFindDuplicate = _ArrayFindAll($aRomList, $sFileName, 0, 0, 0, 0, 2)
@@ -1286,7 +1360,8 @@ Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScr
 			If StringLeft($aExtToHide[$vBoucle], 1) <> "." Then $aExtToHide[$vBoucle] = "." & $aExtToHide[$vBoucle]
 			If UBound($aFindDuplicate) > 1 And $sExtension = $aExtToHide[$vBoucle] Then
 				$aRomList[$vNoRom][3] = 2
-				_LOG($aRomList[$vNoRom][2] & " To Hide", 1)
+				_LOG($aRomList[$vNoRom][2] & " To Hide", 1, $iLOGPath)
+				Return $aRomList
 			EndIf
 		Next
 	EndIf
@@ -1295,25 +1370,26 @@ Func _Check_Rom2Scrape($aRomList, $vNoRom, $aXMLRomList, $vTarget_RomPath, $vScr
 		For $vBoucle = 1 To UBound($aValueToHide) - 1
 			If StringInStr($aRomList[$vNoRom][0], $aValueToHide[$vBoucle]) Then
 				$aRomList[$vNoRom][3] = 3
-				_LOG($aRomList[$vNoRom][2] & " To Hide", 1)
+				_LOG($aRomList[$vNoRom][2] & " To Hide", 1, $iLOGPath)
+				Return $aRomList
 			EndIf
 		Next
 	EndIf
 
 	Switch $vScrape_Mode
 		Case 0
-			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1)
+			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=0)", 1, $iLOGPath)
 			If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 1
 			Return $aRomList
 		Case Else
 			If IsArray($aXMLRomList) Then
 				If _ArraySearch($aXMLRomList, $vTarget_RomPath & StringReplace($aRomList[$vNoRom][0], "\", "/"), 0, 0, 0, 0, 1, 2) <> -1 Then
-					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1)
+					_LOG($aRomList[$vNoRom][2] & " NOT Scraped ($vScrape_Mode=1)", 1, $iLOGPath)
 					If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 0
 					Return $aRomList
 				EndIf
 			EndIf
-			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=1)", 1)
+			_LOG($aRomList[$vNoRom][2] & " To Scrape ($vScrape_Mode=1)", 1, $iLOGPath)
 			If $aRomList[$vNoRom][3] < 2 Then $aRomList[$vNoRom][3] = 1
 			Return $aRomList
 	EndSwitch
@@ -1327,21 +1403,20 @@ Func _CalcHash($aRomList, $vNoRom)
 	$aRomList[$vNoRom][5] = StringRight(_CRC32ForFile($aRomList[$vNoRom][1]), 8)
 	$aRomList[$vNoRom][6] = _MD5ForFile($aRomList[$vNoRom][1])
 	If Int(($aRomList[$vNoRom][4] / 1048576)) > 50 Or IniRead($iINIPath, "GENERAL", "$vQuick", 0) = 1 And _Check_Cancel() Then
-		_LOG("QUICK Mode ", 1)
+		_LOG("QUICK Mode ", 1, $iLOGPath)
 	Else
 		$aRomList[$vNoRom][7] = _SHA1ForFile($aRomList[$vNoRom][1])
 	EndIf
-	_LOG("Rom Info (" & $aRomList[$vNoRom][0] & ") Hash in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s")
-	_LOG("Size : " & $aRomList[$vNoRom][4], 1)
-	_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1)
-	_LOG("MD5 : " & $aRomList[$vNoRom][6], 1)
-	_LOG("SHA1 : " & $aRomList[$vNoRom][7], 1)
+	_LOG("Rom Info (" & $aRomList[$vNoRom][0] & ") Hash in " & Round((TimerDiff($TimerHash) / 1000), 2) & "s", 0, $iLOGPath)
+	_LOG("Size : " & $aRomList[$vNoRom][4], 1, $iLOGPath)
+	_LOG("CRC32 : " & $aRomList[$vNoRom][5], 1, $iLOGPath)
+	_LOG("MD5 : " & $aRomList[$vNoRom][6], 1, $iLOGPath)
+	_LOG("SHA1 : " & $aRomList[$vNoRom][7], 1, $iLOGPath)
 	Return $aRomList
 EndFunc   ;==>_CalcHash
 
 Func _XMLSystem_Create($vSSLogin = "", $vSSPassword = "")
 	Local $oXMLSystem, $vXMLSystemPath = $iScriptPath & "\Ressources\systemlist.xml"
-	_LOG("http://www.screenscraper.fr/api/systemesListe.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, 3)
 	$vXMLSystemPath = _DownloadWRetry("http://www.screenscraper.fr/api/systemesListe.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, $vXMLSystemPath)
 	Switch $vXMLSystemPath
 		Case -1
@@ -1356,7 +1431,7 @@ Func _XMLSystem_Create($vSSLogin = "", $vSSPassword = "")
 				MsgBox($MB_ICONERROR, _MultiLang_GetText("err_title"), _MultiLang_GetText("err_UXSGlobal") & @CRLF & _MultiLang_GetText("err_SystemList"))
 				Return -1
 			Else
-				_LOG("systemlist.xml Opened", 1)
+				_LOG("systemlist.xml Opened", 1, $iLOGPath)
 				Return $oXMLSystem
 			EndIf
 	EndSwitch
@@ -1365,10 +1440,8 @@ EndFunc   ;==>_XMLSystem_Create
 Func _DownloadROMXML($aRomList, $vBoucle, $vSystemID, $vSSLogin = "", $vSSPassword = "")
 	If Not _Check_Cancel() Then Return $aRomList
 	Local $vXMLRom = $iTEMPPath & "\" & StringRegExpReplace($aRomList[$vBoucle][2], "[\[\]/\|\:\?""\*\\<>]", "") & ".xml"
-	_LOG("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword & "&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][4] & "&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], 3)
 	$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword & "&crc=" & $aRomList[$vBoucle][5] & "&md5=" & $aRomList[$vBoucle][6] & "&sha1=" & $aRomList[$vBoucle][7] & "&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
 	If (StringInStr(FileReadLine($aRomList[$vBoucle][8]), "Erreur") Or Not FileExists($aRomList[$vBoucle][8])) Then
-		_LOG("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword & "&crc=&md5=&sha1=&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], 3)
 		$aRomList[$vBoucle][8] = _DownloadWRetry("http://www.screenscraper.fr/api/jeuInfos.php?devid=" & $iDevId & "&devpassword=" & $iDevPassword & "&softname=" & $iSoftname & "&output=xml&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword & "&crc=&md5=&sha1=&systemeid=" & $vSystemID & "&romtype=rom&romnom=" & $aRomList[$vBoucle][2] & "&romtaille=" & $aRomList[$vBoucle][4], $vXMLRom)
 		If (StringInStr(FileReadLine($aRomList[$vBoucle][8]), "Erreur") Or Not FileExists($aRomList[$vBoucle][8])) Then
 			FileDelete($aRomList[$vBoucle][8])
@@ -1405,22 +1478,20 @@ Func _SelectSystem($oXMLSystem, $vFullScrape = 0)
 		$vSystem = StringSplit(IniRead($iINIPath, "LAST_USE", "$vSource_RomPath", ""), "\")
 		$vSystem = StringLower($vSystem[UBound($vSystem) - 1])
 		$iSystem = _ArraySearch($aSystemListTXT, $vSystem)
-		_LOG("Search " & $vSystem & " in $aSystemListTXT = " & $iSystem, 3)
 		If $iSystem > 0 Then
 			$vSystemTEMP = $aSystemListTXT[$iSystem][1]
 			$iSystem = _ArraySearch($aSystemListXML, $vSystemTEMP)
-			_LOG("Search " & $vSystemTEMP & " in $aSystemListXML = " & $iSystem, 3)
 			If $iSystem > 0 Then
-				_LOG("System detected : " & $aSystemListXML[$iSystem][0] & "(" & $aSystemListXML[$iSystem][1] & ")")
+				_LOG("System detected : " & $aSystemListXML[$iSystem][0] & "(" & $aSystemListXML[$iSystem][1] & ")", 0, $iLOGPath)
 				Return $aSystemListXML[$iSystem][1]
 			EndIf
 		EndIf
-		_LOG("No system found for : " & $vSystem)
+		_LOG("No system found for : " & $vSystem, 0, $iLOGPath)
 		If $vFullScrape = 1 Then Return ""
 	EndIf
 
 	$vSystemID = _SelectGUI($aSystemListXML, "", "system")
-	_LOG("System selected No " & $vSystemID)
+	_LOG("System selected No " & $vSystemID, 0, $iLOGPath)
 	Return $vSystemID
 
 EndFunc   ;==>_SelectSystem
@@ -1447,13 +1518,13 @@ Func _Results($aRomList, $vNbThread, $vFullTimer, $vFullScrape = 0)
 	EndIf
 	$vNbRom = UBound($aRomList) - 1
 
-	_LOG("Results")
-	_LOG("Roms : = " & $vNbRom)
-	_LOG("Roms Found = " & $vNbRomOK & "/" & $vNbRomScraped)
-	_LOG("Average Time by Rom = " & $vTimeMoy)
-	_LOG("Max Time = " & $vTimeMax)
-	_LOG("Total Time = " & $vTimeTotal)
-	_LOG("Nb Thread = " & $vNbThread)
+	_LOG("Results", 0, $iLOGPath)
+	_LOG("Roms : = " & $vNbRom, 0, $iLOGPath)
+	_LOG("Roms Found = " & $vNbRomOK & "/" & $vNbRomScraped, 0, $iLOGPath)
+	_LOG("Average Time by Rom = " & $vTimeMoy, 0, $iLOGPath)
+	_LOG("Max Time = " & $vTimeMax, 0, $iLOGPath)
+	_LOG("Total Time = " & $vTimeTotal, 0, $iLOGPath)
+	_LOG("Nb Thread = " & $vNbThread, 0, $iLOGPath)
 
 	If $vFullScrape = 1 Then
 		$vTitle = "FullScrape"
@@ -1531,18 +1602,19 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 	DirCreate($iTEMPPath)
 	DirCreate($iTEMPPath & "\scraped")
 ;~ 	$nMsg = ""
-	Local $vScrapeCancelled = 0
-	Local $aConfig = _LoadConfig($oXMLProfil)
-	Local $aExtToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideEXT', 0, "", $oXMLProfil), "|")
-	Local $aValueToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideValue', 0, "", $oXMLProfil), "|")
-	Local $vSendTimerLeft = 0, $vCreateTimerLeft = 0, $vSendTimerMoy = 0, $vCreateTimerMoy = 0, $vSendTimerTotal = 0, $vCreateTimerTotal = 0
 
 	If $aConfig <> 0 Then
-		$vTEMPPathSSCheck = $iScriptPath & "\Ressources\SSCheck.xml"
-		$vSSLogin = $aConfig[13] ;$vSSLogin
-		$vSSPassword = $aConfig[14] ;$vSSPassword
-		_LOG("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, 3)
-		$vTEMPPathSSCheck = _DownloadWRetry("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $vSSLogin & "&sspassword=" & $vSSPassword, $vTEMPPathSSCheck)
+		_GUI_Refresh($oXMLProfil, 1)
+		Local $vScrapeCancelled = 0
+		Local $aConfig = _LoadConfig($oXMLProfil)
+		Local $aExtToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideEXT', 0, "", $oXMLProfil), "|")
+		Local $aValueToHide = StringSplit(_XML_Read('/Profil/Element[Source_Value="%AutoHide%"]/AutoHideValue', 0, "", $oXMLProfil), "|")
+		Local $vSendTimerLeft = 0, $vCreateTimerLeft = 0, $vSendTimerMoy = 0, $vCreateTimerMoy = 0, $vSendTimerTotal = 0, $vCreateTimerTotal = 0
+		Local $vEmpty_Rom = IniRead($iINIPath, "LAST_USE", "$vEmpty_Rom", 0)
+		Local $vThreadUsed = 1
+		$aConfig[8] = "0000"
+
+		$vTEMPPathSSCheck = _DownloadWRetry("http://www.screenscraper.fr/api/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML&ssid=" & $aConfig[13] & "&sspassword=" & $aConfig[14], $iScriptPath & "\Ressources\SSCheck.xml")
 		$vSSLevel = Number(_XML_Read("/Data/ssuser/niveau", 0, $vTEMPPathSSCheck))
 		If $vSSLevel < 1 Then $vSSLevel = 0
 		Switch $vSSLevel
@@ -1559,28 +1631,27 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 		EndSwitch
 
 		If $vNbThread > $vNbThreadMax Then
-			_LOG("BAD NbThread in INI : " & $vNbThread & "(MAX = " & $vNbThreadMax & ")")
+			_LOG("Are you a cheater ? BAD NbThread in INI : " & $vNbThread & "(MAX = " & $vNbThreadMax & ")", 0, $iLOGPath)
 			$vNbThread = $vNbThreadMax
 			IniWrite($iINIPath, "LAST_USE", "$vNbThread", $vNbThread)
 		EndIf
 
-		_GUI_Refresh($oXMLProfil, 1)
-		$vThreadUsed = 1
-		$vEmpty_Rom = IniRead($iINIPath, "LAST_USE", "$vEmpty_Rom", 0)
-		$aConfig[8] = "0000"
-		If $aConfig[5] = 0 Or ($aConfig[5] > 0 And FileGetSize($aConfig[0]) = 0) Then
-			_LOG("vScrape_Mode = " & $aConfig[5] & " And " & $aConfig[0] & " = " & FileGetSize($aConfig[0]) & " ---> _XML_Make", 1)
-			$oXMLTarget = _XML_Make($aConfig[0], _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil))
-		EndIf
 		$aConfig[12] = _SelectSystem($oXMLSystem)
 		$aRomList = _RomList_Create($aConfig, $vFullScrape)
 		If IsArray($aRomList) And _Check_Cancel() Then
+
+			If $aConfig[5] = 0 Or ($aConfig[5] > 0 And FileGetSize($aConfig[0]) < 100) Then
+				_LOG("vScrape_Mode = " & $aConfig[5] & " And " & $aConfig[0] & " = " & FileGetSize($aConfig[0]) & " ---> _XML_Make", 1, $iLOGPath)
+				$oXMLTarget = _XML_Make($aConfig[0], _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil))
+			EndIf
+
 			$vXpath2RomPath = "/" & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & "/" & _XML_Read("Profil/Element[@Type='RomPath']/Target_Value", 0, "", $oXMLProfil)
-			If FileGetSize($aConfig[0]) <> 0 And _Check_Cancel() Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
-;~ 					_ArrayDisplay($aXMLRomList, "$aXMLRomList")
+			If FileGetSize($aConfig[0]) > 100 And _Check_Cancel() Then $aXMLRomList = _XML_ListValue($vXpath2RomPath, $aConfig[0])
+;~ 			_ArrayDisplay($aXMLRomList, "$aXMLRomList")
+
 			For $vBoucle = 1 To $vNbThread
 				ShellExecute($iScriptPath & "\" & $iScraper, $vBoucle)
-				Sleep(100)
+;~ 				Sleep(100)
 			Next
 
 			For $vBoucle = 1 To UBound($aRomList) - 1
@@ -1592,20 +1663,28 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 				_GUICtrlStatusBar_SetText($L_SCRAPE, @TAB & @TAB & $vBoucle & "/" & UBound($aRomList) - 1, 2)
 				$aRomList = _Check_Rom2Scrape($aRomList, $vBoucle, $aXMLRomList, $aConfig[2], $aConfig[5], $aExtToHide, $aValueToHide)
 				If $aRomList[$vBoucle][3] >= 1 And _Check_Cancel() Then
-					$aRomList = _CalcHash($aRomList, $vBoucle)
+					If $aRomList[$vBoucle][3] < 2 Then
+						$aRomList = _CalcHash($aRomList, $vBoucle)
+					EndIf
 					$aRomList = _DownloadROMXML($aRomList, $vBoucle, $aConfig[12], $aConfig[13], $aConfig[14])
+
 					If ($aRomList[$vBoucle][9] = 1 Or $vEmpty_Rom = 1 Or $aRomList[$vBoucle][3] > 1) And _Check_Cancel() Then
 						_XML_Make($iTEMPPath & "\scraped\" & $vBoucle & ".xml", _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil))
 						$sMailSlotName = "\\.\mailslot\Son" & $vThreadUsed
 						$vMessage = _ArrayToString($aRomList, '{Break}', $vBoucle, $vBoucle, '{Break}')
-						_SendMail($sMailSlotName, $vMessage)
-						_SendMail($sMailSlotName, $vBoucle)
+						$vResultSM = _SendMail($sMailSlotName, $vMessage)
+						$vResultSM = _SendMail($sMailSlotName, $vBoucle)
 						$vMessage = _ArrayToString($aConfig, '{Break}')
-						_SendMail($sMailSlotName, $vMessage)
-						_SendMail($sMailSlotName, $vProfilsPath)
-						$aRomList[$vBoucle][11] = 1
-						$vThreadUsed += 1
-						If $vThreadUsed > $vNbThread Then $vThreadUsed = 1
+						$vResultSM = _SendMail($sMailSlotName, $vMessage)
+						$vResultSM = _SendMail($sMailSlotName, $vProfilsPath)
+						If $vResultSM = 1 Then
+							$aRomList[$vBoucle][11] = 1
+							$vThreadUsed += 1
+							If $vThreadUsed > $vNbThread Then $vThreadUsed = 1
+						Else
+							_LOG("Error Thread No " & $vThreadUsed & " Doesn't exist anymore Try to Relaunch", 2, $iLOGPath)
+							ShellExecute($iScriptPath & "\" & $iScraper, $vThreadUsed)
+						EndIf
 					EndIf
 				EndIf
 				If Not _Check_Cancel() Then
@@ -1629,13 +1708,10 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 				Next
 			EndIf
 
-;~ 					MsgBox(0, "Verif XML", "")
-
 			Dim $aXMLTarget
 			_FileReadToArray($aConfig[0], $aXMLTarget)
 			_ArrayDelete($aXMLTarget, 0)
 			FileDelete($aConfig[0])
-;~ 					_ArrayDisplay($aXMLTarget, "$aXMLTarget")
 			$vBoucle = UBound($aXMLTarget) - 1
 			While $vBoucle <> 0
 				If $aXMLTarget[$vBoucle] = "" Then
@@ -1647,13 +1723,10 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 				EndIf
 				$vBoucle -= 1
 			WEnd
-			_LOG("Last Line = " & $vLastLine, 3)
 			If $vLastLine = '<' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '/>' Then
 				_ArrayAdd($aXMLTarget, '<' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '>')
 				$vLastLine = '</' & _XML_Read("Profil/Root/Target_Value", 0, "", $oXMLProfil) & '>'
 			EndIf
-			_LOG("Last Line = " & $vLastLine, 3)
-;~ 					MsgBox(0, "FINIT", "")
 
 			$iNumberOfMessagesOverall = 0
 			While $iNumberOfMessagesOverall < $vTotalRomToScrap
@@ -1665,15 +1738,13 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 					$vMessageFromChild = _ReadMessage($hMailSlotMother)
 					$aMessageFromChild = StringSplit($vMessageFromChild, '|', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 					ReDim $aMessageFromChild[2]
-					_LOG("Receveid Message Rom no " & $aMessageFromChild[0] & " in " & $aMessageFromChild[1] & "s", 1)
+					_LOG("Receveid Message Rom no " & $aMessageFromChild[0] & " in " & $aMessageFromChild[1] & "s", 1, $iLOGPath)
 					Dim $aXMLSource
-					_LOG($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml" & " -> " & $aConfig[0], 3)
 					_GUICtrlStatusBar_SetText($L_SCRAPE, $aRomList[$aMessageFromChild[0]][2])
 					_GUICtrlStatusBar_SetText($L_SCRAPE, "Creating  : " & _FormatElapsedTime($vCreateTimerLeft), 1)
 					_GUICtrlStatusBar_SetText($L_SCRAPE, @TAB & @TAB & $iNumberOfMessagesOverall & "/" & ($vTotalRomToScrap) - 1, 2)
 					_FileReadToArray($iTEMPPath & "\scraped\" & $aMessageFromChild[0] & ".xml", $aXMLSource)
-					For $vBoucle = 1 To $aXMLSource[0]
-						_LOG("Writing : " & $aXMLSource[$vBoucle], 3)
+					For $vBoucle = 1 To UBound($aXMLSource) - 1
 						_ArrayAdd($aXMLTarget, $aXMLSource[$vBoucle])
 					Next
 					$aRomList[$aMessageFromChild[0]][10] = $aMessageFromChild[1]
@@ -1681,7 +1752,7 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 
 				EndIf
 				If GUIGetMsg() = $B_SCRAPE Then
-					_LOG("Scrape Cancelled")
+					_LOG("Scrape Cancelled", 0, $iLOGPath)
 					$vScrapeCancelled = 1
 					For $vBoucle2 = 1 To $vNbThread
 						_SendMail($sMailSlotCancel & $vBoucle2, "CANCELED")
@@ -1709,13 +1780,12 @@ Func _SCRAPE($oXMLProfil, $vNbThread = 1, $vFullScrape = 0)
 			_CreateMissing($aRomList, $aConfig)
 		EndIf
 	EndIf
-	For $vBoucle = 1 To $vNbThread
-		DirRemove($iTEMPPath & $vBoucle, 1)
-	Next
-
 	While ProcessExists($iScraper)
 		ProcessClose($iScraper)
 	WEnd
+	For $vBoucle = 1 To $vNbThread
+		DirRemove($iTEMPPath & $vBoucle, 1)
+	Next
 	Return $aRomList
 EndFunc   ;==>_SCRAPE
 
@@ -1740,7 +1810,125 @@ Func _CreateMissing($aRomList, $aConfig)
 	Next
 EndFunc   ;==>_CreateMissing
 
-#EndRegion Function
+Func _WizardWindow($vTitle, $vDescription, $vInputValue, $vInputDefault = "", $vInputType = 0, $vNext = 1, $vBack = 1, $vCancel = 1)
+	Local $vReturnValue
+	$vDescription = StringReplace($vDescription, "|!|", @CRLF)
+	#Region ### START Koda GUI section ### Form=
+	$F_WIZARD = GUICreate($vTitle, 426, 314)
+	$P_UXS = GUICtrlCreatePic($iScriptPath & "\Ressources\UXS Wizard.jpg", 8, 6, 200, 300)
+	$G_DESC = GUICtrlCreateGroup("", 216, 0, 200, 244)
+	$L_DESC = GUICtrlCreateLabel($vDescription, 224, 8, 185, 233)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$I_INPUT = GUICtrlCreateInput("", 216, 248, 161, 21)
+	$B_BROWSE = GUICtrlCreateButton("...", 384, 248, 27, 21)
+	$B_BACK = GUICtrlCreateButton(_MultiLang_GetText("win_Wizard_Back"), 296, 280, 59, 25)
+	$B_CANCEL = GUICtrlCreateButton(_MultiLang_GetText("win_Wizard_End"), 216, 280, 75, 25)
+	$B_NEXT = GUICtrlCreateButton(_MultiLang_GetText("win_Wizard_Next"), 360, 280, 59, 25)
+	$C_COMBO = GUICtrlCreateCombo("", 216, 248, 201, 25, BitOR($GUI_SS_DEFAULT_COMBO, $CBS_SIMPLE))
+	GUISetState(@SW_SHOW)
+	GUISetState(@SW_DISABLE, $F_UniversalScraper)
+	#EndRegion ### END Koda GUI section ###
+
+	Switch $vInputType
+		Case 1 ; Combo
+			GUICtrlSetState($I_INPUT, $GUI_HIDE)
+			GUICtrlSetState($B_BROWSE, $GUI_HIDE)
+			GUICtrlSetData($C_COMBO, $vInputValue, $vInputDefault)
+		Case 2 ; Input + Browse Button
+			GUICtrlSetData($I_INPUT, $vInputDefault)
+			GUICtrlSetState($C_COMBO, $GUI_HIDE)
+		Case 3 ; Input
+			GUICtrlSetData($I_INPUT, $vInputDefault)
+			GUICtrlSetState($C_COMBO, $GUI_HIDE)
+			GUICtrlSetState($B_BROWSE, $GUI_HIDE)
+		Case Else ;Nothing
+			GUICtrlSetState($I_INPUT, $GUI_HIDE)
+			GUICtrlSetState($B_BROWSE, $GUI_HIDE)
+			GUICtrlSetState($C_COMBO, $GUI_HIDE)
+	EndSwitch
+
+	If $vNext = 0 Then GUICtrlSetState($B_NEXT, $GUI_HIDE)
+	If $vBack = 0 Then GUICtrlSetState($B_BACK, $GUI_HIDE)
+	If $vCancel = 0 Then GUICtrlSetState($B_CANCEL, $GUI_HIDE)
+
+	While 1
+		$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case $B_BROWSE
+				$vBrowse = FileSelectFolder("", GUICtrlRead($I_INPUT), $FSF_CREATEBUTTON, GUICtrlRead($I_INPUT), $F_WIZARD)
+				GUICtrlSetData($I_INPUT, $vBrowse)
+			Case $B_NEXT
+				Switch $vInputType
+					Case 1
+						$vReturnValue = GUICtrlRead($C_COMBO)
+					Case 2
+						$vReturnValue = GUICtrlRead($I_INPUT)
+					Case 3
+						$vReturnValue = GUICtrlRead($I_INPUT)
+					Case Else
+						$vReturnValue = 1
+				EndSwitch
+				GUIDelete($F_WIZARD)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return $vReturnValue
+			Case $B_BACK
+				GUIDelete($F_WIZARD)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return -1
+			Case $B_CANCEL
+				GUIDelete($F_WIZARD)
+				GUISetState(@SW_ENABLE, $F_UniversalScraper)
+				WinActivate($F_UniversalScraper)
+				Return -2
+		EndSwitch
+	WEnd
+
+EndFunc   ;==>_WizardWindow
+
+Func _WizardProfil()
+	; Loading profils list
+	Local $vProfilDefault, $vProfilList = ""
+	Local $aProfilList = _FileListToArrayRec($iProfilsPath, "*.xml", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_FULLPATH)
+	If Not IsArray($aProfilList) Then
+		_LOG("No Profils found", 2, $iLOGPath)
+		Exit
+	EndIf
+	_ArrayColInsert($aProfilList, 0)
+	_ArrayColInsert($aProfilList, 0)
+	_ArrayDelete($aProfilList, 0)
+	For $vBoucle = 0 To UBound($aProfilList) - 1
+		$aProfilList[$vBoucle][0] = _XML_Read("Profil/Name", 1, $aProfilList[$vBoucle][2])
+		If StringInStr($aProfilList[$vBoucle][0], $vProfilsPath) Then $vProfilsPath = $aProfilList[$vBoucle][2]
+		$vProfilList = $vProfilList & $aProfilList[$vBoucle][0] & "|"
+	Next
+
+	$vProfilDefault = IniRead($iINIPath, "LAST_USE", "$vProfilsPath", "")
+	If $vProfilDefault = "" Then
+		$vProfilDefault = $aProfilList[0][0]
+	Else
+		For $vBoucle = 0 To UBound($aProfilList) - 1
+			If StringInStr($aProfilList[$vBoucle][2], $vProfilDefault) Then $vProfilDefault = $aProfilList[$vBoucle][0]
+		Next
+	EndIf
+
+	$vResultWZ = _WizardWindow(_MultiLang_GetText("win_Wizard_Profil_Title"), _MultiLang_GetText("win_Wizard_Profil_Desc"), $vProfilList, $vProfilDefault, 1, 1, 0, 0)
+	If $vResultWZ < 0 Then Return $vResultWZ
+	For $i = 0 To UBound($aProfilList) - 1
+		If StringInStr($aProfilList[$i][0], $vResultWZ) Then $vProfilsPath = $aProfilList[$i][2]
+	Next
+	Return $vProfilsPath
+EndFunc   ;==>_WizardProfil
+
+Func _WizardAutoconf()
+	; Autoconf
+	$vResultWZ = _WizardWindow(_MultiLang_GetText("win_Wizard_Autoconf_Title"), _MultiLang_GetText("win_Wizard_Autoconf_Desc"), "", _XML_Read("Profil/AutoConf/Source_RootPath", 0, "", $oXMLProfil), 2, 1, 1, 0)
+	If $vResultWZ < 0 Then Return $vResultWZ
+	_LOG("Wizard - Autoconf Path : " & $vResultWZ, 0, $iLOGPath)
+	If (StringRight($vResultWZ, 1) = '\') Then StringTrimRight($vResultWZ, 1)
+	Return $vResultWZ
+EndFunc   ;==>_WizardAutoconf
 
 ;~ 	$aPicParameters[0] = Target_Width
 ;~ 	$aPicParameters[1] = Target_Height

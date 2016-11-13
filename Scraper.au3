@@ -5,13 +5,15 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Scraper
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.17
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.18
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
 #AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
 #AutoIt3Wrapper_Run_Tidy=y
 #Tidy_Parameters=/reel
+#AutoIt3Wrapper_Run_Before=ShowOriginalLine.exe %in%
+#AutoIt3Wrapper_Run_After=ShowOriginalLine.exe %in%
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 TraySetState(2)
 
@@ -43,7 +45,7 @@ Else
 EndIf
 
 Global $iINIPath = $iScriptPath & "\UXS-config.ini"
-Global $iLOGPath = IniRead($iINIPath, "GENERAL", "Path_LOG", $iScriptPath & "\LOGs\log" & $vThreadNumber & ".txt")
+Global $iLOGPath = $iScriptPath & "\LOGs\log" & $vThreadNumber & ".txt"
 Global $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$vVerbose", 0)
 
 _LOG_Ceation($iLOGPath) ; Starting Log
@@ -53,6 +55,11 @@ _LOG_Ceation($iLOGPath) ; Starting Log
 #include "./Include/MailSlot.au3"
 #include "./Include/_GraphGDIPlus.au3"
 #include "./Include/_MyFunction.au3"
+#include "./Include/_AutoItErrorTrap.au3"
+
+; Custom title and text...
+_AutoItErrorTrap("Scraper No " & $vThreadNumber, "Hi!" & @CRLF & @CRLF & "An error was detected in the program, you can try again," & _
+		" cancel to exit or continue to see more details of the error." & @CRLF & @CRLF & "Sorry for the inconvenience!")
 
 Local $iScriptVer = FileGetVersion(@ScriptFullPath)
 Local $iINIVer = IniRead($iINIPath, "GENERAL", "$verINI", '0.0.0.0')
@@ -131,7 +138,7 @@ While $iNumberOfMessagesOverall < 5
 WEnd
 
 Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
-	Local $vValue = "", $vAttributeName, $vWhile = 1, $vNode
+	Local $vValue = "", $vAttributeName, $vWhile = 1, $vNode, $vBracketPos = 0, $vHookPos = 0
 	$vNode = "//" & _XML_Read("Profil/Game/Target_Value", 0, "", $oXMLProfil)
 	_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
 	_XML_WriteValue($vNode, "", "", $aConfig[8])
@@ -160,6 +167,16 @@ Func _Game_Make($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						$vValue = StringReplace(Round(($vValue * 100 / 20) / 100, 2), ",", ".")
 					Case '%ES_Date%'
 						$vValue = StringLeft(StringReplace($vValue, "-", "") & '00000000', 8) & "T000000"
+					Case '%Filename%'
+						$vValue = $aRomList[2]
+					Case '%Name+Filename_Bracket%'
+						If StringInStr($aRomList[2], "(") > 0 Then $vBracketPos = StringInStr($aRomList[2], "(")
+						If StringInStr($aRomList[2], "[") > 0 Then $vHookPos = StringInStr($aRomList[2], "[")
+						If $vHookPos < $vBracketPos And $vHookPos > 0 Then $vBracketPos = $vHookPos
+						If $vBracketPos > 0 Then $vValue = $vValue & " " & StringMid($aRomList[2], $vBracketPos)
+					Case '%Name+Country%'
+						$vCountry = _Coalesce(_XML_Read("/Data/jeu/region", 0, $aRomList[8]), "unknown")
+						$vValue = $vValue & " (" & $vCountry & ")"
 				EndSwitch
 				$vNode = _XML_Read("/Profil/Element[" & $vWhile & "]/Target_Value", 0, "", $oXMLProfil)
 				_LOG($vNode & " <-- " & $vValue, 1, $iLOGPath)
@@ -308,7 +325,7 @@ Func _Picture_Download($vCountryPref, $aRomList, $vBoucle, $vWhile, $oXMLProfil,
 
 	If FileExists($vDownloadPath) Then Return $vTargetPicturePath
 
-	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath, "", "", $iLOGPath)
+	$vValue = _DownloadWRetry($vDownloadURL, $vDownloadPath)
 	If $vValue <> -1 And $vValue <> "" Then
 		Return $vTargetPicturePath
 	Else
@@ -326,6 +343,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	Local $vPicTarget = -1, $vWhile = 1
 	Dim $aMiXPicTemp[1]
 	FileDelete($iTEMPPath & "\MIX")
+	DirCreate($iTEMPPath & "\MIX")
 	While 1
 ;~ 		If Not _Check_Cancel() Then Return ""
 		Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Type", 0, "", $oMixConfig))
@@ -334,7 +352,7 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 				FileCopy($vMIXTemplatePath & _XML_Read("/Profil/Element[" & $vWhile & "]/Source_Value", 0, "", $oMixConfig), $vPicTarget, $FC_OVERWRITE + $FC_CREATEPATH)
 				$aPicParameters = _MIX_Engine_Dim($vWhile, $oMixConfig)
 				_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
-				_LOG($vPicTarget & " Created", 1, $iLOGPath)
+				_LOG("fixe_value : " & $vPicTarget & " Created", 1, $iLOGPath)
 				_ArrayAdd($aMiXPicTemp, $vPicTarget)
 			Case "xml_value"
 				$vPicTarget = $iTEMPPath & "\MIX\" & _XML_Read("/Profil/Element[" & $vWhile & "]/Name", 0, "", $oMixConfig) & ".png"
@@ -348,22 +366,29 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 						Case 'game'
 							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_Game & $aXpathCountry[$vBoucle2], 0, $aRomList[8]), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
-								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget, "", "", $iLOGPath)
-								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
-								_ArrayAdd($aMiXPicTemp, $vPicTarget)
-								_LOG($vPicTarget & " Created", 1, $iLOGPath)
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								If $vValue < 0 Then
+									_LOG("xml_value (game) : " & $vPicTarget & " Not Added", 2, $iLOGPath)
+								Else
+									_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
+									_ArrayAdd($aMiXPicTemp, $vPicTarget)
+									_LOG("xml_value (game) : " & $vPicTarget & " Created", 1, $iLOGPath)
+								EndIf
 							EndIf
 						Case 'system'
 							$vDownloadURL = StringTrimRight(_XML_Read($vRoot_System & $aXpathCountry[$vBoucle2], 0, "", $oXMLSystem), 3) & "png"
 							If $vDownloadURL <> "png" And Not FileExists($vPicTarget) Then
-								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget, "", "", $iLOGPath)
-								_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
-								_ArrayAdd($aMiXPicTemp, $vPicTarget)
-								_LOG($vPicTarget & " Created", 1, $iLOGPath)
+								$vValue = _DownloadWRetry($vDownloadURL, $vPicTarget)
+								If $vValue < 0 Then
+									_LOG("xml_value (system) : " & $vPicTarget & " Not Added", 2, $iLOGPath)
+								Else
+									_GDIPlus_Imaging($vPicTarget, $aPicParameters, $vTarget_Width, $vTarget_Height)
+									_ArrayAdd($aMiXPicTemp, $vPicTarget)
+									_LOG("xml_value (system) : " & $vPicTarget & " Created", 1, $iLOGPath)
+								EndIf
 							EndIf
 					EndSwitch
 				Next
-
 			Case 'gdi_function'
 				Switch StringLower(_XML_Read("/Profil/Element[" & $vWhile & "]/Source_Function", 0, "", $oMixConfig))
 					Case 'transparency'
@@ -398,7 +423,9 @@ Func _MIX_Engine($aRomList, $vBoucle, $aConfig, $oXMLProfil)
 	$vCompressionParameter = _XML_Read("/Profil/Compression/parameter", 0, "", $oMixConfig)
 	If StringLower($vCompression) = 'yes' Then _Compression($aMiXPicTemp[1], $vCompressionSoft, $vCompressionParameter)
 
-	Return $aMiXPicTemp[1]
+	If Not IsArray($aMiXPicTemp) Then Return -1
+	If UBound($aMiXPicTemp) - 1 > 0 Then Return $aMiXPicTemp[1]
+	Return -1
 EndFunc   ;==>_MIX_Engine
 
 Func _MIX_Engine_Dim($vWhile, $oMixConfig)

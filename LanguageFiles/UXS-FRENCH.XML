@@ -39,6 +39,7 @@
 		<mnu_file_exit>Quitter</mnu_file_exit>
 		
 		<mnu_cfg>Configuration</mnu_cfg>
+		<mnu_cfg_Wizard>Utiliser le wizard</mnu_cfg_Wizard>
 		<mnu_cfg_config_LU>Configuration des chemins</mnu_cfg_config_LU>
 		<mnu_cfg_config_MISC>Configuration générale</mnu_cfg_config_MISC>
 		<mnu_cfg_config_Option>Configuration des options</mnu_cfg_config_Option>
@@ -49,7 +50,7 @@
 		<mnu_cfg_langue>Changer de langue</mnu_cfg_langue>
 		
 		<mnu_scrape>Scraper</mnu_scrape>
-		<mnu_scrape_autoconf>Configuration automatique</mnu_scrape_autoconf>
+		<mnu_scrape_autoconf>Selection du systeme (Conf Auto)</mnu_scrape_autoconf>
 		<mnu_scrape_solo>Scraper </mnu_scrape_solo>
 		<mnu_scrape_fullscrape>Scraper tous les systèmes</mnu_scrape_fullscrape>
 		
@@ -106,11 +107,11 @@
 			<win_config_MISC_GroupMISC_CountryPref>Préférence de region</win_config_MISC_GroupMISC_CountryPref>
 			<win_config_MISC_GroupMISC_LangPref>Préférence de langue</win_config_MISC_GroupMISC_LangPref>
 			<win_config_MISC_GroupMISC_ScrapeMode>Mode de Scrape</win_config_MISC_GroupMISC_ScrapeMode>
-			<win_config_MISC_GroupMISC_ScrapeModeChoice>0 - New File|1 - Update XML (Add New Rom)</win_config_MISC_GroupMISC_ScrapeModeChoice>
+			<win_config_MISC_GroupMISC_ScrapeModeChoice>0 - Nouveau fichier|1 - Mise à jour (Ajout de nouvelle Rom)</win_config_MISC_GroupMISC_ScrapeModeChoice>
 			<win_config_MISC_GroupMISC_CountryPicMode>Mode de gestion des images</win_config_MISC_GroupMISC_CountryPicMode>
-			<win_config_MISC_GroupMISC_CountryPicModeChoice>0 - Language Pic|1 - Rom Pic|2 - Language Pic Strict|3 - Rom Pic Strict</win_config_MISC_GroupMISC_CountryPicModeChoice>
+			<win_config_MISC_GroupMISC_CountryPicModeChoice>0 - Par langue|1 - Par region|2 - Par langue strict|3 - Par region strict</win_config_MISC_GroupMISC_CountryPicModeChoice>
 			<win_config_MISC_GroupMISC_Verbose>Niveau de Log</win_config_MISC_GroupMISC_Verbose>
-			<win_config_MISC_GroupMISC_VerboseChoice>0 - Standard|1 - Advanced|2 - Full|3 - Not official</win_config_MISC_GroupMISC_VerboseChoice>
+			<win_config_MISC_GroupMISC_VerboseChoice>0 - Standard|1 - Avancé|2 - Complet</win_config_MISC_GroupMISC_VerboseChoice>
 			<win_config_MISC_GroupMISC_MissingMode>Ajout des roms manquantes</win_config_MISC_GroupMISC_MissingMode>
 			<win_config_MISC_GroupMISC_RechSys>Recherche automatique de Systeme</win_config_MISC_GroupMISC_RechSys>
 			<win_config_MISC_GroupScreenScraper>Screenscraper</win_config_MISC_GroupScreenScraper>
@@ -160,6 +161,27 @@
 			<win_Results_FullTime>Temps Total du Scrape : </win_Results_FullTime>
 			<win_Results_NbThread>Nombre de Thread(s) utilisé(s) : </win_Results_NbThread>
 		</win_Results>
+		<win_Wizard>
+			<win_Wizard_Next>Suivant</win_Wizard_Next>
+			<win_Wizard_Back>Retour</win_Wizard_Back>
+			<win_Wizard_End>Terminer</win_Wizard_End>
+			<win_Wizard_Profil>
+				<win_Wizard_Profil_Title>Selection du Profil</win_Wizard_Profil_Title>
+				<win_Wizard_Profil_Desc>Merci de selectionner le profil correspondant à votre système d'exploitation.|!||!|Les Versions MIX créer une image composées de plusieurs images tel que le screenshot, une box en 2D et le logo du jeu.|!||!|Vous pourrez selectionner votre MIX dans le menu : |!|"Changer le profil Mix Images"|!|ou plus tard dans le wizard.</win_Wizard_Profil_Desc>
+			</win_Wizard_Profil>
+			<win_Wizard_Autoconf>
+				<win_Wizard_Autoconf_Title>Reglage de l'autoconfiguration</win_Wizard_Autoconf_Title>
+				<win_Wizard_Autoconf_Desc>L'Autoconfiguration vous permez de scraper facilement vos differents systemes sans passer du temps à configurer les differents chemins.|!||!|En fonction de votre choix de profil, le chemin par defaut est indiqué ci dessous.|!|Vous pouvez cependant le modifier.|!||!|Merci d'indiquer le chemin "source" de vos systemes.|!||!|Par exemple :|!|Si vos roms SNES se trouve dans|!|E:\Emulation\Rom\SNES,|!|le chemin à indiquer sera|!|E:\Emulation\Rom</win_Wizard_Autoconf_Desc>
+			</win_Wizard_Autoconf>
+			<win_Wizard_MIX>
+				<win_Wizard_MIX_Title>Profil MIX Image</win_Wizard_MIX_Title>
+				<win_Wizard_MIX_Desc>Vous avez choisi un Profil MIX Image|!||!|L'image générée par UXS depend d'un profil que vous pourrez selectionner dans la fenetre suivante.|!||!|Attention, certain profil MIX Image dependent du theme de votre FrontEnd.|!|(par Exemple, le profil Full Back necessite un theme adapté)|!|Merci de consulter le wiki dans ce cas.</win_Wizard_MIX_Desc>
+			</win_Wizard_MIX>
+			<win_Wizard_END>
+				<win_Wizard_END_Title>Fin du Wizard</win_Wizard_END_Title>
+				<win_Wizard_END_Desc>La configuration "basic" d'UXS est maintenant terminée.|!||!|Vous pouvez desormais selectionner le systeme à scraper dans le menu|!|"Scraper"|!|->"Selection du systeme (Conf Auto)"|!|et lancer vos premiers Scrapes.|!||!|Merci d'utiliser Universal XML Scraper.</win_Wizard_END_Desc>
+			</win_Wizard_END>
+		</win_Wizard>
 	</windows>
 	<tips>
 		<tips_config>

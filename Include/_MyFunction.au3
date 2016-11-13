@@ -1,5 +1,3 @@
-Global Const $AC_SRC_ALPHA = 1
-
 ;~ Function List
 ; #MISC Function# ===================================================================================================
 ;~ _CREATION_LOG([$iLOGPath = @ScriptDir & "\Log.txt"]) Create the Log file with starting info
@@ -63,6 +61,7 @@ EndFunc   ;==>_LOG_Ceation
 ; Example .......; No
 Func _LOG($iMessage = "", $iLOGType = 0, $iLOGPath = @ScriptDir & "\Log.txt")
 	Local $tCur, $dtCur, $iTimestamp
+;~ 	Local $iVerboseLVL = IniRead($iINIPath, "GENERAL", "$vVerbose", 0)
 	$tCur = _Date_Time_GetLocalTime()
 	$dtCur = _Date_Time_SystemTimeToArray($tCur)
 	$iTimestamp = "[" & StringRight("0" & $dtCur[3], 2) & ":" & StringRight("0" & $dtCur[4], 2) & ":" & StringRight("0" & $dtCur[5], 2) & "] - "
@@ -102,7 +101,7 @@ EndFunc   ;==>_LOG
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _Download($iURL, $iPath, $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
+Func _Download($iURL, $iPath, $iTimeOut = "")
 	Local $inetgettime = 0, $aData, $hDownload
 	If $iTimeOut = "" Then $iTimeOut = 20
 	$hDownload = InetGet($iURL, $iPath, $INET_FORCERELOAD, $INET_DOWNLOADBACKGROUND)
@@ -131,6 +130,7 @@ Func _Download($iURL, $iPath, $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt
 		Return $iPath
 	Else
 		_LOG("Error Downloading File : " & $iPath, 2, $iLOGPath)
+		_LOG("Error Downloading URL : " & $iURL, 2, $iLOGPath)
 		_LOG("Bytes read: " & $aData[$INET_DOWNLOADREAD], 2, $iLOGPath)
 		_LOG("Size: " & $aData[$INET_DOWNLOADSIZE], 2, $iLOGPath)
 		_LOG("Complete: " & $aData[$INET_DOWNLOADCOMPLETE], 2, $iLOGPath)
@@ -157,13 +157,13 @@ EndFunc   ;==>_Download
 ; Related .......:
 ; Link ..........;
 ; Example .......; No
-Func _DownloadWRetry($iURL, $iPath, $iRetry = "", $iTimeOut = "", $iLOGPath = @ScriptDir & "\Log.txt")
+Func _DownloadWRetry($iURL, $iPath, $iRetry = "", $iTimeOut = "")
 	Local $iCount = 0, $iResult = -1, $vTimer = TimerInit()
 	If $iRetry = "" Then $iRetry = 3
 	If $iTimeOut = "" Then $iTimeOut = 20
 	While $iResult < 0 And $iCount < $iRetry
 		$iCount = $iCount + 1
-		$iResult = _Download($iURL, $iPath, $iTimeOut, $iLOGPath)
+		$iResult = _Download($iURL, $iPath, $iTimeOut)
 	WEnd
 	_LOG("-In " & $iCount & " try and " & Round((TimerDiff($vTimer) / 1000), 2) & "s", 1, $iLOGPath)
 	Return $iResult
@@ -484,7 +484,7 @@ Func _OptiPNG($iPath, $iParamater = "-clobber")
 		EndIf
 	WEnd
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
-	_LOG("PNG Optimization (OptiPNG): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")",0, $iLOGPath)
+	_LOG("PNG Optimization (OptiPNG): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")", 0, $iLOGPath)
 	If Not FileDelete($iPath_Temp) Then
 		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
@@ -527,7 +527,7 @@ Func _Compression($iPath, $isoft = 'pngquant.exe', $iParamater = '--force --verb
 		EndIf
 	WEnd
 	$vPathSizeOptimized = _ByteSuffix(FileGetSize($iPath))
-	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")",0, $iLOGPath)
+	_LOG("PNG Optimization (PNGQuant): " & $iPath & "(" & $vPathSize & " -> " & $vPathSizeOptimized & ")", 0, $iLOGPath)
 	Return $iPath
 EndFunc   ;==>_Compression
 
@@ -566,7 +566,7 @@ EndFunc   ;==>_GDIPlus_RelativePos
 ; Example .......; No
 Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	Local $hImage, $iWidth, $iHeight, $iWidth_New, $iHeight_New, $iRatio, $hImageResized
-	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp, $iResized
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-RESIZE_Temp." & $iExtension
 	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
@@ -579,34 +579,47 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 	If $iMAX_Height <= 0 Then $iMAX_Height = $iHeight
 	$iWidth_New = $iWidth
 	$iHeight_New = $iHeight
-	If $iWidth > $iMAX_Width Then
-		$iRatio = $iWidth / $iMAX_Width
+	$iRatio = $iHeight / $iWidth
+
+	If $iWidth_New > $iMAX_Width Then
 		$iWidth_New = $iMAX_Width
-		$iHeight_New = $iHeight / $iRatio
-		If $iHeight_New > $iMAX_Height Then
-			$iRatio = $iHeight_New / $iMAX_Height
-			$iHeight_New = $iMAX_Height
-			$iWidth_New = $iWidth_New / $iRatio
-		EndIf
+		$iHeight_New = $iWidth_New * $iRatio
 	EndIf
-	If $iHeight > $iMAX_Height Then
-		$iRatio = $iHeight / $iMAX_Height
+	If $iHeight_New > $iMAX_Height Then
 		$iHeight_New = $iMAX_Height
-		$iWidth_New = $iWidth / $iRatio
-		If $iWidth_New > $iMAX_Width Then
-			$iRatio = $iWidth_New / $iMAX_Width
-			$iHeight_New = $iHeight_New / $iRatio
-			$iWidth_New = $iMAX_Width
-		EndIf
+		$iWidth_New = $iHeight_New / $iRatio
 	EndIf
+
+;~ 	If $iWidth > $iMAX_Width Then
+;~ 		$iRatio = $iWidth / $iMAX_Width
+;~ 		$iWidth_New = $iMAX_Width
+;~ 		$iHeight_New = $iHeight / $iRatio
+;~ 		If $iHeight_New > $iMAX_Height Then
+;~ 			$iRatio = $iHeight_New / $iMAX_Height
+;~ 			$iHeight_New = $iMAX_Height
+;~ 			$iWidth_New = $iWidth_New / $iRatio
+;~ 		EndIf
+;~ 	EndIf
+;~ 	If $iHeight > $iMAX_Height Then
+;~ 		$iRatio = $iHeight / $iMAX_Height
+;~ 		$iHeight_New = $iMAX_Height
+;~ 		$iWidth_New = $iWidth / $iRatio
+;~ 		If $iWidth_New > $iMAX_Width Then
+;~ 			$iRatio = $iWidth_New / $iMAX_Width
+;~ 			$iHeight_New = $iHeight_New / $iRatio
+;~ 			$iWidth_New = $iMAX_Width
+;~ 		EndIf
+;~ 	EndIf
 	$iWidth_New = Int($iWidth_New)
 	$iHeight_New = Int($iHeight_New)
 	If $iWidth <> $iWidth_New Or $iHeight <> $iHeight_New Then
-		_LOG("Resize Max : " & $iPath,0, $iLOGPath) ; Debug
+		$iResized = 1
+		_LOG("Resize Max : " & $iPath, 0, $iLOGPath) ; Debug
 		_LOG("Origine = " & $iWidth & "x" & $iHeight, 1, $iLOGPath) ; Debug
 		_LOG("Finale = " & $iWidth_New & "x" & $iHeight_New, 1, $iLOGPath) ; Debug
 	Else
-		_LOG("No Resizing : " & $iPath,0, $iLOGPath) ; Debug
+		$iResized = 0
+		_LOG("No Resizing : " & $iPath, 0, $iLOGPath) ; Debug
 	EndIf
 	$hImageResized = _GDIPlus_ImageResize($hImage, $iWidth_New, $iHeight_New)
 	_GDIPlus_ImageSaveToFile($hImageResized, $iPath)
@@ -617,7 +630,7 @@ Func _GDIPlus_ResizeMax($iPath, $iMAX_Width, $iMAX_Height)
 		_LOG("Error deleting " & $iPath_Temp, 2, $iLOGPath)
 		Return -1
 	EndIf
-	Return $iPath
+	Return $iResized
 EndFunc   ;==>_GDIPlus_ResizeMax
 
 ; #FUNCTION# ===================================================================================================
@@ -658,7 +671,7 @@ Func _GDIPlus_Rotation($iPath, $iRotation = 0)
 	$iWidth_New = _GDIPlus_ImageGetWidth($hImage)
 	If $iWidth = 4294967295 Then $iWidth = 0 ;4294967295 en cas d'erreur.
 	$iHeight_New = _GDIPlus_ImageGetHeight($hImage)
-	_LOG("ROTATION (" & $iRotation & ") : " & $iPath,0, $iLOGPath) ; Debug
+	_LOG("ROTATION (" & $iRotation & ") : " & $iPath, 0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hImage, $iPath)
 	_GDIPlus_ImageDispose($hImage)
 	_GDIPlus_Shutdown()
@@ -702,7 +715,7 @@ Func _GDIPlus_Transparency($iPath, $iTransLvl)
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hBMPBuff) ; Draw to this graphics, $hGraphic, being the graphics of $hBMPBuff
 	_GDIPlus_GraphicsClear($hGraphic, $MergedImageBackgroundColor)
 	_GDIPlus_GraphicsDrawImageRectRectTrans($hGraphic, $hImage, 0, 0, "", "", "", "", "", "", 2, $iTransLvl)
-	_LOG("Transparency (" & $iTransLvl & ") : " & $iPath,0, $iLOGPath) ; Debug
+	_LOG("Transparency (" & $iTransLvl & ") : " & $iPath, 0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath)
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBMPBuff)
@@ -964,7 +977,7 @@ Func _GDIPlus_Merge($iPath1, $iPath2)
 	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage1, 0, 0)
 	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage2, 0, 0)
 
-	_LOG("Merging " & $iPath2 & " on " & $iPath_Temp,0, $iLOGPath) ; Debug
+	_LOG("Merging " & $iPath2 & " on " & $iPath_Temp, 0, $iLOGPath) ; Debug
 	_GDIPlus_ImageSaveToFile($hBMPBuff, $iPath1)
 
 	_GDIPlus_GraphicsDispose($hGraphic)
@@ -1012,7 +1025,7 @@ EndFunc   ;==>_GDIPlus_Merge
 ; Link ..........; http://www.autoitscript.com/forum/index.php?s=&showtopic=70573&view=findpost&p=517195
 ; Example .......; Yes
 Func _GDIPlus_GraphicsDrawImageRectRectTrans($hGraphics, $hImage, $iSrcX, $iSrcY, $iSrcWidth = "", $iSrcHeight = "", _
-	$iDstX = "", $iDstY = "", $iDstWidth = "", $iDstHeight = "", $iUnit = 2, $nTrans = 1)
+		$iDstX = "", $iDstY = "", $iDstWidth = "", $iDstHeight = "", $iUnit = 2, $nTrans = 1)
 	Local $tColorMatrix, $hImgAttrib, $iW = _GDIPlus_ImageGetWidth($hImage), $iH = _GDIPlus_ImageGetHeight($hImage)
 	If $iSrcWidth = 0 Or $iSrcWidth = "" Then $iSrcWidth = $iW
 	If $iSrcHeight = 0 Or $iSrcHeight = "" Then $iSrcHeight = $iH
@@ -1062,7 +1075,7 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectTrans
 ; Link ..........;
 ; Example .......; No
 Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
-	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp
+	Local $sDrive, $sDir, $sFileName, $iExtension, $iPath_Temp, $iResized = 0
 	_PathSplit($iPath, $sDrive, $sDir, $sFileName, $iExtension)
 	$aPicParameters[8] = StringUpper($aPicParameters[8])
 	$iPath_Temp = $sDrive & $sDir & $sFileName & "-IMAGING_Temp" & $iExtension
@@ -1070,14 +1083,12 @@ Func _GDIPlus_Imaging($iPath, $aPicParameters, $vTarget_Width, $vTarget_Height)
 	Local $MergedImageBackgroundColor = 0x00000000
 	Local $iWidth = _GDIPlus_RelativePos($aPicParameters[0], $vTarget_Width)
 	Local $iHeight = _GDIPlus_RelativePos($aPicParameters[1], $vTarget_Height)
-	If $aPicParameters[8] = 'YES' Then
-		$iPath = _GDIPlus_ResizeMax($iPath, $iWidth, $iHeight)
-	EndIf
+	If $aPicParameters[8] = 'YES' Then $iResized = _GDIPlus_ResizeMax($iPath, $iWidth, $iHeight)
 	If _MakeTEMPFile($iPath, $iPath_Temp) = -1 Then Return -1
 	_GDIPlus_Startup()
 	$hImage = _GDIPlus_ImageLoadFromFile($iPath_Temp)
-	If $iWidth <= 0 Then $iWidth = _GDIPlus_ImageGetWidth($hImage) ;Or $aPicParameters[8] = 'YES'
-	If $iHeight <= 0 Then $iHeight = _GDIPlus_ImageGetHeight($hImage) ;Or $aPicParameters[8] = 'YES'
+	If $iWidth <= 0 Or ($aPicParameters[8] = 'YES' And $iResized = 1) Then $iWidth = _GDIPlus_ImageGetWidth($hImage)
+	If $iHeight <= 0 Or ($aPicParameters[8] = 'YES' And $iResized = 1) Then $iHeight = _GDIPlus_ImageGetHeight($hImage)
 	$hGui = GUICreate("", $vTarget_Width, $vTarget_Height)
 	$hGraphicGUI = _GDIPlus_GraphicsCreateFromHWND($hGui) ;Draw to this graphics, $hGraphicGUI, to display on GUI
 	$hBMPBuff = _GDIPlus_BitmapCreateFromGraphics($vTarget_Width, $vTarget_Height, $hGraphicGUI) ; $hBMPBuff is a bitmap in memory
@@ -1216,17 +1227,12 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 		Case 0
 			$iXMLValue = _XML_GetValue($oXMLDoc, $iXpath)
 			If @error Then
-;~ 				MsgBox(0,"@error",@error)
-				If @error = 21 Then
-;~ 					_LOG('_XML_GetValue (' & $iXpath & ') = EMPTY', 1)
-					Return ""
-				EndIf
+				If @error = 21 Then Return ""
 				_LOG('_XML_GetValue ERROR (' & $iXpath & ')', 2, $iLOGPath)
 				_LOG('_XML_GetValue @error(' & @error & ') :' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 				Return -1
 			EndIf
 			If IsArray($iXMLValue) And UBound($iXMLValue) - 1 > 0 Then
-;~ 				_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[1], 1)
 				Return $iXMLValue[1]
 			Else
 				_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
@@ -1248,7 +1254,6 @@ Func _XML_Read($iXpath, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = "")
 				_LOG('_XML_GetNodeAttributeValue @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 				Return -1
 			EndIf
-;~ 			_LOG('_XML_GetNodeAttributeValue (' & $iXpath & ') = ' & $iXMLValue, 1)
 			Return $iXMLValue
 		Case Else
 			Return -2
@@ -1293,12 +1298,6 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-;~ 			_XML_SaveToFile($oXMLDoc, $iXMLPath)
-;~ 			If @error Then
-;~ 				_LOG('_XML_SaveToFile @error:' & @CRLF & XML_My_ErrorParser(@error), 2)
-;~ 				Return -1
-;~ 			EndIf
-;~ 			$oXMLDoc = _XML_Open($iXMLPath)
 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1, $iLOGPath)
 			Return 1
 		Case 1
@@ -1311,13 +1310,10 @@ Func _XML_Replace($iXpath, $iValue, $iXMLType = 0, $iXMLPath = "", $oXMLDoc = ""
 				Return -1
 			EndIf
 			_XML_TIDY($oXMLDoc)
-;~ 			_XML_SaveToFile($oXMLDoc, $iXMLPath)
-;~ 			$oXMLDoc = _XML_Open($iXMLPath)
 			_LOG('_XML_UpdateField (' & $iXpath & ') = ' & $iValue, 1, $iLOGPath)
 			Return 1
-;~ 			_LOG('_XML_SetAttrib (' & $iXpath & '/' & $iXMLAttributeName & ') = ' & $iValue, 1)
-;~ 			Return 1
 		Case Else
+			_LOG('_XML_Replace : $iXMLType Unknown', 2, $iLOGPath)
 			Return -1
 	EndSwitch
 
@@ -1354,7 +1350,6 @@ Func _XML_ListValue($iXpath, $iXMLPath = "", $oXMLDoc = "")
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
-;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & $iXMLValue[0] & " Elements", 1)
 		Return $iXMLValue
 	Else
 		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
@@ -1394,7 +1389,6 @@ Func _XML_ListNode($iXpath, $iXMLPath = "", $oXMLDoc = "")
 		Return -1
 	EndIf
 	If IsArray($iXMLValue) Then
-;~ 		_LOG('_XML_GetValue (' & $iXpath & ') = ' & UBound($iXMLValue) - 1 & " Elements", 1)
 		Return $iXMLValue
 	Else
 		_LOG('_XML_GetValue (' & $iXpath & ') is not an Array', 2, $iLOGPath)
@@ -1461,7 +1455,6 @@ Func _XML_WriteValue($iXpath, $iValue = "", $iXMLPath = "", $oXMLDoc = "", $ipos
 		_LOG('_XML_CreateChildWAttr @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
-;~ 	_LOG("Write Value : " & $iXMLChildName & " = " & $iValue, 1)
 	Return 1
 EndFunc   ;==>_XML_WriteValue
 
@@ -1496,7 +1489,6 @@ Func _XML_WriteAttributs($iXpath, $iAttribute, $iValue = "", $iXMLPath = "", $oX
 		_LOG('_XML_SetAttrib @error:' & @CRLF & XML_My_ErrorParser(@error), 3, $iLOGPath)
 		Return -1
 	EndIf
-;~ 	_LOG("Write Attribute : " & $iAttribute & " = " & $iValue, 1)
 	Return 1
 EndFunc   ;==>_XML_WriteAttributs
 

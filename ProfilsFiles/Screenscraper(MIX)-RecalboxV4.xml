@@ -6,7 +6,7 @@
 		<Image_Extension>png</Image_Extension>
 	</General>
 	<AutoConf>
-		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
+		<Source_RootPath>\\RECALBOX\share\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>
@@ -157,4 +157,14 @@
 		<Target_Type>XML_Value</Target_Type>
 		<Target_Value>game/hidden</Target_Value>
 	</Element>
+	<Options>
+		<Option>
+			<Name>Name</Name>
+			<NodeName>Target_FORMAT</NodeName>
+			<Source_Value_Option Name="Standard" Desc="The Game Name">%%</Source_Value_Option>
+			<Source_Value_Option Name="Gamename+Country" Desc="The Game Name + The Rom Country">%Name+Country%</Source_Value_Option>
+			<Source_Value_Option Name="Gamename+Bracket" Desc="The Game Name + The Rom FilName Bracket">%Name+Filename_Bracket%</Source_Value_Option>
+			<Source_Value_Option Name="Filename" Desc="The Rom FileName without extension">%Filename%</Source_Value_Option>
+		</Option>
+	</Options>
 </Profil>

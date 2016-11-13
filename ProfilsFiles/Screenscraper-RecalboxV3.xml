@@ -8,7 +8,7 @@
 		<Target_Image_Height>480</Target_Image_Height>
 	</General>
 	<AutoConf>
-		<Source_RootPath>\\RECALBOX\roms</Source_RootPath>
+		<Source_RootPath>\\SYNO-SCREECH\Emulation\roms</Source_RootPath>
 		<Target_XMLName>gamelist.xml</Target_XMLName>
 		<Target_RomPath>./</Target_RomPath>
 		<Source_ImagePath>downloaded_images</Source_ImagePath>
@@ -88,7 +88,7 @@
 		<Target_Path_Type>%XML_Path_File%</Target_Path_Type>
 		<Target_Value>game/image</Target_Value>
 	</Element>
-	<Element Type="Picture">
+	<Element Type="thumbnail">
 		<Source_Type>Fixe_Value</Source_Type>
 		<Source_Value></Source_Value>
 		<Target_Type>XML_Value</Target_Type>
@@ -160,6 +160,14 @@
 			<Source_Value_Option Name="Wheels" Desc="The game Logo">Data/jeu/medias/media_wheels/media_wheel_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Carbon" Desc="The game Logo in a Carbon Wheel">Data/jeu/medias/media_wheelscarbon/media_wheelcarbon_%COUNTRY%</Source_Value_Option>
 			<Source_Value_Option Name="Wheels Steel" Desc="The game Logo in a Steel Wheel">Data/jeu/medias/media_wheelssteel/media_wheelsteel_%COUNTRY%</Source_Value_Option>
+		</Option>
+		<Option>
+			<Name>Name</Name>
+			<NodeName>Target_FORMAT</NodeName>
+			<Source_Value_Option Name="Standard" Desc="The Game Name">%%</Source_Value_Option>
+			<Source_Value_Option Name="Gamename+Country" Desc="The Game Name + The Rom Country">%Name+Country%</Source_Value_Option>
+			<Source_Value_Option Name="Gamename+Bracket" Desc="The Game Name + The Rom FilName Bracket">%Name+Filename_Bracket%</Source_Value_Option>
+			<Source_Value_Option Name="Filename" Desc="The Rom FileName without extension">%Filename%</Source_Value_Option>
 		</Option>
 	</Options>
 </Profil>
